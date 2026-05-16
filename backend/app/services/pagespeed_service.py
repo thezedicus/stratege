@@ -1,3 +1,4 @@
+from typing import Optional
 import httpx
 from app.config import settings
 import logging
@@ -5,7 +6,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-async def analyze_pagespeed(url: str) -> dict | None:
+async def analyze_pagespeed(url: str) -> Optional[dict]:
     if not url or not url.startswith("http"):
         return None
 

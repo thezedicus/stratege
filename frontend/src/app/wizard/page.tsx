@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { Zap, ArrowLeft, ArrowRight, CheckCircle2 } from 'lucide-react';
 import Link from 'next/link';
@@ -108,11 +107,9 @@ export default function WizardPage() {
       <div className="bg-white border-b border-gray-100 px-6 py-3">
         <div className="max-w-2xl mx-auto">
           <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
-            <motion.div
-              className="h-full progress-gradient rounded-full"
-              initial={{ width: 0 }}
-              animate={{ width: `${progress}%` }}
-              transition={{ duration: 0.4, ease: 'easeInOut' }}
+            <div
+              className="h-full progress-gradient rounded-full transition-all duration-400 ease-in-out"
+              style={{ width: `${progress}%` }}
             />
           </div>
         </div>
@@ -121,15 +118,9 @@ export default function WizardPage() {
       {/* Content */}
       <div className="flex-1 flex items-center justify-center px-6 py-12">
         <div className="w-full max-w-2xl">
-          <AnimatePresence mode="wait">
+          <div key={step} className="animate-slide-up">
             {step === 1 && (
-              <motion.div
-                key="step1"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.3 }}
-              >
+              <div>
                 <h2 className="section-title text-3xl">Quel type d'activité ?</h2>
                 <p className="section-subtitle text-base">Sélectionnez la catégorie qui correspond le mieux à votre projet.</p>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -148,17 +139,11 @@ export default function WizardPage() {
                     </button>
                   ))}
                 </div>
-              </motion.div>
+              </div>
             )}
 
             {step === 2 && (
-              <motion.div
-                key="step2"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.3 }}
-              >
+              <div>
                 <h2 className="section-title text-3xl">Votre budget</h2>
                 <p className="section-subtitle text-base">Définissez votre capital disponible et budget mensuel marketing.</p>
                 <div className="space-y-8">
@@ -211,17 +196,11 @@ export default function WizardPage() {
                     </div>
                   </div>
                 </div>
-              </motion.div>
+              </div>
             )}
 
             {step === 3 && (
-              <motion.div
-                key="step3"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.3 }}
-              >
+              <div>
                 <h2 className="section-title text-3xl">Votre objectif principal</h2>
                 <p className="section-subtitle text-base">Sur quoi souhaitez-vous concentrer vos efforts ?</p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -241,17 +220,11 @@ export default function WizardPage() {
                     </button>
                   ))}
                 </div>
-              </motion.div>
+              </div>
             )}
 
             {step === 4 && (
-              <motion.div
-                key="step4"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.3 }}
-              >
+              <div>
                 <h2 className="section-title text-3xl">Maturité du projet</h2>
                 <p className="section-subtitle text-base">À quel stade se trouve votre projet aujourd'hui ?</p>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -271,17 +244,11 @@ export default function WizardPage() {
                     </button>
                   ))}
                 </div>
-              </motion.div>
+              </div>
             )}
 
             {step === 5 && (
-              <motion.div
-                key="step5"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.3 }}
-              >
+              <div>
                 <h2 className="section-title text-3xl">Avez-vous un site existant ?</h2>
                 <p className="section-subtitle text-base">Optionnel — nous l'analyserons (performance, SEO, vitesse).</p>
                 <div className="card">
@@ -315,9 +282,9 @@ export default function WizardPage() {
                     ))}
                   </div>
                 </div>
-              </motion.div>
+              </div>
             )}
-          </AnimatePresence>
+          </div>
 
           {/* Navigation */}
           <div className="flex justify-between items-center mt-8">

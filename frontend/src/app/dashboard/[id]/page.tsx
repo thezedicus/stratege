@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { motion, AnimatePresence } from 'framer-motion';
 import { Zap, Download, RefreshCw, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import { apiClient } from '@/lib/api';
@@ -315,23 +314,15 @@ export default function DashboardPage() {
 
       {/* Content */}
       <div className="max-w-7xl mx-auto px-6 py-8">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeTab}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.2 }}
-          >
-            {activeTab === 'swot' && <SwotTab data={analysis?.swot} input={analysis?.input} />}
-            {activeTab === 'personas' && <PersonasTab data={analysis?.personas} />}
-            {activeTab === 'sales' && <SalesTab data={analysis?.sales} personas={analysis?.personas} />}
-            {activeTab === 'marketing' && <MarketingTab data={analysis?.marketing} input={analysis?.input} />}
-            {activeTab === 'seo' && <SeoTab data={analysis?.seo} pagespeed={analysis?.pagespeed} />}
-            {activeTab === 'ads' && <AdsTab data={analysis?.ads} input={analysis?.input} />}
-            {activeTab === 'synthesis' && <SynthesisTab data={analysis} />}
-          </motion.div>
-        </AnimatePresence>
+        <div key={activeTab} className="animate-fade-in">
+          {activeTab === 'swot' && <SwotTab data={analysis?.swot} input={analysis?.input} />}
+          {activeTab === 'personas' && <PersonasTab data={analysis?.personas} />}
+          {activeTab === 'sales' && <SalesTab data={analysis?.sales} />}
+          {activeTab === 'marketing' && <MarketingTab data={analysis?.marketing} input={analysis?.input} />}
+          {activeTab === 'seo' && <SeoTab data={analysis?.seo} pagespeed={analysis?.pagespeed} />}
+          {activeTab === 'ads' && <AdsTab data={analysis?.ads} input={analysis?.input} />}
+          {activeTab === 'synthesis' && <SynthesisTab data={analysis} />}
+        </div>
       </div>
     </div>
   );
