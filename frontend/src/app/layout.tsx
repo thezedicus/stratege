@@ -1,40 +1,35 @@
-import type { Metadata } from 'next';
-import './globals.css';
+import type { Metadata, Viewport } from 'next';
 import { Toaster } from 'react-hot-toast';
+import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Stratège — Expert Virtuel en Stratégie Business',
-  description: 'Analyse 360° de votre projet : stratégie, marketing, vente, communication. Recommandations personnalisées et actionnables.',
-  keywords: 'stratégie business, marketing digital, vente, personas, SWOT, SEO',
-  openGraph: {
-    title: 'Stratège',
-    description: 'Votre expert virtuel en stratégie business, marketing et vente',
-    type: 'website',
-  },
+  title: 'Stratège — Analyse stratégique 360°',
+  description: 'Générez votre plan marketing, SEO, publicité et commercial personnalisé en 60 secondes.',
+  keywords: 'stratégie marketing, analyse SWOT, SEO, publicité, plan marketing',
+  authors: [{ name: 'Stratège' }],
+};
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="fr">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
-          rel="stylesheet"
-        />
-      </head>
-      <body className="bg-white min-h-screen">
+      <body>
         {children}
         <Toaster
           position="top-right"
           toastOptions={{
+            duration: 4000,
             style: {
-              borderRadius: '12px',
-              boxShadow: '0 4px 24px -4px rgba(0,0,0,0.12)',
+              fontFamily: 'Inter, sans-serif',
               fontSize: '14px',
+              borderRadius: '12px',
+              boxShadow: '0 4px 12px rgb(0 0 0 / 0.1)',
             },
-            success: { iconTheme: { primary: '#38B6FF', secondary: '#fff' } },
           }}
         />
       </body>
