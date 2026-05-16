@@ -13,6 +13,7 @@ module.exports = {
           DEFAULT: '#38B6FF',
           50: '#EBF8FF',
           100: '#D1F0FF',
+          200: '#A8E3FF',
           500: '#38B6FF',
           600: '#0EA5E9',
           700: '#0284C7',
@@ -21,13 +22,20 @@ module.exports = {
           DEFAULT: '#E20074',
           50: '#FFF0F7',
           100: '#FFD6EC',
+          200: '#FFB3D9',
           500: '#E20074',
           600: '#BE005F',
         },
-        danger: '#FF3131',
+        danger: {
+          DEFAULT: '#FF3131',
+          50: '#FFE5E5',
+          100: '#FFCCCC',
+          500: '#FF3131',
+          600: '#E01A1A',
+        },
       },
       fontFamily: {
-        sans: ['var(--font-inter)', 'Inter', 'system-ui', 'sans-serif'],
+        sans: ['Inter', 'system-ui', 'sans-serif'],
       },
       borderRadius: {
         '2xl': '16px',
@@ -43,12 +51,27 @@ module.exports = {
       animation: {
         'fade-in': 'fadeIn 0.4s ease-out',
         'slide-up': 'slideUp 0.5s ease-out',
+        'bounce-dot': 'bounceDot 1s infinite',
       },
       keyframes: {
         fadeIn: { from: { opacity: '0' }, to: { opacity: '1' } },
         slideUp: { from: { opacity: '0', transform: 'translateY(20px)' }, to: { opacity: '1', transform: 'translateY(0)' } },
+        bounceDot: { '0%,80%,100%': { transform: 'scale(0)' }, '40%': { transform: 'scale(1)' } },
       },
     },
   },
-  plugins: [],
+  plugins: [
+    function ({ addUtilities }) {
+      addUtilities({
+        '.scrollbar-hide': {
+          '-ms-overflow-style': 'none',
+          'scrollbar-width': 'none',
+          '&::-webkit-scrollbar': { display: 'none' },
+        },
+        '.scrollbar-thin': {
+          'scrollbar-width': 'thin',
+        },
+      });
+    },
+  ],
 };

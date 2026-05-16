@@ -51,42 +51,184 @@ export default function DashboardPage() {
   const handleExportPDF = async () => {
     const { default: jsPDF } = await import('jspdf');
     const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(24);
-    doc.setTextColor(56, 182, 255);
-    doc.text('Stratège — Rapport d\'analyse', 20, 30);
-    doc.setFontSize(12);
-    doc.setTextColor(100, 100, 100);
-    doc.setFont('helvetica', 'normal');
-    doc.text(`Généré le ${new Date().toLocaleDateString('fr-FR')}`, 20, 42);
-    if (analysis?.swot) {
+    const pageH = 297;
+    const marginL = 20;
+    const maxW = 170;
+
+    const ensurePage = (y: number, needed = 10): number => {
+      if (y + needed > pageH - 15) { doc.addPage(); return 20; }
+      return y;
+    };
+
+    const sectionTitle = (text: string, y: number, rgb: [number, number, number] = [0, 0, 0]): number => {
+      y = ensurePage(y, 14);
       doc.setFont('helvetica', 'bold');
-      doc.setFontSize(16);
-      doc.setTextColor(0, 0, 0);
-      doc.text('Analyse SWOT', 20, 60);
+      doc.setFontSize(14);
+      doc.setTextColor(...rgb);
+      doc.text(text, marginL, y);
+      doc.setDrawColor(...rgb);
+      doc.setLineWidth(0.4);
+      doc.line(marginL, y + 2, marginL + maxW, y + 2);
+      return y + 10;
+    };
+
+    const bullet = (text: string, y: number, indent = 26): number => {
+      const lines = doc.splitTextToSize(`• ${text}`, maxW - (indent - marginL));
+      y = ensurePage(y, lines.length * 5 + 2);
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(10);
+      doc.setTextColor(60, 60, 60);
+      doc.text(lines, indent, y);
+      return y + lines.length * 5 + 1;
+    };
+
+    // ── Cover ──────────────────────────────────────────────────────────
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(26);
+    doc.setTextColor(56, 182, 255);
+    doc.text('Stratège', marginL, 32);
+    doc.setFontSize(14);
+    doc.setTextColor(226, 0, 116);
+    doc.text('Rapport d\'analyse stratégique 360°', marginL, 42);
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(10);
+    doc.setTextColor(120, 120, 120);
+    doc.text(`Généré le ${new Date().toLocaleDateString('fr-FR')} · ID ${id}`, marginL, 52);
+
+    if (analysis?.input) {
+      const inp = analysis.input;
       doc.setFont('helvetica', 'normal');
       doc.setFontSize(11);
-      let y = 72;
-      const sections = [
-        { title: 'Forces', items: analysis.swot.strengths, color: [34, 197, 94] as [number, number, number] },
-        { title: 'Faiblesses', items: analysis.swot.weaknesses, color: [245, 158, 11] as [number, number, number] },
-        { title: 'Opportunités', items: analysis.swot.opportunities, color: [56, 182, 255] as [number, number, number] },
-        { title: 'Menaces', items: analysis.swot.threats, color: [239, 68, 68] as [number, number, number] },
+      doc.setTextColor(60, 60, 60);
+      doc.text([
+        `Activité : ${inp.activityType}   |   Objectif : ${inp.goal}   |   Maturité : ${inp.maturity}`,
+        `Budget total : ${inp.budget} €   |   Budget mensuel : ${inp.monthlyBudget} €`,
+      ], marginL, 64);
+    }
+
+    let y = 82;
+
+    // ── SWOT ──────────────────────────────────────────────────────────
+    if (analysis?.swot) {
+      y = sectionTitle('1. Analyse SWOT', y, [0, 0, 0]);
+      const swotSections = [
+        { title: '✅ Forces', items: analysis.swot.strengths, color: [34, 197, 94] as [number, number, number] },
+        { title: '⚠️ Faiblesses', items: analysis.swot.weaknesses, color: [245, 158, 11] as [number, number, number] },
+        { title: '🚀 Opportunités', items: analysis.swot.opportunities, color: [56, 182, 255] as [number, number, number] },
+        { title: '🔴 Menaces', items: analysis.swot.threats, color: [239, 68, 68] as [number, number, number] },
       ];
-      sections.forEach(({ title, items, color }) => {
+      swotSections.forEach(({ title, items, color }) => {
+        y = ensurePage(y, 12);
         doc.setFont('helvetica', 'bold');
+        doc.setFontSize(11);
         doc.setTextColor(...color);
-        doc.text(title, 20, y);
+        doc.text(title, marginL, y);
         y += 6;
-        doc.setFont('helvetica', 'normal');
-        doc.setTextColor(60, 60, 60);
-        items.forEach((item: string) => {
-          doc.text(`• ${item}`, 26, y);
-          y += 6;
-        });
-        y += 4;
+        (items as string[]).forEach(item => { y = bullet(item, y); });
+        y += 3;
       });
     }
+
+    // ── Personas ──────────────────────────────────────────────────────
+    if (analysis?.personas?.length > 0) {
+      y = sectionTitle('2. Personas', y);
+      (analysis.personas as any[]).forEach((p, i) => {
+        y = ensurePage(y, 20);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(11);
+        doc.setTextColor(56, 182, 255);
+        doc.text(`Persona ${i + 1} — ${p.name}, ${p.age} ans · ${p.job}`, marginL, y);
+        y += 6;
+        if (p.goals?.length) y = bullet(`Objectifs : ${(p.goals as string[]).join(', ')}`, y);
+        if (p.painPoints?.length) y = bullet(`Points de douleur : ${(p.painPoints as string[]).join(', ')}`, y);
+        y += 2;
+      });
+    }
+
+    // ── Marketing ────────────────────────────────────────────────────
+    if (analysis?.marketing) {
+      y = sectionTitle('3. Marketing & Contenu', y);
+      if (analysis.marketing.platforms?.length) {
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(10);
+        doc.setTextColor(80, 80, 80);
+        y = ensurePage(y, 8);
+        doc.text('Plateformes recommandées :', marginL, y);
+        y += 6;
+        (analysis.marketing.platforms as any[]).forEach(p => {
+          y = bullet(`${p.name} (${p.priority}) — ${p.frequency}`, y);
+        });
+      }
+      if (analysis.marketing.budgetAllocation?.length) {
+        y = ensurePage(y, 8);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(10);
+        doc.setTextColor(80, 80, 80);
+        doc.text('Répartition budgétaire :', marginL, y);
+        y += 6;
+        (analysis.marketing.budgetAllocation as any[]).forEach(b => {
+          y = bullet(`${b.category} : ${b.percentage}% → ${b.amount} €/mois`, y);
+        });
+      }
+    }
+
+    // ── SEO ───────────────────────────────────────────────────────────
+    if (analysis?.seo?.keywords?.length) {
+      y = sectionTitle('4. SEO — Mots-clés prioritaires', y);
+      (analysis.seo.keywords as any[]).slice(0, 6).forEach(kw => {
+        y = bullet(`${kw.keyword}  [${kw.volume}] · ${kw.difficulty} · ${kw.intent}`, y);
+      });
+    }
+
+    // ── Ads Mediaplan ─────────────────────────────────────────────────
+    if (analysis?.ads?.mediaplan?.length) {
+      y = sectionTitle('5. Media Plan Publicitaire', y);
+      (analysis.ads.mediaplan as any[]).forEach(row => {
+        y = bullet(`${row.platform} — ${row.budget} €/mois · Portée : ${row.reach} · ROI estimé : ${row.expectedRoi}`, y);
+      });
+    }
+
+    // ── Synthesis ─────────────────────────────────────────────────────
+    if (analysis?.synthesis) {
+      const s = analysis.synthesis;
+      y = sectionTitle('6. Synthèse & Recommandations', y);
+      if (s.keyMetrics) {
+        y = ensurePage(y, 8);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(10);
+        doc.setTextColor(80, 80, 80);
+        doc.text('Métriques clés :', marginL, y);
+        y += 6;
+        Object.entries(s.keyMetrics as Record<string, string | number>).forEach(([k, v]) => {
+          y = bullet(`${k} : ${v}`, y);
+        });
+      }
+      if (s.summary) {
+        y = ensurePage(y, 10);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(10);
+        doc.setTextColor(80, 80, 80);
+        doc.text('Résumé stratégique :', marginL, y);
+        y += 6;
+        const sumLines = doc.splitTextToSize(s.summary as string, maxW);
+        y = ensurePage(y, sumLines.length * 5);
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(10);
+        doc.setTextColor(60, 60, 60);
+        doc.text(sumLines, marginL, y);
+        y += sumLines.length * 5 + 4;
+      }
+      if (s.priorities?.length) {
+        y = ensurePage(y, 8);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(10);
+        doc.setTextColor(80, 80, 80);
+        doc.text('Priorités actions :', marginL, y);
+        y += 6;
+        (s.priorities as string[]).forEach(p => { y = bullet(p, y); });
+      }
+    }
+
     doc.save(`stratege-analyse-${id}.pdf`);
   };
 

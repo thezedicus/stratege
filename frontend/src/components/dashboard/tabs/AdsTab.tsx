@@ -36,7 +36,7 @@ export default function AdsTab({ data, input }: { data?: AdsData; input?: any })
               </thead>
               <tbody>
                 {data.mediaplan.map((row, i) => (
-                  <tr key={i} className={`border-b border-gray-50 ${i % 2 === 0 ? 'bg-gray-50/50' : ''}`}>
+                  <tr key={row.platform} className={`border-b border-gray-50 ${i % 2 === 0 ? 'bg-gray-50/50' : ''}`}>
                     <td className="py-3 px-4 font-medium text-gray-900">{row.platform}</td>
                     <td className="py-3 px-4"><span className="badge-primary">{row.budget} €</span></td>
                     <td className="py-3 px-4 text-gray-600">{row.reach}</td>
@@ -67,7 +67,7 @@ export default function AdsTab({ data, input }: { data?: AdsData; input?: any })
           <h3 className="font-semibold text-gray-900 mb-4">📘 Facebook & Instagram Ads</h3>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             {data.facebook.campaigns.map((camp, i) => (
-              <motion.div key={i} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }} className="card">
+              <motion.div key={camp.name} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }} className="card">
                 <div className="flex items-center justify-between mb-3">
                   <h4 className="font-semibold text-gray-900">{camp.name}</h4>
                   <span className="badge-primary text-xs">{camp.budget} €/mois</span>
@@ -77,7 +77,7 @@ export default function AdsTab({ data, input }: { data?: AdsData; input?: any })
                   <span className="badge bg-violet-50 text-violet-600 text-xs">{camp.format}</span>
                 </div>
                 {camp.creatives?.map((creative, j) => (
-                  <div key={j} className="p-3 bg-gray-50 rounded-xl mb-2 last:mb-0">
+                  <div key={`${creative.format}-${j}`} className="p-3 bg-gray-50 rounded-xl mb-2 last:mb-0">
                     <div className="flex items-center gap-2 mb-2">
                       <span className="badge text-xs bg-gray-200 text-gray-600">{creative.format}</span>
                       <span className="text-xs text-gray-400">→ {creative.audience}</span>
@@ -99,15 +99,15 @@ export default function AdsTab({ data, input }: { data?: AdsData; input?: any })
           <h3 className="font-semibold text-gray-900 mb-4">🔴 Google Ads</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {data.google.campaigns.map((camp, i) => (
-              <div key={i} className="card">
+              <div key={camp.name} className="card">
                 <div className="flex items-center justify-between mb-2">
                   <h4 className="font-medium text-sm text-gray-900">{camp.name}</h4>
                   <span className="badge-magenta text-xs">{camp.budget} €</span>
                 </div>
                 <span className="badge bg-gray-100 text-gray-600 text-xs mb-3">{camp.type}</span>
                 <div className="flex flex-wrap gap-1">
-                  {camp.keywords.map((kw, j) => (
-                    <span key={j} className="text-xs bg-white border border-gray-200 text-gray-600 px-2 py-0.5 rounded-lg">{kw}</span>
+                  {camp.keywords.map((kw) => (
+                    <span key={kw} className="text-xs bg-white border border-gray-200 text-gray-600 px-2 py-0.5 rounded-lg">{kw}</span>
                   ))}
                 </div>
               </div>
@@ -121,16 +121,16 @@ export default function AdsTab({ data, input }: { data?: AdsData; input?: any })
         <div>
           <h3 className="font-semibold text-gray-900 mb-4">🌱 Stratégies Organiques</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {data.organic.strategies.map((strat, i) => (
-              <div key={i} className="card">
+            {data.organic.strategies.map((strat) => (
+              <div key={strat.channel} className="card">
                 <div className="flex items-center gap-2 mb-3">
                   <h4 className="font-semibold text-gray-900">{strat.channel}</h4>
                   <span className="badge bg-emerald-50 text-emerald-600 text-xs">{strat.frequency}</span>
                 </div>
                 <p className="text-sm text-gray-600 mb-3">{strat.tactic}</p>
                 <ul className="space-y-1">
-                  {strat.examples.map((ex, j) => (
-                    <li key={j} className="text-xs text-gray-500 flex items-start gap-1.5">
+                  {strat.examples.map((ex) => (
+                    <li key={ex} className="text-xs text-gray-500 flex items-start gap-1.5">
                       <span className="text-primary-500 mt-0.5">•</span>{ex}
                     </li>
                   ))}

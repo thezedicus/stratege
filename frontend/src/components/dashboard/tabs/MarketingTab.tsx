@@ -35,8 +35,8 @@ export default function MarketingTab({ data, input }: { data?: MarketingData; in
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
                     <Pie data={data.budgetAllocation} dataKey="percentage" cx="50%" cy="50%" outerRadius={60} strokeWidth={2}>
-                      {data.budgetAllocation.map((_, i) => (
-                        <Cell key={i} fill={COLORS[i % COLORS.length]} />
+                      {data.budgetAllocation.map((item, i) => (
+                        <Cell key={item.category} fill={COLORS[i % COLORS.length]} />
                       ))}
                     </Pie>
                     <Tooltip formatter={(v) => [`${v}%`, '']} />
@@ -45,7 +45,7 @@ export default function MarketingTab({ data, input }: { data?: MarketingData; in
               </div>
               <div className="flex-1 space-y-2">
                 {data.budgetAllocation.map((item, i) => (
-                  <div key={i} className="flex items-center gap-2">
+                  <div key={item.category} className="flex items-center gap-2">
                     <div className="w-3 h-3 rounded-full flex-shrink-0" style={{ backgroundColor: COLORS[i % COLORS.length] }} />
                     <span className="text-sm text-gray-600 flex-1">{item.category}</span>
                     <span className="text-sm font-semibold text-gray-900">{item.amount} €</span>
@@ -62,7 +62,7 @@ export default function MarketingTab({ data, input }: { data?: MarketingData; in
             <h3 className="font-semibold text-gray-900 mb-4">📱 Plateformes recommandées</h3>
             <div className="space-y-3">
               {data.platforms.map((p, i) => (
-                <motion.div key={i} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.1 }}
+                <motion.div key={p.name} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.1 }}
                   className="flex items-start gap-3 p-3 rounded-xl bg-gray-50">
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1">
@@ -85,8 +85,8 @@ export default function MarketingTab({ data, input }: { data?: MarketingData; in
           <div className="card bg-emerald-50 border border-emerald-100">
             <h3 className="font-semibold text-emerald-800 mb-3">✅ 80% — Ce qui génère des résultats</h3>
             <ul className="space-y-2">
-              {data.rule8020.focus.map((item, i) => (
-                <li key={i} className="text-sm text-emerald-700 flex items-start gap-2">
+              {data.rule8020.focus.map((item) => (
+                <li key={item} className="text-sm text-emerald-700 flex items-start gap-2">
                   <span className="mt-0.5">→</span>{item}
                 </li>
               ))}
@@ -95,8 +95,8 @@ export default function MarketingTab({ data, input }: { data?: MarketingData; in
           <div className="card bg-red-50 border border-red-100">
             <h3 className="font-semibold text-red-800 mb-3">❌ 20% — À éviter ou minimiser</h3>
             <ul className="space-y-2">
-              {data.rule8020.avoid.map((item, i) => (
-                <li key={i} className="text-sm text-red-700 flex items-start gap-2">
+              {data.rule8020.avoid.map((item) => (
+                <li key={item} className="text-sm text-red-700 flex items-start gap-2">
                   <span className="mt-0.5">✗</span>{item}
                 </li>
               ))}
@@ -120,15 +120,15 @@ export default function MarketingTab({ data, input }: { data?: MarketingData; in
               </thead>
               <tbody>
                 {data.contentPlan.map((row, i) => (
-                  <tr key={i} className={`border-b border-gray-50 ${i % 2 === 0 ? 'bg-gray-50/50' : ''}`}>
+                  <tr key={`${row.week}-${row.platform}-${i}`} className={`border-b border-gray-50 ${i % 2 === 0 ? 'bg-gray-50/50' : ''}`}>
                     <td className="py-3 px-3"><span className="badge-primary text-xs">S{row.week}</span></td>
                     <td className="py-3 px-3 font-medium text-gray-800">{row.platform}</td>
                     <td className="py-3 px-3"><span className="badge bg-violet-50 text-violet-600 text-xs">{row.format}</span></td>
                     <td className="py-3 px-3 text-gray-600">{row.topic}</td>
                     <td className="py-3 px-3">
                       <div className="flex flex-wrap gap-1">
-                        {row.hashtags?.slice(0, 3).map((h, j) => (
-                          <span key={j} className="text-xs text-primary-500">#{h}</span>
+                        {row.hashtags?.slice(0, 3).map((h) => (
+                          <span key={h} className="text-xs text-primary-500">#{h}</span>
                         ))}
                       </div>
                     </td>
@@ -145,8 +145,8 @@ export default function MarketingTab({ data, input }: { data?: MarketingData; in
         <div className="card">
           <h3 className="font-semibold text-gray-900 mb-4">🗓️ Calendrier éditorial hebdomadaire</h3>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-3">
-            {data.editorialCalendar.map((day, i) => (
-              <div key={i} className="p-3 rounded-xl bg-gray-50 text-center">
+            {data.editorialCalendar.map((day) => (
+              <div key={day.day} className="p-3 rounded-xl bg-gray-50 text-center">
                 <p className="text-xs font-bold text-gray-400 uppercase mb-2">{day.day}</p>
                 <p className="text-xs text-gray-700">{day.content}</p>
                 <span className="text-xs text-primary-500 mt-1 block">{day.format}</span>

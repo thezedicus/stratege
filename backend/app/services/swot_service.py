@@ -25,6 +25,30 @@ SECTOR_DATA = {
         "opportunities_base": ["SEO local très accessible pour PME", "Contenu evergreen générateur de leads passifs", "Intégration CRM et automatisation marketing"],
         "threats_base": ["Changements algorithmes Google fréquents", "Concurrence des réseaux sociaux pour l'attention", "Coûts publicitaires croissants"],
     },
+    "consulting": {
+        "strengths_base": ["Expertise à forte valeur ajoutée et différenciante", "Relation client longue durée et fidélisation naturelle", "Faibles coûts fixes, marges élevées"],
+        "weaknesses_base": ["Dépendance directe au temps et à la disponibilité", "Difficile à scaler sans recrutement", "Image parfois perçue comme coûteuse par les PME"],
+        "opportunities_base": ["Demande croissante en accompagnement stratégique post-Covid", "Digitalisation des missions en format remote", "Productisation en formations ou programmes en ligne"],
+        "threats_base": ["Concurrence des cabinets low-cost et freelances", "IA automatisant les analyses et livrables standards", "Cycles économiques impactant les budgets conseil"],
+    },
+    "content": {
+        "strengths_base": ["Création de valeur continue et actifs durables", "Audience owned indépendante des algorithmes (email, newsletter)", "Multiples sources de revenus (ads, sponsoring, formations)"],
+        "weaknesses_base": ["Revenus irréguliers et dépendants de la plateforme", "Temps de construction long avant monétisation", "Burnout créatif et constance exigée"],
+        "opportunities_base": ["Explosion du creator economy et des outils de monétisation", "Niches hyper-spécialisées peu couvertes et rentables", "Intelligence artificielle pour accélérer la production de contenu"],
+        "threats_base": ["Saturation des plateformes et chute organique", "Changements d'algorithmes destructeurs d'audience", "Copie et plagiat du contenu par des concurrents"],
+    },
+    "application": {
+        "strengths_base": ["Usage quotidien et fort potentiel d'engagement", "Notifications push pour réengagement direct", "Monétisation variée : freemium, abonnement, in-app"],
+        "weaknesses_base": ["Coûts de développement et maintenance élevés", "Taux de désinstallation très élevé (70% à J+30)", "Dépendance aux stores Apple et Google"],
+        "opportunities_base": ["6 milliards de smartphones utilisateurs potentiels", "PWA réduisant les barrières de distribution", "IA générative comme fonctionnalité différenciante"],
+        "threats_base": ["Compétition féroce dans les stores (5M+ applications)", "Politiques App Store contraignantes et commissions 30%", "Coûts d'acquisition utilisateur mobile en forte hausse"],
+    },
+    "other": {
+        "strengths_base": ["Agilité et liberté d'expérimentation", "Connaissance terrain et proximité client unique", "Capacité à pivoter rapidement selon le marché"],
+        "weaknesses_base": ["Positionnement à clarifier pour se différencier", "Ressources et budget à optimiser en priorité", "Notoriété et crédibilité à construire"],
+        "opportunities_base": ["Marchés de niche sous-exploités à forte rentabilité", "Outils digitaux low-cost pour tester et valider", "Partenariats stratégiques pour accélérer la croissance"],
+        "threats_base": ["Acteurs établis avec avantage concurrentiel fort", "Évolution rapide des attentes clients et technologies", "Risque de sous-capitalisation en phase de croissance"],
+    },
 }
 
 DEFAULT_DATA = {

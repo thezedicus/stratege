@@ -4,6 +4,10 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 
+type Soncas = { [key: string]: string };
+type Aida = { attention: string; interest: string; desire: string; action: string };
+type Spin = { situation: string; problem: string; implication: string; need: string };
+
 type Persona = {
   id: string;
   name: string;
@@ -15,14 +19,14 @@ type Persona = {
   painPoints: string[];
   channels: string[];
   buyingTriggers: string[];
-  soncas: { [key: string]: string };
-  aida: { attention: string; interest: string; desire: string; action: string };
-  spin: { situation: string; problem: string; implication: string; need: string };
+  soncas: Soncas;
+  aida: Aida;
+  spin: Spin;
   nudges: string[];
   quote: string;
 };
 
-const sonCasColors: Record<string, string> = {
+const SONCAS_COLORS: Record<string, string> = {
   Sécurité: 'bg-blue-50 text-blue-700',
   Orgueil: 'bg-purple-50 text-purple-700',
   Nouveauté: 'bg-cyan-50 text-cyan-700',
@@ -31,46 +35,83 @@ const sonCasColors: Record<string, string> = {
   Sympathie: 'bg-pink-50 text-pink-700',
 };
 
+const AIDA_STEPS = [
+  { k: 'attention' as const, label: 'Attention', cls: 'bg-blue-50 border border-blue-100', icon: '👁️' },
+  { k: 'interest' as const, label: 'Intérêt', cls: 'bg-purple-50 border border-purple-100', icon: '🎯' },
+  { k: 'desire' as const, label: 'Désir', cls: 'bg-rose-50 border border-rose-100', icon: '❤️' },
+  { k: 'action' as const, label: 'Action', cls: 'bg-green-50 border border-green-100', icon: '⚡' },
+];
+
+const SPIN_STEPS = [
+  { k: 'situation' as const, label: 'Situation', icon: '📍' },
+  { k: 'problem' as const, label: 'Problème', icon: '⚠️' },
+  { k: 'implication' as const, label: 'Implication', icon: '🔗' },
+  { k: 'need' as const, label: 'Besoin de solution', icon: '💡' },
+];
+
+type Section = 'soncas' | 'aida' | 'spin' | 'nudges';
+
 export default function PersonasTab({ data }: { data?: Persona[] }) {
   const [selected, setSelected] = useState(0);
-  const [activeSection, setActiveSection] = useState<'soncas' | 'aida' | 'spin' | 'nudges'>('soncas');
+  const [activeSection, setActiveSection] = useState<Section>('soncas');
+  const [imgErrors, setImgErrors] = useState<Record<string, boolean>>({});
 
-  if (!data?.length) return <div className="card text-gray-400 text-center py-12">Personas non disponibles</div>;
+  if (!data?.length) return (
+    <div className="card text-gray-400 text-center py-12">
+      <p className="text-4xl mb-3">👥</p>
+      <p>Personas non disponibles</p>
+    </div>
+  );
 
-  const p = data[selected];
+  const p = data[Math.min(selected, data.length - 1)];
+  if (!p) return null;
+
+  const photoSrc = imgErrors[p.id]
+    ? `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(p.name)}`
+    : p.photo;
 
   return (
     <div className="space-y-6 animate-fade-in">
       <div>
         <h2 className="section-title">Personas & Psychologie Consommateur</h2>
-        <p className="section-subtitle">5 profils détaillés avec frameworks SONCAS, AIDA et SPIN pour cibler précisément vos clients.</p>
+        <p className="section-subtitle">Profils détaillés avec frameworks SONCAS, AIDA et SPIN pour cibler précisément vos clients.</p>
       </div>
 
       {/* Persona selector */}
-      <div className="flex gap-3 overflow-x-auto pb-2">
-        {data.map((persona, i) => (
-          <button
-            key={persona.id}
-            onClick={() => setSelected(i)}
-            className={`flex items-center gap-3 px-4 py-3 rounded-2xl border-2 whitespace-nowrap transition-all ${
-              selected === i ? 'border-primary-500 bg-primary-50' : 'border-gray-200 bg-white hover:border-gray-300'
-            }`}
-          >
-            {persona.photo && (
-              <Image
-                src={persona.photo}
-                alt={persona.name}
-                width={36}
-                height={36}
-                className="rounded-full object-cover"
-              />
-            )}
-            <div className="text-left">
-              <div className="font-semibold text-sm text-gray-900">{persona.name}</div>
-              <div className="text-xs text-gray-500">{persona.age} ans · {persona.job}</div>
-            </div>
-          </button>
-        ))}
+      <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
+        {data.map((persona, i) => {
+          const pPhotoSrc = imgErrors[persona.id]
+            ? `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(persona.name)}`
+            : persona.photo;
+          return (
+            <button
+              key={persona.id}
+              onClick={() => setSelected(i)}
+              className={`flex items-center gap-3 px-4 py-3 rounded-2xl border-2 whitespace-nowrap transition-all flex-shrink-0 ${
+                selected === i
+                  ? 'border-primary-500 bg-primary-50 shadow-card-hover'
+                  : 'border-gray-200 bg-white hover:border-gray-300'
+              }`}
+            >
+              <div className="relative w-9 h-9 flex-shrink-0">
+                {pPhotoSrc && (
+                  <Image
+                    src={pPhotoSrc}
+                    alt={persona.name}
+                    width={36}
+                    height={36}
+                    className="rounded-full object-cover"
+                    onError={() => setImgErrors(prev => ({ ...prev, [persona.id]: true }))}
+                  />
+                )}
+              </div>
+              <div className="text-left">
+                <div className="font-semibold text-sm text-gray-900">{persona.name}</div>
+                <div className="text-xs text-gray-500">{persona.age} ans · {persona.job}</div>
+              </div>
+            </button>
+          );
+        })}
       </div>
 
       {/* Main persona card */}
@@ -83,61 +124,66 @@ export default function PersonasTab({ data }: { data?: Persona[] }) {
       >
         {/* Profile */}
         <div className="card">
-          <div className="flex items-start gap-4 mb-6">
-            {p.photo && (
-              <Image
-                src={p.photo}
-                alt={p.name}
-                width={72}
-                height={72}
-                className="rounded-2xl object-cover shadow-sm"
-              />
-            )}
+          <div className="flex items-start gap-4 mb-5">
+            <div className="relative w-[72px] h-[72px] flex-shrink-0">
+              {photoSrc && (
+                <Image
+                  src={photoSrc}
+                  alt={p.name}
+                  width={72}
+                  height={72}
+                  className="rounded-2xl object-cover shadow-sm"
+                  onError={() => setImgErrors(prev => ({ ...prev, [p.id]: true }))}
+                />
+              )}
+            </div>
             <div>
               <h3 className="text-xl font-bold text-gray-900">{p.name}</h3>
               <p className="text-gray-500 text-sm">{p.job}</p>
               <p className="text-gray-400 text-xs mt-1">{p.age} ans · {p.location}</p>
             </div>
           </div>
+
           {p.quote && (
-            <blockquote className="text-sm text-gray-600 italic border-l-3 border-primary-500 pl-3 mb-4">
-              "{p.quote}"
+            <blockquote className="text-sm text-gray-600 italic border-l-[3px] border-primary-500 pl-3 mb-5">
+              &ldquo;{p.quote}&rdquo;
             </blockquote>
           )}
+
           <div className="space-y-4">
             <div>
               <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">Objectifs</h4>
-              <ul className="space-y-1">
-                {p.goals.map((g, i) => (
-                  <li key={i} className="text-sm text-gray-700 flex items-start gap-2">
-                    <span className="text-emerald-500 mt-0.5">✓</span>{g}
+              <ul className="space-y-1.5">
+                {(p.goals ?? []).map((g, i) => (
+                  <li key={`goal-${i}`} className="text-sm text-gray-700 flex items-start gap-2">
+                    <span className="text-emerald-500 mt-0.5 flex-shrink-0">✓</span>{g}
                   </li>
                 ))}
               </ul>
             </div>
             <div>
               <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">Points de douleur</h4>
-              <ul className="space-y-1">
-                {p.painPoints.map((pp, i) => (
-                  <li key={i} className="text-sm text-gray-700 flex items-start gap-2">
-                    <span className="text-rose-400 mt-0.5">✗</span>{pp}
+              <ul className="space-y-1.5">
+                {(p.painPoints ?? []).map((pp, i) => (
+                  <li key={`pain-${i}`} className="text-sm text-gray-700 flex items-start gap-2">
+                    <span className="text-rose-400 mt-0.5 flex-shrink-0">✗</span>{pp}
                   </li>
                 ))}
               </ul>
             </div>
             <div>
               <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">Canaux préférés</h4>
-              <div className="flex flex-wrap gap-2">
-                {p.channels.map((c, i) => (
-                  <span key={i} className="badge-primary text-xs">{c}</span>
+              <div className="flex flex-wrap gap-1.5">
+                {(p.channels ?? []).map((c, i) => (
+                  <span key={`ch-${i}`} className="badge-primary">{c}</span>
                 ))}
               </div>
             </div>
             <div>
-              <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">Déclencheurs d'achat</h4>
-              <div className="flex flex-wrap gap-2">
-                {p.buyingTriggers.map((t, i) => (
-                  <span key={i} className="badge-magenta text-xs">{t}</span>
+              <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">Déclencheurs d&apos;achat</h4>
+              <div className="flex flex-wrap gap-1.5">
+                {(p.buyingTriggers ?? []).map((t, i) => (
+                  <span key={`bt-${i}`} className="badge-magenta">{t}</span>
                 ))}
               </div>
             </div>
@@ -146,13 +192,16 @@ export default function PersonasTab({ data }: { data?: Persona[] }) {
 
         {/* Frameworks */}
         <div className="lg:col-span-2 card">
-          <div className="flex gap-2 mb-6 border-b border-gray-100 pb-4">
-            {(['soncas', 'aida', 'spin', 'nudges'] as const).map((s) => (
+          {/* Section tabs */}
+          <div className="flex gap-2 mb-6 flex-wrap">
+            {(['soncas', 'aida', 'spin', 'nudges'] as Section[]).map((s) => (
               <button
                 key={s}
                 onClick={() => setActiveSection(s)}
                 className={`px-3 py-1.5 rounded-xl text-sm font-medium transition-all ${
-                  activeSection === s ? 'bg-primary-500 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  activeSection === s
+                    ? 'bg-primary-500 text-white shadow-sm'
+                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                 }`}
               >
                 {s.toUpperCase()}
@@ -161,65 +210,59 @@ export default function PersonasTab({ data }: { data?: Persona[] }) {
           </div>
 
           {activeSection === 'soncas' && (
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-3">
-              <p className="text-sm text-gray-500 mb-4">Motivations d'achat selon le modèle SONCAS (Sécurité, Orgueil, Nouveauté, Confort, Argent, Sympathie)</p>
-              {Object.entries(p.soncas).map(([k, v]) => (
-                <div key={k} className="p-3 rounded-xl border border-gray-100">
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className={`badge text-xs font-semibold ${sonCasColors[k] || 'bg-gray-100 text-gray-600'}`}>{k}</span>
-                  </div>
-                  <p className="text-sm text-gray-700">{v}</p>
+            <motion.div key="soncas" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-3">
+              <p className="text-sm text-gray-500 mb-4">
+                Motivations d&apos;achat selon le modèle SONCAS — <em>Sécurité, Orgueil, Nouveauté, Confort, Argent, Sympathie</em>
+              </p>
+              {Object.entries(p.soncas ?? {}).map(([k, v]) => (
+                <div key={k} className="p-3 rounded-xl border border-gray-100 hover:bg-gray-50 transition-colors">
+                  <span className={`badge text-xs font-semibold mb-1.5 ${SONCAS_COLORS[k] ?? 'bg-gray-100 text-gray-600'}`}>{k}</span>
+                  <p className="text-sm text-gray-700 mt-1">{v}</p>
                 </div>
               ))}
             </motion.div>
           )}
 
           {activeSection === 'aida' && (
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-4">
+            <motion.div key="aida" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-3">
               <p className="text-sm text-gray-500 mb-4">Parcours client selon le modèle AIDA</p>
-              {[
-                { k: 'attention', label: 'Attention', color: 'bg-blue-50 border-blue-200', icon: '👁️' },
-                { k: 'interest', label: 'Intérêt', color: 'bg-purple-50 border-purple-200', icon: '🎯' },
-                { k: 'desire', label: 'Désir', color: 'bg-rose-50 border-rose-200', icon: '❤️' },
-                { k: 'action', label: 'Action', color: 'bg-green-50 border-green-200', icon: '⚡' },
-              ].map(({ k, label, color, icon }) => (
-                <div key={k} className={`p-4 rounded-xl border ${color}`}>
+              {AIDA_STEPS.map(({ k, label, cls, icon }) => (
+                <div key={k} className={`p-4 rounded-xl ${cls}`}>
                   <div className="flex items-center gap-2 mb-1">
                     <span>{icon}</span>
                     <span className="font-semibold text-sm text-gray-800">{label}</span>
                   </div>
-                  <p className="text-sm text-gray-700">{p.aida[k as keyof typeof p.aida]}</p>
+                  <p className="text-sm text-gray-700 ml-6">{p.aida?.[k] ?? '—'}</p>
                 </div>
               ))}
             </motion.div>
           )}
 
           {activeSection === 'spin' && (
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-4">
+            <motion.div key="spin" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-3">
               <p className="text-sm text-gray-500 mb-4">Questions de vente selon le modèle SPIN</p>
-              {[
-                { k: 'situation', label: 'Situation', icon: '📍' },
-                { k: 'problem', label: 'Problème', icon: '⚠️' },
-                { k: 'implication', label: 'Implication', icon: '🔗' },
-                { k: 'need', label: 'Besoin de solution', icon: '💡' },
-              ].map(({ k, label, icon }) => (
+              {SPIN_STEPS.map(({ k, label, icon }) => (
                 <div key={k} className="p-4 rounded-xl bg-gray-50">
                   <div className="flex items-center gap-2 mb-1">
                     <span>{icon}</span>
                     <span className="font-semibold text-sm text-gray-800">{label}</span>
                   </div>
-                  <p className="text-sm text-gray-600 italic">"{p.spin[k as keyof typeof p.spin]}"</p>
+                  <p className="text-sm text-gray-600 italic ml-6">&ldquo;{p.spin?.[k] ?? '—'}&rdquo;</p>
                 </div>
               ))}
             </motion.div>
           )}
 
           {activeSection === 'nudges' && (
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+            <motion.div key="nudges" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
               <p className="text-sm text-gray-500 mb-4">Leviers psychologiques et biais cognitifs à exploiter</p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {p.nudges.map((nudge, i) => (
-                  <div key={i} className="p-3 rounded-xl bg-gradient-to-br from-primary-50 to-magenta-50 border border-gray-100">
+                {(p.nudges ?? []).map((nudge, i) => (
+                  <div
+                    key={`nudge-${i}`}
+                    className="p-3 rounded-xl border border-gray-100"
+                    style={{ background: 'linear-gradient(135deg, #EBF8FF 0%, #FFF0F7 100%)' }}
+                  >
                     <span className="text-sm text-gray-700">🧠 {nudge}</span>
                   </div>
                 ))}
