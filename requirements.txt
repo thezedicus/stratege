@@ -1,0 +1,13 @@
+# BiziApp — Dépendances Python
+# Compatible Python 3.9+
+# Installer avec : pip3.9 install -r requirements.txt
+
+# ── Core dashboard ─────────────────────────────────────────────────────────────
+streamlit>=1.57.0
+
+# ── HTTP & parsing (optionnel — lecture de sites externes) ────────────────────
+requests>=2.31.0
+beautifulsoup4>=4.12.0
+
+# ── Sécurité & qualité (déjà dans stdlib Python 3.9) ─────────────────────────
+# html, urllib.parse, json, math, copy, datetime → inclus nativement
