@@ -64,3 +64,18 @@ logs/
 coverage/
 .pytest_cache/
 htmlcov/
+
+# ── Streamlit secrets (SÉCURITÉ — ne jamais committer) ────────────────────────
+.streamlit/secrets.toml
+!.streamlit/secrets.toml.example
+!.streamlit/config.toml
+
+# ── Données sensibles ─────────────────────────────────────────────────────────
+*.sqlite
+*.db
+filesdocsup.zip
+stratege.modifs/
+
+# ── Streamlit cache ───────────────────────────────────────────────────────────
+.streamlit/cache/
+__streamlit_cache__/

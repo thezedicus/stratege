@@ -8,8 +8,10 @@ Intègre : SWOT · QQOQCCP · PESTEL · Micro-Env · Concurrence · SONCAS
 import copy
 import json
 import datetime
-import re
+import html as _html
+import urllib.parse as _urlparse
 import streamlit as st
+import math
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Optional imports
@@ -368,6 +370,50 @@ footer { visibility: hidden; }
 </style>
 """, unsafe_allow_html=True)
 
+# ─────────────────────────────────────────────────────────────────────────────
+# AUTHENTIFICATION OPTIONNELLE (définie tôt pour bloquer avant tout rendu)
+# ─────────────────────────────────────────────────────────────────────────────
+def _check_auth() -> bool:
+    """Vérifie le mot de passe si auth.enabled = true dans secrets.toml"""
+    try:
+        cfg = st.secrets.get("auth", {})
+        if not cfg.get("enabled", False):
+            return True  # Auth désactivée
+        pwd = cfg.get("password", "")
+        if not pwd:
+            return True
+    except Exception:
+        return True  # Pas de fichier secrets = pas d'auth
+
+    if "authenticated" not in st.session_state:
+        st.session_state["authenticated"] = False
+
+    if st.session_state["authenticated"]:
+        return True
+
+    with st.container():
+        st.markdown("""
+        <div style="max-width:420px;margin:80px auto;background:white;border-radius:16px;
+          padding:40px;box-shadow:0 4px 24px rgba(0,0,0,.1);text-align:center">
+          <div style="font-size:2.5rem">⚡</div>
+          <h2 style="font-weight:800;color:#0F172A;margin:12px 0 4px">BiziApp</h2>
+          <p style="color:#8A8A8A;font-size:.9rem;margin-bottom:24px">Accès protégé — entrez le mot de passe</p>
+        </div>
+        """, unsafe_allow_html=True)
+        col = st.columns([1, 2, 1])[1]
+        with col:
+            _pwd_input = st.text_input("Mot de passe", type="password", label_visibility="collapsed",
+                                       placeholder="Entrez le mot de passe...")
+            if st.button("→ Accéder", use_container_width=True, type="primary"):
+                if _pwd_input == cfg.get("password", ""):
+                    st.session_state["authenticated"] = True
+                    st.rerun()
+                else:
+                    st.error("❌ Mot de passe incorrect")
+    st.stop()
+    return False
+
+_check_auth()
 
 # ═════════════════════════════════════════════════════════════════════════════
 # ── DATA & GENERATORS ────────────────────────────────────────────────────────
@@ -635,11 +681,11 @@ _PESTEL = {
         "💶 Économique": [
             ("Inflation des coûts logistiques +18% en 3 ans", "négatif",
              "Comprimez via négociation transporteur et stocks optimisés"),
-            ("Croissance e-commerce +12%/an en France", "positif",
+            ("Croissance e-commerce +5-7%/an en France (FEVAD 2024)", "positif",
              "Marché en expansion — capturez la part de marché tôt"),
         ],
         "👥 Socioculturel": [
-            ("M-commerce : 68% des achats depuis mobile", "positif",
+            ("M-commerce : ~55% du trafic e-commerce depuis mobile (France)", "positif",
              "Mobile-first est désormais non-négociable"),
             ("Exigence RSE des consommateurs +39% vs 2022", "neutre",
              "Levier différenciant si vous intégrez l'impact environnemental"),
@@ -868,15 +914,15 @@ _SONCAS = {
             "reponse":   "Nous affichons nos +2 000 avis vérifiés Trustpilot, notre garantie satisfait ou remboursé 30 jours et notre certification SSL. Commandez sans risque.",
         },
         "opportunite": {
-            "label": "Opportunité", "icon": "🚀",
-            "desc": "L'acheteur cherche la meilleure offre du moment. Créez un sentiment d'avantage exclusif et de gain réel.",
+            "label": "Orgueil", "icon": "👑",
+            "desc": "L'acheteur veut se sentir valorisé, reconnu et appartenir à une élite. Flattez son ego avec des produits exclusifs et un statut premium.",
             "args": [
-                "Offre flash limitée dans le temps avec compte à rebours visible",
-                "Programme de fidélité avec cumul de points et récompenses",
-                "Livraison offerte à partir d'un seuil — visible dès la page d'accueil",
+                "Étiquette 'Édition Limitée' ou 'Réservé aux membres Premium'",
+                "Personalisation du produit avec initiales ou couleurs exclusives",
+                "Accès VIP en avant-première aux nouvelles collections",
             ],
-            "objection": "Je trouverai sûrement moins cher ailleurs.",
-            "reponse":   "Bonne idée de comparer ! Mais avec notre livraison offerte, nos points de fidélité et notre garantie 30 jours, notre coût total est souvent le plus bas — et sans risque.",
+            "objection": "Je n'ai pas besoin d'un produit premium.",
+            "reponse":   "Nos clients premium ne cherchent pas juste un produit — ils veulent une expérience unique et reconnaissable. Nos éditions limitées sont portées par des leaders et des early adopters.",
         },
         "nouveaute": {
             "label": "Nouveauté", "icon": "✨",
@@ -936,15 +982,15 @@ _SONCAS = {
             "reponse":   "Notre code source est en escrow, vos données sont exportables en 1 clic et notre contrat inclut un préavis de 90 jours pour toute modification tarifaire. Votre continuité est protégée.",
         },
         "opportunite": {
-            "label": "Opportunité", "icon": "🚀",
-            "desc": "Le buyer SaaS cherche un avantage compétitif. Montrez-lui comment votre outil le place devant ses concurrents.",
+            "label": "Orgueil", "icon": "👑",
+            "desc": "Le buyer SaaS veut être reconnu comme un leader technologique. Valorisez son statut de précurseur et son image de décideur visionnaire.",
             "args": [
-                "ROI calculateur interactif : 'Économisez X heures = X € par mois'",
+                "Badge 'Client Pionnier' et présence dans vos références sectorielles",
                 "Cas clients avec métriques avant/après dans le même secteur",
                 "Early adopter pricing — accès aux nouvelles fonctionnalités en priorité",
             ],
             "objection": "Je ne vois pas vraiment ce que j'ai à gagner par rapport à ce que j'utilise déjà.",
-            "reponse":   "[Client du même secteur] a réduit son temps de traitement de 4h à 25 minutes par semaine avec nous. Je peux vous montrer comment en 15 minutes.",
+            "reponse":   "Nos clients [même secteur] sont cités comme références dans leur industrie grâce à ce gain de productivité. Je peux vous positionner parmi eux en 15 minutes de démo.",
         },
         "nouveaute": {
             "label": "Nouveauté", "icon": "✨",
@@ -1004,15 +1050,15 @@ _SONCAS = {
             "reponse":   "Notre contrat détaille chaque livrable avec des délais précis. Nous proposons des points d'étape hebdomadaires et vous pouvez contacter directement nos 3 derniers clients pour avoir leur retour.",
         },
         "opportunite": {
-            "label": "Opportunité", "icon": "🚀",
-            "desc": "Le client veut saisir une opportunité de croissance. Positionnez votre service comme un accélérateur de résultats.",
+            "label": "Orgueil", "icon": "👑",
+            "desc": "Le client veut être reconnu comme un dirigeant qui prend les bonnes décisions. Valorisez son image de leader stratège auprès de ses pairs.",
             "args": [
-                "Audit gratuit initial pour identifier le potentiel de gain rapide",
-                "Résultats chiffrés de missions similaires avec le même profil client",
-                "Offre de lancement limitée pour créer l'urgence de décision",
+                "Témoignages de dirigeants similaires qui ont pris cette décision",
+                "Rapport personnalisé avec logo client pour valoriser son image",
+                "Offre 'Partenaire Stratégique' avec visibilité dans nos references",
             ],
             "objection": "Est-ce vraiment le bon moment pour investir dans ce service ?",
-            "reponse":   "C'est justement le bon moment : vos concurrents qui n'agissent pas aujourd'hui perdront 6 mois. Avec notre accompagnement, nos clients voient leurs premiers résultats en 30 jours.",
+            "reponse":   "Les dirigeants que nous accompagnons voient cela comme un signal de leadership. C'est ce qui les différencie — et qui leur permet d'être cités comme référence dans leur secteur.",
         },
         "nouveaute": {
             "label": "Nouveauté", "icon": "✨",
@@ -1072,15 +1118,15 @@ _SONCAS = {
             "reponse":   "Notre garantie [X jours] couvre exactement ce scénario. Si ce n'est pas parfait, nous remboursons intégralement — sans question. Vous n'avez rien à perdre.",
         },
         "opportunite": {
-            "label": "Opportunité", "icon": "🚀",
-            "desc": "Le prospect cherche un gain réel : temps, argent, compétitivité. Montrez-lui ce qu'il a à gagner concrètement.",
+            "label": "Orgueil", "icon": "👑",
+            "desc": "Le prospect veut être fier de ses choix et reconnu pour sa clairvoyance. Flattez son statut et valorisez son appartenance à une élite de décideurs.",
             "args": [
-                "Quantification du bénéfice attendu (temps, argent, parts de marché)",
-                "Résultats mesurables obtenus par des clients similaires",
-                "Avantage du premier mouvement si votre marché est en évolution rapide",
+                "Positionnez-le dans une 'sélection exclusive' de clients partenaires",
+                "Résultats obtenus par des profils similaires reconnus dans leur domaine",
+                "Valorisez son rôle de précurseur dans son secteur",
             ],
             "objection": "Je ne vois pas encore ce que j'y gagne clairement.",
-            "reponse":   "Des clients comme vous ont obtenu [résultat X] en [délai Y]. Voulez-vous que je vous montre comment nous pourrions obtenir le même résultat dans votre contexte ?",
+            "reponse":   "Nos clients leaders ont tous pris cette décision avant leurs concurrents. C'est ce qui les distingue aujourd'hui — et qui les positionne comme références dans leur secteur.",
         },
         "nouveaute": {
             "label": "Nouveauté", "icon": "✨",
@@ -1549,6 +1595,161 @@ def scrape_site_meta(url: str) -> dict:
 # ═════════════════════════════════════════════════════════════════════════════
 # ── SIDEBAR — WIZARD ─────────────────────────────────────────────────────────
 # ═════════════════════════════════════════════════════════════════════════════
+
+# ─── ADS & MEDIA PLAN ────────────────────────────────────────────────────────
+def _estimate_reach(budget: float, platform: str) -> str:
+    if budget <= 0: return "0 personnes"
+    if platform == "facebook":
+        low, high = int(budget * 80), int(budget * 200)
+        unit = "personnes/mois"
+    else:
+        low, high = int(budget * 20), int(budget * 80)
+        unit = "clics/mois"
+    def fmt(n): return f"{n:,}".replace(",", " ")
+    return f"{fmt(low)} – {fmt(high)} {unit}"
+
+def gen_ads(activity: str, goal: str, monthly_budget: float) -> dict:
+    fb_budget   = round(monthly_budget * 0.40)
+    gads_budget = round(monthly_budget * 0.35)
+    other       = max(0.0, monthly_budget - fb_budget - gads_budget)
+    email_b     = round(other * 0.5)
+    seo_b       = max(0, round(other * 0.5))
+
+    kw_map = {
+        "ecommerce":  ["acheter [produit] livraison rapide","boutique en ligne promo","[marque] soldes"],
+        "saas":       ["essai gratuit logiciel gestion","outil productivité PME","meilleur SaaS [catégorie]"],
+        "service":    ["prestataire [service] devis","expert [domaine] disponible","consultant [spécialité]"],
+        "consulting": ["consultant [domaine] PME","accompagnement entrepreneur","formation [métier] en ligne"],
+        "content":    ["formation créateur contenu","blog affilié revenus","monétiser Instagram/YouTube"],
+        "default":    ["solution professionnelle en ligne","service numérique fiable","meilleur [offre] France"],
+    }
+    kws = kw_map.get(activity, kw_map["default"])
+
+    fb_obj = {"awareness":"Notoriété de la marque","sales":"Conversions","leads":"Génération de prospects","traffic":"Trafic"}.get(goal,"Trafic")
+    discount = "15%" if monthly_budget < 200 else "20%"
+
+    mediaplan = [
+        {"platform":"Facebook / Instagram Ads","budget":fb_budget,"reach":_estimate_reach(fb_budget,"facebook"),"ctr":"1-3 %","roi":"2-3×"},
+        {"platform":"Google Ads (Search)","budget":gads_budget,"reach":_estimate_reach(gads_budget,"google"),"ctr":"3-8 %","roi":"2.5-4×"},
+    ]
+    if email_b > 0:
+        mediaplan.append({"platform":"Email Marketing","budget":email_b,"reach":"Liste email × 100%","ctr":"15-25 %","roi":"20-42×"})
+    if seo_b > 0:
+        mediaplan.append({"platform":"SEO & Contenu Organique","budget":seo_b,"reach":"Croissance +15-25%/mois","ctr":"2-5 %","roi":"5-10× (long terme)"})
+
+    fb_campaigns = []
+    if fb_budget > 0:
+        fb_campaigns.append({"name":"Acquisition — Audience Froide","objective":fb_obj,"budget":round(fb_budget*0.6),"format":"Reel + Carrousel",
+            "creatives":[
+                {"format":"Reel 15s","headline":"Découvrez comment [activité] peut transformer votre quotidien","cta":"En savoir plus","audience":"Lookalike 2% clients"},
+                {"format":"Carrousel","headline":"3 raisons qui font la différence","cta":"Voir l'offre","audience":"Intérêts ciblés 25-45 ans"},
+            ]})
+        if fb_budget >= 60:
+            fb_campaigns.append({"name":"Retargeting — Audience Chaude","objective":"Conversions","budget":round(fb_budget*0.4),"format":"Image + Story",
+                "creatives":[
+                    {"format":"Image unique","headline":"Vous n'avez pas encore sauté le pas ?","cta":f"Profitez de -{discount}","audience":"Visiteurs 30 derniers jours"},
+                    {"format":"Story vidéo","headline":"Ils ont essayé. Voici ce qu'ils disent.","cta":"Voir les témoignages","audience":"Engagement page + panier abandonné"},
+                ]})
+
+    google_campaigns = []
+    if gads_budget > 0:
+        google_campaigns.append({"name":"Search — Intention directe","type":"Search","budget":round(gads_budget*0.7),"keywords":kws})
+        if gads_budget >= 50:
+            google_campaigns.append({"name":"Display — Remarketing","type":"Display Network","budget":round(gads_budget*0.3),
+                "keywords":["Remarketing visiteurs 30j","Audiences similaires 2%","In-market Google"]})
+
+    organic = [
+        {"channel":"Bouche-à-oreille & Referral","tactic":"Programme de parrainage double sens (parrain + filleul)","frequency":"Continu",
+         "examples":["Offrir -20% pour chaque filleul","Programme ambassadeur clients satisfaits","Demander une recommandation après chaque vente"]},
+        {"channel":"Réseaux sociaux organiques","tactic":"Stratégie de contenu éducatif + engagement communautaire","frequency":"Quotidien",
+         "examples":["1 conseil pratique/jour en carrousel Instagram","Répondre à tous les commentaires en <2h","Groupe Facebook/Telegram pour votre communauté"]},
+        {"channel":"Email Marketing","tactic":"Séquence nurturing automatisée avec segmentation comportementale","frequency":"1-2 emails/sem",
+         "examples":["Lead magnet de valeur pour capturer les emails","Séquence bienvenue 5 emails / 10 jours","Newsletter 80% valeur / 20% promo"]},
+        {"channel":"SEO & Contenu","tactic":"Stratégie pillar page + topic clusters pour dominer la niche","frequency":"2-3 articles/sem",
+         "examples":["Article long-form +2000 mots sur le sujet principal","Guide complet résolvant le problème n°1 de vos personas","FAQ optimisée pour la recherche vocale et les IA"]},
+    ]
+    return {"mediaplan": mediaplan, "facebook": fb_campaigns, "google": google_campaigns, "organic": organic}
+
+# ─── ROI PROJECTION 12 MOIS ──────────────────────────────────────────────────
+def gen_roi_projection(activity: str, goal: str, maturity: str, monthly_budget: float) -> list:
+    avg_sale = {"ecommerce":45,"saas":49,"service":200,"consulting":250,"content":60,"other":80}.get(activity,80)
+    paid = monthly_budget * 0.40
+    ctr  = {"idea":0.015,"inprogress":0.025,"launched":0.04}.get(maturity, 0.02)
+    avg_cpc = {"saas":2.5,"service":2.0,"ecommerce":0.8,"consulting":2.0}.get(activity,1.5)
+    monthly_clicks = paid / max(avg_cpc, 0.1)
+    leads_base = monthly_clicks * ctr
+    org_mult = {"idea":0.1,"inprogress":0.2,"launched":0.4}.get(maturity, 0.2)
+    l2s = {"saas":0.15,"service":0.20,"ecommerce":0.03,"consulting":0.25}.get(activity, 0.10)
+    data, cumul = [], {"p":0.0,"r":0.0,"o":0.0}
+    for m in range(1, 13):
+        g = min(2.5, 1.0 + (m-1)*0.12)
+        og = 1.0 + org_mult * (m/12)
+        leads = max(0.5, leads_base * g * og)
+        rev = leads * l2s * avg_sale
+        cumul["r"] += rev; cumul["o"] += rev*1.7; cumul["p"] += rev*0.5
+        data.append({"month":m,"pessimiste":round(cumul["p"]),"realiste":round(cumul["r"]),"optimiste":round(cumul["o"])})
+    return data
+
+# ─── PAGESPEED MOCK ───────────────────────────────────────────────────────────
+def get_pagespeed(url: str) -> dict:
+    """Retourne des métriques PageSpeed (mock si pas d'API key)."""
+    if not url or not url.startswith("http"):
+        return {}
+    # Essayer l'API PageSpeed si clé disponible
+    try:
+        psi_key = st.secrets.get("api", {}).get("pagespeed_api_key", "")
+    except Exception:
+        psi_key = ""
+    if psi_key and _HAS_BS4:
+        try:
+            import requests as req
+            r = req.get("https://www.googleapis.com/pagespeedonline/v5/runPagespeed",
+                params={"url":url,"strategy":"mobile","key":psi_key}, timeout=10)
+            if r.status_code == 200:
+                d = r.json()
+                cats = d.get("lighthouseResult",{}).get("categories",{})
+                aud  = d.get("lighthouseResult",{}).get("audits",{})
+                return {
+                    "performance":   round((cats.get("performance",{}).get("score",0.6) or 0.6)*100),
+                    "seo":           round((cats.get("seo",{}).get("score",0.75) or 0.75)*100),
+                    "accessibility": round((cats.get("accessibility",{}).get("score",0.7) or 0.7)*100),
+                    "bestPractices": round((cats.get("best-practices",{}).get("score",0.8) or 0.8)*100),
+                    "lcp": aud.get("largest-contentful-paint",{}).get("displayValue","N/A"),
+                    "cls": aud.get("cumulative-layout-shift",{}).get("displayValue","N/A"),
+                    "source": "api",
+                }
+        except Exception:
+            pass
+    # Mock intelligente basée sur l'URL
+    import hashlib
+    seed = int(hashlib.md5(url.encode()).hexdigest()[:8], 16) % 30
+    return {
+        "performance":   58 + seed, "seo": 72 + (seed % 20),
+        "accessibility": 68 + (seed % 15), "bestPractices": 75 + (seed % 18),
+        "lcp": f"{2.1 + (seed%10)*0.15:.1f} s", "cls": f"{0.05 + (seed%8)*0.02:.2f}",
+        "source": "mock",
+    }
+
+# ─── SCRIPTS VENTE AVANCÉS ───────────────────────────────────────────────────
+_CLOSING_TECHNIQUES = [
+    {"name":"Alternative","desc":"Proposez deux options favorables — évitez le oui/non binaire.","ex":"Vous préférez commencer lundi ou mercredi ?"},
+    {"name":"Urgence authentique","desc":"Créez une raison valide de décider maintenant.","ex":"Notre tarif de lancement se termine vendredi. Je vous réserve une place ?"},
+    {"name":"Résumé de valeur","desc":"Récapitulez tous les bénéfices avant de demander la décision.","ex":"Vous obtenez X + Y + Z + garantie 30j. Pour [budget]€/mois. On y va ?"},
+    {"name":"Trial sans risque","desc":"Proposez un essai pour lever les blocages.","ex":"Et si on testait 2 semaines sans engagement ? Vous voyez les résultats, vous décidez."},
+    {"name":"Concession ciblée","desc":"Offrez quelque chose en échange d'une décision immédiate.","ex":"Si vous signez aujourd'hui, j'inclus le module premium offert (valeur 150€). Marché conclu ?"},
+]
+
+_MESSAGE_TEMPLATES = [
+    {"channel":"Email froid","subject":"[Prénom], [résultat en 5 mots]",
+     "body":"Bonjour [Prénom],\n\nJe serai direct : la plupart des [profil] échouent à [objectif] non par manque de budget, mais par manque de stratégie.\n\nEn analysant votre secteur, j'ai identifié 3 leviers que vous n'exploitez probablement pas encore.\n\nJe vous propose 20 minutes pour vous partager l'analyse — sans engagement.\n\n[Lien calendrier]\n\n[Votre nom]"},
+    {"channel":"LinkedIn InMail","subject":"Question rapide sur votre stratégie",
+     "body":"Bonjour [Prénom],\n\nJ'ai vu votre profil et votre travail sur [Élément spécifique].\n\nUne question : comment gérez-vous actuellement [objectif] ?\n\nJ'aide des profils similaires à structurer ça efficacement. Ouvert à un échange de 15 min ?"},
+    {"channel":"SMS / WhatsApp","subject":"",
+     "body":"Bonjour [Prénom] ! Suite à notre échange : j'ai préparé votre analyse personnalisée. 3 actions concrètes pour [objectif] dès cette semaine. Je vous l'envoie par email ?"},
+    {"channel":"Relance post-démo","subject":"Votre analyse + prochaine étape",
+     "body":"Bonjour [Prénom],\n\nMerci pour notre échange.\n\nJ'ai finalisé votre analyse avec :\n✅ Les 3 actions prioritaires\n✅ L'estimation ROI sur 6 mois\n✅ La feuille de route semaine par semaine\n\nQuestion directe : qu'est-ce qui vous retient de passer à l'étape suivante ?\n\n[Votre nom]"},
+]
+
 LABELS = {
     "ecommerce":"E-commerce","saas":"SaaS","service":"Service","consulting":"Conseil",
     "content":"Créateur de contenu","other":"Autre",
@@ -1687,7 +1888,12 @@ with st.spinner("⚡ Génération de votre analyse stratégique 360°…"):
     synthesis    = gen_synthesis(activity, goal, maturity, monthly_budget)
     okrs         = gen_okr(goal)
     spin_data    = _SPIN.get(activity, _SPIN["default"])
-    site_meta    = scrape_site_meta(website_url) if website_url else {}
+    site_meta      = scrape_site_meta(website_url) if website_url else {}
+    ads_data       = gen_ads(activity, goal, monthly_budget)
+    roi_data       = gen_roi_projection(activity, goal, maturity, monthly_budget)
+    pagespeed_data = get_pagespeed(website_url) if website_url else {}
+    closing_tech   = _CLOSING_TECHNIQUES
+    msg_templates  = _MESSAGE_TEMPLATES
 
 # Context badges
 c1, c2, c3, c4 = st.columns(4)
@@ -1710,6 +1916,7 @@ tabs = st.tabs([
     "📝 Copywriting",
     "💬 Vente & SPIN",
     "📣 Marketing",
+    "🎯 Campagnes Pub",
     "🔎 SEO & GEO 2025",
     "📊 KPI Dashboard",
     "📈 Synthèse",
@@ -1767,8 +1974,8 @@ with tabs[0]:
                 st.divider()
 
     # MICRO-ENV
-    st.markdown('<div class="section-h">🏭 Micro-environnement (5 forces de Porter)</div>', unsafe_allow_html=True)
-    st.caption("Acteurs en interaction directe dont le pouvoir de négociation modèle votre chaîne de valeur")
+    st.markdown('<div class="section-h">🏭 Micro-environnement — Forces concurrentielles</div>', unsafe_allow_html=True)
+    st.caption("Analyse des acteurs en interaction directe (modèle inspiré des 5 forces de Porter) : pouvoir de négociation et leviers d'action")
     pouvoir_color = {"élevé":"badge-red","très élevé":"badge-red","moyen":"badge-amber","faible":"badge-sauge"}
     cols = st.columns(2)
     for i, (acteur, (pouvoir, desc, levier)) in enumerate(micro_env.items()):
@@ -1797,7 +2004,7 @@ with tabs[0]:
     for critere, vous, leader, note in competitive["matrix"]:
         table_html += f"<tr><td><b>{critere}</b></td><td style='text-align:center;font-size:1.1rem'>{vous}</td><td style='text-align:center;font-size:1.1rem'>{leader}</td><td style='font-size:.82rem;color:#8A8A8A'>{note}</td></tr>"
     table_html += "</tbody></table>"
-    st.markdown(table_html, unsafe_allow_html=True)
+    st.markdown(f'<div style="overflow-x:auto">'+ table_html +'</div>', unsafe_allow_html=True)
     st.markdown("<br>", unsafe_allow_html=True)
     col_a, col_b = st.columns(2)
     with col_a:
@@ -1853,7 +2060,7 @@ with tabs[1]:
 
     # SONCAS
     st.markdown('<div class="section-h">🧠 Analyse SONCAS — 6 leviers psychologiques de vente</div>', unsafe_allow_html=True)
-    st.caption("SONCAS : Sécurité · Opportunité · Nouveauté · Confort · Argent · Sympathie — les 6 motivations d'achat universelles")
+    st.caption("SONCAS : Sécurité · Orgueil · Nouveauté · Confort · Argent · Sympathie — les 6 motivations d'achat universelles")
     soncas_css_map = {
         "securite":   "soncas-securite",
         "opportunite":"soncas-opportunite",
@@ -2000,11 +2207,11 @@ with tabs[3]:
 # ══════════════════════════════════════════════════════════════════════════════
 with tabs[4]:
     st.markdown('<div class="section-h">📣 Plateformes recommandées</div>', unsafe_allow_html=True)
-    prio_badge = {"haute":"badge-red","haute ":"badge-red","moyenne":"badge-amber","faible":"badge-sauge"}
+    prio_badge = {"haute":"badge-red","moyenne":"badge-amber","faible":"badge-sauge"}
     pf_cols = st.columns(min(len(platforms), 3))
     for i, (name, prio, freq, content_types) in enumerate(platforms):
         with pf_cols[i % 3]:
-            badge = prio_badge.get(prio, "badge-gray")
+            badge = prio_badge.get(prio.strip().lower(), "badge-gray")
             st.markdown(f"""
             <div class="card">
               <div style='display:flex;justify-content:space-between;align-items:center;margin-bottom:6px'>
@@ -2044,7 +2251,7 @@ with tabs[4]:
     for week, platform, topic, fmt in calendar:
         cal_html += f"<tr><td><b>S{week}</b></td><td><span class='badge badge-blue'>{platform}</span></td><td style='font-size:.82rem'>{topic}</td><td style='font-size:.82rem;color:#8A8A8A'>{fmt}</td></tr>"
     cal_html += "</tbody></table>"
-    st.markdown(cal_html, unsafe_allow_html=True)
+    st.markdown(f'<div style="overflow-x:auto">'+ cal_html +'</div>', unsafe_allow_html=True)
 
     # Règle 80/20
     st.markdown('<div class="section-h">⚡ Règle 80/20 — Focus d\'action</div>', unsafe_allow_html=True)
@@ -2058,9 +2265,115 @@ with tabs[4]:
         st.markdown(f"**{i+1}.** {r}")
 
 # ══════════════════════════════════════════════════════════════════════════════
-# TAB 6 — SEO & GEO 2025
+# TAB 6 — CAMPAGNES PUB
 # ══════════════════════════════════════════════════════════════════════════════
 with tabs[5]:
+    st.markdown('''
+    <div style="background:linear-gradient(135deg,#D97706,#F59E0B);color:white;border-radius:14px;
+      padding:18px 24px;margin-bottom:20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+      <span style="font-size:2rem">🎯</span>
+      <div>
+        <b style="font-size:1rem">Plan média personnalisé — {budget} €/mois</b><br>
+        <span style="opacity:.9;font-size:.85rem">Répartition optimale Facebook · Google Ads · Email · SEO organique</span>
+      </div>
+    </div>
+    '''.format(budget=monthly_budget), unsafe_allow_html=True)
+
+    # Media Plan Table
+    st.markdown('<div class="section-h">📊 Plan Média Global</div>', unsafe_allow_html=True)
+    mp_html = '<table class="bizi-table"><thead><tr><th>Canal</th><th>Budget</th><th>Portée estimée</th><th>CTR cible</th><th>ROI estimé</th></tr></thead><tbody>'
+    for row in ads_data["mediaplan"]:
+        mp_html += f"""<tr>
+          <td><b>{row['platform']}</b></td>
+          <td style='font-weight:700;color:#D97706'>{row['budget']:,.0f} €</td>
+          <td style='font-size:.82rem'>{row['reach']}</td>
+          <td><span class='badge badge-sauge'>{row['ctr']}</span></td>
+          <td><span class='badge badge-amber'>{row['roi']}</span></td>
+        </tr>"""
+    mp_html += '</tbody></table>'
+    st.markdown(f'<div style="overflow-x:auto">'+ mp_html +'</div>', unsafe_allow_html=True)
+
+    # Facebook Campaigns
+    if ads_data["facebook"]:
+        st.markdown('<div class="section-h">📘 Campagnes Facebook / Instagram Ads</div>', unsafe_allow_html=True)
+        for camp in ads_data["facebook"]:
+            with st.expander(f"**{camp['name']}** — {camp['objective']} — Budget : {camp['budget']:,} €"):
+                st.markdown(f"**Format recommandé :** {camp['format']}")
+                for cr in camp.get("creatives", []):
+                    st.markdown(f"""
+                    <div class="card" style="margin-bottom:8px">
+                      <div style="display:flex;justify-content:space-between;align-items:center">
+                        <span class="badge badge-blue">{cr['format']}</span>
+                        <span class="badge badge-gray">{cr.get('audience','')}</span>
+                      </div>
+                      <p style="font-weight:600;margin:8px 0 4px">{cr['headline']}</p>
+                      <p style="font-size:.82rem;color:#8A8A8A">CTA : <b>{cr['cta']}</b></p>
+                    </div>""", unsafe_allow_html=True)
+    else:
+        st.info("💡 Budget insuffisant pour les campagnes Facebook (minimum recommandé : 30€/mois)")
+
+    # Google Campaigns
+    if ads_data["google"]:
+        st.markdown('<div class="section-h">🔍 Campagnes Google Ads</div>', unsafe_allow_html=True)
+        for camp in ads_data["google"]:
+            with st.expander(f"**{camp['name']}** — {camp['type']} — Budget : {camp['budget']:,} €"):
+                st.markdown("**Mots-clés recommandés :**")
+                for kw in camp["keywords"]:
+                    st.markdown(f"• `{kw}`")
+    else:
+        st.info("💡 Budget insuffisant pour Google Ads (minimum recommandé : 30€/mois)")
+
+    # Organic strategies
+    st.markdown('<div class="section-h">🌱 Stratégies Organiques (Gratuites)</div>', unsafe_allow_html=True)
+    for strat in ads_data["organic"]:
+        with st.expander(f"**{strat['channel']}** — {strat['frequency']}"):
+            st.markdown(f"*{strat['tactic']}*")
+            st.markdown("**Actions concrètes :**")
+            for ex in strat["examples"]:
+                st.markdown(f"→ {ex}")
+
+    # ROI Projection
+    st.markdown('<div class="section-h">📈 Projection ROI — 12 mois</div>', unsafe_allow_html=True)
+    st.caption("Estimation basée sur votre budget, votre secteur et votre maturité. Scénarios : pessimiste · réaliste · optimiste")
+    if roi_data:
+        col_p, col_r, col_o = st.columns(3)
+        last = roi_data[-1]
+        col_p.markdown(f'<div class="metric-box"><div class="val" style="color:#B91C1C">{last["pessimiste"]:,} €</div><div class="lbl">Pessimiste (12 mois)</div></div>', unsafe_allow_html=True)
+        col_r.markdown(f'<div class="metric-box"><div class="val" style="color:#D97706">{last["realiste"]:,} €</div><div class="lbl">Réaliste (12 mois)</div></div>', unsafe_allow_html=True)
+        col_o.markdown(f'<div class="metric-box"><div class="val" style="color:#047857">{last["optimiste"]:,} €</div><div class="lbl">Optimiste (12 mois)</div></div>', unsafe_allow_html=True)
+        # Mini tableau mensuel
+        st.markdown("<br>", unsafe_allow_html=True)
+        roi_html = '<table class="bizi-table"><thead><tr><th>Mois</th><th style="color:#B91C1C">Pessimiste</th><th style="color:#D97706">Réaliste</th><th style="color:#047857">Optimiste</th></tr></thead><tbody>'
+        for r in roi_data:
+            roi_html += f"<tr><td><b>M{r['month']}</b></td><td>{r['pessimiste']:,} €</td><td><b>{r['realiste']:,} €</b></td><td>{r['optimiste']:,} €</td></tr>"
+        roi_html += '</tbody></table>'
+        st.markdown(f'<div style="overflow-x:auto">'+ roi_html +'</div>', unsafe_allow_html=True)
+    
+    # PageSpeed
+    if pagespeed_data:
+        st.markdown('<div class="section-h">⚡ Audit PageSpeed — Performance site</div>', unsafe_allow_html=True)
+        if pagespeed_data.get("source") == "mock":
+            st.caption("📊 Données estimées (ajoutez votre clé PageSpeed API dans .streamlit/secrets.toml pour des données réelles)")
+        ps_cols = st.columns(4)
+        scores = [
+            ("🚀 Performance", pagespeed_data.get("performance",0)),
+            ("🔎 SEO technique", pagespeed_data.get("seo",0)),
+            ("♿ Accessibilité", pagespeed_data.get("accessibility",0)),
+            ("✅ Bonnes pratiques", pagespeed_data.get("bestPractices",0)),
+        ]
+        for col, (label, score) in zip(ps_cols, scores):
+            color = "#047857" if score >= 80 else "#D97706" if score >= 60 else "#B91C1C"
+            with col:
+                st.markdown(f'<div class="metric-box"><div class="val" style="color:{color}">{score}/100</div><div class="lbl">{label}</div></div>', unsafe_allow_html=True)
+        c1, c2 = st.columns(2)
+        c1.metric("LCP (Largest Contentful Paint)", pagespeed_data.get("lcp","N/A"), help="Doit être < 2.5s pour un bon score")
+        c2.metric("CLS (Cumulative Layout Shift)", pagespeed_data.get("cls","N/A"), help="Doit être < 0.1 pour un bon score")
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# TAB 6 — SEO & GEO 2025
+# ══════════════════════════════════════════════════════════════════════════════
+with tabs[6]:
     st.markdown("""
     <div style="background:linear-gradient(135deg,#0F172A,#1E293B);color:white;border-radius:14px;
       padding:18px 24px;margin-bottom:20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
@@ -2085,7 +2398,7 @@ with tabs[5]:
           <td><span class='badge {intent_badge.get(intent,"badge-gray")}'>{intent}</span></td>
         </tr>"""
     kw_html += "</tbody></table>"
-    st.markdown(kw_html, unsafe_allow_html=True)
+    st.markdown(f'<div style="overflow-x:auto">'+ kw_html +'</div>', unsafe_allow_html=True)
 
     # Topics
     st.markdown('<div class="section-h">📚 Autorité thématique — Contenus à créer</div>', unsafe_allow_html=True)
@@ -2122,64 +2435,43 @@ with tabs[5]:
                 st.markdown(f"✅ {av}")
             st.info(f"💡 **Conseil pratique :** {conseil}")
 
+# ─────────────────────────────────────────────────────────────────────────────
+# HELPER — KPI tiles renderer (DRY)
+# ─────────────────────────────────────────────────────────────────────────────
+def _render_kpi_section(kpi_list: list) -> None:
+    """Affiche un groupe de KPI en grille 3 colonnes avec code couleur."""
+    _tone_colors = {"sauge": "#D1FAE5", "ambre": "#FEF3C7", "neutral": "#F2EFE8"}
+    _text_colors = {"sauge": "#047857", "ambre": "#D97706", "neutral": "#4A4A4A"}
+    cols = st.columns(min(3, len(kpi_list)))
+    for i, (label, value, hint, tone, target) in enumerate(kpi_list):
+        bg = _tone_colors.get(tone, "#F2EFE8")
+        tc = _text_colors.get(tone, "#4A4A4A")
+        with cols[i % 3]:
+            st.markdown(f"""
+            <div class="kpi-tile" style="background:{bg};border-left:3px solid {tc}">
+              <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;color:#8A8A8A">{_html.escape(label)}</div>
+              <div style="font-size:1.6rem;font-weight:800;color:{tc};margin:4px 0">{_html.escape(value)}</div>
+              <div style="font-size:.7rem;color:#8A8A8A">{_html.escape(hint)}</div>
+              <div style="font-size:.7rem;color:{tc};margin-top:4px;font-weight:600">🎯 Objectif : {_html.escape(target)}</div>
+            </div>
+            """, unsafe_allow_html=True)
+
 # ══════════════════════════════════════════════════════════════════════════════
 # TAB 7 — KPI DASHBOARD
 # ══════════════════════════════════════════════════════════════════════════════
-with tabs[6]:
+with tabs[7]:
     st.markdown('<div class="section-h">📊 Dashboard KPI — Benchmarks 2025</div>', unsafe_allow_html=True)
     st.caption("Tous les indicateurs clés de performance avec leurs benchmarks sectoriels. Survolez les titres pour les définitions.")
 
     # Email KPIs
     st.markdown("### 📧 Email Marketing")
-    email_cols = st.columns(3)
-    for i, (label, value, hint, tone, target) in enumerate(_KPI_BENCHMARKS["email"]):
-        tone_colors = {"sauge":"#D1FAE5","ambre":"#FEF3C7","neutral":"#F2EFE8"}
-        text_colors = {"sauge":"#047857","ambre":"#D97706","neutral":"#4A4A4A"}
-        bg = tone_colors.get(tone,"#F2EFE8")
-        tc = text_colors.get(tone,"#4A4A4A")
-        with email_cols[i % 3]:
-            st.markdown(f"""
-            <div class="kpi-tile" style="background:{bg};border-left:3px solid {tc}">
-              <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;color:#8A8A8A">{label}</div>
-              <div style="font-size:1.6rem;font-weight:800;color:{tc};margin:4px 0">{value}</div>
-              <div style="font-size:.7rem;color:#8A8A8A">{hint}</div>
-              <div style="font-size:.7rem;color:{tc};margin-top:4px;font-weight:600">🎯 Objectif : {target}</div>
-            </div>
-            """, unsafe_allow_html=True)
+    _render_kpi_section(_KPI_BENCHMARKS["email"])
 
     st.markdown("### 💰 Conversion & Satisfaction")
-    conv_cols = st.columns(3)
-    for i, (label, value, hint, tone, target) in enumerate(_KPI_BENCHMARKS["conversion"]):
-        tone_colors = {"sauge":"#D1FAE5","ambre":"#FEF3C7","neutral":"#F2EFE8"}
-        text_colors = {"sauge":"#047857","ambre":"#D97706","neutral":"#4A4A4A"}
-        bg = tone_colors.get(tone,"#F2EFE8")
-        tc = text_colors.get(tone,"#4A4A4A")
-        with conv_cols[i % 3]:
-            st.markdown(f"""
-            <div class="kpi-tile" style="background:{bg};border-left:3px solid {tc}">
-              <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;color:#8A8A8A">{label}</div>
-              <div style="font-size:1.6rem;font-weight:800;color:{tc};margin:4px 0">{value}</div>
-              <div style="font-size:.7rem;color:#8A8A8A">{hint}</div>
-              <div style="font-size:.7rem;color:{tc};margin-top:4px;font-weight:600">🎯 Objectif : {target}</div>
-            </div>
-            """, unsafe_allow_html=True)
+    _render_kpi_section(_KPI_BENCHMARKS["conversion"])
 
     st.markdown("### 📱 Réseaux sociaux & Croissance")
-    social_cols = st.columns(3)
-    for i, (label, value, hint, tone, target) in enumerate(_KPI_BENCHMARKS["social"]):
-        tone_colors = {"sauge":"#D1FAE5","ambre":"#FEF3C7","neutral":"#F2EFE8"}
-        text_colors = {"sauge":"#047857","ambre":"#D97706","neutral":"#4A4A4A"}
-        bg = tone_colors.get(tone,"#F2EFE8")
-        tc = text_colors.get(tone,"#4A4A4A")
-        with social_cols[i % 3]:
-            st.markdown(f"""
-            <div class="kpi-tile" style="background:{bg};border-left:3px solid {tc}">
-              <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;color:#8A8A8A">{label}</div>
-              <div style="font-size:1.6rem;font-weight:800;color:{tc};margin:4px 0">{value}</div>
-              <div style="font-size:.7rem;color:#8A8A8A">{hint}</div>
-              <div style="font-size:.7rem;color:{tc};margin-top:4px;font-weight:600">🎯 Objectif : {target}</div>
-            </div>
-            """, unsafe_allow_html=True)
+    _render_kpi_section(_KPI_BENCHMARKS["social"])
 
     # OKR
     st.markdown('<div class="section-h">🎯 OKR — Objectifs & Key Results</div>', unsafe_allow_html=True)
@@ -2199,7 +2491,7 @@ with tabs[6]:
 # ══════════════════════════════════════════════════════════════════════════════
 # TAB 8 — SYNTHÈSE
 # ══════════════════════════════════════════════════════════════════════════════
-with tabs[7]:
+with tabs[8]:
     score = synthesis["score"]
 
     # Score ring
@@ -2273,7 +2565,7 @@ with tabs[7]:
     with col_dl1:
         st.download_button(
             label="📥 Télécharger (JSON)",
-            data=json.dumps(export_data, ensure_ascii=False, indent=2),
+            data=json.dumps(export_data, ensure_ascii=False, indent=2, default=str),
             file_name=f"biziapp-analyse-{activity}-{goal}-{datetime.date.today()}.json",
             mime="application/json",
             use_container_width=True,
