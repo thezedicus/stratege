@@ -1749,7 +1749,8 @@ with st.spinner("Génération de l'analyse en cours…"):
     synthesis = gen_synthesis(activity, goal, maturity, monthly_budget)
     okrs = gen_okr(goal)
     spin_data = _SPIN.get(activity, _SPIN["default"])
-    site_meta = scrape_site_meta(website_url) if website_url else {}
+    site_data = scrape_site(website_url) if website_url else {}
+    site_meta = site_data
     ads_data = gen_ads(activity, goal, monthly_budget)
     roi_data = gen_roi_projection(activity, goal, maturity, monthly_budget)
     pagespeed_data = get_pagespeed(website_url) if website_url else {}
