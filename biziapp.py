@@ -1909,7 +1909,7 @@ with tabs[0]:
             </div>""", unsafe_allow_html=True)
 
     # COMPETITIVE
-    st.markdown('<div class="section-h"> Analyse concurrentielle</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-h">Analyse concurrentielle</div>', unsafe_allow_html=True)
     c1, c2 = st.columns(2)
     with c1:
         st.markdown("**Rivaux directs**")
@@ -1939,12 +1939,12 @@ with tabs[1]:
     # PERSONAS
     st.markdown('<div class="section-h">Personas clients enrichis</div>', unsafe_allow_html=True)
     st.caption("Profils semi-fictifs construits à partir de données comportementales, sectorielles et psychographiques")
-    for p in personas:
+    for i, p in enumerate(personas):
         initials = "".join([w[0] for w in p["name"].split()][:2]).upper()
         colors = ["#0F172A","#D97706","#047857","#1D4ED8","#B91C1C"]
         color = colors[hash(p["name"]) % len(colors)]
         fw_badge = f'<span class="badge badge-amber">{p.get("framework","")}</span>'if p.get("framework") else ""
-        with st.expander(f"**{p['name']}** · {p['age']} ans · {p['job']} · {p['location']}", expanded=(personas.index(p)==0)):
+        with st.expander(f"**{p['name']}** · {p['age']} ans · {p['job']} · {p['location']}", expanded=(i==0)):
             c1, c2, c3 = st.columns([1, 2, 2])
             with c1:
                 st.markdown(f"""
@@ -2055,7 +2055,7 @@ with tabs[2]:
         with col_p:
             st.markdown(f'<div class="metric-box"><div class="val" style="color:#D97706">{num}</div><div class="lbl" style="white-space:pre-line;line-height:1.3">{pr}</div></div>', unsafe_allow_html=True)
 
-    st.markdown('<div class="section-h"> 8 Déclencheurs psychologiques</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-h">Déclencheurs psychologiques</div>', unsafe_allow_html=True)
     st.caption("Leviers cognitifs issus des sciences comportementales qui guident la décision d'achat")
     for name, defn, ex, usage, warn in _TRIGGERS:
         with st.expander(f"**{name}**"):
@@ -2438,7 +2438,7 @@ with tabs[8]:
                 st.markdown(f'<div class="metric-box"><div class="val" style="font-size:1.1rem;color:#D97706">{val}</div><div class="lbl">{label}</div></div>', unsafe_allow_html=True)
 
     # Priorities
-    st.markdown('<div class="section-h"> Priorités d\'action immédiates</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-h">Priorités d\'action</div>', unsafe_allow_html=True)
     priority_colors = ["#B91C1C","#D97706","#0F172A","#047857"]
     for i, p in enumerate(synthesis["priorities"]):
         color = priority_colors[i % 4]
@@ -2450,7 +2450,7 @@ with tabs[8]:
         </div>""", unsafe_allow_html=True)
 
     # Roadmap
-    st.markdown('<div class="section-h"> Roadmap 180 jours</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-h">Roadmap 180 jours</div>', unsafe_allow_html=True)
     rm_cols = st.columns(4)
     rm_colors = ["#0F172A","#047857","#D97706","#1D4ED8"]
     for i, (period, phase, actions) in enumerate(synthesis["roadmap"]):
