@@ -2471,7 +2471,12 @@ with st.spinner("Génération de l'analyse en cours…"):
                     _p["brands"] = [_sn[:30]] + _p["brands"][:2]
     # ── Concurrents ───────────────────────────────────────────────────────────
     comp_results = {}
-    # Enrichir SWOT avec données concurrents réels
+    # Pré-charger concurrents depuis le cache session si déjà analysés
+    if comp_urls:
+        _ck_pre = "comp_" + str(abs(hash(tuple(sorted(comp_urls)))))
+        if _ck_pre in st.session_state:
+            comp_results.update(st.session_state[_ck_pre])
+    # Enrichir SWOT avec données concurrents réels (si déjà en cache)
     if comp_results:
         _comp_names = []
         for _cu_r, _cd_r in comp_results.items():
