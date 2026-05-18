@@ -1,13 +1,11 @@
 [server]
 headless = true
-enableCORS = true
-enableXsrfProtection = true
+enableCORS = false
+enableXsrfProtection = false
 maxUploadSize = 5
-port = 8502
 
 [browser]
 gatherUsageStats = false
-serverAddress = "localhost"
 
 [theme]
 base = "light"
