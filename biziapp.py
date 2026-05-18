@@ -28,7 +28,7 @@ except ImportError:
 # ─────────────────────────────────────────────────────────────────────────────
 st.set_page_config(
     page_title="BiziApp — Stratégie 360°",
-    page_icon="",
+    page_icon=":material/insights:",
     layout="wide",
     initial_sidebar_state="expanded",
 )
