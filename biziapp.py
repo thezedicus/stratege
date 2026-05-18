@@ -10,6 +10,9 @@ import json
 import datetime
 import html as _html
 import urllib.parse as _urlparse
+import urllib.request as _urlreq
+import xml.etree.ElementTree as _ET
+import re as _re
 import streamlit as st
 import math
 
@@ -61,6 +64,7 @@ html,body,[class*="css"]{font-family:'Inter',-apple-system,BlinkMacSystemFont,'S
 
 /* ── Cards ── */
 .card{background:white;border-radius:12px;padding:20px 22px;border:1px solid var(--border);box-shadow:0 1px 4px rgba(0,0,0,.05);margin-bottom:14px}
+.card-dark{background:linear-gradient(135deg,var(--graphite) 0%,var(--graphite2) 100%);color:white;border-radius:12px;padding:20px 24px;margin-bottom:14px}
 .card-title{font-weight:700;font-size:.95rem;margin-bottom:10px;color:var(--encre)}
 
 /* ── Feature cards (landing) ── */
@@ -1444,6 +1448,150 @@ def scrape_site_meta(url: str) -> dict:
     """Alias de compatibilité."""
     return scrape_site(url)
 
+# ─────────────────────────────────────────────────────────────────────────────
+# VEILLE — Fonctions live (Google News · DuckDuckGo · Wikipedia)
+# ─────────────────────────────────────────────────────────────────────────────
+_UA_VEILLE = "Mozilla/5.0 BiziApp-Veille/2.0"
+_STOP_VEILLE = {
+    "avec","dans","pour","les","des","une","sur","par","que","qui","pas","mais",
+    "donc","aussi","très","tout","comme","nous","vous","sont","était","être",
+    "avoir","peut","plus","cette","cela","leur","dont","bien","fait","même",
+    "sous","vers","sans","entre","après","avant","depuis","pendant",
+    "this","that","from","with","your","will","have","been","they","their",
+    "what","when","where","which","there","about","would","could","should",
+}
+
+def _veille_get(url: str, timeout: int = 12, extra: dict = None) -> str:
+    """GET HTTP mutualisé pour les modules de veille."""
+    hdrs = {"User-Agent": _UA_VEILLE, "Accept-Language": "fr-FR,fr;q=0.9,en;q=0.8"}
+    if extra:
+        hdrs.update(extra)
+    try:
+        import requests as _r
+        resp = _r.get(url, timeout=timeout, headers=hdrs)
+        resp.raise_for_status()
+        return resp.text
+    except Exception:
+        req = _urlreq.Request(url, headers=hdrs)
+        with _urlreq.urlopen(req, timeout=timeout) as resp:
+            return resp.read().decode("utf-8", errors="replace")
+
+def _veille_keywords(text: str, top: int = 15) -> list:
+    """Extrait les mots-clés fréquents d'un texte (sans stopwords)."""
+    words = _re.findall(r'\b[A-Za-zÀ-ÖØ-öø-ÿ]{4,}\b', text.lower())
+    freq: dict = {}
+    for w in words:
+        if w not in _STOP_VEILLE:
+            freq[w] = freq.get(w, 0) + 1
+    return sorted(freq, key=lambda k: -freq[k])[:top]
+
+@st.cache_data(ttl=1800)
+def fetch_news(query: str, lang: str = "fr", max_items: int = 12) -> list:
+    """Google News RSS — actualités live. Gratuit, sans clé API. Cache 30 min."""
+    try:
+        encoded = _urlparse.quote(query)
+        rss = (
+            f"https://news.google.com/rss/search"
+            f"?q={encoded}&hl={lang}&gl=FR&ceid=FR:{lang}"
+        )
+        text = _veille_get(rss, timeout=12)
+        root = _ET.fromstring(text)
+        items = []
+        for item in root.findall(".//item")[:max_items]:
+            pub = item.findtext("pubDate", "")
+            try:
+                dt = datetime.datetime.strptime(pub, "%a, %d %b %Y %H:%M:%S %Z")
+                pub_fmt = dt.strftime("%d/%m/%Y %H:%M")
+            except Exception:
+                pub_fmt = pub[:16]
+            src_tag = item.find("source")
+            items.append({
+                "title": item.findtext("title", ""),
+                "link":  item.findtext("link", ""),
+                "pub":   pub_fmt,
+                "source": src_tag.text if src_tag is not None else "",
+            })
+        return items
+    except Exception as e:
+        return [{"title": f"Erreur chargement actualités : {e}", "link": "", "pub": "", "source": ""}]
+
+@st.cache_data(ttl=3600)
+def fetch_ddg(query: str) -> dict:
+    """DuckDuckGo Instant Answer API. Gratuit, sans clé. Cache 1h."""
+    try:
+        encoded = _urlparse.quote(query)
+        text = _veille_get(
+            f"https://api.duckduckgo.com/?q={encoded}&format=json&no_html=1&skip_disambig=1",
+            timeout=8,
+        )
+        d = json.loads(text)
+        return {
+            "abstract": d.get("AbstractText", ""),
+            "source": d.get("AbstractSource", ""),
+            "source_url": d.get("AbstractURL", ""),
+            "related": [
+                t.get("Text", "")
+                for t in d.get("RelatedTopics", [])
+                if isinstance(t, dict) and "Text" in t
+            ][:8],
+        }
+    except Exception:
+        return {}
+
+@st.cache_data(ttl=3600)
+def fetch_wiki(topic: str, lang: str = "fr") -> dict:
+    """Wikipedia REST API — résumé d'un sujet. Cache 1h."""
+    try:
+        encoded = _urlparse.quote(topic)
+        text = _veille_get(
+            f"https://{lang}.wikipedia.org/api/rest_v1/page/summary/{encoded}",
+            timeout=8,
+        )
+        d = json.loads(text)
+        return {
+            "title":       d.get("title", ""),
+            "description": d.get("description", ""),
+            "extract":     d.get("extract", ""),
+            "url":         d.get("content_urls", {}).get("desktop", {}).get("page", ""),
+        }
+    except Exception:
+        return {}
+
+@st.cache_data(ttl=900)
+def scrape_competitor(url: str) -> dict:
+    """Analyse complète d'un concurrent via Jina.ai. Cache 15 min."""
+    if not url or not url.startswith("http"):
+        return {"error": "URL invalide", "url": url}
+    try:
+        text = _veille_get(
+            f"https://r.jina.ai/{url}",
+            timeout=15,
+            extra={"Accept": "text/plain"},
+        )
+        lines = text.split("\n")
+        def _meta(prefix):
+            return next((l.replace(prefix,"").strip() for l in lines if l.startswith(prefix)), "")
+        skip = {"Title:","URL:","Description:","Published","Warning","Markdown","Links"}
+        body = [l for l in lines if not any(l.startswith(s) for s in skip)]
+        h1 = [l.lstrip("# ").strip()  for l in body if l.startswith("# ")   and 3<len(l)<160][:5]
+        h2 = [l.lstrip("## ").strip() for l in body if l.startswith("## ")  and 3<len(l)<160][:12]
+        h3 = [l.lstrip("### ").strip()for l in body if l.startswith("### ") and 3<len(l)<120][:8]
+        paras = [l for l in body if l and not l.startswith("#") and len(l) > 35]
+        main_text = " ".join(paras)[:3500]
+        return {
+            "title":       _meta("Title:"),
+            "description": _meta("Description:"),
+            "url": url,
+            "h1": h1, "h2": h2, "h3": h3,
+            "paragraphs":  paras[:10],
+            "main_text":   main_text,
+            "keywords":    _veille_keywords(main_text),
+            "source":      "jina",
+            "fetched_at":  datetime.datetime.now().strftime("%H:%M · %d/%m/%Y"),
+        }
+    except Exception as e:
+        return {"error": str(e), "url": url}
+
 # ═════════════════════════════════════════════════════════════════════════════
 # ── SIDEBAR — WIZARD ─────────────────────────────────────────────────────────
 # ═════════════════════════════════════════════════════════════════════════════
@@ -1609,6 +1757,52 @@ LABELS = {
     "idea":"Idée","inprogress":"En cours","launched":"Lancé",
 }
 
+def _sanitize_url(url: str, max_len: int = 500) -> str:
+    """Valide et nettoie une URL avant utilisation. Retourne '' si invalide."""
+    if not url:
+        return ""
+    url = url.strip()[:max_len]
+    try:
+        p = _urlparse.urlparse(url if url.startswith("http") else "https://" + url)
+        if p.scheme not in ("http", "https") or not p.netloc:
+            return ""
+        # Bloquer les schemes dangereux
+        if any(url.lower().startswith(s) for s in ("javascript:", "data:", "vbscript:", "file:")):
+            return ""
+        return url
+    except Exception:
+        return ""
+
+def _sanitize_input(text: str, max_len: int = 200) -> str:
+    """Nettoie un input texte — enlève caractères de contrôle, limite la longueur."""
+    if not text:
+        return ""
+    import unicodedata
+    cleaned = "".join(c for c in str(text) if unicodedata.category(c) not in ("Cc", "Cf") or c in ("\n", "\t"))
+    return cleaned[:max_len].strip()
+
+def _site_insights(site_data: dict) -> dict:
+    """Extrait des insights personnalisés depuis les données du site scrapé."""
+    if not site_data or site_data.get("error"):
+        return {}
+    kws = site_data.get("keywords_page", [])
+    h1s = site_data.get("h1", [])
+    h2s = site_data.get("h2", [])
+    desc = site_data.get("description", "")
+    title = site_data.get("title", "")
+    main = site_data.get("main_text", "")
+    return {
+        "name": title,
+        "desc": desc,
+        "top_keywords": kws[:8],
+        "main_topics": h1s[:3] + h2s[:4],
+        "strengths_signals": [h for h in h1s + h2s if any(
+            w in h.lower() for w in ["expert","garanti","certif","leader","meilleur","n°1","unique","exclusif","premium","qualité"]
+        )][:3],
+        "content_signals": [h for h in h2s if len(h) > 10][:5],
+        "summary": main[:400] if main else desc[:300],
+    }
+
 with st.sidebar:
     st.markdown("""
     <div style="text-align:center;padding:8px 0 12px">
@@ -1660,6 +1854,26 @@ with st.sidebar:
 
     total_budget = st.number_input("Capital disponible (€)", min_value=0, max_value=1_000_000, value=5_000, step=500)
     website_url = st.text_input("URL du site à analyser", placeholder="https://monsite.fr")
+    website_url = _sanitize_url(website_url)
+
+    # ── VEILLE & CONCURRENTS ─────────────────────────────────────────────────
+    st.divider()
+    st.markdown('<div class="step-label"><span class="step-num">5</span>Concurrents à surveiller</div>', unsafe_allow_html=True)
+    st.caption("Jusqu'à 3 URLs — analysées en temps réel via Jina.ai")
+    _comp1 = st.text_input("Concurrent 1", placeholder="https://concurrent1.fr", label_visibility="collapsed", key="sb_c1")
+    _comp2 = st.text_input("Concurrent 2", placeholder="https://concurrent2.fr", label_visibility="collapsed", key="sb_c2")
+    _comp3 = st.text_input("Concurrent 3", placeholder="https://concurrent3.fr", label_visibility="collapsed", key="sb_c3")
+    comp_urls = [
+        (u if u.startswith("http") else "https://" + u)
+        for u in [_comp1.strip(), _comp2.strip(), _comp3.strip()] if u.strip()
+    ]
+    comp_urls = [_sanitize_url(u) for u in comp_urls if _sanitize_url(u)]
+
+    st.markdown('<div class="step-label">Mots-clés veille</div>', unsafe_allow_html=True)
+    st.caption("Un par ligne — alimente le flux d'actualités")
+    _vkw = st.text_area("Mots-clés", placeholder="intelligence artificielle\nautomation\nstartup", height=80, label_visibility="collapsed", key="sb_vkw")
+    veille_keywords = [k.strip() for k in _vkw.strip().split("\n") if k.strip()]
+    veille_lang = st.selectbox("Langue actualités", ["fr", "en", "es", "de"], index=0, key="sb_vlang")
 
     st.divider()
     if st.button("Lancer l'analyse", type="primary", use_container_width=True):
@@ -1751,6 +1965,12 @@ with st.spinner("Génération de l'analyse en cours…"):
     spin_data = _SPIN.get(activity, _SPIN["default"])
     site_data = scrape_site(website_url) if website_url else {}
     site_meta = site_data
+    comp_results = {}
+    for _cu in comp_urls:
+        try:
+            comp_results[_cu] = scrape_competitor(_cu)
+        except Exception:
+            comp_results[_cu] = {"error": "Échec", "url": _cu}
     ads_data = gen_ads(activity, goal, monthly_budget)
     roi_data = gen_roi_projection(activity, goal, maturity, monthly_budget)
     pagespeed_data = get_pagespeed(website_url) if website_url else {}
@@ -1782,6 +2002,7 @@ tabs = st.tabs([
     "SEO / GEO",
     "KPIs",
     "Synthèse",
+    "Veille",
 ])
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -2502,6 +2723,199 @@ with tabs[8]:
         )
     st.caption("JSON complet · compatible CRM, Notion, Google Sheets et tout éditeur de texte")
 
+# ══════════════════════════════════════════════════════════════════════════════
+# TAB 9 — VEILLE STRATÉGIQUE & CONCURRENTIELLE
+# ══════════════════════════════════════════════════════════════════════════════
+with tabs[9]:
+    _main_q = (veille_keywords[0] if veille_keywords else "") or (
+        {"ecommerce":"e-commerce","saas":"logiciel SaaS","service":"prestataire service","consulting":"consultant","content":"créateur contenu","other":"entreprise"}
+        .get(activity,"stratégie")
+    )
+    _news_queries = []
+    if veille_keywords:
+        for _kw in veille_keywords[:4]:
+            _news_queries.append(("Mot-clé", _kw))
+    if comp_urls:
+        for _cu in comp_urls[:2]:
+            _dom = _cu.replace("https://","").replace("http://","").replace("www.","").split("/")[0]
+            _news_queries.append(("Concurrent", _dom))
+    if not _news_queries:
+        _news_queries = [("Secteur", _main_q)]
+
+    # ── Analyse URL live ──────────────────────────────────────────────────────
+    st.markdown('<div class="section-h">Analyse URL en temps réel</div>', unsafe_allow_html=True)
+    _lcol, _rcol = st.columns([4, 1])
+    with _lcol:
+        _live_url = st.text_input("URL à analyser", placeholder="https://monsite.fr ou https://concurrent.fr/page", label_visibility="collapsed", key="v_liveurl")
+    with _rcol:
+        _do_an = st.button("Analyser", type="primary", use_container_width=True, key="v_analyze_btn")
+
+    _target = _live_url.strip()
+    if _target:
+        if not _target.startswith("http"):
+            _target = "https://" + _target
+        with st.spinner(f"Lecture de {_target.replace('https://','').replace('http://','').split('/')[0]} via Jina.ai…"):
+            _ld = scrape_competitor(_target)
+        if _ld.get("error") and not _ld.get("title"):
+            st.error(f"Impossible d'analyser cette URL — {_html.escape(str(_ld.get('error',''))[:120])}")
+        else:
+            _lsrc = {"jina":"Jina.ai Reader","bs4":"BeautifulSoup"}.get(_ld.get("source",""),_ld.get("source",""))
+            st.markdown(f"""
+            <div class="card-dark">
+              <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap">
+                <div style="flex:1;min-width:0">
+                  <div style="font-size:.62rem;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.07em;margin-bottom:5px">{_html.escape(_target.replace('https://','').replace('http://','').split('/')[0][:60])}</div>
+                  <div style="font-size:1.1rem;font-weight:700;color:white;margin-bottom:6px;line-height:1.3">{_html.escape(str(_ld.get('title','—'))[:120])}</div>
+                  <div style="font-size:.82rem;color:rgba(255,255,255,.65);line-height:1.5">{_html.escape(str(_ld.get('description',''))[:260])}</div>
+                </div>
+                <div style="text-align:right;font-size:.63rem;color:rgba(255,255,255,.35);line-height:1.7;flex-shrink:0">
+                  Source : {_lsrc}<br>{_ld.get('fetched_at','')}
+                </div>
+              </div>
+            </div>
+            """, unsafe_allow_html=True)
+            _lk1,_lk2,_lk3,_lk4 = st.columns(4)
+            _lk1.metric("H1",len(_ld.get("h1",[])))
+            _lk2.metric("H2",len(_ld.get("h2",[])))
+            _lk3.metric("Paragraphes",len(_ld.get("paragraphs",[])))
+            _lk4.metric("Mots-clés",len(_ld.get("keywords",[])))
+            if _ld.get("keywords"):
+                st.markdown('<div class="section-h">Mots-clés détectés</div>', unsafe_allow_html=True)
+                _kwh = "".join(f'<span class="url-kw" style="background:var(--ambre-pale);color:#92400E;margin:2px;display:inline-block;border-radius:4px;padding:2px 8px;font-size:.68rem;font-weight:600">{_html.escape(str(k)[:40])}</span>' for k in _ld["keywords"])
+                st.markdown(f'<div style="margin-bottom:12px">{_kwh}</div>', unsafe_allow_html=True)
+            _lca, _lcb = st.columns(2)
+            with _lca:
+                if _ld.get("h1"):
+                    st.markdown('<div class="section-h">Structure H1</div>', unsafe_allow_html=True)
+                    for _h in _ld["h1"]:
+                        st.markdown(f'<div class="card" style="padding:9px 14px;font-weight:600;font-size:.87rem;margin-bottom:7px">{_html.escape(str(_h)[:110])}</div>', unsafe_allow_html=True)
+                if _ld.get("h2"):
+                    st.markdown('<div class="section-h">Structure H2</div>', unsafe_allow_html=True)
+                    for _h in _ld["h2"][:7]:
+                        st.markdown(f'<div style="padding:5px 12px;border-left:2px solid var(--ambre);margin-bottom:5px;font-size:.83rem;color:#374151">{_html.escape(str(_h)[:110])}</div>', unsafe_allow_html=True)
+            with _lcb:
+                if _ld.get("paragraphs"):
+                    st.markdown('<div class="section-h">Contenu principal</div>', unsafe_allow_html=True)
+                    for _p in _ld["paragraphs"][:5]:
+                        st.markdown(f'<div style="font-size:.82rem;color:#4B5563;line-height:1.6;padding:7px 0;border-bottom:1px solid #F3F4F6">{_html.escape(str(_p)[:300])}</div>', unsafe_allow_html=True)
+    else:
+        st.info("Entrez une URL ci-dessus pour lancer une analyse en temps réel — fonctionne avec n'importe quelle page publique")
+
+    st.markdown('<div style="height:4px"></div>', unsafe_allow_html=True)
+
+    # ── Veille concurrentielle ────────────────────────────────────────────────
+    if comp_urls:
+        st.markdown('<div class="section-h">Analyse concurrentielle</div>', unsafe_allow_html=True)
+        _nc = min(len(comp_urls), 3)
+        _gcols = st.columns(_nc)
+        for _ci, _cu in enumerate(comp_urls):
+            _cd = comp_results.get(_cu, {})
+            with _gcols[_ci % _nc]:
+                _dom = _cu.replace("https://","").replace("http://","").replace("www.","").split("/")[0]
+                _herr = _cd.get("error") and not _cd.get("title")
+                if _herr:
+                    st.markdown(f'<div style="background:#FEE2E2;border:1px solid #FCA5A5;border-radius:10px;padding:14px;font-size:.82rem"><b style="color:#991B1B">{_html.escape(_dom)}</b><br><span style="color:#B91C1C">{_html.escape(str(_cd.get("error","Erreur"))[:80])}</span></div>', unsafe_allow_html=True)
+                else:
+                    _ckws = "".join(f'<span style="background:#FEF3C7;color:#92400E;border-radius:3px;padding:1px 6px;font-size:.62rem;font-weight:600;margin:1px;display:inline-block">{_html.escape(str(k)[:30])}</span>' for k in _cd.get("keywords",[])[:6])
+                    st.markdown(f"""
+                    <div class="card">
+                      <div style="font-size:.68rem;color:var(--muted);font-family:monospace">{_html.escape(_dom)}</div>
+                      <div style="font-weight:700;font-size:.9rem;color:#0F172A;margin:4px 0 6px">{_html.escape(str(_cd.get('title','—'))[:65])}</div>
+                      <div style="font-size:.78rem;color:#6B7280;line-height:1.45;margin-bottom:8px">{_html.escape(str(_cd.get('description',''))[:160])}</div>
+                      <div style="margin-bottom:6px">{_ckws}</div>
+                      <div style="font-size:.68rem;color:#9CA3AF">{len(_cd.get('h1',[]))+len(_cd.get('h2',[]))} titres · {len(_cd.get('paragraphs',[]))} §</div>
+                    </div>
+                    """, unsafe_allow_html=True)
+        if len(comp_results) > 1:
+            st.markdown('<div class="section-h">Tableau comparatif</div>', unsafe_allow_html=True)
+            _rows = []
+            for _cu, _cd in comp_results.items():
+                _dom = _cu.replace("https://","").replace("http://","").replace("www.","").split("/")[0]
+                _rows.append({
+                    "Domaine": _dom,
+                    "Titre": str(_cd.get("title","—"))[:60],
+                    "Description": str(_cd.get("description","—"))[:100],
+                    "H1 principal": ((_cd.get("h1") or ["—"])[0])[:55],
+                    "Mots-clés": " · ".join((_cd.get("keywords") or [])[:4]) or "—",
+                    "H2 count": len(_cd.get("h2",[])),
+                })
+            if _rows:
+                st.dataframe(_rows, use_container_width=True, hide_index=True)
+        for _ci2, (_cu2, _cd2) in enumerate(comp_results.items()):
+            _dom2 = _cu2.replace("https://","").replace("http://","").replace("www.","").split("/")[0]
+            with st.expander(f"**{_html.escape(_dom2)}** — analyse éditoriale complète", expanded=(_ci2==0)):
+                if _cd2.get("h2"):
+                    st.markdown("**Structure éditoriale (H2)**")
+                    for _h2 in _cd2["h2"][:10]:
+                        st.markdown(f"- {_html.escape(str(_h2)[:130])}")
+                if _cd2.get("main_text"):
+                    st.markdown("**Extrait du contenu**")
+                    st.markdown(f'<div style="font-size:.82rem;color:#4B5563;line-height:1.65;background:#F9FAFB;padding:13px;border-radius:8px;border-left:3px solid var(--ambre)">{_html.escape(str(_cd2["main_text"])[:900])}</div>', unsafe_allow_html=True)
+
+    # ── Actualités marché ─────────────────────────────────────────────────────
+    st.markdown('<div class="section-h">Flux actualités en temps réel</div>', unsafe_allow_html=True)
+    for _ql, _qq in _news_queries[:5]:
+        with st.expander(f"**{_ql}** · {_html.escape(_qq[:60])}", expanded=(_ql == _news_queries[0][0])):
+            with st.spinner(f"Chargement actualités « {_qq[:40]} »…"):
+                _news = fetch_news(_qq, lang=veille_lang, max_items=12)
+            for _ni in _news:
+                _nt = _html.escape(str(_ni.get("title",""))[:130])
+                _ns = _html.escape(str(_ni.get("source",""))[:45])
+                _np = _ni.get("pub","")
+                _nl = _ni.get("link","")
+                _src_h = f'<span style="background:#FEF3C7;color:#92400E;padding:2px 7px;border-radius:4px;font-size:.63rem;font-weight:600;margin-right:6px">{_ns}</span>' if _ns else ""
+                _link_h = f' <a href="{_html.escape(_nl)}" target="_blank" rel="noopener noreferrer" style="font-size:.68rem;color:#D97706;text-decoration:none">Lire &rarr;</a>' if _nl else ""
+                st.markdown(f'<div style="border-left:3px solid var(--ambre);padding:9px 13px;margin-bottom:8px;background:white;border-radius:0 8px 8px 0"><div style="font-weight:600;font-size:.87rem;color:#0F172A;margin-bottom:3px">{_nt}{_link_h}</div><div style="font-size:.7rem;color:#6B7280">{_src_h}{_np}</div></div>', unsafe_allow_html=True)
+
+    # ── Signaux stratégiques ──────────────────────────────────────────────────
+    st.markdown('<div class="section-h">Signaux stratégiques</div>', unsafe_allow_html=True)
+    _wt = veille_keywords[0] if veille_keywords else _main_q
+    _wc1, _wc2 = st.columns(2)
+    with _wc1:
+        st.markdown("**Contexte Wikipedia**")
+        with st.spinner("Wikipedia…"):
+            _wiki = fetch_wiki(_wt, lang=veille_lang)
+        if _wiki.get("extract"):
+            _wurl = f'<div style="margin-top:8px"><a href="{_html.escape(_wiki.get("url",""))}" target="_blank" rel="noopener noreferrer" style="font-size:.72rem;color:#D97706;text-decoration:none">Lire sur Wikipedia &rarr;</a></div>' if _wiki.get("url") else ""
+            st.markdown(f'<div class="card"><div style="font-weight:700;font-size:.93rem;color:#0F172A;margin-bottom:6px">{_html.escape(str(_wiki.get("title",""))[:80])}</div><div style="font-size:.82rem;color:#4B5563;line-height:1.6">{_html.escape(str(_wiki.get("extract",""))[:650])}</div>{_wurl}</div>', unsafe_allow_html=True)
+        else:
+            st.info(f"Aucun article Wikipedia pour « {_html.escape(_wt[:50])} »")
+    with _wc2:
+        st.markdown("**Intelligence DuckDuckGo**")
+        with st.spinner("DuckDuckGo…"):
+            _ddg = fetch_ddg(_wt)
+        if _ddg.get("abstract"):
+            st.markdown(f'<div style="background:#FEF3C7;border:1px solid #FCD34D;border-radius:10px;padding:14px;font-size:.82rem;color:#1F2937;line-height:1.6">{_html.escape(str(_ddg["abstract"])[:550])}</div>', unsafe_allow_html=True)
+        if _ddg.get("related"):
+            st.markdown("**Sujets connexes**")
+            for _rt in _ddg["related"][:5]:
+                st.markdown(f'<div style="font-size:.8rem;color:#374151;padding:5px 0;border-bottom:1px solid #F3F4F6">{_html.escape(str(_rt)[:160])}</div>', unsafe_allow_html=True)
+
+    # ── SWOT live ─────────────────────────────────────────────────────────────
+    st.markdown('<div class="section-h">Détection automatique Opportunités / Menaces</div>', unsafe_allow_html=True)
+    st.caption("Analyse sémantique des actualités en temps réel")
+    _opp_w = ["croissance","opportunité","innovation","lancement","expansion","partenariat","financement","investissement","hausse","boom","tendance","accélération","record"]
+    _thr_w = ["crise","risque","baisse","pénurie","réglementation","sanction","fraude","concurrent","récession","inflation","perte","fermeture","licenciement","chute","amende"]
+    with st.spinner("Analyse des signaux marché…"):
+        _all_news = fetch_news(_main_q + " marché", lang=veille_lang, max_items=25)
+    _opps = [n for n in _all_news if any(s in n.get("title","").lower() for s in _opp_w)]
+    _thrs = [n for n in _all_news if any(s in n.get("title","").lower() for s in _thr_w)]
+    _oc, _tc = st.columns(2)
+    with _oc:
+        st.markdown(f'<div style="font-weight:700;font-size:.87rem;color:#065F46;margin-bottom:9px">Opportunités ({len(_opps)})</div>', unsafe_allow_html=True)
+        if _opps:
+            for _on in _opps[:5]:
+                st.markdown(f'<div style="background:#D1FAE5;border:1px solid #6EE7B7;border-radius:8px;padding:8px 12px;margin-bottom:6px;font-size:.8rem;line-height:1.4">{_html.escape(str(_on.get("title",""))[:130])}<div style="font-size:.68rem;color:#059669;margin-top:2px">{_on.get("pub","")}</div></div>', unsafe_allow_html=True)
+        else:
+            st.caption("Aucune opportunité détectée dans les actualités récentes")
+    with _tc:
+        st.markdown(f'<div style="font-weight:700;font-size:.87rem;color:#991B1B;margin-bottom:9px">Menaces ({len(_thrs)})</div>', unsafe_allow_html=True)
+        if _thrs:
+            for _tn in _thrs[:5]:
+                st.markdown(f'<div style="background:#FEE2E2;border:1px solid #FCA5A5;border-radius:8px;padding:8px 12px;margin-bottom:6px;font-size:.8rem;line-height:1.4">{_html.escape(str(_tn.get("title",""))[:130])}<div style="font-size:.68rem;color:#DC2626;margin-top:2px">{_tn.get("pub","")}</div></div>', unsafe_allow_html=True)
+        else:
+            st.caption("Aucune menace détectée dans les actualités récentes")
+
 # ─────────────────────────────────────────────────────────────────────────────
 # FOOTER
 # ─────────────────────────────────────────────────────────────────────────────
@@ -2510,6 +2924,6 @@ st.markdown("""
 <div style="text-align:center;color:#8A8A8A;font-size:.78rem;padding:12px 0">
   <b style="color:#0F172A">BiziApp v2.1</b> — Stratégie 360° · SWOT · QQOQCCP · PESTEL · SONCAS · AIDA · SPIN · Challenger · GEO 2025 · SEA IA · KPIs · OKR<br>
   <span style="color:#D97706">Budgets de 10€ à 1 000€/mois · 10 frameworks intégrés · Compatible tous navigateurs</span><br>
-  Toutes les analyses sont générées localement · Aucune donnée envoyée à un serveur externe
+  Analyses IA + données live · Jina.ai · Google News · Wikipedia · DuckDuckGo · PageSpeed
 </div>
 """, unsafe_allow_html=True)
