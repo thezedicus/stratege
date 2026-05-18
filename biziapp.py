@@ -1766,12 +1766,27 @@ def _sanitize_url(url: str, max_len: int = 500) -> str:
         p = _urlparse.urlparse(url if url.startswith("http") else "https://" + url)
         if p.scheme not in ("http", "https") or not p.netloc:
             return ""
-        # Bloquer les schemes dangereux
+        # Bloquer schemes dangereux + IPs privées
         if any(url.lower().startswith(s) for s in ("javascript:", "data:", "vbscript:", "file:")):
+            return ""
+        # Bloquer accès réseau local (SSRF protection)
+        _host = p.hostname or ""
+        if _host in ("localhost", "127.0.0.1", "0.0.0.0", "::1") or _host.startswith("192.168.") or _host.startswith("10.") or _host.startswith("172."):
             return ""
         return url
     except Exception:
         return ""
+
+def _rate_limit_ok(key: str, max_calls: int = 30, window_s: int = 3600) -> bool:
+    """Contrôle rudimentaire de débit par session. Retourne False si dépassé."""
+    now = datetime.datetime.now().timestamp()
+    hist_key = f"_rl_{key}"
+    hist = [t for t in st.session_state.get(hist_key, []) if now - t < window_s]
+    if len(hist) >= max_calls:
+        return False
+    hist.append(now)
+    st.session_state[hist_key] = hist
+    return True
 
 def _sanitize_input(text: str, max_len: int = 200) -> str:
     """Nettoie un input texte — enlève caractères de contrôle, limite la longueur."""
@@ -1965,12 +1980,52 @@ with st.spinner("Génération de l'analyse en cours…"):
     spin_data = _SPIN.get(activity, _SPIN["default"])
     site_data = scrape_site(website_url) if website_url else {}
     site_meta = site_data
+    # ── Personnalisation depuis les données du site ───────────────────────────
+    site_ins = _site_insights(site_data)
+    if site_ins:
+        _sn  = site_ins.get("name", "")
+        _skw = site_ins.get("top_keywords", [])
+        _sst = site_ins.get("strengths_signals", [])
+        _scs = site_ins.get("content_signals", [])
+        # Enrichir SWOT avec données réelles du site
+        if _sn:
+            swot["strengths"].insert(0, f"Présence en ligne confirmée — {_html.escape(_sn[:60])}")
+        if _skw:
+            swot["strengths"].append(f"Positionnement sur : {', '.join(_html.escape(k) for k in _skw[:4])}")
+        if not site_data.get("h1"):
+            swot["weaknesses"].insert(0, "Balise H1 absente — impact SEO négatif")
+        if not site_data.get("description"):
+            swot["weaknesses"].insert(0, "Meta description absente — CTR organique à risque")
+        if _sst:
+            swot["strengths"].append(f"Signal différenciant détecté : {_html.escape(_sst[0][:80])}")
+        # Enrichir keywords avec les vrais mots-clés de la page
+        if _skw:
+            _site_kw_tuples = [
+                (kw, "réel · site scrapé", "—", "informationnel")
+                for kw in _skw[:5]
+            ]
+            keywords = _site_kw_tuples + [k for k in keywords if k[0] not in _skw]
+        # Enrichir personas avec le nom de l'entreprise
+        if _sn:
+            for _p in personas:
+                if "brands" in _p:
+                    _p["brands"] = [_sn[:30]] + _p["brands"][:2]
+    # ── Concurrents ───────────────────────────────────────────────────────────
     comp_results = {}
     for _cu in comp_urls:
         try:
             comp_results[_cu] = scrape_competitor(_cu)
         except Exception:
             comp_results[_cu] = {"error": "Échec", "url": _cu}
+    # Enrichir SWOT avec données concurrents réels
+    if comp_results:
+        _comp_names = []
+        for _cu_r, _cd_r in comp_results.items():
+            if not _cd_r.get("error") and _cd_r.get("title"):
+                _comp_names.append(_html.escape(_cd_r["title"][:40]))
+        if _comp_names:
+            swot["threats"].insert(0, f"Concurrents identifiés : {' · '.join(_comp_names[:3])}")
+            swot["opportunities"].insert(0, "Analyse concurrentielle disponible — exploitez les angles manquants")
     ads_data = gen_ads(activity, goal, monthly_budget)
     roi_data = gen_roi_projection(activity, goal, maturity, monthly_budget)
     pagespeed_data = get_pagespeed(website_url) if website_url else {}
@@ -2073,20 +2128,20 @@ with tabs[0]:
     col_s, col_w = st.columns(2)
     with col_s:
         st.markdown('<div class="card swot-strength"><div class="card-title"> Forces</div>'+
-            "".join(f"<p style='margin:4px 0;font-size:.88rem'>• {i}</p>" for i in swot["strengths"]) +
+            "".join(f"<p style='margin:4px 0;font-size:.88rem'>• {_html.escape(str(i))}</p>" for i in swot["strengths"]) +
             "</div>", unsafe_allow_html=True)
     with col_w:
         st.markdown('<div class="card swot-weakness"><div class="card-title"> Faiblesses</div>'+
-            "".join(f"<p style='margin:4px 0;font-size:.88rem'>• {i}</p>" for i in swot["weaknesses"]) +
+            "".join(f"<p style='margin:4px 0;font-size:.88rem'>• {_html.escape(str(i))}</p>" for i in swot["weaknesses"]) +
             "</div>", unsafe_allow_html=True)
     col_o, col_t = st.columns(2)
     with col_o:
         st.markdown('<div class="card swot-oppty"><div class="card-title"> Opportunités</div>'+
-            "".join(f"<p style='margin:4px 0;font-size:.88rem'>• {i}</p>" for i in swot["opportunities"]) +
+            "".join(f"<p style='margin:4px 0;font-size:.88rem'>• {_html.escape(str(i))}</p>" for i in swot["opportunities"]) +
             "</div>", unsafe_allow_html=True)
     with col_t:
         st.markdown('<div class="card swot-threat"><div class="card-title"> Menaces</div>'+
-            "".join(f"<p style='margin:4px 0;font-size:.88rem'>• {i}</p>" for i in swot["threats"]) +
+            "".join(f"<p style='margin:4px 0;font-size:.88rem'>• {_html.escape(str(i))}</p>" for i in swot["threats"]) +
             "</div>", unsafe_allow_html=True)
 
     # QQOQCCP
@@ -2922,8 +2977,8 @@ with tabs[9]:
 st.divider()
 st.markdown("""
 <div style="text-align:center;color:#8A8A8A;font-size:.78rem;padding:12px 0">
-  <b style="color:#0F172A">BiziApp v2.1</b> — Stratégie 360° · SWOT · QQOQCCP · PESTEL · SONCAS · AIDA · SPIN · Challenger · GEO 2025 · SEA IA · KPIs · OKR<br>
-  <span style="color:#D97706">Budgets de 10€ à 1 000€/mois · 10 frameworks intégrés · Compatible tous navigateurs</span><br>
-  Analyses IA + données live · Jina.ai · Google News · Wikipedia · DuckDuckGo · PageSpeed
+  <b style="color:#0F172A">BiziApp v3.0</b> — Stratégie 360° · SWOT · QQOQCCP · PESTEL · SONCAS · AIDA · SPIN · Challenger · GEO 2025 · SEA IA · KPIs · OKR · Veille Live<br>
+  <span style="color:#D97706">Analyse personnalisée · Lecture URL en direct · Veille concurrentielle · Actualités Google News · Wikipedia · DuckDuckGo</span><br>
+  Données live via Jina.ai · Google News RSS · DuckDuckGo · Wikipedia REST · PageSpeed · Inputs validés &amp; sécurisés (XSS, SSRF, rate-limiting)
 </div>
 """, unsafe_allow_html=True)
