@@ -53,13 +53,13 @@ html,body,[class*="css"]{font-family:'Inter',-apple-system,BlinkMacSystemFont,'S
 /* ── Tabs ── */
 [data-testid="stTabs"] [data-baseweb="tab-list"]{gap:0;border-bottom:2px solid var(--craie);background:transparent}
 [data-testid="stTabs"] [data-baseweb="tab"]{background:transparent;border:none;border-bottom:2px solid transparent;margin-bottom:-2px;padding:10px 16px;font-size:.76rem;font-weight:600;color:var(--muted);letter-spacing:.05em;text-transform:uppercase;transition:color .2s,border-color .2s}
-[data-testid="stTabs"] [aria-selected="true"]{color:var(--graphite)!important;border-bottom-color:var(--ambre)!important}
+[data-testid="stTabs"] [aria-selected="true"]{color:var(--graphite)!important;border-bottom-color:var(--teal)!important}
 [data-testid="stTabs"] [data-baseweb="tab"]:hover{color:var(--graphite)}
 
 /* ── Header typographique ── */
 .bizi-header{display:flex;align-items:center;gap:16px;padding:0 0 18px 0;border-bottom:1px solid var(--craie);margin-bottom:22px}
 .logo-bizi{font-size:1.8rem;font-weight:800;color:var(--graphite);letter-spacing:-1.5px;line-height:1}
-.logo-app{font-size:1.8rem;font-weight:800;color:var(--ambre);letter-spacing:-1.5px;line-height:1}
+.logo-app{font-size:1.8rem;font-weight:800;color:var(--teal);letter-spacing:-1.5px;line-height:1}
 .header-sub{font-size:.68rem;color:var(--muted);letter-spacing:.07em;text-transform:uppercase;font-weight:500;margin-top:3px}
 
 /* ── Cards ── */
@@ -68,23 +68,23 @@ html,body,[class*="css"]{font-family:'Inter',-apple-system,BlinkMacSystemFont,'S
 .card-title{font-weight:700;font-size:.95rem;margin-bottom:10px;color:var(--encre)}
 
 /* ── Feature cards (landing) ── */
-.feature-card{background:white;border-radius:12px;padding:18px;border:1px solid var(--border);border-top:3px solid var(--ambre);box-shadow:0 1px 4px rgba(0,0,0,.05);transition:box-shadow .2s,transform .2s}
+.feature-card{background:white;border-radius:12px;padding:18px;border:1px solid var(--border);border-top:3px solid var(--teal);box-shadow:0 1px 4px rgba(0,0,0,.05);transition:box-shadow .2s,transform .2s}
 .feature-card:hover{box-shadow:0 6px 20px rgba(0,0,0,.09);transform:translateY(-2px)}
 .feature-title{font-weight:700;font-size:.88rem;color:var(--graphite);margin-bottom:5px}
 .feature-desc{font-size:.78rem;color:var(--muted);line-height:1.5}
 
 /* ── SWOT ── */
-.swot-strength{border-left:4px solid #44C1BA;background:#F7FBF4}
-.swot-weakness{border-left:4px solid var(--ambre);background:var(--ambre-pale)}
+.swot-strength{border-left:4px solid #44C1BA;background:#C6ECD9}
+.swot-weakness{border-left:4px solid var(--teal);background:var(--teal-pale)}
 .swot-oppty{border-left:4px solid #393DAC;background:#E4E9F6}
 .swot-threat{border-left:4px solid #B83D4B;background:#F7FBF4}
 
 /* ── Badges ── */
 .badge{display:inline-block;padding:2px 9px;border-radius:999px;font-size:.7rem;font-weight:600;white-space:nowrap}
 .badge-blue{background:#E4E9F6;color:#393DAC}.badge-green{background:#DCFCE7;color:#267371}
-.badge-red{background:#F7FBF4;color:#B83D4B}.badge-amber{background:var(--ambre-pale);color:#267371}
+.badge-red{background:#F7FBF4;color:#B83D4B}.badge-teal{background:var(--teal-pale);color:#267371}
 .badge-purple{background:#E4E9F6;color:#267371}.badge-gray{background:#E4E9F6;color:#267371}
-.badge-graphite{background:var(--graphite);color:#F7FBF4}.badge-sauge{background:var(--sauge-pale);color:var(--sauge)}
+.badge-graphite{background:var(--graphite);color:#F7FBF4}.badge-jade{background:var(--jade-pale);color:var(--jade)}
 
 /* ── Impact dots ── */
 .dot-pos{display:inline-block;width:8px;height:8px;border-radius:50%;background:#44C1BA;margin-right:6px;vertical-align:middle}
@@ -92,7 +92,7 @@ html,body,[class*="css"]{font-family:'Inter',-apple-system,BlinkMacSystemFont,'S
 .dot-neu{display:inline-block;width:8px;height:8px;border-radius:50%;background:#44C1BA;margin-right:6px;vertical-align:middle}
 
 /* ── Score ring ── */
-.score-ring{width:110px;height:110px;border-radius:50%;background:conic-gradient(var(--ambre) var(--pct),#C6ECD9 0);display:flex;align-items:center;justify-content:center;font-size:1.5rem;font-weight:800;color:var(--encre);box-shadow:inset 0 0 0 18px white;margin:0 auto 8px}
+.score-ring{width:110px;height:110px;border-radius:50%;background:conic-gradient(var(--teal) var(--pct),#C6ECD9 0);display:flex;align-items:center;justify-content:center;font-size:1.5rem;font-weight:800;color:var(--encre);box-shadow:inset 0 0 0 18px white;margin:0 auto 8px}
 
 /* ── Metric boxes ── */
 .metric-box{text-align:center;padding:16px 12px;border-radius:12px;background:white;border:1px solid var(--border);box-shadow:0 1px 4px rgba(0,0,0,.05)}
@@ -111,17 +111,17 @@ html,body,[class*="css"]{font-family:'Inter',-apple-system,BlinkMacSystemFont,'S
 
 /* ── AIDA ── */
 .aida-attention{background:#F7FBF4;border-left:4px solid #B83D4B}
-.aida-interest{background:#F7FBF4;border-left:4px solid var(--ambre)}
+.aida-interest{background:#F7FBF4;border-left:4px solid #44C1BA}
 .aida-desire{background:#E4E9F6;border-left:4px solid #393DAC}
 .aida-action{background:#F7FBF4;border-left:4px solid #44C1BA}
 
 /* ── Section headers ── */
 .section-h{font-size:.95rem;font-weight:700;color:var(--graphite);display:flex;align-items:center;gap:10px;margin:22px 0 14px}
-.section-h::before{content:"";display:inline-block;width:4px;height:16px;background:var(--ambre);border-radius:2px;flex-shrink:0}
+.section-h::before{content:"";display:inline-block;width:4px;height:16px;background:var(--teal);border-radius:2px;flex-shrink:0}
 
 /* ── Progress ── */
 .progress-bar{background:#E4E9F6;border-radius:999px;height:6px;overflow:hidden;margin:5px 0}
-.progress-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--ambre) 0%,#44C1BA 100%);transition:width .5s ease}
+.progress-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--teal) 0%,#267371 100%);transition:width .5s ease}
 
 /* ── Sidebar wizard steps ── */
 .step-label{font-size:.64rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:14px 0 5px;display:flex;align-items:center;gap:6px}
@@ -131,8 +131,8 @@ html,body,[class*="css"]{font-family:'Inter',-apple-system,BlinkMacSystemFont,'S
 .soncas-securite{background:#E4E9F6;border-left:4px solid #393DAC;border-radius:10px;padding:14px 16px;margin-bottom:10px}
 .soncas-opportunite{background:#F7FBF4;border-left:4px solid #44C1BA;border-radius:10px;padding:14px 16px;margin-bottom:10px}
 .soncas-nouveaute{background:#E4E9F6;border-left:4px solid #393DAC;border-radius:10px;padding:14px 16px;margin-bottom:10px}
-.soncas-confort{background:var(--ambre-pale);border-left:4px solid var(--ambre);border-radius:10px;padding:14px 16px;margin-bottom:10px}
-.soncas-argent{background:var(--sauge-pale);border-left:4px solid var(--sauge);border-radius:10px;padding:14px 16px;margin-bottom:10px}
+.soncas-confort{background:var(--teal-pale);border-left:4px solid var(--teal);border-radius:10px;padding:14px 16px;margin-bottom:10px}
+.soncas-argent{background:var(--jade-pale);border-left:4px solid var(--jade);border-radius:10px;padding:14px 16px;margin-bottom:10px}
 .soncas-sympathie{background:#C6ECD9;border-left:4px solid #44C1BA;border-radius:10px;padding:14px 16px;margin-bottom:10px}
 
 /* ── URL analysis panel ── */
@@ -143,7 +143,7 @@ html,body,[class*="css"]{font-family:'Inter',-apple-system,BlinkMacSystemFont,'S
 
 /* ── Context bar ── */
 .ctx-pill{background:var(--graphite);color:white;border-radius:6px;padding:4px 12px;font-size:.74rem;font-weight:600;letter-spacing:.03em}
-.ctx-pill.ambre{background:var(--ambre)}.ctx-pill.sauge{background:var(--sauge)}.ctx-pill.blue{background:#393DAC}
+.ctx-pill.ambre{background:var(--teal)}.ctx-pill.sauge{background:var(--jade)}.ctx-pill.blue{background:#393DAC}
 
 /* ── Scrollbar ── */
 ::-webkit-scrollbar{width:5px;height:5px}
@@ -165,7 +165,7 @@ html,body,[class*="css"]{font-family:'Inter',-apple-system,BlinkMacSystemFont,'S
 /* ── RSE / RFM / Prix / Proposition de valeur ── */
 .rse-card{background:#F7FBF4;border:1px solid #C6ECD9;border-radius:10px;padding:14px 18px;margin-bottom:10px}
 .rfm-card{background:white;border:1px solid var(--craie);border-radius:12px;padding:16px;text-align:center;min-height:140px}
-.prix-badge{display:inline-block;background:var(--ambre-pale);color:#267371;border-radius:4px;padding:2px 8px;font-size:.65rem;font-weight:700;margin-bottom:6px}
+.prix-badge{display:inline-block;background:var(--teal-pale);color:#267371;border-radius:4px;padding:2px 8px;font-size:.65rem;font-weight:700;margin-bottom:6px}
 .pv-card{border-radius:12px;padding:18px 20px;margin-bottom:10px;color:white}
 
 /* ── Transitions webkit ── */
@@ -2493,8 +2493,8 @@ with st.spinner("Génération de l'analyse en cours…"):
 # Context badges
 c1, c2, c3, c4 = st.columns(4)
 c1.markdown(f'<span class="badge badge-graphite">{LABELS.get(activity, activity)}</span>', unsafe_allow_html=True)
-c2.markdown(f'<span class="badge badge-sauge">{LABELS.get(goal, goal)}</span>', unsafe_allow_html=True)
-c3.markdown(f'<span class="badge badge-amber">{LABELS.get(maturity, maturity)}</span>', unsafe_allow_html=True)
+c2.markdown(f'<span class="badge badge-jade">{LABELS.get(goal, goal)}</span>', unsafe_allow_html=True)
+c3.markdown(f'<span class="badge badge-teal">{LABELS.get(maturity, maturity)}</span>', unsafe_allow_html=True)
 c4.markdown(f'<span class="badge badge-blue">{monthly_budget:,} €/mois</span>', unsafe_allow_html=True)
 
 if site_data.get("title"):
@@ -2631,7 +2631,7 @@ with tabs[0]:
     # MICRO-ENV
     st.markdown('<div class="section-h">Micro-environnement — Forces concurrentielles</div>', unsafe_allow_html=True)
     st.caption("Analyse des acteurs en interaction directe (modèle inspiré des 5 forces de Porter) : pouvoir de négociation et leviers d'action")
-    pouvoir_color = {"élevé":"badge-red","très élevé":"badge-red","moyen":"badge-amber","faible":"badge-sauge"}
+    pouvoir_color = {"élevé":"badge-red","très élevé":"badge-red","moyen":"badge-teal","faible":"badge-jade"}
     cols = st.columns(2)
     for i, (acteur, (pouvoir, desc, levier)) in enumerate(micro_env.items()):
         with cols[i % 2]:
@@ -2695,7 +2695,7 @@ with tabs[1]:
         initials = "".join([w[0] for w in p["name"].split()][:2]).upper()
         colors = ["#0B2221","#44C1BA","#267371","#393DAC","#B83D4B"]
         color = colors[hash(p["name"]) % len(colors)]
-        fw_badge = f'<span class="badge badge-amber">{p.get("framework","")}</span>'if p.get("framework") else ""
+        fw_badge = f'<span class="badge badge-teal">{p.get("framework","")}</span>'if p.get("framework") else ""
         with st.expander(f"**{p['name']}** · {p['age']} ans · {p['job']} · {p['location']}", expanded=(i==0)):
             c1, c2, c3 = st.columns([1, 2, 2])
             with c1:
@@ -2717,7 +2717,7 @@ with tabs[1]:
                 for pa in p["pains"]: st.markdown(f"{pa}")
                 if p.get("motivations"):
                     st.markdown("**Motivations**")
-                    st.markdown(" ".join(f'<span class="badge badge-sauge">{m}</span>'for m in p["motivations"]), unsafe_allow_html=True)
+                    st.markdown(" ".join(f'<span class="badge badge-jade">{m}</span>'for m in p["motivations"]), unsafe_allow_html=True)
             with c3:
                 st.markdown("**Canaux favoris**")
                 st.markdown(" ".join(f'<span class="badge badge-blue">{c}</span>'for c in p["channels"]), unsafe_allow_html=True)
@@ -2914,7 +2914,7 @@ with tabs[3]:
     st.markdown('<div class="section-h">Prix psychologiques — 7 techniques</div>', unsafe_allow_html=True)
     st.caption("Techniques de tarification issues des sciences comportementales — augmentez la valeur perçue sans changer votre produit")
     _prix_list = gen_prix_psychologiques(monthly_budget, activity)
-    _impact_badge = {"Très élevé": "badge-red", "Élevé": "badge-amber", "Moyen": "badge-sauge"}
+    _impact_badge = {"Très élevé": "badge-red", "Élevé": "badge-teal", "Moyen": "badge-jade"}
     for _ptec in _prix_list:
         with st.expander(f"**{_ptec['nom']}** — Impact : {_ptec['impact']}"):
             _c1p, _c2p = st.columns([2, 1])
@@ -2941,7 +2941,7 @@ with tabs[3]:
 # ══════════════════════════════════════════════════════════════════════════════
 with tabs[4]:
     st.markdown('<div class="section-h">Plateformes recommandées</div>', unsafe_allow_html=True)
-    prio_badge = {"haute":"badge-red","moyenne":"badge-amber","faible":"badge-sauge"}
+    prio_badge = {"haute":"badge-red","moyenne":"badge-teal","faible":"badge-jade"}
     pf_cols = st.columns(min(len(platforms), 3))
     for i, (name, prio, freq, content_types) in enumerate(platforms):
         with pf_cols[i % 3]:
@@ -3021,8 +3021,8 @@ with tabs[5]:
           <td><b>{row['platform']}</b></td>
           <td style='font-weight:700;color:#44C1BA'>{row['budget']:,.0f} €</td>
           <td style='font-size:.82rem'>{row['reach']}</td>
-          <td><span class='badge badge-sauge'>{row['ctr']}</span></td>
-          <td><span class='badge badge-amber'>{row['roi']}</span></td>
+          <td><span class='badge badge-jade'>{row['ctr']}</span></td>
+          <td><span class='badge badge-teal'>{row['roi']}</span></td>
         </tr>"""
     mp_html += '</tbody></table>'
     st.markdown(f'<div style="overflow-x:auto">'+ mp_html +'</div>', unsafe_allow_html=True)
@@ -3121,7 +3121,7 @@ with tabs[6]:
 
     # Keywords
     st.markdown('<div class="section-h">Mots-clés prioritaires</div>', unsafe_allow_html=True)
-    diff_badge = {"Facile":"badge-sauge","Moyen":"badge-amber","Élevé":"badge-red"}
+    diff_badge = {"Facile":"badge-jade","Moyen":"badge-teal","Élevé":"badge-red"}
     intent_badge = {"Transactionnel":"badge-blue","Commercial":"badge-purple","Informationnel":"badge-gray"}
     kw_html = '<table class="bizi-table"><thead><tr><th>Mot-clé</th><th>Volume</th><th>Difficulté</th><th>Intention</th></tr></thead><tbody>'
     for kw, vol, diff, intent in keywords:
@@ -3239,7 +3239,7 @@ with tabs[8]:
             <span style="font-size:1.4rem;font-weight:800;color:#0B2221">{score}/100</span>
           </div>
           <p style='font-size:.82rem;color:#339999;margin-top:8px'>Score stratégique global</p>
-          <span class="badge {'badge-sauge'if score>=70 else 'badge-amber'if score>=50 else 'badge-red'}">
+          <span class="badge {'badge-jade'if score>=70 else 'badge-teal'if score>=50 else 'badge-red'}">
             {'Bon'if score>=70 else 'À améliorer'if score>=50 else 'Attention'}
           </span>
         </div>
@@ -3387,7 +3387,7 @@ with tabs[9]:
             _lk4.metric("Mots-clés",len(_ld.get("keywords",[])))
             if _ld.get("keywords"):
                 st.markdown('<div class="section-h">Mots-clés détectés</div>', unsafe_allow_html=True)
-                _kwh = "".join(f'<span class="url-kw" style="background:var(--ambre-pale);color:#267371;margin:2px;display:inline-block;border-radius:4px;padding:2px 8px;font-size:.68rem;font-weight:600">{_html.escape(str(k)[:40])}</span>' for k in _ld["keywords"])
+                _kwh = "".join(f'<span class="url-kw" style="background:var(--teal-pale);color:#267371;margin:2px;display:inline-block;border-radius:4px;padding:2px 8px;font-size:.68rem;font-weight:600">{_html.escape(str(k)[:40])}</span>' for k in _ld["keywords"])
                 st.markdown(f'<div style="margin-bottom:12px">{_kwh}</div>', unsafe_allow_html=True)
             _lca, _lcb = st.columns(2)
             with _lca:
@@ -3398,7 +3398,7 @@ with tabs[9]:
                 if _ld.get("h2"):
                     st.markdown('<div class="section-h">Structure H2</div>', unsafe_allow_html=True)
                     for _h in _ld["h2"][:7]:
-                        st.markdown(f'<div style="padding:5px 12px;border-left:2px solid var(--ambre);margin-bottom:5px;font-size:.83rem;color:#267371">{_html.escape(str(_h)[:110])}</div>', unsafe_allow_html=True)
+                        st.markdown(f'<div style="padding:5px 12px;border-left:2px solid var(--teal);margin-bottom:5px;font-size:.83rem;color:#267371">{_html.escape(str(_h)[:110])}</div>', unsafe_allow_html=True)
             with _lcb:
                 if _ld.get("paragraphs"):
                     st.markdown('<div class="section-h">Contenu principal</div>', unsafe_allow_html=True)
@@ -3456,7 +3456,7 @@ with tabs[9]:
                         st.markdown(f"- {_html.escape(str(_h2)[:130])}")
                 if _cd2.get("main_text"):
                     st.markdown("**Extrait du contenu**")
-                    st.markdown(f'<div style="font-size:.82rem;color:#339999;line-height:1.65;background:#F9FAFB;padding:13px;border-radius:8px;border-left:3px solid var(--ambre)">{_html.escape(str(_cd2["main_text"])[:900])}</div>', unsafe_allow_html=True)
+                    st.markdown(f'<div style="font-size:.82rem;color:#339999;line-height:1.65;background:#F9FAFB;padding:13px;border-radius:8px;border-left:3px solid var(--teal)">{_html.escape(str(_cd2["main_text"])[:900])}</div>', unsafe_allow_html=True)
 
     # ── Actualités marché ─────────────────────────────────────────────────────
     st.markdown('<div class="section-h">Flux actualités en temps réel</div>', unsafe_allow_html=True)
@@ -3471,7 +3471,7 @@ with tabs[9]:
                 _nl = _ni.get("link","")
                 _src_h = f'<span style="background:#C6ECD9;color:#267371;padding:2px 7px;border-radius:4px;font-size:.63rem;font-weight:600;margin-right:6px">{_ns}</span>' if _ns else ""
                 _link_h = f' <a href="{_html.escape(_nl)}" target="_blank" rel="noopener noreferrer" style="font-size:.68rem;color:#44C1BA;text-decoration:none">Lire &rarr;</a>' if _nl else ""
-                st.markdown(f'<div style="border-left:3px solid var(--ambre);padding:9px 13px;margin-bottom:8px;background:white;border-radius:0 8px 8px 0"><div style="font-weight:600;font-size:.87rem;color:#0B2221;margin-bottom:3px">{_nt}{_link_h}</div><div style="font-size:.7rem;color:#339999">{_src_h}{_np}</div></div>', unsafe_allow_html=True)
+                st.markdown(f'<div style="border-left:3px solid var(--teal);padding:9px 13px;margin-bottom:8px;background:white;border-radius:0 8px 8px 0"><div style="font-weight:600;font-size:.87rem;color:#0B2221;margin-bottom:3px">{_nt}{_link_h}</div><div style="font-size:.7rem;color:#339999">{_src_h}{_np}</div></div>', unsafe_allow_html=True)
 
     # ── Signaux stratégiques ──────────────────────────────────────────────────
     st.markdown('<div class="section-h">Signaux stratégiques</div>', unsafe_allow_html=True)
@@ -3580,7 +3580,7 @@ with tabs[10]:
     for _nl, _nd in _normes:
         st.markdown(f"""
         <div style="display:flex;gap:12px;padding:8px 0;border-bottom:1px solid #F2ECD9;align-items:flex-start">
-          <span class="badge badge-sauge" style="flex-shrink:0">{_html.escape(_nl)}</span>
+          <span class="badge badge-jade" style="flex-shrink:0">{_html.escape(_nl)}</span>
           <span style="font-size:.84rem;color:#267371">{_html.escape(_nd)}</span>
         </div>
         """, unsafe_allow_html=True)
