@@ -1,4 +1,3 @@
-import httpx
 import copy
 from app.models.schemas import AnalysisInput
 
@@ -338,17 +337,32 @@ EXTRA_PERSONAS = [
 ]
 
 
-async def _fetch_random_users(count: int) -> list:
-    try:
-        async with httpx.AsyncClient(timeout=8) as client:
-            resp = await client.get(
-                f"https://randomuser.me/api/?results={count}&nat=fr&inc=name,picture,location"
-            )
-            if resp.status_code == 200:
-                return resp.json().get("results", [])
-    except Exception:
-        pass
-    return []
+def _fetch_random_users(count: int) -> list:
+    """
+    Génère des données utilisateur synthétiques sans API externe.
+    Utilise DiceBear Avatars (open-source, gratuit, sans clé) pour les photos.
+    """
+    FIRST_NAMES = ["Alex","Sophie","Marc","Julie","Thomas","Emma","Lucas","Léa",
+                   "Nicolas","Chloé","Antoine","Manon","Romain","Inès","Baptiste","Camille"]
+    LAST_NAMES  = ["Martin","Bernard","Dubois","Thomas","Robert","Richard","Petit","Durand",
+                   "Leroy","Moreau","Simon","Laurent","Lefebvre","Michel","Garcia","David"]
+    CITIES      = ["Paris","Lyon","Marseille","Bordeaux","Nantes","Toulouse","Strasbourg","Nice"]
+    import random, hashlib
+    users = []
+    for i in range(count):
+        first = FIRST_NAMES[i % len(FIRST_NAMES)]
+        last  = LAST_NAMES[(i * 3) % len(LAST_NAMES)]
+        city  = CITIES[i % len(CITIES)]
+        seed  = hashlib.md5(f"{first}{last}{i}".encode()).hexdigest()[:10]
+        # DiceBear open-source avatar API — no key, no rate limit, MIT license
+        avatar_style = ["avataaars", "personas", "micah", "adventurer"][i % 4]
+        photo_url = f"https://api.dicebear.com/7.x/{avatar_style}/svg?seed={seed}&backgroundColor=b6e3f4,c0aede,d1d4f9"
+        users.append({
+            "name":     {"first": first, "last": last},
+            "location": {"city": city},
+            "picture":  {"large": photo_url},
+        })
+    return users
 
 
 async def generate_personas(data: AnalysisInput) -> list:
@@ -360,7 +374,7 @@ async def generate_personas(data: AnalysisInput) -> list:
     all_personas = base_personas + extra_personas
     all_personas = all_personas[:5]
 
-    random_users = await _fetch_random_users(len(all_personas))
+    random_users = _fetch_random_users(len(all_personas))
 
     for i, persona in enumerate(all_personas):
         persona["id"] = f"persona-{i + 1}"
