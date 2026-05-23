@@ -171,6 +171,81 @@ html,body,[class*="css"]{font-family:'Inter',system-ui,-apple-system,BlinkMacSys
 /* ── Transitions webkit ── */
 .kpi-tile,.feature-card{-webkit-transition:box-shadow .18s ease,transform .18s ease}
 .progress-fill{-webkit-transition:width .5s ease}
+
+/* ═══════════════════════════════════════════════════════════════════
+   OVERRIDE COMPLET COMPOSANTS STREAMLIT — Palette teal/jade
+   Cible tous les composants natifs qui utilisent primaryColor
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ── Slider ── */
+[data-testid="stSlider"] [data-baseweb="slider"] [role="slider"]{background:#44C1BA!important;border-color:#44C1BA!important}
+[data-testid="stSlider"] [data-baseweb="slider"] div[class*="Track"]{background:#C6ECD9!important}
+[data-testid="stSlider"] [data-baseweb="slider"] div[class*="InnerTrack"]{background:#44C1BA!important}
+[data-testid="stSlider"] span{color:#0B2221!important}
+[data-testid="stSlider"] [data-baseweb="slider"] div[role="slider"]::before{background:#44C1BA!important}
+
+/* ── Bouton primary ── */
+[data-testid="stButton"] button[kind="primary"],[data-testid="stButton"] button[data-testid="baseButton-primary"]{background:#44C1BA!important;border-color:#44C1BA!important;color:white!important}
+[data-testid="stButton"] button[kind="primary"]:hover{background:#267371!important;border-color:#267371!important}
+button[kind="primary"]{background:#44C1BA!important;border-color:#44C1BA!important;color:white!important}
+.stButton>button[type="submit"]{background:#44C1BA!important;border-color:#44C1BA!important}
+
+/* ── Selectbox / Multiselect ── */
+[data-testid="stSelectbox"] [data-baseweb="select"] [data-baseweb="tag"]{background:#44C1BA!important}
+[data-testid="stSelectbox"] [aria-selected="true"]{background:#C6ECD9!important;color:#0B2221!important}
+[data-baseweb="option"]:hover{background:#C6ECD9!important}
+[data-baseweb="option"][aria-selected="true"]{background:#44C1BA!important;color:white!important}
+
+/* ── Checkbox ── */
+[data-testid="stCheckbox"] [data-baseweb="checkbox"] [data-checked="true"] div{background:#44C1BA!important;border-color:#44C1BA!important}
+[data-baseweb="checkbox"] [data-checked="true"]{background:#44C1BA!important;border-color:#44C1BA!important}
+
+/* ── Radio ── */
+[data-testid="stRadio"] [data-baseweb="radio"] [data-checked="true"] div{background:#44C1BA!important;border-color:#44C1BA!important}
+
+/* ── Progress bar / spinner ── */
+[data-testid="stProgress"] [data-baseweb="progress-bar"] div{background:#44C1BA!important}
+.stProgress > div > div > div > div{background:#44C1BA!important}
+
+/* ── Metric delta positive ── */
+[data-testid="stMetric"] [data-testid="stMetricDelta"] svg{color:#44C1BA!important}
+[data-testid="stMetricDelta"][data-direction="up"]{color:#267371!important}
+
+/* ── Text input focus ── */
+[data-baseweb="input"]:focus-within,[data-baseweb="textarea"]:focus-within{border-color:#44C1BA!important;box-shadow:0 0 0 2px rgba(68,193,186,0.2)!important}
+input:focus,textarea:focus{border-color:#44C1BA!important;outline-color:#44C1BA!important}
+
+/* ── Links ── */
+a{color:#267371!important}
+a:hover{color:#44C1BA!important}
+
+/* ── st.info / st.success couleur accent ── */
+[data-testid="stAlert"][data-baseweb="notification"]{border-left-color:#44C1BA!important}
+
+/* ── Number input ── */
+[data-testid="stNumberInput"] button{color:#44C1BA!important}
+[data-testid="stNumberInput"] [data-baseweb="input"]:focus-within{border-color:#44C1BA!important}
+
+/* ── Expander ── */
+[data-testid="stExpander"] summary:hover{color:#44C1BA!important}
+[data-testid="stExpander"] [data-baseweb="accordion"] button{color:#0B2221!important}
+
+/* ── Sidebar bouton lancer analyse ── */
+[data-testid="stSidebar"] button[kind="primary"]{background:linear-gradient(135deg,#44C1BA,#267371)!important;border:none!important;font-weight:700!important;letter-spacing:.03em!important}
+[data-testid="stSidebar"] button[kind="primary"]:hover{background:linear-gradient(135deg,#267371,#0B2221)!important}
+
+/* ── Texte coloré en orange → forcer teal ── */
+[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] b{color:#44C1BA!important}
+
+/* ── Caption / small text ── */
+[data-testid="stCaptionContainer"]{color:#339999!important}
+
+/* ── Spinner ── */
+[data-testid="stSpinner"] svg circle{stroke:#44C1BA!important}
+
+/* ── Divider ── */
+hr{border-color:#C6ECD9!important}
+
 </style>
 """, unsafe_allow_html=True)
 
