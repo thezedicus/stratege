@@ -329,6 +329,83 @@ hr{border-color:#C6ECD9!important}
 </style>
 """, unsafe_allow_html=True)
 
+# ── JS animations on load ────────────────────────────────────────────────────
+st.markdown('''
+<script>
+// ── Intersection Observer — fadeIn au scroll ──────────────────
+(function() {
+  var els = document.querySelectorAll('.ben-card,.prob-row,.stat-box,.proof-card,.tgt-pill');
+  if (!('IntersectionObserver' in window)) return;
+  var obs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  els.forEach(function(el) {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(22px)';
+    el.style.transition = 'opacity .55s ease, transform .55s cubic-bezier(.22,1,.36,1)';
+    obs.observe(el);
+  });
+})();
+
+// ── Compteurs animés sur .stat-num ───────────────────────────
+(function() {
+  function animCount(el, target, suffix, duration) {
+    var start = 0, step = target / (duration / 16);
+    var timer = setInterval(function() {
+      start = Math.min(start + step, target);
+      el.textContent = Math.round(start) + suffix;
+      if (start >= target) clearInterval(timer);
+    }, 16);
+  }
+  document.querySelectorAll('.stat-num').forEach(function(el) {
+    var txt = el.textContent.trim();
+    var num = parseFloat(txt.replace(/[^0-9.]/g, ''));
+    var suffix = txt.replace(/[0-9.]/g, '').trim();
+    if (!isNaN(num) && num > 0 && num < 10000) {
+      el.textContent = '0' + suffix;
+      setTimeout(function() { animCount(el, num, suffix, 900); }, 300);
+    }
+  });
+})();
+
+// ── Gauge bars — déclencher l'animation ───────────────────────
+(function() {
+  document.querySelectorAll('.gauge-fill').forEach(function(el) {
+    var w = getComputedStyle(el).getPropertyValue('--bw') || '70%';
+    el.style.width = '0';
+    setTimeout(function() {
+      el.style.transition = 'width 1.4s cubic-bezier(.4,0,.2,1)';
+      el.style.width = w;
+    }, 400);
+  });
+})();
+</script>
+''', unsafe_allow_html=True)
+
+st.markdown('''
+<style>
+/* ── Améliorations UI globales post-landing ── */
+.card{transition:box-shadow .22s ease,transform .22s cubic-bezier(.34,1.56,.64,1)!important}
+.card:hover{transform:translateY(-3px)!important;box-shadow:0 10px 28px rgba(68,193,186,.14)!important}
+[data-testid="stMetricValue"]{color:#0B2221!important;font-weight:800!important}
+[data-testid="stMetricLabel"]{color:#339999!important;font-size:.78rem!important}
+/* Onglets actifs soulignés en teal */
+[data-testid="stTabs"] [aria-selected="true"]{
+  border-bottom:3px solid #44C1BA!important;
+  color:#0B2221!important;font-weight:700!important
+}
+/* Expanders */
+[data-testid="stExpander"]{border:1.5px solid #C6ECD9!important;border-radius:12px!important;margin-bottom:8px!important}
+[data-testid="stExpander"]:hover{border-color:#44C1BA!important;transition:border-color .2s}
+</style>
+''', unsafe_allow_html=True)
+
 # ─────────────────────────────────────────────────────────────────────────────
 # AUTHENTIFICATION OPTIONNELLE (définie tôt pour bloquer avant tout rendu)
 # ─────────────────────────────────────────────────────────────────────────────
