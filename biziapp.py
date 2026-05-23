@@ -4713,7 +4713,7 @@ with tabs[11]:
     st.divider()
 
     # ── Matrice Ansoff ────────────────────────────────────────────────────────
-    st.markdown('<div class="section-h">Matrice d'Ansoff — Stratégies de croissance</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-h">Matrice Ansoff &mdash; Strat&eacute;gies de croissance</div>', unsafe_allow_html=True)
     _ansoff = ansoff_data if ansoff_data else {}
     _reco = _ansoff.get("recommendation", "penetration")
     _ansoff_labels = {
