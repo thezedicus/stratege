@@ -2562,45 +2562,259 @@ st.markdown('''
 </div>
 ''', unsafe_allow_html=True)
 
-# ── SOCIAL PROOF BANNER ───────────────────────────────────────────────────────
-st.markdown("""
-<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px">
-  <div class="feature-card">
-    <div class="feature-title">Diagnostic complet</div>
-    <div class="feature-desc">SWOT · QQOQCCP · PESTEL · Forces concurrentielles</div>
+# ── LANDING PAGE (pre-run) ─────────────────────────────────────────────────────
+if not st.session_state.get("_run", False):
+
+    # ── Live ticker INSEE/data.gouv ────────────────────────────────────────────
+    @st.cache_data(ttl=7200)
+    def _get_ticker_data():
+        try:
+            import urllib.request as _ur, json as _j
+            url = "https://recherche-entreprises.api.gouv.fr/search?q=&activite_principale=62&per_page=5"
+            req = _ur.Request(url, headers={"User-Agent": "BiziApp/3.0"})
+            with _ur.urlopen(req, timeout=4) as r:
+                data = _j.loads(r.read())
+            return [e.get("nom_complet", "")[:28] for e in data.get("results", [])[:5] if e.get("nom_complet")]
+        except Exception:
+            return []
+
+    _ticker_base = [
+        "📊 +847 000 entreprises créées en France en 2024",
+        "💼 73% des TPE manquent d'une stratégie commerciale structurée",
+        "⏱ Un cabinet conseil facture 5 000€ ce que BiziApp génère en 10 min",
+        "🚀 Freelances : votre plan complet en un clic",
+        "📈 Les PME avec stratégie écrite croissent 2× plus vite",
+        "🎯 Consultants : présentez un diagnostic professionnel dès demain",
+        "💡 87% des dirigeants de TPE n'ont pas de plan marketing formalisé",
+        "🔑 BiziApp : SWOT · PESTEL · Personas · SEO · KPIs · Synthèse",
+    ]
+    _ticker_live = _get_ticker_data()
+    _all_tickers = (_ticker_base + ["🆕 " + t for t in _ticker_live]) * 2
+    _ticker_html = "".join(
+        '<span class="ticker-item"><span class="ticker-dot"></span>' + item + '</span>'
+        for item in _all_tickers
+    )
+    st.markdown(
+        '<div class="ticker-wrap"><div class="ticker-inner">' + _ticker_html + '</div></div>',
+        unsafe_allow_html=True
+    )
+
+    # ── HERO ──────────────────────────────────────────────────────────────────
+    st.markdown("""
+<div class="lp-hero" style="text-align:center;padding:48px 20px 20px;max-width:820px;margin:0 auto">
+  <div style="display:inline-block;background:linear-gradient(135deg,#C6ECD9,#E4E9F6);
+    border-radius:50px;padding:6px 18px;font-size:.78rem;font-weight:700;
+    color:#267371;letter-spacing:.06em;text-transform:uppercase;margin-bottom:18px">
+    🇫🇷 Conçu pour les entrepreneurs français
   </div>
-  <div class="feature-card">
-    <div class="feature-title">Psychologie de vente</div>
-    <div class="feature-desc">SONCAS · Personas · AIDA · SPIN · Challenger Sale</div>
+  <h1 style="font-size:clamp(1.8rem,4vw,2.8rem);font-weight:900;line-height:1.15;
+    color:#0B2221;margin:0 0 16px;letter-spacing:-.03em">
+    Ton plan commercial complet en
+    <span class="shimmer-txt">10 minutes</span>
+    &mdash; sans cabinet à 5&nbsp;000€
+  </h1>
+  <p class="lp-sub" style="font-size:1.05rem;color:#339999;max-width:600px;
+    margin:0 auto 24px;line-height:1.65;font-weight:500">
+    BiziApp analyse ton activité et génère instantanément ton diagnostic SWOT,
+    tes personas clients, ta stratégie marketing, ton plan SEO et ta roadmap
+    — personnalisé, structuré, actionnable.
+  </p>
+</div>
+""", unsafe_allow_html=True)
+
+    # ── STATS ──────────────────────────────────────────────────────────────────
+    s1, s2, s3, s4 = st.columns(4)
+    _stats = [
+        (s1, "10 min", "pour ton plan complet", "0s"),
+        (s2, "11", "modules stratégiques", ".12s"),
+        (s3, "0 €", "sans abonnement", ".24s"),
+        (s4, "100%", "personnalisé", ".36s"),
+    ]
+    for col, num, lbl, delay in _stats:
+        col.markdown(
+            '<div class="stat-box" style="animation-delay:' + delay + '">'
+            '<div class="stat-num">' + num + '</div>'
+            '<div class="stat-lbl">' + lbl + '</div>'
+            '</div>',
+            unsafe_allow_html=True
+        )
+
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    # ── CIBLE ──────────────────────────────────────────────────────────────────
+    st.markdown('<div class="lp-stitle lp-targets">Pour qui ?</div>', unsafe_allow_html=True)
+    st.markdown("""
+<div class="lp-targets" style="text-align:center;padding:6px 0 16px">
+  <span class="tgt-pill">👔 Dirigeant de TPE</span>
+  <span class="tgt-pill">💻 Freelance</span>
+  <span class="tgt-pill">🧠 Consultant</span>
+  <span class="tgt-pill">🛍️ E-commerçant</span>
+  <span class="tgt-pill">🚀 Créateur de startup</span>
+  <span class="tgt-pill">📱 Créateur de contenu</span>
+</div>
+<div class="lp-targets" style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:8px">
+  <div style="background:#F7FBF4;border-radius:14px;padding:18px 16px;border:1.5px solid #C6ECD9">
+    <div style="font-size:1.5rem;margin-bottom:8px">👔</div>
+    <div style="font-weight:700;font-size:.9rem;color:#0B2221;margin-bottom:5px">Dirigeant TPE / PME</div>
+    <div style="font-size:.8rem;color:#339999;line-height:1.5">Tu gères tout seul, tu n'as pas le temps de construire une stratégie cohérente. BiziApp le fait en 10 minutes.</div>
   </div>
-  <div class="feature-card">
-    <div class="feature-title">Acquisition 360°</div>
-    <div class="feature-desc">Plan média · Budgets 10–1000€/mois · ROI 12 mois</div>
+  <div style="background:#F7FBF4;border-radius:14px;padding:18px 16px;border:1.5px solid #C6ECD9">
+    <div style="font-size:1.5rem;margin-bottom:8px">💻</div>
+    <div style="font-weight:700;font-size:.9rem;color:#0B2221;margin-bottom:5px">Freelance &amp; consultant</div>
+    <div style="font-size:.8rem;color:#339999;line-height:1.5">Tu veux impressionner tes clients avec un diagnostic professionnel. Génère un plan complet avant chaque RDV.</div>
   </div>
-  <div class="feature-card">
-    <div class="feature-title">SEO & GEO 2025</div>
-    <div class="feature-desc">Mots-clés · AI Overviews · OKR · Export JSON</div>
+  <div style="background:#F7FBF4;border-radius:14px;padding:18px 16px;border:1.5px solid #C6ECD9">
+    <div style="font-size:1.5rem;margin-bottom:8px">🚀</div>
+    <div style="font-weight:700;font-size:.9rem;color:#0B2221;margin-bottom:5px">Créateur d'entreprise</div>
+    <div style="font-size:.8rem;color:#339999;line-height:1.5">Tu lances ton projet et tu as besoin d'un cadre stratégique solide sans payer 5 000€ un cabinet de conseil.</div>
   </div>
 </div>
 """, unsafe_allow_html=True)
 
-# ── LANDING PAGE (pre-run) ─────────────────────────────────────────────────────
-if not st.session_state.get("_run", False):
-    st.info("Remplissez le formulaire dans la barre latérale puis cliquez sur **Lancer l'analyse**")
+    # ── PROBLÈMES ──────────────────────────────────────────────────────────────
+    st.markdown('<div class="lp-stitle lp-problems">Les 4 problèmes que tu connais</div>', unsafe_allow_html=True)
+    _probs = [
+        ("⏱", "Manque de temps", "Tu passes tes journées dans le quotidien et tu n'as jamais l'occasion de prendre du recul sur ta stratégie."),
+        ("🗺️", "Absence de méthode", "Tu sais que tu dois faire du SWOT, du SEO, des personas... mais tu ne sais pas par où commencer."),
+        ("💸", "Budget conseil limité", "Un cabinet stratégique facture 3 000 à 8 000€ pour un diagnostic. BiziApp te donne le même résultat gratuitement."),
+        ("📊", "Pas de données structurées", "Aucun tableau de bord, aucun KPI suivi, aucune roadmap écrite. Tout est dans ta tête."),
+    ]
+    for i, (icon, title, text) in enumerate(_probs):
+        st.markdown(
+            '<div class="prob-row lp-problems" style="animation-delay:' + str(i * 0.1) + 's">'
+            '<span style="font-size:1.4rem;flex-shrink:0">' + icon + '</span>'
+            '<span style="font-size:.88rem;color:#0B2221;line-height:1.5"><b>' + title + '</b> — ' + text + '</span>'
+            '</div>',
+            unsafe_allow_html=True
+        )
+
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    # ── BÉNÉFICES ──────────────────────────────────────────────────────────────
+    st.markdown('<div class="lp-stitle lp-benefits">Ce que tu gagnes concrètement</div>', unsafe_allow_html=True)
+    b1, b2, b3 = st.columns(3)
+    _bens = [
+        (b1, "⚡", "10 min au lieu de 3 semaines", "Fini les heures perdues à structurer. Ton plan complet est prêt avant la fin de ton café.", "Gain de temps", "92%"),
+        (b2, "🎯", "Clarté et direction immédiates", "Tu sais exactement quoi faire, dans quel ordre et avec quel budget. Fini le flou stratégique.", "Clarté", "88%"),
+        (b3, "💰", "5 000€ économisés", "Nos 11 modules couvrent ce qu'un consultant junior produit en 1 mois de travail.", "Économies", "95%"),
+    ]
+    for col, icon, title, desc, gauge_lbl, pct in _bens:
+        col.markdown(
+            '<div class="ben-card lp-benefits">'
+            '<div class="ben-icon">' + icon + '</div>'
+            '<div style="font-weight:800;font-size:1rem;color:#0B2221;margin-bottom:6px">' + title + '</div>'
+            '<div style="font-size:.82rem;color:#339999;line-height:1.5;margin-bottom:14px">' + desc + '</div>'
+            '<div class="gauge-wrap">'
+            '<div class="gauge-lbl"><span>' + gauge_lbl + '</span><span>' + pct + '</span></div>'
+            '<div class="gauge-track">'
+            '<div class="gauge-fill" style="--bw:' + pct + '"></div>'
+            '</div></div></div>',
+            unsafe_allow_html=True
+        )
+
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    # ── PREUVE ────────────────────────────────────────────────────────────────
+    st.markdown('<div class="lp-stitle lp-proof">Exemple de livrable généré</div>', unsafe_allow_html=True)
     st.markdown("""
-    #### Ce que BiziApp génère pour vous :
-    | Module | Contenu |
-    |--------|---------|
-    | **Diagnostic** | SWOT · QQOQCCP · PESTEL · Micro-environnement · Analyse concurrentielle |
-    | **Personas** | Profils clients enrichis · Framework SONCAS · Motivations · Valeurs · Habitudes |
-    | **Copywriting** | AIDA adapté · 8 déclencheurs psychologiques · Principes universels |
-    | **Vente** | Scripts (cold, discovery, follow-up) · SPIN Selling · Challenger Sale · Gestion objections |
-    | **Marketing** | Plateformes · Budget adaptatif 10-1000€ · Calendrier éditorial 8 semaines · Règle 80/20 |
-    | **SEO & GEO 2025** | Mots-clés · Clusters · AI Overviews · SEA IA (AI Max, Smart Bidding…) |
-    | **KPI Dashboard** | Email · Conversion · Social · OKR · Benchmarks sectoriels |
-    | **Synthèse** | Score global · Priorités · Roadmap 180 jours · Export JSON |
-    """)
+<div class="lp-proof proof-card">
+  <div style="position:relative;z-index:1">
+    <div style="font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#44C1BA;margin-bottom:12px">
+      Exemple — E-commerce · Objectif Ventes · Budget 200€/mois
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+      <div style="background:rgba(255,255,255,.08);border-radius:10px;padding:12px;border:1px solid rgba(68,193,186,.3)">
+        <div style="font-size:.68rem;color:#44C1BA;font-weight:700;text-transform:uppercase;margin-bottom:6px">SWOT Généré</div>
+        <div style="font-size:.76rem;color:rgba(255,255,255,.85);line-height:1.6">
+          ✅ Vente 24h/24 sans contrainte géo<br>
+          ✅ Marges optimisées sans intermédiaire<br>
+          ⚠️ CAC élevé — optimiser Google Ads<br>
+          🎯 TikTok Shop — croissance +340%
+        </div>
+      </div>
+      <div style="background:rgba(255,255,255,.08);border-radius:10px;padding:12px;border:1px solid rgba(68,193,186,.3)">
+        <div style="font-size:.68rem;color:#44C1BA;font-weight:700;text-transform:uppercase;margin-bottom:6px">Roadmap 90 jours</div>
+        <div style="font-size:.76rem;color:rgba(255,255,255,.85);line-height:1.6">
+          📅 J1–J30 : SEO technique + 3 personas<br>
+          📅 J31–J60 : Campagne Meta 80€/mois<br>
+          📅 J61–J90 : Email auto + retargeting<br>
+          🎯 ROI estimé : +180% trafic organique
+        </div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px">
+      <div style="background:rgba(255,255,255,.07);border-radius:8px;padding:9px;text-align:center">
+        <div style="font-size:1.1rem;font-weight:900;color:#44C1BA">11</div>
+        <div style="font-size:.62rem;color:rgba(255,255,255,.55)">modules</div>
+      </div>
+      <div style="background:rgba(255,255,255,.07);border-radius:8px;padding:9px;text-align:center">
+        <div style="font-size:1.1rem;font-weight:900;color:#44C1BA">5</div>
+        <div style="font-size:.62rem;color:rgba(255,255,255,.55)">personas</div>
+      </div>
+      <div style="background:rgba(255,255,255,.07);border-radius:8px;padding:9px;text-align:center">
+        <div style="font-size:1.1rem;font-weight:900;color:#44C1BA">180j</div>
+        <div style="font-size:.62rem;color:rgba(255,255,255,.55)">roadmap</div>
+      </div>
+      <div style="background:rgba(255,255,255,.07);border-radius:8px;padding:9px;text-align:center">
+        <div style="font-size:1.1rem;font-weight:900;color:#44C1BA">JSON</div>
+        <div style="font-size:.62rem;color:rgba(255,255,255,.55)">export</div>
+      </div>
+    </div>
+  </div>
+</div>
+""", unsafe_allow_html=True)
+
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    # ── CTA FORT ──────────────────────────────────────────────────────────────
+    st.markdown("""
+<div class="lp-cta" style="text-align:center;padding:36px 24px;
+  background:linear-gradient(135deg,#F7FBF4,#C6ECD9);
+  border-radius:20px;border:2px solid #44C1BA;margin:8px 0 24px">
+  <div style="font-size:1.5rem;font-weight:900;color:#0B2221;margin-bottom:10px">
+    Prêt à avoir ta stratégie en 10 minutes ?
+  </div>
+  <div style="font-size:.95rem;color:#339999;margin-bottom:20px;font-weight:500">
+    Configure ton activité dans la barre latérale &larr; puis clique sur <b>Lancer l'analyse</b>
+  </div>
+  <div style="display:flex;align-items:center;justify-content:center;gap:20px;flex-wrap:wrap;margin-bottom:16px">
+    <div style="font-size:.82rem;color:#267371;font-weight:700">✅ Gratuit · sans inscription</div>
+    <div style="font-size:.82rem;color:#267371;font-weight:700">✅ Résultat en &lt; 10 min</div>
+    <div style="font-size:.82rem;color:#267371;font-weight:700">✅ Aucune carte bancaire</div>
+  </div>
+  <div style="font-size:2rem;animation:floatY 2s ease-in-out infinite;display:inline-block">👈</div>
+  <div style="font-size:.8rem;color:#339999;margin-top:6px;font-weight:600">Commence par choisir ton type d'activité dans la barre de gauche</div>
+</div>
+""", unsafe_allow_html=True)
+
+    # ── FEATURE GRID ──────────────────────────────────────────────────────────
+    st.markdown("""
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:8px">
+  <div class="ben-card" style="padding:14px 12px">
+    <div style="font-size:1.2rem;margin-bottom:5px">🔍</div>
+    <div style="font-weight:700;font-size:.8rem;color:#0B2221;margin-bottom:3px">Diagnostic 360°</div>
+    <div style="font-size:.72rem;color:#339999">SWOT · PESTEL · Concurrence</div>
+  </div>
+  <div class="ben-card" style="padding:14px 12px">
+    <div style="font-size:1.2rem;margin-bottom:5px">🧠</div>
+    <div style="font-weight:700;font-size:.8rem;color:#0B2221;margin-bottom:3px">Psychologie vente</div>
+    <div style="font-size:.72rem;color:#339999">SONCAS · Personas · AIDA</div>
+  </div>
+  <div class="ben-card" style="padding:14px 12px">
+    <div style="font-size:1.2rem;margin-bottom:5px">📈</div>
+    <div style="font-weight:700;font-size:.8rem;color:#0B2221;margin-bottom:3px">Marketing digital</div>
+    <div style="font-size:.72rem;color:#339999">SEO · GEO 2025 · Ads</div>
+  </div>
+  <div class="ben-card" style="padding:14px 12px">
+    <div style="font-size:1.2rem;margin-bottom:5px">🎯</div>
+    <div style="font-weight:700;font-size:.8rem;color:#0B2221;margin-bottom:3px">Plan d'action</div>
+    <div style="font-size:.72rem;color:#339999">KPIs · OKR · Roadmap 180j</div>
+  </div>
+</div>
+""", unsafe_allow_html=True)
+
     st.stop()
+
 
 # ─────────────────────────────────────────────────────────────────────────────
 # GENERATE DATA
