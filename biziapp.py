@@ -3685,6 +3685,15 @@ with tabs[5]:
         st.markdown(f'<div style="overflow-x:auto">'+ roi_html +'</div>', unsafe_allow_html=True)
     
     # PageSpeed
+    # ── Benchmarks sectoriels (données ouvertes France) ───────────────────────
+    if _sector_live and _sector_bench:
+        st.markdown('<div class="section-h">Benchmarks sectoriels — Données marché France 2024</div>', unsafe_allow_html=True)
+        _bench_cols = st.columns(min(4, len(_sector_bench)))
+        for _col, (_kpi, _val) in zip(_bench_cols, list(_sector_bench.items())[:4]):
+            with _col:
+                st.metric(_kpi.replace("_"," ").title(), str(_val))
+        st.caption(f"Source : données sectorielles ouvertes France · {_sector_label} · Marché {_sector_market} · Croissance {_sector_growth}")
+
     if pagespeed_data:
         st.markdown('<div class="section-h">Audit PageSpeed — Performance site</div>', unsafe_allow_html=True)
         if pagespeed_data.get("source") == "mock":
@@ -3949,8 +3958,81 @@ with tabs[9]:
     if not _news_queries:
         _news_queries = [("Secteur", _main_q)]
 
+    # ── Sources additionnelles HackerNews + DEV.to + GitHub ───────────────────
+    _hn_items, _devto_items, _gh_items = [], [], []
+    if _HAS_API_LAYER:
+        try:
+            _hn_items   = _fetch_hn(_main_q, max_items=6)
+        except Exception: pass
+        try:
+            _devto_items = _fetch_devto(activity, max_items=5)
+        except Exception: pass
+        try:
+            _gh_items   = _fetch_github(max_items=4)
+        except Exception: pass
+
+    # ── Données sectorielles enrichies ────────────────────────────────────────
+    _sector_live = sector_data if sector_data else {}
+    _sector_label = _sector_live.get("label", activity)
+    _sector_growth = _sector_live.get("croissance_2024", "N/A")
+    _sector_market = _sector_live.get("marche_fr_2024", "N/A")
+    _sector_bench  = _sector_live.get("benchmarks", {})
+
+    # ── Entreprises du secteur (API Recherche Entreprises) ────────────────────
+    _secteur_entreprises = []
+    if _HAS_API_LAYER and not st.session_state.get(f"_ent_{activity}"):
+        try:
+            naf_map = {"ecommerce":"47.91","saas":"62.01","service":"74.90","consulting":"70.22","content":"59.11"}
+            _naf = naf_map.get(activity,"")
+            _secteur_entreprises = _search_entreprises(_main_q, activite=_naf, max_results=5)
+            st.session_state[f"_ent_{activity}"] = _secteur_entreprises
+        except Exception: pass
+    elif st.session_state.get(f"_ent_{activity}"):
+        _secteur_entreprises = st.session_state[f"_ent_{activity}"]
+
+    # ── Données marché live ───────────────────────────────────────────────────
+    if _sector_live:
+        st.markdown(f'''
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px">
+  <div class="stat-box"><div class="stat-num" style="font-size:1.2rem">{_sector_growth}</div><div class="stat-lbl">Croissance secteur 2024</div></div>
+  <div class="stat-box"><div class="stat-num" style="font-size:1rem">{_sector_market}</div><div class="stat-lbl">Marché France 2024</div></div>
+  <div class="stat-box"><div class="stat-num" style="font-size:1rem">{str(_sector_live.get("acteurs",0)) + " ent." if _sector_live.get("acteurs") else "N/A"}</div><div class="stat-lbl">Acteurs du secteur</div></div>
+  <div class="stat-box"><div class="stat-num" style="font-size:1rem">{_sector_live.get("ticket_moyen","N/A")}</div><div class="stat-lbl">Ticket moyen</div></div>
+</div>
+''', unsafe_allow_html=True)
+
+    # ── Entreprises du secteur (Sirene / Recherche-Entreprises) ───────────────
+    if _secteur_entreprises:
+        st.markdown('<div class="section-h">Entreprises du secteur (données Sirene)</div>', unsafe_allow_html=True)
+        for _ent in _secteur_entreprises[:4]:
+            st.markdown(f'''
+<div class="card" style="margin-bottom:8px;display:flex;align-items:center;gap:14px">
+  <div style="width:36px;height:36px;border-radius:8px;background:#C6ECD9;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0">🏢</div>
+  <div>
+    <div style="font-weight:700;font-size:.88rem;color:#0B2221">{_ent.get("nom","")[:50]}</div>
+    <div style="font-size:.75rem;color:#339999">{_ent.get("siege","")[:60]} · SIREN: {_ent.get("siren","")} · {_ent.get("categorie","")}</div>
+  </div>
+</div>
+''', unsafe_allow_html=True)
+
+    # ── Sources tech additionnelles ────────────────────────────────────────────
+    if _hn_items or _devto_items or _gh_items:
+        with st.expander("🔬 Sources tech — HackerNews · DEV.to · GitHub Trending"):
+            if _hn_items:
+                st.markdown("**HackerNews**")
+                for _hn in _hn_items[:4]:
+                    st.markdown(f"- [{_hn['title']}]({_hn['link']}) — {_hn['source']}")
+            if _devto_items:
+                st.markdown("**DEV.to**")
+                for _dv in _devto_items[:4]:
+                    st.markdown(f"- [{_dv['title']}]({_dv['link']})")
+            if _gh_items:
+                st.markdown("**GitHub Trending**")
+                for _gh in _gh_items[:4]:
+                    st.markdown(f"- [{_gh['title']}]({_gh['link']})")
+
     # ── Analyse URL live ──────────────────────────────────────────────────────
-    st.markdown('<div class="section-h">Analyse URL en temps réel</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-h">Analyse URL en temps réel (multi-proxy)</div>', unsafe_allow_html=True)
     _lcol, _rcol = st.columns([4, 1])
     with _lcol:
         _live_url = st.text_input("URL à analyser", placeholder="https://monsite.fr ou https://concurrent.fr/page", label_visibility="collapsed", key="v_liveurl")
