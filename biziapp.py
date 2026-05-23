@@ -2609,54 +2609,54 @@ if website_url:
 site_meta = site_data
 # ── Personnalisation depuis les données du site ───────────────────────────
 site_ins = _site_insights(site_data)
-    if site_ins:
-        _sn  = site_ins.get("name", "")
-        _skw = site_ins.get("top_keywords", [])
-        _sst = site_ins.get("strengths_signals", [])
-        _scs = site_ins.get("content_signals", [])
-        # Enrichir SWOT avec données réelles du site
-        if _sn:
-            swot["strengths"].insert(0, f"Présence en ligne confirmée — {_html.escape(_sn[:60])}")
-        if _skw:
-            swot["strengths"].append(f"Positionnement sur : {', '.join(_html.escape(k) for k in _skw[:4])}")
-        if not site_data.get("h1"):
-            swot["weaknesses"].insert(0, "Balise H1 absente — impact SEO négatif")
-        if not site_data.get("description"):
-            swot["weaknesses"].insert(0, "Meta description absente — CTR organique à risque")
-        if _sst:
-            swot["strengths"].append(f"Signal différenciant détecté : {_html.escape(_sst[0][:80])}")
-        # Enrichir keywords avec les vrais mots-clés de la page
-        if _skw:
-            _site_kw_tuples = [
-                (kw, "réel · site scrapé", "—", "informationnel")
-                for kw in _skw[:5]
-            ]
-            keywords = _site_kw_tuples + [k for k in keywords if k[0] not in _skw]
-        # Enrichir personas avec le nom de l'entreprise
-        if _sn:
-            for _p in personas:
-                if "brands" in _p:
-                    _p["brands"] = [_sn[:30]] + _p["brands"][:2]
-    # ── Concurrents ───────────────────────────────────────────────────────────
-    comp_results = {}
-    # Pré-charger concurrents depuis le cache session si déjà analysés
-    if comp_urls:
-        _ck_pre = "comp_" + str(abs(hash(tuple(sorted(comp_urls)))))
-        if _ck_pre in st.session_state:
-            comp_results.update(st.session_state[_ck_pre])
-    # Enrichir SWOT avec données concurrents réels (si déjà en cache)
-    if comp_results:
-        _comp_names = []
-        for _cu_r, _cd_r in comp_results.items():
-            if not _cd_r.get("error") and _cd_r.get("title"):
-                _comp_names.append(_html.escape(_cd_r["title"][:40]))
-        if _comp_names:
-            swot["threats"].insert(0, f"Concurrents identifiés : {' · '.join(_comp_names[:3])}")
-            swot["opportunities"].insert(0, "Analyse concurrentielle disponible — exploitez les angles manquants")
-    # ads_data and roi_data are now managed in the session-state cache above
-    pagespeed_data = get_pagespeed(website_url) if website_url else {}
-    closing_tech = _CLOSING_TECHNIQUES
-    msg_templates = _MESSAGE_TEMPLATES
+if site_ins:
+    _sn  = site_ins.get("name", "")
+    _skw = site_ins.get("top_keywords", [])
+    _sst = site_ins.get("strengths_signals", [])
+    _scs = site_ins.get("content_signals", [])
+    # Enrichir SWOT avec données réelles du site
+    if _sn:
+        swot["strengths"].insert(0, f"Présence en ligne confirmée — {_html.escape(_sn[:60])}")
+    if _skw:
+        swot["strengths"].append(f"Positionnement sur : {', '.join(_html.escape(k) for k in _skw[:4])}")
+    if not site_data.get("h1"):
+        swot["weaknesses"].insert(0, "Balise H1 absente — impact SEO négatif")
+    if not site_data.get("description"):
+        swot["weaknesses"].insert(0, "Meta description absente — CTR organique à risque")
+    if _sst:
+        swot["strengths"].append(f"Signal différenciant détecté : {_html.escape(_sst[0][:80])}")
+    # Enrichir keywords avec les vrais mots-clés de la page
+    if _skw:
+        _site_kw_tuples = [
+            (kw, "réel · site scrapé", "—", "informationnel")
+            for kw in _skw[:5]
+        ]
+        keywords = _site_kw_tuples + [k for k in keywords if k[0] not in _skw]
+    # Enrichir personas avec le nom de l'entreprise
+    if _sn:
+        for _p in personas:
+            if "brands" in _p:
+                _p["brands"] = [_sn[:30]] + _p["brands"][:2]
+# ── Concurrents ───────────────────────────────────────────────────────────
+comp_results = {}
+# Pré-charger concurrents depuis le cache session si déjà analysés
+if comp_urls:
+    _ck_pre = "comp_" + str(abs(hash(tuple(sorted(comp_urls)))))
+    if _ck_pre in st.session_state:
+        comp_results.update(st.session_state[_ck_pre])
+# Enrichir SWOT avec données concurrents réels (si déjà en cache)
+if comp_results:
+    _comp_names = []
+    for _cu_r, _cd_r in comp_results.items():
+        if not _cd_r.get("error") and _cd_r.get("title"):
+            _comp_names.append(_html.escape(_cd_r["title"][:40]))
+    if _comp_names:
+        swot["threats"].insert(0, f"Concurrents identifiés : {' · '.join(_comp_names[:3])}")
+        swot["opportunities"].insert(0, "Analyse concurrentielle disponible — exploitez les angles manquants")
+# ads_data and roi_data are now managed in the session-state cache above
+pagespeed_data = get_pagespeed(website_url) if website_url else {}
+closing_tech = _CLOSING_TECHNIQUES
+msg_templates = _MESSAGE_TEMPLATES
 
 # Context badges
 c1, c2, c3, c4 = st.columns(4)
