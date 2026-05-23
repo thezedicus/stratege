@@ -1,10 +1,17 @@
-# streamlit_app.py — Point d'entrée pour Streamlit Cloud
-# Lance biziapp.py directement dans le même namespace
+# streamlit_app.py — Entry point for Streamlit Cloud
+# Launches biziapp.py in the same Python namespace
 
-import os, sys
+import os
+import sys
 
-_this_dir = os.path.dirname(os.path.abspath(__file__))
-_app_file  = os.path.join(_this_dir, "biziapp.py")
+# Add current directory to path
+_dir = os.path.dirname(os.path.abspath(__file__))
+if _dir not in sys.path:
+    sys.path.insert(0, _dir)
 
-with open(_app_file, "r", encoding="utf-8") as _f:
-    exec(compile(_f.read(), _app_file, "exec"), {"__name__": "__main__", "__file__": _app_file})
+# Execute biziapp.py directly
+_app = os.path.join(_dir, "biziapp.py")
+with open(_app, "r", encoding="utf-8") as _f:
+    _code = _f.read()
+
+exec(compile(_code, _app, "exec"), {"__name__": "__main__", "__file__": _app})
