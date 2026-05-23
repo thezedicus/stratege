@@ -3483,17 +3483,20 @@ st.markdown("<br>", unsafe_allow_html=True)
 # TABS
 # ─────────────────────────────────────────────────────────────────────────────
 tabs = st.tabs([
-    "Diagnostic",
-    "Personas",
-    "Copywriting",
-    "Vente",
-    "Marketing",
-    "Campagnes",
-    "SEO / GEO",
-    "KPIs",
-    "Synthèse",
-    "Veille",
-    "RSE",
+    "🔍 Diagnostic",
+    "👥 Personas",
+    "✍️ Copywriting",
+    "💼 Vente",
+    "📈 Marketing",
+    "📣 Campagnes",
+    "🔑 SEO / GEO",
+    "📊 KPIs",
+    "🎯 Synthèse",
+    "🕵️ Veille",
+    "🌱 RSE",
+    "⚔️ Stratégie+",
+    "📧 Emailing",
+    "📱 Social Media",
 ])
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -4883,8 +4886,7 @@ with tabs[13]:
         st.markdown("**Piliers éditoriaux :**")
         for _i, _pil in enumerate(_cs.get("pillars", []), 1):
             st.markdown(f"{_i}. {_pil}")
-        st.markdown(f"
-**Budget contenu :** {_cs.get('budget_content','N/A')}")
+        st.markdown(f"**Budget contenu :** {_cs.get('budget_content','N/A')}")
     with _csc2:
         st.markdown("**Outils gratuits recommandés :**")
         for _t in _cs.get("tools_free", []):
