@@ -1,7 +1,8 @@
 [server]
 headless = true
 enableCORS = false
-enableXsrfProtection = false
+# XSRF protection active — do NOT disable in production
+enableXsrfProtection = true
 maxUploadSize = 5
 
 [browser]
