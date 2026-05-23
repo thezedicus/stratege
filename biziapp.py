@@ -2561,8 +2561,7 @@ site_ins = _site_insights(site_data)
         if _comp_names:
             swot["threats"].insert(0, f"Concurrents identifiés : {' · '.join(_comp_names[:3])}")
             swot["opportunities"].insert(0, "Analyse concurrentielle disponible — exploitez les angles manquants")
-    ads_data = gen_ads(activity, goal, monthly_budget)
-    roi_data = gen_roi_projection(activity, goal, maturity, monthly_budget)
+    # ads_data and roi_data are now managed in the session-state cache above
     pagespeed_data = get_pagespeed(website_url) if website_url else {}
     closing_tech = _CLOSING_TECHNIQUES
     msg_templates = _MESSAGE_TEMPLATES
@@ -3164,7 +3163,7 @@ with tabs[5]:
     if pagespeed_data:
         st.markdown('<div class="section-h">Audit PageSpeed — Performance site</div>', unsafe_allow_html=True)
         if pagespeed_data.get("source") == "mock":
-            st.caption("Scores de performance estimés — précis)")
+            st.caption("Scores estimés par analyse heuristique — précis")
         ps_cols = st.columns(4)
         scores = [
             ("Performance", pagespeed_data.get("performance",0)),
