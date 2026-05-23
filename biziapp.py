@@ -1928,6 +1928,7 @@ def _veille_get(url: str, timeout: int = 12, extra: dict = None) -> str:
         resp.raise_for_status()
         return resp.text
     except Exception:
+        return ""
         req = _urlreq.Request(url, headers=hdrs)
         with _urlreq.urlopen(req, timeout=timeout) as resp:
             return resp.read().decode("utf-8", errors="replace")
@@ -2337,11 +2338,9 @@ with st.sidebar:
     _comp1 = st.text_input("Concurrent 1", placeholder="https://concurrent1.fr", label_visibility="collapsed", key="sb_c1")
     _comp2 = st.text_input("Concurrent 2", placeholder="https://concurrent2.fr", label_visibility="collapsed", key="sb_c2")
     _comp3 = st.text_input("Concurrent 3", placeholder="https://concurrent3.fr", label_visibility="collapsed", key="sb_c3")
-    comp_urls = [
-        (u if u.startswith("http") else "https://" + u)
-        for u in [_comp1.strip(), _comp2.strip(), _comp3.strip()] if u.strip()
-    ]
-    comp_urls = [_sanitize_url(u) for u in comp_urls if _sanitize_url(u)]
+    comp_urls = [_sanitize_url(u if u.startswith("http") else "https://" + u)
+               for u in [_comp1.strip(), _comp2.strip(), _comp3.strip()] if u.strip()]
+    comp_urls = [u for u in comp_urls if u]
 
     st.markdown('<div class="step-label">Mots-clés veille</div>', unsafe_allow_html=True)
     st.caption("Un par ligne — alimente le flux d'actualités")
