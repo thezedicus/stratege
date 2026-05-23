@@ -15,6 +15,7 @@ import xml.etree.ElementTree as _ET
 import re as _re
 import streamlit as st
 import math
+import time
 
 # ─────────────────────────────────────────────────────────────────────────────
 # api_layer — Couche APIs gratuites (veille, URL, INSEE, OSM, HN, Reddit...)
@@ -1824,104 +1825,6 @@ def gen_business_model_canvas(activity: str, goal: str) -> dict:
 
 
 @st.cache_data(ttl=86400, show_spinner=False)
-def gen_pricing_strategy(activity: str, monthly_budget: float) -> dict:
-    """Stratégie de prix complète avec psychologie des prix."""
-    tier = "low" if monthly_budget < 100 else "mid" if monthly_budget < 500 else "high"
-    strategies = {
-        "ecommerce": {
-            "recommandee": "Prix compétitif + ancrage psychologique",
-            "techniques": [
-                ("Prix d'ancrage", "Montrez le prix barré — 99€ au lieu de 149€", "⚓"),
-                ("Prix juste en dessous", "49,99€ → perception 40€ pas 50€", "🎯"),
-                ("Bundle", "Pack 3 produits à -20% → ↑ panier moyen +35%", "📦"),
-                ("Freemium d'entrée", "Frais de port offert dès 50€ → trigger achat", "🆓"),
-                ("Prix de prestige", "499€ (pas 500€) pour gamme premium", "💎"),
-                ("Urgence temporelle", "Prix valable 24h → FOMO +28% conversion", "⏰"),
-            ],
-            "matrice": {"entrée": monthly_budget*0.6, "standard": monthly_budget, "premium": monthly_budget*2.2},
-        },
-        "saas": {
-            "recommandee": "Freemium → paid tiers avec ancrage valeur",
-            "techniques": [
-                ("Freemium généreux", "Plan gratuit avec 1 feature killer → viral loop", "🆓"),
-                ("Prix par siège", "Starter 29€/siège → Growth 49€ → Enterprise custom", "👥"),
-                ("Facturation annuelle", "-20% annuel → améliore cashflow + réduit churn", "📅"),
-                ("Feature gating", "Bloquer features avancées → upgrade naturel", "🔐"),
-                ("Usage-based", "Payer ce qu'on consomme — adopté par AWS, Stripe", "📊"),
-                ("Decoy pricing", "3 plans : Basique/Pro/Premium — Pro semble meilleur deal", "🎭"),
-            ],
-            "matrice": {"starter": 29, "pro": 79, "enterprise": "custom"},
-        },
-        "service": {
-            "recommandee": "Tarification valeur + packages clairs",
-            "techniques": [
-                ("Tarif journalier", "TJM marché : 400-800€/j consultant junior, 1000-2500€ senior", "💼"),
-                ("Packages fixes", "Pack Starter 500€ / Growth 1200€ / Premium 3000€", "📋"),
-                ("Retainer mensuel", "Engagement 3 mois -15% → flux stable + fidélisation", "🔄"),
-                ("Valeur délivrée", "Si je génère 50k€ de CA, 5k€ d'honoraires = ROI 10x", "💰"),
-                ("Ancrage premium", "Montrez d'abord le package le plus cher", "⚓"),
-                ("Upsell naturel", "Partez de la mission puis identifiez les besoins adjacents", "↗️"),
-            ],
-            "matrice": {"starter": monthly_budget*3, "growth": monthly_budget*7, "premium": monthly_budget*15},
-        },
-    }
-    return strategies.get(activity, strategies["service"])
-
-
-@st.cache_data(ttl=86400, show_spinner=False)
-def gen_customer_journey(activity: str) -> list:
-    """Carte du parcours client — de la découverte à la fidélisation."""
-    journeys = {
-        "ecommerce": [
-            ("Découverte", "Le prospect réalise son besoin", ["Google search","Instagram ad","Bouche-à-oreille"], ["SEO optimisé","Créatif scroll-stopping","Ambassadeurs"], "😐"),
-            ("Considération", "Compare les options disponibles", ["Site e-com","Avis","YouTube reviews"], ["Fiches produits","Note 4.5+","Vidéos démo"], "🤔"),
-            ("Décision", "Prêt à acheter — friction = abandon", ["Fiche produit","Panier","Checkout"], ["Paiement 1-clic","Retour gratuit","Rassurants"], "💳"),
-            ("Achat", "Transaction réussie", ["Confirmation email","SMS livraison"], ["Tracking temps réel","Email chaleureux"], "✅"),
-            ("Post-achat", "Satisfaction et fidélisation", ["Email J+7","Avis","Reco produits"], ["Demande avis","Offre fidélité","Parrainage"], "🌟"),
-        ],
-        "saas": [
-            ("Sensibilisation", "Prend conscience du problème", ["Blog","LinkedIn","Podcast"], ["Content marketing","SEO longue traîne","Thought leadership"], "😐"),
-            ("Intérêt", "Recherche activement une solution", ["Site web","Comparatifs","G2/Capterra"], ["Landing page claire","Social proof","ROI calculator"], "🤔"),
-            ("Évaluation", "Teste et compare", ["Trial gratuit","Démo","Onboarding"], ["Onboarding guidé","Quick win J1","Support proactif"], "🔍"),
-            ("Décision", "Choisit le plan payant", ["Pricing page","Sales call","Contrat"], ["Essai→paid smooth","Offre annuelle","Garantie"], "💳"),
-            ("Adoption", "Utilisation régulière, intégration", ["In-app","Email séquence","Webinars"], ["Feature discovery","CSM check-in","Community"], "✅"),
-            ("Expansion", "Upgrades, nouveaux usages", ["In-app upsell","QBR","Newsletter"], ["Usage analytics","ROI reports","Case studies"], "🌟"),
-        ],
-    }
-    return journeys.get(activity, journeys.get("ecommerce", []))
-
-
-@st.cache_data(ttl=86400, show_spinner=False)
-def gen_competitive_intelligence(activity: str, goal: str) -> dict:
-    """Intelligence concurrentielle — matrice décisionnelle stratégique."""
-    frameworks = {
-        "ecommerce": {
-            "matrice_5_forces": [
-                ("Nouveaux entrants", 65, "Barrières faibles — dropshipping accessible", "⚠️ Élevée"),
-                ("Pouvoir fournisseurs", 45, "Dépend du secteur — commodités vs niches", "🟡 Moyen"),
-                ("Pouvoir acheteurs", 80, "Comparaison prix facile, avis publics", "🔴 Fort"),
-                ("Produits substituts", 55, "Occasion, DIY, location selon secteur", "🟡 Moyen"),
-                ("Rivalité interne", 75, "Amazon + pure players + boutiques locales", "🔴 Fort"),
-            ],
-            "avantages_defendables": ["Niche ultra-spécialisée","Marque forte","Exclusivité produit","Service premium","Communauté engagée"],
-            "signaux_faibles": ["Nouveaux formats social commerce","Live shopping","B2B2C","Hyper-personnalisation IA"],
-        },
-        "saas": {
-            "matrice_5_forces": [
-                ("Nouveaux entrants", 50, "IA réduit le coût de dev mais réseau effect protège", "🟡 Moyen"),
-                ("Pouvoir fournisseurs", 60, "Dépendance cloud AWS/GCP/Azure", "🟡 Moyen"),
-                ("Pouvoir acheteurs", 55, "Switching costs modérés si données exportables", "🟡 Moyen"),
-                ("Produits substituts", 45, "Process manuels, Excel, solutions internes", "🟡 Moyen"),
-                ("Rivalité interne", 80, "Marché fragmenté, guerre des fonctionnalités", "🔴 Fort"),
-            ],
-            "avantages_defendables": ["Données propriétaires","Intégrations natives","Effets réseau","Expertise verticale","Brand trust"],
-            "signaux_faibles": ["IA native intégrée","Consolidation marché","Verticaux spécialisés","Open source threats"],
-        },
-    }
-    return frameworks.get(activity, frameworks["saas"])
-
-
-@st.cache_data(ttl=86400, show_spinner=False)
 def gen_growth_hacking(activity: str, monthly_budget: float) -> list:
     """Growth hacking — tactiques à fort ROI et faible coût."""
     budget_tier = "bootstrap" if monthly_budget < 100 else "growth" if monthly_budget < 500 else "scale"
@@ -1944,83 +1847,6 @@ def gen_growth_hacking(activity: str, monthly_budget: float) -> list:
     key = f"{activity}_{budget_tier}"
     return tactics.get(key, tactics.get(f"ecommerce_{budget_tier}", tactics["ecommerce_bootstrap"]))
 
-
-@st.cache_data(ttl=86400, show_spinner=False)
-def gen_email_sequences(activity: str, goal: str) -> list:
-    """Séquences email automation complètes par objectif."""
-    sequences = {
-        "ecommerce": [
-            {"nom": "Welcome Series", "emails": [
-                ("J0 — Bienvenue 🎉", "Sujet: Bienvenue {prénom} — voici votre cadeau de bienvenue", "Présentation marque + code promo 10% + bestsellers top 3"),
-                ("J3 — Valeurs", "Sujet: Pourquoi nous sommes différents", "Story de la marque + engagements qualité + avis clients"),
-                ("J7 — FOMO", "Sujet: {prénom}, votre code expire dans 24h ⏰", "Rappel offre bienvenue + urgence + CTA fort"),
-            ]},
-            {"nom": "Abandon Panier", "emails": [
-                ("H+1 — Rappel doux", "Sujet: Vous avez oublié quelque chose 🛒", "Récapitulatif panier + image produit + CTA retour"),
-                ("J+1 — Social proof", "Sujet: 847 personnes regardent le même produit", "Urgence stock + avis client + FAQ objections"),
-                ("J+3 — Incitation", "Sujet: Un petit coup de pouce pour vous décider", "Code -5% limité + livraison gratuite offerte"),
-            ]},
-            {"nom": "Post-achat", "emails": [
-                ("J+1 — Confirmation", "Sujet: Votre commande est en route ! 📦", "Tracking + date livraison + conseils utilisation"),
-                ("J+7 — Satisfaction", "Sujet: Comment s'est passée votre commande ?", "Demande avis + questions NPS + produits complémentaires"),
-                ("J+30 — Fidélisation", "Sujet: {prénom}, il est temps de renouveler ?", "Programme fidélité + historique commandes + nouveautés"),
-            ]},
-        ],
-        "saas": [
-            {"nom": "Trial Onboarding", "emails": [
-                ("J0 — Activation", "Sujet: Votre accès est prêt — commencez ici", "Lien connexion + 3 actions prioritaires + vidéo 2min"),
-                ("J2 — Quick win", "Sujet: Avez-vous essayé cette fonctionnalité ?", "Feature clé + use case + template prêt à l'emploi"),
-                ("J5 — Progrès", "Sujet: Vous êtes à 60% du potentiel de l'outil", "Checklist d'activation + ressources + invitation webinar"),
-                ("J10 — Objections", "Sujet: Une question ? Je suis là", "Email personnel du fondateur + FAQ + démo 1-1 proposée"),
-                ("J13 — Urgence", "Sujet: Votre essai se termine dans 2 jours", "Récap valeur créée + offre -20% premier mois + témoignages"),
-            ]},
-        ],
-    }
-    return sequences.get(activity, sequences.get("ecommerce", []))
-
-
-_SPIN = {
-    "ecommerce": {
-        "situation": ["Combien de références produits gérez-vous actuellement ?","Sur quels canaux vendez-vous — site propre, marketplace, boutique physique ?","Quel est votre taux de conversion moyen sur votre site actuel ?"],
-        "probleme": ["Avez-vous des difficultés à gérer les stocks en temps réel ?","Perdez-vous des ventes à cause d'une mauvaise expérience mobile ?","Vos fiches produit sont-elles optimisées pour le référencement ?"],
-        "implication":["Si votre taux de conversion augmentait de 1%, quel serait l'impact sur votre CA annuel ?","Combien de ventes perdez-vous chaque mois à cause de l'abandon panier ?","Quel est le coût d'opportunité d'une page produit mal référencée sur 12 mois ?"],
-        "besoin": ["Si vous pouviez automatiser la gestion des stocks, combien de temps libéreriez-vous ?","Quel impact un taux de conversion à 3,5% aurait-il sur vos objectifs annuels ?","Si votre site chargeait en moins de 2 secondes, combien de ventes récupéreriez-vous ?"],
-    },
-    "saas": {
-        "situation": ["Comment vos équipes gèrent-elles [processus] aujourd'hui ?","Quels outils utilisez-vous actuellement et depuis combien de temps ?","Combien de personnes sont concernées par ce processus dans votre organisation ?"],
-        "probleme": ["Qu'est-ce qui vous frustre le plus dans votre solution actuelle ?","Combien de temps vos équipes passent-elles sur des tâches manuelles liées à [processus] ?","Y a-t-il des erreurs récurrentes dues à des processus manuels ?"],
-        "implication":["Si ce problème persiste 12 mois, quel sera l'impact sur votre croissance ?","Combien coûte chaque heure perdue sur ces tâches manuelles, en salaire chargé ?","Quelle opportunité manquez-vous pendant que vos équipes font ces tâches répétitives ?"],
-        "besoin": ["Si vous automatisiez [processus], que pourrait faire votre équipe de ce temps gagné ?","Quel ROI attendriez-vous d'une solution qui élimine [problème] en 30 jours ?","Comment une réduction de [X]% de vos erreurs de processus affecterait-elle votre NPS ?"],
-    },
-    "default": {
-        "situation": ["Décrivez-moi comment vous gérez [sujet] aujourd'hui ?","Qui est impliqué dans ce processus et quelle est leur charge de travail ?","Depuis combien de temps cette situation dure-t-elle ?"],
-        "probleme": ["Qu'est-ce qui vous pose le plus de difficultés dans cette situation ?","Quelles en sont les conséquences les plus visibles pour votre activité ?","Avez-vous déjà essayé de résoudre ce problème ? Qu'est-ce qui n'a pas fonctionné ?"],
-        "implication":["Quel est l'impact de ce problème sur vos résultats à fin d'année ?","Si rien ne change, où en serez-vous dans 6 mois ?","Combien cela vous coûte-t-il chaque mois en temps, argent ou opportunités perdues ?"],
-        "besoin": ["Si vous pouviez résoudre [problème] demain, quel serait le premier bénéfice visible ?","Qu'est-ce qu'une situation idéale ressemblerait pour vous dans 90 jours ?","Quel résultat justifierait votre investissement dans cette solution ?"],
-    },
-}
-
-# ─── CHALLENGER SALE ──────────────────────────────────────────────────────────
-_CHALLENGER = {
-    "teach": [
-        "Apportez une insight que le prospect n'a pas — une donnée, une tendance, un angle qu'il ignore",
-        "Remettez en question ses croyances actuelles avec des preuves factuelles, pas des opinions",
-        "Montrez l'angle mort : ce qu'il croit faire bien mais qui lui coûte en réalité de l'argent",
-        "Exemple : 'La plupart des [profil client] pensent que [croyance] — nos données montrent que c'est l'inverse'",
-    ],
-    "tailor": [
-        "Adaptez votre message à chaque interlocuteur dans l'entreprise (CEO, DAF, opérationnel)",
-        "Le CEO veut entendre : croissance, risque, compétitivité",
-        "Le DAF veut entendre : ROI, coût total de possession, retour en X mois",
-        "L'opérationnel veut entendre : gain de temps, facilité d'usage, moins d'erreurs",
-    ],
-    "take_control": [
-        "Maintenez le contrôle du processus de vente — ne laissez pas le prospect décider seul du timing",
-        "Proposez toujours une prochaine étape concrète avec une date précise",
-        "Si résistance sur le prix : ne cédez pas immédiatement — questionnez la valeur d'abord",
-        "Challenger ≠ agressif : c'est guider avec conviction, pas imposer avec pression",
-    ],
-}
 
 @st.cache_data(ttl=3600)
 def gen_scripts(activity: str) -> list:
@@ -3747,8 +3573,8 @@ else:
 spin_data = _SPIN.get(activity, _SPIN["default"])
 
 # ── Données sectorielles — toujours définies, préservées depuis cache ─────────
-# NE PAS réinitialiser sector_data ici — il peut venir du cache session
-if "sector_data" not in dir() or not sector_data:
+# sector_data vient du cache session ou est initialisé vide
+if not isinstance(sector_data, dict):
     sector_data = {}
 macro_data   = {}
 _sector_live   = sector_data  # sera mis à jour ci-dessous
