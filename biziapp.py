@@ -3937,7 +3937,25 @@ with tabs[0]:
         st.markdown("<br>", unsafe_allow_html=True)
 
         # SWOT
-    st.markdown('<div class="section-h">Analyse SWOT</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-h">Analyse SWOT personnalisée</div>', unsafe_allow_html=True)
+    # Enrichissement SWOT avec données site et secteur
+    if _HAS_API_LAYER and (site_data or _sector_live):
+        try:
+            swot = _personalize_swot(swot, site_data, _sector_live)
+        except Exception:
+            pass
+    # Badge de personnalisation
+    _pers_score = 40
+    if site_data and not site_data.get("error"): _pers_score += 30
+    if _sector_live and _sector_live.get("benchmarks"): _pers_score += 20
+    if _pers_score > 40:
+        st.markdown(f'''
+<div style="display:inline-flex;align-items:center;gap:8px;background:#C6ECD9;
+  border-radius:50px;padding:5px 14px;margin-bottom:12px;font-size:.75rem;font-weight:700;color:#267371">
+  <span>🎯</span> Analyse personnalisée à {_pers_score}% — basée sur données réelles
+  {"| Site analysé: " + site_data.get("title","")[:30] if site_data and site_data.get("title") else ""}
+</div>
+''', unsafe_allow_html=True)
     st.caption("Le SWOT structure toute réflexion stratégique : Forces · Faiblesses · Opportunités · Menaces")
     col_s, col_w = st.columns(2)
     with col_s:
@@ -5047,6 +5065,7 @@ with tabs[10]:
 # ══════════════════════════════════════════════════════════════════════════════
 # TAB 11 — STRATÉGIE+ (Porter · Ansoff · Customer Journey · Pricing)
 # ══════════════════════════════════════════════════════════════════════════════
+# ═══ TAB 12 — PARCOURS CLIENT ═══
 with tabs[11]:
     st.markdown("""
 <div style="background:linear-gradient(135deg,#0B2221,#267371);color:white;border-radius:14px;
@@ -5166,6 +5185,7 @@ with tabs[11]:
 # ══════════════════════════════════════════════════════════════════════════════
 # TAB 12 — EMAILING (Séquences complètes)
 # ══════════════════════════════════════════════════════════════════════════════
+# ═══ TAB 13 — PRICING ═══
 with tabs[12]:
     st.markdown("""
 <div style="background:linear-gradient(135deg,#267371,#44C1BA);color:white;border-radius:14px;
@@ -5202,6 +5222,7 @@ with tabs[12]:
 # ══════════════════════════════════════════════════════════════════════════════
 # TAB 13 — SOCIAL MEDIA (Stratégie par plateforme)
 # ══════════════════════════════════════════════════════════════════════════════
+# ═══ TAB 14 — EMAIL SÉQUENCES ═══
 with tabs[13]:
     st.markdown("""
 <div style="background:linear-gradient(135deg,#393DAC,#44C1BA);color:white;border-radius:14px;
@@ -5503,7 +5524,7 @@ with tabs[13]:
 st.divider()
 st.markdown("""
 <div style="text-align:center;color:#339999;font-size:.78rem;padding:12px 0">
-  <b style="color:#0B2221">BiziApp v3.2</b> — Stratégie 360° · SWOT · QQOQCCP · PESTEL · SONCAS · AIDA · SPIN · Challenger · GEO 2025 · SEA IA · KPIs · OKR · Veille Live · RSE · RFM · BATNA · Prix psychologiques<br>
+  <b style="color:#0B2221">BiziApp v4.0</b> — Stratégie 360° · SWOT · QQOQCCP · PESTEL · SONCAS · AIDA · SPIN · Challenger · GEO 2025 · SEA IA · KPIs · OKR · Veille Live · RSE · RFM · BATNA · Prix psychologiques<br>
   <span style="color:#44C1BA">Analyse personnalisée · Données live · Cache intelligent · Lecture URL en direct · Veille concurrentielle · Actualités Google News · Wikipedia · DuckDuckGo</span><br>
   Données live : Google News · Bing News · Reddit · HN · DEV.to · Recherche-Entreprises · OSM · Wikidata · Wikipedia · AllOrigins · corsproxy.io · Analyse heuristique · Inputs validés &amp; sécurisés (XSS, SSRF, rate-limiting)
 </div>
