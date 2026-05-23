@@ -11,7 +11,8 @@ from typing import Dict, Any
 
 from fastapi import APIRouter, HTTPException
 
-from app.models.schemas import WizardInput, AnalysisCreateResponse, AnalysisResponse
+from app.models.schemas import WizardInput, AnalysisCreateResponse
+
 from app.services.swot_service import generate_swot
 from app.services.qqoqccp_service import generate_qqoqccp
 from app.services.pestel_service import generate_pestel, generate_micro_env, generate_competitive
@@ -19,7 +20,7 @@ from app.services.copywriting_service import generate_copywriting
 from app.services.geo_2025_service import generate_geo_2025
 from app.services.pagespeed_service import analyze_pagespeed
 
-# Optional services — dégradation gracieuse si non présents
+# Optional services — graceful degradation
 try:
     from app.services.persona_service import generate_personas
     _PERSONA_OK = True
@@ -57,22 +58,23 @@ except ImportError:
     _SYNTHESIS_OK = False
 
 logger = logging.getLogger(__name__)
-router = APIRouter(prefix="/api", tags=["analysis"])
 
-# ── In-memory store ────────────────────────────────────────────────────────────
+# Note: NO prefix here — main.py mounts this router under /api
+router = APIRouter(tags=["analysis"])
+
+# ── In-memory store (survives process restarts only — DB layer optional) ───────
 _analyses: Dict[str, Dict[str, Any]] = {}
 
 
-@router.post("/analysis", response_model=AnalysisCreateResponse)
+@router.post("/api/analysis", response_model=AnalysisCreateResponse)
 async def create_analysis(data: WizardInput) -> AnalysisCreateResponse:
     """
     Génère une analyse complète 360° à partir des données du wizard.
-    Orchestre tous les services en parallèle lorsque c'est possible.
     """
     analysis_id = str(uuid.uuid4())[:8]
     inp = data.dict()
 
-    # ── Services synchrones (rapides) ─────────────────────────────────────────
+    # ── Services synchrones ───────────────────────────────────────────────────
     swot        = generate_swot(data.activityType, data.goal, data.maturity)
     qqoqccp     = generate_qqoqccp(data.activityType, data.goal, data.maturity)
     pestel      = generate_pestel(data.activityType)
@@ -86,7 +88,7 @@ async def create_analysis(data: WizardInput) -> AnalysisCreateResponse:
     ads_data   = generate_ads(data.activityType, data.goal, data.monthlyBudget) if _ADS_OK else None
     sales_data = generate_sales(data.activityType, data.goal) if _SALES_OK else None
 
-    # ── Service async (PageSpeed — appel HTTP) ────────────────────────────────
+    # ── Service async (PageSpeed) ─────────────────────────────────────────────
     pagespeed = None
     geo2025   = generate_geo_2025(data.activityType, data.goal, data.websiteUrl or "")
     if data.websiteUrl:
@@ -95,7 +97,7 @@ async def create_analysis(data: WizardInput) -> AnalysisCreateResponse:
         except Exception as exc:
             logger.warning("PageSpeed timeout/error: %s", exc)
 
-    # ── Synthesis (dépend des autres résultats) ───────────────────────────────
+    # ── Synthesis ─────────────────────────────────────────────────────────────
     synthesis = None
     if _SYNTHESIS_OK:
         try:
@@ -110,7 +112,7 @@ async def create_analysis(data: WizardInput) -> AnalysisCreateResponse:
         except Exception as exc:
             logger.warning("Synthesis generation failed: %s", exc)
 
-    # ── Assembler et stocker ──────────────────────────────────────────────────
+    # ── Assemble & store ──────────────────────────────────────────────────────
     analysis: Dict[str, Any] = {
         "id":          analysis_id,
         "input":       inp,
@@ -135,9 +137,12 @@ async def create_analysis(data: WizardInput) -> AnalysisCreateResponse:
     return AnalysisCreateResponse(id=analysis_id)
 
 
-@router.get("/analysis/{analysis_id}")
+@router.get("/api/analysis/{analysis_id}")
 async def get_analysis(analysis_id: str) -> Dict[str, Any]:
     """Récupère une analyse par son ID."""
+    # Sanitize: only alphanumeric + hyphens
+    if not analysis_id.replace("-", "").isalnum() or len(analysis_id) > 40:
+        raise HTTPException(status_code=400, detail="Invalid analysis ID")
     analysis = _analyses.get(analysis_id)
     if not analysis:
         raise HTTPException(status_code=404, detail=f"Analyse {analysis_id} introuvable")
@@ -145,7 +150,7 @@ async def get_analysis(analysis_id: str) -> Dict[str, Any]:
 
 
 def _default_personas() -> list:
-    """Personas par défaut si le service n'est pas disponible."""
+    """Personas par défaut si le service persona n'est pas disponible."""
     return [
         {
             "name": "Alex",
