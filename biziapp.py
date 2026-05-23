@@ -680,6 +680,7 @@ try:
     _HAS_AUTH = True
 except ImportError:
     _HAS_AUTH = False
+    # Stubs auth_system si absent
     def get_current_user(): return {"email":"demo@biziapp.fr","name":"Demo","provider":"demo","analyses_count":0}
     def set_session(u): pass
     def logout(): pass
