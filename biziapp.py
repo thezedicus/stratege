@@ -258,6 +258,74 @@ a:hover{color:#44C1BA!important}
 /* ── Divider ── */
 hr{border-color:#C6ECD9!important}
 
+/* ═══ ANIMATIONS GLOBALES BiziApp ═══════════════════════════════ */
+@keyframes fadeInUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeInLeft{from{opacity:0;transform:translateX(-20px)}to{opacity:1;transform:translateX(0)}}
+@keyframes pulseRing{0%{box-shadow:0 0 0 0 rgba(68,193,186,.5)}70%{box-shadow:0 0 0 16px rgba(68,193,186,0)}100%{box-shadow:0 0 0 0 rgba(68,193,186,0)}}
+@keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
+@keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+@keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+@keyframes barFill{from{width:0}to{width:var(--bw,70%)}}
+@keyframes countUp{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:scale(1)}}
+@keyframes glowBorder{0%,100%{border-color:rgba(68,193,186,.25)}50%{border-color:#44C1BA}}
+@keyframes heroIn{from{opacity:0;transform:translateY(40px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+
+/* ── Landing page ── */
+.lp-hero{animation:heroIn .8s cubic-bezier(.22,1,.36,1) both}
+.lp-sub{animation:fadeInUp .7s .18s cubic-bezier(.22,1,.36,1) both}
+.lp-cta{animation:fadeInUp .7s .32s cubic-bezier(.22,1,.36,1) both}
+.lp-targets{animation:fadeInUp .6s .45s cubic-bezier(.22,1,.36,1) both}
+.lp-problems{animation:fadeInUp .6s .55s cubic-bezier(.22,1,.36,1) both}
+.lp-benefits{animation:fadeInUp .6s .65s cubic-bezier(.22,1,.36,1) both}
+.lp-proof{animation:fadeInUp .6s .72s cubic-bezier(.22,1,.36,1) both}
+
+/* ── CTA button ── */
+.cta-btn{display:inline-block;padding:15px 38px;background:linear-gradient(135deg,#44C1BA,#267371);color:white!important;font-weight:800;font-size:1.05rem;border-radius:50px;text-decoration:none;letter-spacing:-.01em;animation:pulseRing 2.4s cubic-bezier(.4,0,.6,1) infinite;transition:transform .2s,box-shadow .2s;cursor:pointer;border:none}
+.cta-btn:hover{transform:scale(1.05) translateY(-2px);box-shadow:0 14px 36px rgba(68,193,186,.4)!important;animation:none}
+
+/* ── Shimmer title ── */
+.shimmer-txt{background:linear-gradient(90deg,#44C1BA 0%,#0B2221 40%,#44C1BA 60%,#267371 80%,#44C1BA 100%);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 3.5s linear infinite}
+
+/* ── Benefit cards ── */
+.ben-card{background:white;border-radius:16px;padding:22px 18px;border:1.5px solid #C6ECD9;transition:transform .25s cubic-bezier(.34,1.56,.64,1),box-shadow .25s,border-color .25s;margin-bottom:12px}
+.ben-card:hover{transform:translateY(-6px) scale(1.02);box-shadow:0 18px 42px rgba(68,193,186,.16);border-color:#44C1BA}
+.ben-icon{font-size:1.9rem;animation:floatY 3.5s ease-in-out infinite;display:inline-block;margin-bottom:8px}
+
+/* ── Target pills ── */
+.tgt-pill{display:inline-flex;align-items:center;gap:7px;background:white;border:2px solid #C6ECD9;border-radius:50px;padding:9px 18px;margin:4px;font-weight:600;font-size:.88rem;color:#0B2221;transition:all .2s cubic-bezier(.34,1.56,.64,1);cursor:default}
+.tgt-pill:hover{background:#44C1BA;color:white;border-color:#44C1BA;transform:scale(1.07)}
+
+/* ── Problem rows ── */
+.prob-row{display:flex;align-items:center;gap:13px;padding:13px 17px;border-radius:11px;background:#FDF0F2;border-left:4px solid #B83D4B;margin-bottom:9px;animation:fadeInLeft .5s ease both}
+
+/* ── Stat boxes ── */
+.stat-box{text-align:center;padding:18px 12px;background:white;border-radius:14px;border:1.5px solid #C6ECD9;animation:countUp .6s cubic-bezier(.34,1.56,.64,1) both}
+.stat-num{font-size:2.2rem;font-weight:900;background:linear-gradient(135deg,#44C1BA,#267371);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.1}
+.stat-lbl{font-size:.74rem;color:#339999;font-weight:600;margin-top:3px}
+
+/* ── Ticker ── */
+.ticker-wrap{overflow:hidden;background:linear-gradient(90deg,#0B2221,#267371);border-radius:10px;padding:9px 0;margin:14px 0}
+.ticker-inner{display:flex;white-space:nowrap;animation:ticker 20s linear infinite}
+.ticker-item{display:inline-flex;align-items:center;gap:6px;color:rgba(255,255,255,.88);font-size:.76rem;font-weight:500;padding:0 24px}
+.ticker-dot{width:4px;height:4px;border-radius:50%;background:#44C1BA;flex-shrink:0}
+
+/* ── Gauge ── */
+.gauge-wrap{margin:10px 0}.gauge-lbl{display:flex;justify-content:space-between;font-size:.76rem;font-weight:600;color:#267371;margin-bottom:4px}
+.gauge-track{height:7px;background:#C6ECD9;border-radius:99px;overflow:hidden}
+.gauge-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,#44C1BA,#267371);animation:barFill 1.4s cubic-bezier(.4,0,.2,1) both}
+
+/* ── Proof card ── */
+.proof-card{background:linear-gradient(135deg,#0B2221 0%,#267371 100%);border-radius:18px;padding:26px;color:white;position:relative;overflow:hidden}
+.proof-card::before{content:'';position:absolute;top:-30%;right:-15%;width:260px;height:260px;border-radius:50%;background:rgba(68,193,186,.1);animation:floatY 5s ease-in-out infinite}
+
+/* ── Section label ── */
+.lp-stitle{font-size:1.2rem;font-weight:800;color:#0B2221;margin:26px 0 14px;display:flex;align-items:center;gap:9px}
+.lp-stitle::before{content:'';display:inline-block;width:4px;height:20px;border-radius:3px;background:linear-gradient(180deg,#44C1BA,#267371)}
+
+/* ── Preview mockup ── */
+.mockup-bar{height:22px;background:#0B2221;border-radius:8px 8px 0 0;display:flex;align-items:center;padding:0 10px;gap:5px}
+.mockup-dot{width:9px;height:9px;border-radius:50%}
+
 </style>
 """, unsafe_allow_html=True)
 
