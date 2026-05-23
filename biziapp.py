@@ -41,10 +41,10 @@ st.set_page_config(
 # ─────────────────────────────────────────────────────────────────────────────
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap');
+/* Inter font loaded via system font stack — no external request */
 :root{--graphite:#0B2221;--graphite2:#267371;--teal:#44C1BA;--teal-pale:#C6ECD9;--jade:#267371;--jade-pale:#C6ECD9;--ivoire:#F7FBF4;--craie:#F2ECD9;--encre:#0B2221;--muted:#339999;--border:#C6ECD9;}
 *,*::before,*::after{box-sizing:border-box}
-html,body,[class*="css"]{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;-webkit-font-smoothing:antialiased;color:var(--encre)}
+html,body,[class*="css"]{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;color:var(--encre)}
 #MainMenu,footer,header{visibility:hidden}
 .block-container{padding-top:1.25rem!important;max-width:1280px}
 [data-testid="stSidebar"]{background:#F7FBF4;border-right:1px solid var(--craie)}
@@ -81,8 +81,8 @@ html,body,[class*="css"]{font-family:'Inter',-apple-system,BlinkMacSystemFont,'S
 
 /* ── Badges ── */
 .badge{display:inline-block;padding:2px 9px;border-radius:999px;font-size:.7rem;font-weight:600;white-space:nowrap}
-.badge-blue{background:#E4E9F6;color:#393DAC}.badge-green{background:#DCFCE7;color:#267371}
-.badge-red{background:#F7FBF4;color:#B83D4B}.badge-teal{background:var(--teal-pale);color:#267371}
+.badge-blue{background:#E4E9F6;color:#393DAC}.badge-green{background:#C6ECD9;color:#0B2221}
+.badge-red{background:#F7EEF0;color:#B83D4B}.badge-teal{background:var(--teal-pale);color:#267371}
 .badge-purple{background:#E4E9F6;color:#267371}.badge-gray{background:#E4E9F6;color:#267371}
 .badge-graphite{background:var(--graphite);color:#F7FBF4}.badge-jade{background:var(--jade-pale);color:var(--jade)}
 
@@ -143,7 +143,7 @@ html,body,[class*="css"]{font-family:'Inter',-apple-system,BlinkMacSystemFont,'S
 
 /* ── Context bar ── */
 .ctx-pill{background:var(--graphite);color:white;border-radius:6px;padding:4px 12px;font-size:.74rem;font-weight:600;letter-spacing:.03em}
-.ctx-pill.ambre{background:var(--teal)}.ctx-pill.sauge{background:var(--jade)}.ctx-pill.blue{background:#393DAC}
+.ctx-pill.teal{background:var(--teal)}.ctx-pill.jade{background:var(--jade)}.ctx-pill.blue{background:#393DAC}
 
 /* ── Scrollbar ── */
 ::-webkit-scrollbar{width:5px;height:5px}
@@ -2445,29 +2445,78 @@ if not st.session_state.get("_run", False):
 # ─────────────────────────────────────────────────────────────────────────────
 # GENERATE DATA
 # ─────────────────────────────────────────────────────────────────────────────
-with st.spinner("Génération de l'analyse en cours…"):
-    swot = gen_swot(activity, goal, maturity)
-    qqoqccp = gen_qqoqccp(activity)
-    pestel = gen_pestel(activity)
-    micro_env = gen_micro_env(activity)
+# ── Cache-clé session : ne recalcule que si les paramètres changent ──────────
+_cache_key = f"{activity}|{goal}|{maturity}|{monthly_budget}"
+_needs_regen = st.session_state.get("_cache_key") != _cache_key
+
+if _needs_regen:
+    st.session_state["_cache_key"] = _cache_key
+    # Données statiques — toutes issues du cache @st.cache_data, <50ms total
+    swot        = gen_swot(activity, goal, maturity)
+    qqoqccp     = gen_qqoqccp(activity)
+    pestel      = gen_pestel(activity)
+    micro_env   = gen_micro_env(activity)
     competitive = gen_competitive(activity)
-    soncas = gen_soncas(activity)
-    aida = gen_aida(activity)
-    geo = gen_geo(activity)
-    keywords = gen_keywords(activity)
-    platforms = gen_platforms(activity)
+    soncas      = gen_soncas(activity)
+    aida        = gen_aida(activity)
+    geo         = gen_geo(activity)
+    keywords    = gen_keywords(activity)
+    platforms   = gen_platforms(activity)
     budget_alloc = gen_budget_alloc(monthly_budget)
-    budget_reco = gen_budget_reco(monthly_budget)
-    calendar = gen_calendar(goal)
-    personas = gen_personas(activity)
-    scripts = gen_scripts(activity)
-    synthesis = gen_synthesis(activity, goal, maturity, monthly_budget)
-    okrs = gen_okr(goal)
-    spin_data = _SPIN.get(activity, _SPIN["default"])
-    site_data = scrape_site(website_url) if website_url else {}
-    site_meta = site_data
-    # ── Personnalisation depuis les données du site ───────────────────────────
-    site_ins = _site_insights(site_data)
+    budget_reco  = gen_budget_reco(monthly_budget)
+    calendar     = gen_calendar(goal)
+    personas     = gen_personas(activity)
+    scripts      = gen_scripts(activity)
+    synthesis    = gen_synthesis(activity, goal, maturity, monthly_budget)
+    okrs         = gen_okr(goal)
+    ads_data     = gen_ads(activity, goal, monthly_budget)
+    roi_data     = gen_roi_projection(activity, goal, maturity, monthly_budget)
+    # Stocker dans session_state pour réutilisation
+    st.session_state["_analysis"] = {
+        "swot": swot, "qqoqccp": qqoqccp, "pestel": pestel,
+        "micro_env": micro_env, "competitive": competitive,
+        "soncas": soncas, "aida": aida, "geo": geo,
+        "keywords": keywords, "platforms": platforms,
+        "budget_alloc": budget_alloc, "budget_reco": budget_reco,
+        "calendar": calendar, "personas": personas, "scripts": scripts,
+        "synthesis": synthesis, "okrs": okrs,
+        "ads_data": ads_data, "roi_data": roi_data,
+    }
+else:
+    # Récupération instantanée depuis session_state (0ms)
+    _a = st.session_state.get("_analysis", {})
+    swot         = _a.get("swot",        gen_swot(activity, goal, maturity))
+    qqoqccp      = _a.get("qqoqccp",     gen_qqoqccp(activity))
+    pestel       = _a.get("pestel",      gen_pestel(activity))
+    micro_env    = _a.get("micro_env",   gen_micro_env(activity))
+    competitive  = _a.get("competitive", gen_competitive(activity))
+    soncas       = _a.get("soncas",      gen_soncas(activity))
+    aida         = _a.get("aida",        gen_aida(activity))
+    geo          = _a.get("geo",         gen_geo(activity))
+    keywords     = _a.get("keywords",    gen_keywords(activity))
+    platforms    = _a.get("platforms",   gen_platforms(activity))
+    budget_alloc = _a.get("budget_alloc", gen_budget_alloc(monthly_budget))
+    budget_reco  = _a.get("budget_reco",  gen_budget_reco(monthly_budget))
+    calendar     = _a.get("calendar",    gen_calendar(goal))
+    personas     = _a.get("personas",    gen_personas(activity))
+    scripts      = _a.get("scripts",     gen_scripts(activity))
+    synthesis    = _a.get("synthesis",   gen_synthesis(activity, goal, maturity, monthly_budget))
+    okrs         = _a.get("okrs",        gen_okr(goal))
+    ads_data     = _a.get("ads_data",    gen_ads(activity, goal, monthly_budget))
+    roi_data     = _a.get("roi_data",    gen_roi_projection(activity, goal, maturity, monthly_budget))
+
+spin_data = _SPIN.get(activity, _SPIN["default"])
+
+# ── Scraping site (optionnel, async-safe via cache) ─────────────────────────
+site_data = {}
+if website_url:
+    try:
+        site_data = scrape_site(website_url)
+    except Exception:
+        site_data = {}
+site_meta = site_data
+# ── Personnalisation depuis les données du site ───────────────────────────
+site_ins = _site_insights(site_data)
     if site_ins:
         _sn  = site_ins.get("name", "")
         _skw = site_ins.get("top_keywords", [])
