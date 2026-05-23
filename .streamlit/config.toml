@@ -1,7 +1,6 @@
 [server]
 headless = true
 enableCORS = false
-# XSRF protection active — do NOT disable in production
 enableXsrfProtection = true
 maxUploadSize = 5
 
@@ -10,10 +9,10 @@ gatherUsageStats = false
 
 [theme]
 base = "light"
-primaryColor = "#D97706"
-backgroundColor = "#FAF8F4"
-secondaryBackgroundColor = "#F2EFE8"
-textColor = "#1A1A1A"
+primaryColor = "#44C1BA"
+backgroundColor = "#F7FBF4"
+secondaryBackgroundColor = "#C6ECD9"
+textColor = "#0B2221"
 font = "sans serif"
 
 [runner]
