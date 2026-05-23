@@ -15,13 +15,31 @@ build/
 pip-wheel-metadata/
 *.pyo
 
-# ── Environment ───────────────────────────────────────────────────────────────
+# ── Secrets & credentials — NEVER commit these ────────────────────────────────
 .env
 .env.local
 .env.*.local
 .env.development
 .env.production
+.env.staging
 !.env.example
+!backend/.env.example
+!frontend/.env.local.example
+
+# ── Streamlit secrets ─────────────────────────────────────────────────────────
+.streamlit/secrets.toml
+!.streamlit/secrets.toml.example
+
+# ── API keys & tokens ─────────────────────────────────────────────────────────
+*.pem
+*.key
+*.p12
+*.pfx
+secrets.py
+secrets.json
+credentials.json
+token.json
+service_account*.json
 
 # ── Node / Next.js ────────────────────────────────────────────────────────────
 node_modules/
@@ -54,28 +72,18 @@ Icon?
 *.njsproj
 *.sln
 
-# ── Logs ──────────────────────────────────────────────────────────────────────
+# ── Logs & databases ──────────────────────────────────────────────────────────
 logs/
 *.log
-
-# ── Misc ──────────────────────────────────────────────────────────────────────
-*.pem
-.vercel
-coverage/
-.pytest_cache/
-htmlcov/
-
-# ── Streamlit secrets (SÉCURITÉ — ne jamais committer) ────────────────────────
-.streamlit/secrets.toml
-!.streamlit/secrets.toml.example
-!.streamlit/config.toml
-
-# ── Données sensibles ─────────────────────────────────────────────────────────
-*.sqlite
 *.db
-filesdocsup.zip
-stratege.modifs/
+*.sqlite
+*.sqlite3
 
-# ── Streamlit cache ───────────────────────────────────────────────────────────
-.streamlit/cache/
-__streamlit_cache__/
+# ── Docker ────────────────────────────────────────────────────────────────────
+.dockerignore
+
+# ── Test / coverage ───────────────────────────────────────────────────────────
+.coverage
+htmlcov/
+.pytest_cache/
+.mypy_cache/
