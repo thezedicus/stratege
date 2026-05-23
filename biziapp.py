@@ -3297,6 +3297,15 @@ if _needs_regen:
     okrs         = gen_okr(goal)
     ads_data     = gen_ads(activity, goal, monthly_budget)
     roi_data     = gen_roi_projection(activity, goal, maturity, monthly_budget)
+    # ── Nouvelles analyses avancées ─────────────────────────────────────────
+    porter_data    = gen_porter_forces(activity)
+    ansoff_data    = gen_ansoff_matrix(activity, goal, maturity)
+    journey_data   = gen_customer_journey(activity, goal)
+    content_strat  = gen_content_strategy(activity, goal, monthly_budget)
+    email_seq      = gen_email_sequences(activity, goal)
+    social_strat   = gen_social_media_strategy(activity, monthly_budget)
+    pricing_strat  = gen_pricing_strategy(activity, monthly_budget, maturity)
+    comp_intel     = gen_competitive_intelligence(activity, goal)
     # Stocker dans session_state pour réutilisation
     st.session_state["_analysis"] = {
         "swot": swot, "qqoqccp": qqoqccp, "pestel": pestel,
@@ -3308,6 +3317,10 @@ if _needs_regen:
         "synthesis": synthesis, "okrs": okrs,
         "ads_data": ads_data, "roi_data": roi_data,
         "sector_data": sector_data,
+        "porter_data": porter_data, "ansoff_data": ansoff_data,
+        "journey_data": journey_data, "content_strat": content_strat,
+        "email_seq": email_seq, "social_strat": social_strat,
+        "pricing_strat": pricing_strat, "comp_intel": comp_intel,
     }
 else:
     # Récupération instantanée depuis session_state (0ms)
@@ -3332,6 +3345,14 @@ else:
     ads_data     = _a.get("ads_data",    gen_ads(activity, goal, monthly_budget))
     roi_data     = _a.get("roi_data",    gen_roi_projection(activity, goal, maturity, monthly_budget))
     sector_data  = _a.get("sector_data",  {})
+    porter_data  = _a.get("porter_data",  gen_porter_forces(activity))
+    ansoff_data  = _a.get("ansoff_data",  gen_ansoff_matrix(activity, goal, maturity))
+    journey_data = _a.get("journey_data", gen_customer_journey(activity, goal))
+    content_strat= _a.get("content_strat",gen_content_strategy(activity, goal, monthly_budget))
+    email_seq    = _a.get("email_seq",    gen_email_sequences(activity, goal))
+    social_strat = _a.get("social_strat", gen_social_media_strategy(activity, monthly_budget))
+    pricing_strat= _a.get("pricing_strat",gen_pricing_strategy(activity, monthly_budget, maturity))
+    comp_intel   = _a.get("comp_intel",   gen_competitive_intelligence(activity, goal))
 
 spin_data = _SPIN.get(activity, _SPIN["default"])
 
@@ -4643,6 +4664,235 @@ with tabs[10]:
               <p style="font-size:.78rem;color:#267371;margin:0">{_ac}</p>
             </div>
             """, unsafe_allow_html=True)
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# TAB 11 — STRATÉGIE+ (Porter · Ansoff · Customer Journey · Pricing)
+# ══════════════════════════════════════════════════════════════════════════════
+with tabs[11]:
+    st.markdown("""
+<div style="background:linear-gradient(135deg,#0B2221,#267371);color:white;border-radius:14px;
+  padding:18px 24px;margin-bottom:20px">
+  <b style="font-size:1.05rem">⚔️ Stratégie avancée — Porter · Ansoff · Customer Journey · Pricing</b><br>
+  <span style="opacity:.85;font-size:.85rem">Frameworks stratégiques complets personnalisés pour votre secteur</span>
+</div>
+""", unsafe_allow_html=True)
+
+    # ── Porter 5 Forces ──────────────────────────────────────────────────────
+    st.markdown('<div class="section-h">5 Forces de Porter</div>', unsafe_allow_html=True)
+    _p5 = porter_data if porter_data else {}
+    _forces_names = {
+        "menace_nouveaux": "🆕 Menace nouveaux entrants",
+        "pouvoir_fournisseurs": "🏭 Pouvoir fournisseurs",
+        "pouvoir_acheteurs": "🛒 Pouvoir acheteurs",
+        "menace_substituts": "🔄 Menace substituts",
+        "rivalite": "⚔️ Rivalité concurrentielle",
+    }
+    _pcols = st.columns(5)
+    for _col, (_key, _label) in zip(_pcols, _forces_names.items()):
+        _force = _p5.get(_key, {})
+        _score = _force.get("score", 5)
+        _lbl   = _force.get("label", "N/A")
+        _color = "#B83D4B" if _score >= 7 else "#44C1BA" if _score >= 5 else "#267371"
+        with _col:
+            st.markdown(f"""
+<div class="stat-box" style="border-top:3px solid {_color}">
+  <div style="font-size:.7rem;font-weight:700;color:{_color};margin-bottom:6px">{_label[:20]}</div>
+  <div style="font-size:1.8rem;font-weight:900;color:{_color}">{_score}/10</div>
+  <div style="font-size:.68rem;color:#339999;font-weight:600;margin-top:3px">{_lbl}</div>
+</div>""", unsafe_allow_html=True)
+
+    with st.expander("Détails des 5 Forces"):
+        for _key, _label in _forces_names.items():
+            _force = _p5.get(_key, {})
+            _details = _force.get("details", [])
+            st.markdown(f"**{_label}** — Score {_force.get('score',5)}/10")
+            for _d in _details:
+                st.markdown(f"  - {_d}")
+
+    st.divider()
+
+    # ── Matrice Ansoff ────────────────────────────────────────────────────────
+    st.markdown('<div class="section-h">Matrice d'Ansoff — Stratégies de croissance</div>', unsafe_allow_html=True)
+    _ansoff = ansoff_data if ansoff_data else {}
+    _reco = _ansoff.get("recommendation", "penetration")
+    _ansoff_labels = {
+        "penetration": ("🎯 Pénétration marché", "Marchés existants + Produits existants", "#267371"),
+        "developpement": ("🚀 Développement produit", "Marchés existants + Nouveaux produits", "#44C1BA"),
+        "extension": ("🌍 Extension marché", "Nouveaux marchés + Produits existants", "#393DAC"),
+        "diversification": ("💡 Diversification", "Nouveaux marchés + Nouveaux produits", "#B83D4B"),
+    }
+    _a_cols = st.columns(2)
+    for _ci, (_akey, (_alabel, _adesc, _acolor)) in enumerate(_ansoff_labels.items()):
+        _adata = _ansoff.get(_akey, {})
+        _ascore = _adata.get("score", 50)
+        _arisk  = _adata.get("risk", "N/A")
+        _is_reco = _akey == _reco
+        with _a_cols[_ci % 2]:
+            st.markdown(f"""
+<div class="ben-card" style="border-left:4px solid {_acolor}{'!important;background:#F7FBF4' if _is_reco else ''}">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+    <div style="font-weight:800;font-size:.92rem;color:#0B2221">{_alabel}</div>
+    {"<span style='background:#44C1BA;color:white;border-radius:50px;padding:2px 10px;font-size:.68rem;font-weight:700'>✅ RECOMMANDÉ</span>" if _is_reco else ""}
+  </div>
+  <div style="font-size:.74rem;color:#339999;margin-bottom:10px">{_adesc} · Risque : {_arisk}</div>
+  <div class="gauge-wrap">
+    <div class="gauge-lbl"><span>Score de pertinence</span><span>{_ascore}%</span></div>
+    <div class="gauge-track"><div class="gauge-fill" style="--bw:{_ascore}%"></div></div>
+  </div>
+</div>""", unsafe_allow_html=True)
+
+        with st.expander(f"Actions — {_alabel}"):
+            for _ac in _adata.get("actions", []):
+                st.markdown(f"- {_ac}")
+
+    st.divider()
+
+    # ── Customer Journey ──────────────────────────────────────────────────────
+    st.markdown('<div class="section-h">Customer Journey Map — 7 étapes</div>', unsafe_allow_html=True)
+    _journey = journey_data if journey_data else []
+    for _ji, _stage in enumerate(_journey):
+        _score = _stage.get("score", 5)
+        _color = "#267371" if _score >= 7 else "#44C1BA" if _score >= 5 else "#B83D4B"
+        with st.expander(f"{_stage.get('emotion','')} {_stage.get('stage','')} — Score expérience {_score}/10"):
+            _jc1, _jc2 = st.columns(2)
+            with _jc1:
+                st.markdown("**Touchpoints**")
+                for _tp in _stage.get("touchpoints", []):
+                    st.markdown(f"- {_tp}")
+            with _jc2:
+                st.markdown(f"**🔴 Pain point** : {_stage.get('pain','')}")
+                st.markdown(f"**🟢 Opportunité** : {_stage.get('opportunity','')}")
+
+    st.divider()
+
+    # ── Pricing Strategy ─────────────────────────────────────────────────────
+    st.markdown('<div class="section-h">Stratégie Pricing</div>', unsafe_allow_html=True)
+    _pric = pricing_strat if pricing_strat else {}
+    _pc1, _pc2 = st.columns(2)
+    with _pc1:
+        st.metric("Prix de base recommandé", _pric.get("recommended_base_price","N/A"))
+        st.markdown("**Modèles de pricing :**")
+        for _m in _pric.get("models", [])[:5]:
+            st.markdown(f"- {_m}")
+    with _pc2:
+        st.markdown("**Stratégie d'ancrage :**")
+        for _an in _pric.get("anchor_strategy", []):
+            st.markdown(f"- {_an}")
+    st.markdown("**Déclencheurs psychologiques :**")
+    for _pt in _pric.get("psychological_triggers", []):
+        st.markdown(f"- {_pt}")
+    st.info(f"🧪 Test A/B recommandé : {_pric.get('elasticite','')}")
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# TAB 12 — EMAILING (Séquences complètes)
+# ══════════════════════════════════════════════════════════════════════════════
+with tabs[12]:
+    st.markdown("""
+<div style="background:linear-gradient(135deg,#267371,#44C1BA);color:white;border-radius:14px;
+  padding:18px 24px;margin-bottom:20px">
+  <b style="font-size:1.05rem">📧 Stratégie Email Marketing — 5 séquences complètes</b><br>
+  <span style="opacity:.9;font-size:.85rem">Séquences prêtes à l'emploi · Objets testés · KPIs cibles</span>
+</div>
+""", unsafe_allow_html=True)
+
+    _seq = email_seq if email_seq else {}
+    _seq_icons = {"welcome": "👋", "nurture": "🌱", "abandoned_cart": "🛒", "reactivation": "💙", "upsell": "⬆️"}
+
+    for _seq_key, _seq_data in _seq.items():
+        _icon = _seq_icons.get(_seq_key, "📧")
+        with st.expander(f"{_icon} {_seq_data.get('name','')}", expanded=(_seq_key == 'welcome')):
+            _kpis = _seq_data.get("kpis", {})
+            _kc = st.columns(3)
+            for _col, (_kn, _kv) in zip(_kc, _kpis.items()):
+                with _col:
+                    st.metric(_kn.replace("_"," ").title(), _kv)
+
+            st.markdown("**Emails de la séquence :**")
+            for _em in _seq_data.get("emails", []):
+                st.markdown(f"""
+<div class="card" style="margin-bottom:8px;display:flex;align-items:flex-start;gap:12px">
+  <div style="background:#C6ECD9;border-radius:8px;padding:4px 10px;font-size:.7rem;font-weight:800;color:#267371;flex-shrink:0">{_em.get('j','')}</div>
+  <div>
+    <div style="font-weight:700;font-size:.88rem;color:#0B2221">"{_em.get('objet','')}"</div>
+    <div style="font-size:.76rem;color:#339999;margin-top:2px">🎯 {_em.get('objectif','')}</div>
+  </div>
+</div>""", unsafe_allow_html=True)
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# TAB 13 — SOCIAL MEDIA (Stratégie par plateforme)
+# ══════════════════════════════════════════════════════════════════════════════
+with tabs[13]:
+    st.markdown("""
+<div style="background:linear-gradient(135deg,#393DAC,#44C1BA);color:white;border-radius:14px;
+  padding:18px 24px;margin-bottom:20px">
+  <b style="font-size:1.05rem">📱 Stratégie Social Media — Plan par plateforme</b><br>
+  <span style="opacity:.9;font-size:.85rem">Priorités · Formats · Budgets · KPIs · Fréquences</span>
+</div>
+""", unsafe_allow_html=True)
+
+    _social = social_strat if social_strat else {}
+    _platform_icons = {"Instagram": "📸", "TikTok": "🎵", "LinkedIn": "💼", "YouTube": "▶️",
+                       "Pinterest": "📌", "Facebook": "👥", "Twitter/X": "🐦", "Newsletter": "📧",
+                       "Product Hunt": "🚀", "Podcast": "🎙️"}
+
+    for _pname, _pdata in sorted(_social.items(), key=lambda x: x[1].get("priorite",99)):
+        _icon = _platform_icons.get(_pname, "📱")
+        _prio = _pdata.get("priorite", 0)
+        _prio_color = "#B83D4B" if _prio == 1 else "#44C1BA" if _prio == 2 else "#339999"
+        st.markdown(f"""
+<div class="ben-card" style="margin-bottom:12px">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+    <div style="font-size:1.1rem;font-weight:800;color:#0B2221">{_icon} {_pname}</div>
+    <span style="background:{_prio_color};color:white;border-radius:50px;padding:3px 12px;font-size:.7rem;font-weight:700">Priorité {_prio}</span>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px">
+    <div style="background:#F7FBF4;border-radius:8px;padding:8px"><div style="font-size:.64rem;color:#339999;font-weight:600">OBJECTIF</div><div style="font-size:.78rem;color:#0B2221;font-weight:600;margin-top:2px">{_pdata.get('objectif','')}</div></div>
+    <div style="background:#F7FBF4;border-radius:8px;padding:8px"><div style="font-size:.64rem;color:#339999;font-weight:600">FORMAT</div><div style="font-size:.78rem;color:#0B2221;font-weight:600;margin-top:2px">{_pdata.get('format','')}</div></div>
+    <div style="background:#F7FBF4;border-radius:8px;padding:8px"><div style="font-size:.64rem;color:#339999;font-weight:600">BUDGET</div><div style="font-size:.78rem;color:#0B2221;font-weight:600;margin-top:2px">{_pdata.get('budget','')}</div></div>
+    <div style="background:#C6ECD9;border-radius:8px;padding:8px"><div style="font-size:.64rem;color:#267371;font-weight:600">KPI CIBLE</div><div style="font-size:.78rem;color:#0B2221;font-weight:600;margin-top:2px">{_pdata.get('kpi','')}</div></div>
+  </div>
+  <div style="margin-top:8px;font-size:.74rem;color:#339999">📅 Fréquence : <b>{_pdata.get('freq','')}</b></div>
+</div>""", unsafe_allow_html=True)
+
+    # Intelligence concurrentielle
+    st.divider()
+    st.markdown('<div class="section-h">🕵️ Intelligence concurrentielle</div>', unsafe_allow_html=True)
+    _ci = comp_intel if comp_intel else {}
+    with st.expander("Axes de veille concurrentielle"):
+        for _ax in _ci.get("axes_veille", []):
+            st.markdown(f"**{_ax.get('axe','')}** — {_ax.get('methode','')} · Outils : {', '.join(_ax.get('outils',[]))}")
+    st.markdown("**Signaux d'opportunité à surveiller :**")
+    for _sig in _ci.get("signaux_opportunite", []):
+        st.markdown(f"- 🎯 {_sig}")
+    _cad = _ci.get("cadence", {})
+    if _cad:
+        _cadc = st.columns(3)
+        for _col, (_freq, _action) in zip(_cadc, _cad.items()):
+            with _col:
+                st.metric(_freq.title(), _action)
+
+    # Stratégie contenu
+    st.divider()
+    st.markdown('<div class="section-h">📝 Stratégie de contenu</div>', unsafe_allow_html=True)
+    _cs = content_strat if content_strat else {}
+    _csc1, _csc2 = st.columns(2)
+    with _csc1:
+        st.markdown("**Piliers éditoriaux :**")
+        for _i, _pil in enumerate(_cs.get("pillars", []), 1):
+            st.markdown(f"{_i}. {_pil}")
+        st.markdown(f"
+**Budget contenu :** {_cs.get('budget_content','N/A')}")
+    with _csc2:
+        st.markdown("**Outils gratuits recommandés :**")
+        for _t in _cs.get("tools_free", []):
+            st.markdown(f"- {_t}")
+        st.markdown("**KPIs contenu :**")
+        for _kn, _kv in _cs.get("kpis", {}).items():
+            st.markdown(f"- {_kn} : **{_kv}**")
+
 
 # ─────────────────────────────────────────────────────────────────────────────
 # FOOTER
