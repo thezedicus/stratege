@@ -5271,6 +5271,232 @@ with tabs[13]:
             st.markdown(f"- {_kn} : **{_kv}**")
 
 
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# TAB 12 — PARCOURS CLIENT
+# ══════════════════════════════════════════════════════════════════════════════
+with tabs[11]:
+    st.markdown('''
+<div style="background:linear-gradient(135deg,#0B2221,#267371);color:white;border-radius:14px;
+  padding:18px 24px;margin-bottom:20px;display:flex;align-items:center;gap:12px">
+  <span style="font-size:2rem">🗺️</span>
+  <div>
+    <b style="font-size:1rem">Parcours Client — Customer Journey Map</b><br>
+    <span style="opacity:.85;font-size:.84rem">Chaque étape de la découverte à la fidélisation — avec les frictions et leviers d'action</span>
+  </div>
+</div>
+''', unsafe_allow_html=True)
+
+    _journey = gen_customer_journey(activity)
+    if _journey:
+        for _ji, (_stage, _desc, _channels, _actions, _emoji) in enumerate(_journey):
+            _pct = int((_ji+1) / len(_journey) * 100)
+            st.markdown(f'''
+<div class="card" style="border-left:4px solid #44C1BA;margin-bottom:12px;position:relative">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+    <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#44C1BA,#267371);
+      display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0">{_emoji}</div>
+    <div>
+      <div style="font-weight:800;font-size:.95rem;color:#0B2221">{_stage}</div>
+      <div style="font-size:.78rem;color:#339999">{_desc}</div>
+    </div>
+    <div style="margin-left:auto;text-align:right">
+      <div style="font-size:.7rem;color:#339999;font-weight:600">Étape {_ji+1}/{len(_journey)}</div>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+    <div style="background:#F7FBF4;border-radius:8px;padding:10px">
+      <div style="font-size:.68rem;font-weight:700;text-transform:uppercase;color:#339999;margin-bottom:5px">Canaux présents</div>
+      {"".join(f'<div style="font-size:.78rem;color:#0B2221;margin-bottom:3px">• {c}</div>' for c in _channels)}
+    </div>
+    <div style="background:#C6ECD9;border-radius:8px;padding:10px">
+      <div style="font-size:.68rem;font-weight:700;text-transform:uppercase;color:#267371;margin-bottom:5px">Leviers d'action</div>
+      {"".join(f'<div style="font-size:.78rem;color:#0B2221;margin-bottom:3px">✓ {a}</div>' for a in _actions)}
+    </div>
+  </div>
+  <div class="gauge-wrap" style="margin-top:10px">
+    <div class="gauge-lbl"><span>Progression</span><span>{_pct}%</span></div>
+    <div class="gauge-track"><div class="gauge-fill" style="--bw:{_pct}%"></div></div>
+  </div>
+</div>
+''', unsafe_allow_html=True)
+
+    # Value Chain Porter
+    st.markdown('<div class="section-h" style="margin-top:24px">Chaîne de valeur (Porter)</div>', unsafe_allow_html=True)
+    _vc = gen_value_chain(activity)
+    if _vc:
+        _vc_cols = st.columns(len(_vc.get("primaires",[])))
+        for _col, (_act, _items, _color) in zip(_vc_cols, _vc.get("primaires",[])):
+            with _col:
+                st.markdown(f'''
+<div style="background:{_color}15;border-radius:12px;padding:12px;border-top:3px solid {_color};text-align:center">
+  <div style="font-weight:700;font-size:.8rem;color:#0B2221;margin-bottom:8px">{_act}</div>
+  {"".join(f'<div style="font-size:.72rem;color:#339999;margin-bottom:3px">{it}</div>' for it in _items)}
+</div>
+''', unsafe_allow_html=True)
+
+        st.markdown("**Activités de soutien :**")
+        _sup_cols = st.columns(4)
+        for _col2, (_k, _v) in zip(_sup_cols, _vc.get("support",[])[:4]):
+            with _col2:
+                st.markdown(f'''
+<div class="card" style="padding:10px;text-align:center">
+  <div style="font-weight:700;font-size:.78rem;color:#0B2221;margin-bottom:4px">{_k}</div>
+  <div style="font-size:.72rem;color:#339999">{_v}</div>
+</div>
+''', unsafe_allow_html=True)
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# TAB 13 — PRICING STRATEGY
+# ══════════════════════════════════════════════════════════════════════════════
+with tabs[12]:
+    st.markdown('''
+<div style="background:linear-gradient(135deg,#267371,#44C1BA);color:white;border-radius:14px;
+  padding:18px 24px;margin-bottom:20px">
+  <b style="font-size:1rem">💰 Stratégie de prix — Psychologie & Positionnement</b><br>
+  <span style="opacity:.85;font-size:.84rem">Techniques de pricing basées sur la psychologie comportementale et les données marché</span>
+</div>
+''', unsafe_allow_html=True)
+
+    _pricing = gen_pricing_strategy(activity, monthly_budget)
+    _bmc     = gen_business_model_canvas(activity, goal)
+
+    st.markdown(f'<div class="section-h">Stratégie recommandée : {_pricing.get("recommandee","")}</div>', unsafe_allow_html=True)
+
+    # 6 techniques de pricing
+    _ptechs = _pricing.get("techniques", [])
+    for i in range(0, len(_ptechs), 2):
+        _pc1, _pc2 = st.columns(2)
+        for _col, _tec in zip([_pc1, _pc2], _ptechs[i:i+2]):
+            if _tec:
+                _icon, _name, _desc, _impact = _tec
+                with _col:
+                    st.markdown(f'''
+<div class="ben-card" style="margin-bottom:10px">
+  <div style="font-size:1.6rem;margin-bottom:8px">{_icon}</div>
+  <div style="font-weight:800;font-size:.9rem;color:#0B2221;margin-bottom:5px">{_name}</div>
+  <div style="font-size:.8rem;color:#339999;line-height:1.5;margin-bottom:8px">{_desc}</div>
+  <div style="background:#C6ECD9;border-radius:6px;padding:5px 10px;display:inline-block;
+    font-size:.72rem;font-weight:700;color:#267371">{_impact}</div>
+</div>
+''', unsafe_allow_html=True)
+
+    # Matrice de prix
+    st.markdown('<div class="section-h">Matrice tarifaire suggérée</div>', unsafe_allow_html=True)
+    _mat = _pricing.get("matrice", {})
+    _mat_cols = st.columns(len(_mat))
+    for _col, (_tier_name, _price) in zip(_mat_cols, _mat.items()):
+        with _col:
+            _price_str = f"{_price:.0f}€" if isinstance(_price, (int,float)) else str(_price)
+            st.markdown(f'''
+<div class="stat-box" style="border:2px solid #44C1BA">
+  <div class="stat-num" style="font-size:1.8rem">{_price_str}</div>
+  <div class="stat-lbl" style="font-size:.85rem;font-weight:700">{_tier_name.title()}</div>
+</div>
+''', unsafe_allow_html=True)
+
+    # Business Model Canvas
+    st.markdown('<div class="section-h" style="margin-top:24px">Business Model Canvas</div>', unsafe_allow_html=True)
+    _bmc_items = [
+        ("🎯 Segments", _bmc.get("segments",[])),
+        ("💎 Proposition valeur", _bmc.get("proposition",[])),
+        ("📣 Canaux", _bmc.get("canaux",[])),
+        ("❤️ Relations", _bmc.get("relation",[])),
+        ("💰 Revenus", _bmc.get("revenus",[])),
+        ("🏗 Ressources clés", _bmc.get("ressources",[])),
+        ("⚙️ Activités clés", _bmc.get("activites",[])),
+        ("🤝 Partenaires", _bmc.get("partenaires",[])),
+        ("💸 Structure coûts", _bmc.get("couts",[])),
+    ]
+    for i in range(0, 9, 3):
+        _bm_cols = st.columns(3)
+        for _col, (_bm_title, _bm_items) in zip(_bm_cols, _bmc_items[i:i+3]):
+            with _col:
+                _items_html = "".join(f'<div style="font-size:.74rem;color:#339999;margin-bottom:3px">• {it}</div>' for it in _bm_items[:4])
+                st.markdown(f'''
+<div class="card" style="padding:12px;height:100%">
+  <div style="font-weight:700;font-size:.82rem;color:#0B2221;margin-bottom:6px">{_bm_title}</div>
+  {_items_html}
+</div>
+''', unsafe_allow_html=True)
+
+    # Intelligence concurrentielle
+    st.markdown('<div class="section-h" style="margin-top:24px">5 Forces de Porter</div>', unsafe_allow_html=True)
+    _ci = gen_competitive_intelligence(activity, goal)
+    for _force_name, _score, _detail, _level in _ci.get("matrice_5_forces", []):
+        _color = "#B83D4B" if _score >= 70 else "#44C1BA" if _score >= 45 else "#267371"
+        st.markdown(f'''
+<div style="display:flex;align-items:center;gap:14px;margin-bottom:8px;padding:10px 14px;
+  background:#F7FBF4;border-radius:10px">
+  <div style="font-weight:700;font-size:.85rem;color:#0B2221;min-width:180px">{_force_name}</div>
+  <div style="flex:1">
+    <div class="gauge-track">
+      <div class="gauge-fill" style="--bw:{_score}%;background:{_color}"></div>
+    </div>
+  </div>
+  <div style="font-size:.78rem;color:{_color};font-weight:700;min-width:80px">{_level}</div>
+  <div style="font-size:.74rem;color:#339999;max-width:200px">{_detail}</div>
+</div>
+''', unsafe_allow_html=True)
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# TAB 14 — EMAIL SÉQUENCES
+# ══════════════════════════════════════════════════════════════════════════════
+with tabs[13]:
+    st.markdown('''
+<div style="background:linear-gradient(135deg,#393DAC,#44C1BA);color:white;border-radius:14px;
+  padding:18px 24px;margin-bottom:20px">
+  <b style="font-size:1rem">📧 Email Automation — Séquences complètes</b><br>
+  <span style="opacity:.85;font-size:.84rem">Templates d'emails personnalisés à votre secteur — prêts à implémenter dans Mailchimp, Brevo, HubSpot</span>
+</div>
+''', unsafe_allow_html=True)
+
+    _email_seqs = gen_email_sequences(activity, goal)
+    _gh_tactics = gen_growth_hacking(activity, monthly_budget)
+
+    for _seq in _email_seqs:
+        _seq_name = _seq.get("nom","")
+        with st.expander(f"📬 {_seq_name}", expanded=(_seq_name == _email_seqs[0].get("nom",""))):
+            for _ej, (_timing, _subject, _content_hint) in enumerate(_seq.get("emails",[])):
+                st.markdown(f'''
+<div class="card" style="border-left:3px solid #393DAC;margin-bottom:10px">
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+    <div style="background:#E4E9F6;border-radius:50%;width:28px;height:28px;
+      display:flex;align-items:center;justify-content:center;font-weight:800;
+      font-size:.78rem;color:#393DAC;flex-shrink:0">{_ej+1}</div>
+    <div style="font-weight:700;font-size:.88rem;color:#0B2221">{_timing}</div>
+  </div>
+  <div style="background:#E4E9F6;border-radius:8px;padding:10px;margin-bottom:8px">
+    <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;color:#393DAC;margin-bottom:4px">Ligne objet</div>
+    <div style="font-size:.82rem;color:#0B2221;font-style:italic">"{_subject}"</div>
+  </div>
+  <div style="font-size:.78rem;color:#339999">{_content_hint}</div>
+</div>
+''', unsafe_allow_html=True)
+
+    # Growth Hacking tactics
+    st.markdown('<div class="section-h" style="margin-top:24px">🚀 Growth Hacking — Tactiques ROI maximal</div>', unsafe_allow_html=True)
+    for _gt in _gh_tactics:
+        if len(_gt) >= 4:
+            _gt_name, _gt_desc, _gt_cost, _gt_roi = _gt
+            st.markdown(f'''
+<div class="card" style="display:flex;align-items:flex-start;gap:12px;margin-bottom:8px">
+  <div style="font-size:1.4rem;flex-shrink:0">{_gt_name.split()[0]}</div>
+  <div style="flex:1">
+    <div style="font-weight:700;font-size:.88rem;color:#0B2221;margin-bottom:3px">{" ".join(_gt_name.split()[1:])}</div>
+    <div style="font-size:.8rem;color:#339999;line-height:1.5">{_gt_desc}</div>
+  </div>
+  <div style="text-align:right;flex-shrink:0">
+    <div style="font-size:.7rem;font-weight:700;color:#267371">{_gt_cost}</div>
+    <div style="font-size:.72rem;font-weight:800;color:#44C1BA">{_gt_roi}</div>
+  </div>
+</div>
+''', unsafe_allow_html=True)
+
+
 # ─────────────────────────────────────────────────────────────────────────────
 # FOOTER
 # ─────────────────────────────────────────────────────────────────────────────
