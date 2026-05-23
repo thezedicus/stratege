@@ -72,11 +72,52 @@ except ImportError:
 # CONFIG PAGE
 # ─────────────────────────────────────────────────────────────────────────────
 st.set_page_config(
-    page_title="BiziApp — Stratégie 360°",
-    page_icon=":material/insights:",
+    page_title="BiziApp — Plan Stratégique Complet en 10 Minutes | Expert Commercial IA",
+    page_icon="🎯",
     layout="wide",
     initial_sidebar_state="expanded",
+    menu_items={
+        "Get Help": "https://thezedicus-stratege-biziapp-micaz5.streamlit.app/Blog",
+        "Report a bug": None,
+        "About": (
+            "## BiziApp v3.2\n"
+            "Votre expert virtuel en stratégie commerciale.\n\n"
+            "Générez votre plan 360° en 10 minutes : SWOT · Personas · SEO · Marketing · KPIs\n\n"
+            "**100% gratuit · Sans inscription · Données sécurisées**"
+        ),
+    }
 )
+
+# ── SEO: Injection méta-tags Open Graph et structured data ──────────────────
+st.markdown("""
+<head>
+<meta name="description" content="BiziApp génère votre stratégie commerciale complète en 10 minutes : SWOT, personas, plan SEO, marketing digital, KPIs. Gratuit, sans inscription. Expert virtuel pour TPE, freelances et consultants.">
+<meta name="keywords" content="stratégie commerciale, plan marketing, SWOT automatique, personas client, SEO, marketing digital, TPE, freelance, consultant, BiziApp">
+<meta property="og:title" content="BiziApp — Plan Stratégique Complet en 10 Minutes">
+<meta property="og:description" content="Votre expert virtuel en stratégie commerciale. SWOT, Personas, SEO, Marketing, KPIs générés instantanément.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://thezedicus-stratege-biziapp-micaz5.streamlit.app">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="BiziApp — Stratégie commerciale en 10 minutes">
+<meta name="twitter:description" content="Expert virtuel gratuit pour TPE, freelances et consultants. Plan complet en 10 minutes.">
+<meta name="robots" content="index, follow">
+<meta name="author" content="BiziApp">
+<link rel="canonical" href="https://thezedicus-stratege-biziapp-micaz5.streamlit.app">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "BiziApp",
+  "description": "Expert virtuel en stratégie commerciale — plan complet en 10 minutes",
+  "url": "https://thezedicus-stratege-biziapp-micaz5.streamlit.app",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Web",
+  "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"},
+  "author": {"@type": "Organization", "name": "BiziApp"}
+}
+</script>
+</head>
+""", unsafe_allow_html=True)
 
 # ─────────────────────────────────────────────────────────────────────────────
 # CSS
@@ -779,7 +820,7 @@ _SWOT_DATA = {
 }
 
 
-@st.cache_data(ttl=3600)
+@st.cache_data(ttl=86400, show_spinner=False)
 def gen_swot(activity: str, goal: str, maturity: str) -> dict:
     d = copy.deepcopy(_SWOT_DATA.get(activity, _SWOT_DATA["other"]))
     if maturity == "idea":
@@ -2306,7 +2347,7 @@ def gen_prix_psychologiques(monthly_budget: float, activity: str) -> list:
 # Ajoutées à biziapp.py comme module inline
 # ══════════════════════════════════════════════════════════════════════════════
 
-@st.cache_data(ttl=3600)
+@st.cache_data(ttl=86400, show_spinner=False)
 def gen_porter_forces(activity: str) -> dict:
     """5 Forces de Porter — analyse concurrentielle approfondie."""
     _PORTER = {
