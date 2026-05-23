@@ -2552,12 +2552,26 @@ with st.sidebar:
 # ── HEADER ───────────────────────────────────────────────────────────────────
 # ═════════════════════════════════════════════════════════════════════════════
 st.markdown('''
-<div class="bizi-header">
-  <div class="bizi-logo">
-    <span class="logo-bizi">BIZI</span><span class="logo-app">APP</span>
+<div class="bizi-header" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;padding:0 0 16px;border-bottom:1px solid #C6ECD9;margin-bottom:18px">
+  <div style="display:flex;align-items:center;gap:14px">
+    <div style="width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#44C1BA,#267371);
+      display:flex;align-items:center;justify-content:center;font-size:1.3rem;
+      box-shadow:0 4px 16px rgba(68,193,186,.3)">🎯</div>
+    <div>
+      <div style="font-size:1.6rem;font-weight:900;letter-spacing:-1.5px;line-height:1">
+        <span style="color:#0B2221">BIZI</span><span class="shimmer-txt">APP</span>
+      </div>
+      <div style="font-size:.62rem;color:#339999;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-top:2px">
+        Expert virtuel en stratégie commerciale
+      </div>
+    </div>
   </div>
-  <div>
-    <div class="header-sub">SWOT · PESTEL · SONCAS · AIDA · SPIN · Challenger · GEO 2025 · KPIs · OKR</div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <span style="background:#C6ECD9;color:#267371;border-radius:50px;padding:4px 12px;font-size:.7rem;font-weight:700">SWOT</span>
+    <span style="background:#E4E9F6;color:#393DAC;border-radius:50px;padding:4px 12px;font-size:.7rem;font-weight:700">SEO</span>
+    <span style="background:#C6ECD9;color:#267371;border-radius:50px;padding:4px 12px;font-size:.7rem;font-weight:700">Personas</span>
+    <span style="background:#F7EEF0;color:#B83D4B;border-radius:50px;padding:4px 12px;font-size:.7rem;font-weight:700">ROI</span>
+    <span style="background:#C6ECD9;color:#267371;border-radius:50px;padding:4px 12px;font-size:.7rem;font-weight:700">KPIs</span>
   </div>
 </div>
 ''', unsafe_allow_html=True)
