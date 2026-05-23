@@ -321,7 +321,7 @@ hr{border-color:#C6ECD9!important}
 .tgt-pill:hover{background:#44C1BA;color:white;border-color:#44C1BA;transform:scale(1.07)}
 
 /* ── Problem rows ── */
-.prob-row{display:flex;align-items:center;gap:13px;padding:13px 17px;border-radius:11px;background:#FDF0F2;border-left:4px solid #B83D4B;margin-bottom:9px;animation:fadeInLeft .5s ease both}
+.prob-row{display:flex;align-items:center;gap:13px;padding:13px 17px;border-radius:11px;background:#FDF0F2;border-left:4px solid #B83D4B;margin-bottom:9px;animation:fadeInLeft .5s ease both}.p-icon{font-size:1.4rem;flex-shrink:0}.p-text{font-size:.88rem;color:#0B2221;line-height:1.5}
 
 /* ── Stat boxes ── */
 .stat-box{text-align:center;padding:18px 12px;background:white;border-radius:14px;border:1.5px solid #C6ECD9;animation:countUp .6s cubic-bezier(.34,1.56,.64,1) both}
@@ -2095,10 +2095,12 @@ def scrape_site(url: str) -> dict:
         except Exception:
             pass
     # fallback original ci-dessous
-    _orig_scrape = _scrape_site_original(url)
-    return _orig_scrape
+    try:
+        return _scrape_site_original(url)
+    except Exception:
+        return {}
 
-@st.cache_data(ttl=1800)
+@st.cache_data(ttl=1800, show_spinner=False)
 def _scrape_site_original(url: str) -> dict:
     """
     Extraction structurée via AllOrigins (proxy CORS gratuit, sans clé API).
@@ -2659,6 +2661,15 @@ with st.sidebar:
                 st.session_state.pop(_k, None)
             st.rerun()
     run = st.session_state.get("_run", False)
+
+    # ── Auto-refresh données live toutes les 30 min ───────────────────────────
+    _now_ts = int(__import__("time").time())
+    _last_refresh = st.session_state.get("_last_data_refresh", 0)
+    if run and (_now_ts - _last_refresh) > 1800:
+        # Invalider le cache des données live (news, ticker)
+        st.cache_data.clear()
+        st.session_state["_last_data_refresh"] = _now_ts
+
     st.caption("Analyse personnalisée · Données live · Cache intelligent")
     if _HAS_BS4 and website_url:
         st.caption("Lecture du site activée")
@@ -3889,6 +3900,13 @@ with tabs[8]:
     # Export
     st.markdown('<div class="section-h">Export de l\'analyse complète</div>', unsafe_allow_html=True)
     export_data = {
+    "metadata": {
+        "generated_at": str(__import__("datetime").datetime.now()),
+        "version": "3.2",
+        "activity": activity,
+        "goal": goal,
+        "sector": _sector_live.get("label","") if _sector_live else "",
+    },
         "generated_at": datetime.datetime.now().isoformat(),
         "version": "3.1",
         "input": {
