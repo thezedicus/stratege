@@ -1826,11 +1826,11 @@ def gen_prix_psychologiques(monthly_budget: float, activity: str) -> list:
     ]
 
 
-# ─── WEB SCRAPING — Jina.ai Reader + BeautifulSoup fallback ─────────────────
+# ─── WEB SCRAPING — AllOrigins Proxy + BeautifulSoup ─────────────────────────
 @st.cache_data(ttl=900)
 def scrape_site(url: str) -> dict:
     """
-    Extraction structurée via Jina.ai Reader (gratuit, sans clé API).
+    Extraction structurée via AllOrigins (proxy CORS gratuit, sans clé API).
     Fallback BeautifulSoup si Jina est indisponible.
     """
     if not url or not url.startswith("http"):
@@ -1839,7 +1839,7 @@ def scrape_site(url: str) -> dict:
     if not parsed.netloc:
         return {}
     result: dict = {}
-    # ── Jina.ai Reader (priorité) ─────────────────────────────────────────────
+    # ── AllOrigins CORS Proxy (priorité) ─────────────────────────────────────
     try:
         import requests as req
         r = req.get(f"https://api.allorigins.win/get?url={_urlparse.quote(url)}", timeout=12,
@@ -2022,7 +2022,7 @@ def fetch_wiki(topic: str, lang: str = "fr") -> dict:
 
 @st.cache_data(ttl=900)
 def scrape_competitor(url: str) -> dict:
-    """Analyse complète d'un concurrent via Jina.ai. Cache 15 min."""
+    """Analyse complète d'un concurrent via AllOrigins. Cache 15 min."""
     if not url or not url.startswith("http"):
         return {"error": "URL invalide", "url": url}
     try:
@@ -2362,7 +2362,7 @@ with st.sidebar:
     # ── VEILLE & CONCURRENTS ─────────────────────────────────────────────────
     st.divider()
     st.markdown('<div class="step-label"><span class="step-num">5</span>Concurrents à surveiller</div>', unsafe_allow_html=True)
-    st.caption("Jusqu'à 3 URLs — analysées en temps réel via Jina.ai")
+    st.caption("Jusqu'à 3 URLs — analysées en temps réel (proxy gratuit)")
     _comp1 = st.text_input("Concurrent 1", placeholder="https://concurrent1.fr", label_visibility="collapsed", key="sb_c1")
     _comp2 = st.text_input("Concurrent 2", placeholder="https://concurrent2.fr", label_visibility="collapsed", key="sb_c2")
     _comp3 = st.text_input("Concurrent 3", placeholder="https://concurrent3.fr", label_visibility="collapsed", key="sb_c3")
@@ -3393,7 +3393,7 @@ with tabs[9]:
         if _ld.get("error") and not _ld.get("title"):
             st.error(f"Impossible d'analyser cette URL — {_html.escape(str(_ld.get('error',''))[:120])}")
         else:
-            _lsrc = {"jina":"Jina.ai Reader","bs4":"BeautifulSoup"}.get(_ld.get("source",""),_ld.get("source",""))
+            _lsrc = {"allorigins":"AllOrigins Proxy","bs4":"BeautifulSoup"}.get(_ld.get("source",""),_ld.get("source","",""))
             st.markdown(f"""
             <div class="card-dark">
               <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap">
