@@ -361,12 +361,132 @@ hr{border-color:#C6ECD9!important}
 .mockup-bar{height:22px;background:#0B2221;border-radius:8px 8px 0 0;display:flex;align-items:center;padding:0 10px;gap:5px}
 .mockup-dot{width:9px;height:9px;border-radius:50%}
 
+/* ═══ RESPONSIVE — iOS/Android/Linux/Windows/macOS ═══════════════════════ */
+* { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+img  { max-width: 100%; height: auto; }
+
+/* Viewport mobile — éviter dépassement */
+.main .block-container { max-width: 100% !important; padding: 1rem !important; }
+
+@media (max-width: 768px) {
+  /* Grilles → colonne unique sur mobile */
+  div[style*="grid-template-columns:repeat(4"] { grid-template-columns: repeat(2,1fr) !important; }
+  div[style*="grid-template-columns:repeat(3"] { grid-template-columns: 1fr !important; }
+  div[style*="grid-template-columns:1fr 1fr"]  { grid-template-columns: 1fr !important; }
+  /* Taille police adaptée */
+  .lp-hero h1  { font-size: 1.5rem !important; }
+  .stat-num    { font-size: 1.6rem !important; }
+  .proof-card  { padding: 16px !important; }
+  .cta-btn     { padding: 12px 24px !important; font-size: .95rem !important; }
+  /* Tabs scrollables */
+  [data-testid="stTabs"] [role="tablist"] { overflow-x: auto; flex-wrap: nowrap; }
+  /* Sidebar collapse-safe */
+  [data-testid="stSidebar"] { min-width: 0 !important; }
+}
+
+@media (max-width: 480px) {
+  div[style*="grid-template-columns:repeat(4"] { grid-template-columns: 1fr 1fr !important; }
+  .ticker-item { padding: 0 14px !important; font-size: .68rem !important; }
+  .tgt-pill    { padding: 7px 13px !important; font-size: .8rem !important; }
+  .ben-card    { padding: 14px 12px !important; }
+}
+
+/* Safari iOS fix */
+@supports (-webkit-overflow-scrolling: touch) {
+  .ticker-inner { -webkit-overflow-scrolling: touch; }
+  [data-baseweb="slider"] { -webkit-appearance: none; }
+}
+
+/* Firefox fix */
+@-moz-document url-prefix() {
+  .shimmer-txt { -moz-background-clip: text; }
+}
+
+/* Scrollbar personnalisée */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #F7FBF4; }
+::-webkit-scrollbar-thumb { background: #44C1BA; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #267371; }
+
+/* Focus visible pour accessibilité clavier */
+:focus-visible { outline: 2px solid #44C1BA !important; outline-offset: 2px !important; }
+
+/* Print-safe */
+@media print {
+  [data-testid="stSidebar"], .ticker-wrap, .lp-cta { display: none !important; }
+  .card, .ben-card { break-inside: avoid; }
+}
+
+/* Dark mode OS respect */
+@media (prefers-color-scheme: dark) {
+  /* Ne pas forcer le dark — BiziApp a son propre thème clair */
+  :root { color-scheme: light; }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
+
+/* ── Nouvelles animations ── */
+@keyframes slideInRight { from{opacity:0;transform:translateX(30px)} to{opacity:1;transform:translateX(0)} }
+@keyframes scaleIn      { from{opacity:0;transform:scale(.85)} to{opacity:1;transform:scale(1)} }
+@keyframes borderPulse  { 0%,100%{border-color:#C6ECD9} 50%{border-color:#44C1BA} }
+
+.tab-content-enter { animation: fadeInUp .4s ease both; }
+.metric-card { transition: all .2s cubic-bezier(.34,1.56,.64,1); }
+.metric-card:hover { transform: scale(1.04); box-shadow: 0 8px 24px rgba(68,193,186,.2); }
+[data-testid="stMetric"] { animation: scaleIn .4s ease both; }
+
+/* ── Sidebar améliorée ── */
+[data-testid="stSidebar"] > div:first-child {
+  background: linear-gradient(180deg, #F7FBF4 0%, #C6ECD9 100%) !important;
+}
+[data-testid="stSidebar"] .stSelectbox > div { border-radius: 10px !important; }
+[data-testid="stSidebar"] .stTextInput > div { border-radius: 10px !important; }
+
+/* ── Tables responsive ── */
+.bizi-table { overflow-x: auto; display: block; -webkit-overflow-scrolling: touch; }
+.bizi-table table { min-width: 500px; }
+
+/* ── Loading skeleton ── */
+@keyframes skeleton { 0%{background-position:-200% 0} 100%{background-position:200% 0} }
+.skeleton {
+  background: linear-gradient(90deg,#C6ECD9 25%,#E4E9F6 50%,#C6ECD9 75%);
+  background-size: 200% 100%;
+  animation: skeleton 1.5s ease-in-out infinite;
+  border-radius: 8px; height: 16px; margin: 6px 0;
+}
+
 </style>
 """, unsafe_allow_html=True)
 
 # ── JS animations on load ────────────────────────────────────────────────────
 st.markdown('''
 <script>
+// ── Performance: requestIdleCallback pour animations non-critiques ──
+if (typeof requestIdleCallback === 'undefined') {
+  window.requestIdleCallback = function(cb) { return setTimeout(cb, 1); };
+}
+
+// ── Détection device pour optimisations ──────────────────────────
+var _isMobile = /iPhone|iPad|iPod|Android|BlackBerry|Opera Mini/i.test(navigator.userAgent);
+var _isIOS    = /iPad|iPhone|iPod/.test(navigator.userAgent);
+var _isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
+// ── Fix iOS 100vh ─────────────────────────────────────────────────
+if (_isIOS) {
+  document.documentElement.style.setProperty('--vh', (window.innerHeight * 0.01) + 'px');
+  window.addEventListener('resize', function() {
+    document.documentElement.style.setProperty('--vh', (window.innerHeight * 0.01) + 'px');
+  });
+}
+
 // ── Intersection Observer — fadeIn au scroll ──────────────────
 (function() {
   var els = document.querySelectorAll('.ben-card,.prob-row,.stat-box,.proof-card,.tgt-pill');
@@ -1598,6 +1718,251 @@ def gen_personas(activity: str) -> list:
     return base[:3]
 
 # ─── SPIN SELLING ────────────────────────────────────────────────────────────
+
+# ══════════════════════════════════════════════════════════════════════════════
+# NOUVELLES FONCTIONS D'ANALYSE — Puissance x2
+# ══════════════════════════════════════════════════════════════════════════════
+
+@st.cache_data(ttl=86400, show_spinner=False)
+def gen_value_chain(activity: str) -> dict:
+    """Chaîne de valeur Porter — analyse complète des activités primaires et support."""
+    chains = {
+        "ecommerce": {
+            "primaires": [
+                ("Logistique entrante", ["Sourcing fournisseurs","Gestion stocks","Contrôle qualité"], "#44C1BA"),
+                ("Opérations", ["Préparation commandes","Packaging","Expédition J+1"], "#267371"),
+                ("Logistique sortante", ["Livraison J+2","Tracking","Point relais"], "#339999"),
+                ("Marketing/Ventes", ["SEO","Paid Ads","Email automation","Marketplace"], "#393DAC"),
+                ("SAV", ["Retours","Échanges","Fidélisation","NPS"], "#B83D4B"),
+            ],
+            "support": [
+                ("Infrastructure", "ERP e-commerce, hébergement cloud, CDN"),
+                ("RH", "Logisticiens, community manager, développeur"),
+                ("R&D technologique", "UX/UI, A/B testing, IA recommandation"),
+                ("Achats", "Négociation fournisseurs, veille marché"),
+            ],
+        },
+        "saas": {
+            "primaires": [
+                ("R&D Produit", ["Roadmap","Sprints agiles","Tests utilisateurs"], "#44C1BA"),
+                ("Développement", ["Backend","Frontend","API","DevOps"], "#267371"),
+                ("Déploiement", ["CI/CD","Monitoring","Scalabilité"], "#339999"),
+                ("Sales & Marketing", ["Inbound","Outbound","PLG","Content"], "#393DAC"),
+                ("Customer Success", ["Onboarding","Support","Expansion","Churn prevention"], "#B83D4B"),
+            ],
+            "support": [
+                ("Infrastructure", "AWS/GCP, Datadog, Stripe, Intercom"),
+                ("RH", "Tech recruitement, culture remote, equity"),
+                ("R&D technologique", "IA features, sécurité, compliance RGPD"),
+                ("Finance", "ARR tracking, burn rate, fundraising"),
+            ],
+        },
+        "service": {
+            "primaires": [
+                ("Avant-vente", ["Prospection","Qualification","Proposition"], "#44C1BA"),
+                ("Production", ["Réalisation mission","Livrables","Itérations"], "#267371"),
+                ("Livraison", ["Présentation","Validation client","Formation"], "#339999"),
+                ("Marketing", ["Personal brand","Contenu expert","Réseau"], "#393DAC"),
+                ("Fidélisation", ["Suivi post-mission","Upsell","Recommandations"], "#B83D4B"),
+            ],
+            "support": [
+                ("Infrastructure", "CRM, outils collaboratifs, facturation"),
+                ("RH", "Sous-traitants, partenaires, montée en compétence"),
+                ("R&D", "Méthodes propriétaires, veille sectorielle"),
+                ("Finance", "Gestion trésorerie, délais paiement"),
+            ],
+        },
+    }
+    base = chains.get(activity, chains["service"])
+    return base
+
+
+@st.cache_data(ttl=86400, show_spinner=False)
+def gen_business_model_canvas(activity: str, goal: str) -> dict:
+    """Business Model Canvas complet — 9 blocs."""
+    _bmc = {
+        "ecommerce": {
+            "segments": ["Acheteurs en ligne 25-45 ans","Early adopters tech","Pros recherchant B2B"],
+            "proposition": ["Prix compétitifs","Livraison rapide","Sélection unique","SAV réactif"],
+            "canaux": ["Site e-commerce","Marketplace (Amazon/Cdiscount)","Instagram Shopping","Google Shopping"],
+            "relation": ["Self-service","Email automation","Chat en direct","Programme fidélité"],
+            "revenus": ["Ventes produits","Abonnements","Marketplace fees","Dropshipping"],
+            "ressources": ["Stock produits","Entrepôt/3PL","Plateforme tech","Base clients"],
+            "activites": ["Gestion catalogue","Expédition","Service client","Marketing digital"],
+            "partenaires": ["Fournisseurs","3PL logistique","Prestataires paiement","Agences ads"],
+            "couts": ["Sourcing produits","Logistique","Ads payants","Plateforme","Retours"],
+        },
+        "saas": {
+            "segments": ["PME 10-200 salariés","Startups tech","Équipes remote","Freelances tech"],
+            "proposition": ["Automatisation gains de temps","Coût < équivalent humain","Intégrations natives","RGPD compliant"],
+            "canaux": ["Site + essai gratuit","App stores","Intégrateurs","Partenaires revendeurs"],
+            "relation": ["Self-service onboarding","In-app guidance","CSM dédié Enterprise","Community"],
+            "revenus": ["Abonnement mensuel/annuel","Seats supplémentaires","Add-ons","API usage"],
+            "ressources": ["Code propriétaire","Data models","Équipe tech","Brand"],
+            "activites": ["Dev produit","Support client","Ventes B2B","Intégrations API"],
+            "partenaires": ["Cloud providers","Intégrateurs","Investors","Tech partners"],
+            "couts": ["Salaires tech","Infrastructure cloud","Acquisition clients","Support"],
+        },
+    }
+    return _bmc.get(activity, _bmc["saas"])
+
+
+@st.cache_data(ttl=86400, show_spinner=False)
+def gen_pricing_strategy(activity: str, monthly_budget: float) -> dict:
+    """Stratégie de prix complète avec psychologie des prix."""
+    tier = "low" if monthly_budget < 100 else "mid" if monthly_budget < 500 else "high"
+    strategies = {
+        "ecommerce": {
+            "recommandee": "Prix compétitif + ancrage psychologique",
+            "techniques": [
+                ("Prix d'ancrage", "Montrez le prix barré — 99€ au lieu de 149€", "⚓"),
+                ("Prix juste en dessous", "49,99€ → perception 40€ pas 50€", "🎯"),
+                ("Bundle", "Pack 3 produits à -20% → ↑ panier moyen +35%", "📦"),
+                ("Freemium d'entrée", "Frais de port offert dès 50€ → trigger achat", "🆓"),
+                ("Prix de prestige", "499€ (pas 500€) pour gamme premium", "💎"),
+                ("Urgence temporelle", "Prix valable 24h → FOMO +28% conversion", "⏰"),
+            ],
+            "matrice": {"entrée": monthly_budget*0.6, "standard": monthly_budget, "premium": monthly_budget*2.2},
+        },
+        "saas": {
+            "recommandee": "Freemium → paid tiers avec ancrage valeur",
+            "techniques": [
+                ("Freemium généreux", "Plan gratuit avec 1 feature killer → viral loop", "🆓"),
+                ("Prix par siège", "Starter 29€/siège → Growth 49€ → Enterprise custom", "👥"),
+                ("Facturation annuelle", "-20% annuel → améliore cashflow + réduit churn", "📅"),
+                ("Feature gating", "Bloquer features avancées → upgrade naturel", "🔐"),
+                ("Usage-based", "Payer ce qu'on consomme — adopté par AWS, Stripe", "📊"),
+                ("Decoy pricing", "3 plans : Basique/Pro/Premium — Pro semble meilleur deal", "🎭"),
+            ],
+            "matrice": {"starter": 29, "pro": 79, "enterprise": "custom"},
+        },
+        "service": {
+            "recommandee": "Tarification valeur + packages clairs",
+            "techniques": [
+                ("Tarif journalier", "TJM marché : 400-800€/j consultant junior, 1000-2500€ senior", "💼"),
+                ("Packages fixes", "Pack Starter 500€ / Growth 1200€ / Premium 3000€", "📋"),
+                ("Retainer mensuel", "Engagement 3 mois -15% → flux stable + fidélisation", "🔄"),
+                ("Valeur délivrée", "Si je génère 50k€ de CA, 5k€ d'honoraires = ROI 10x", "💰"),
+                ("Ancrage premium", "Montrez d'abord le package le plus cher", "⚓"),
+                ("Upsell naturel", "Partez de la mission puis identifiez les besoins adjacents", "↗️"),
+            ],
+            "matrice": {"starter": monthly_budget*3, "growth": monthly_budget*7, "premium": monthly_budget*15},
+        },
+    }
+    return strategies.get(activity, strategies["service"])
+
+
+@st.cache_data(ttl=86400, show_spinner=False)
+def gen_customer_journey(activity: str) -> list:
+    """Carte du parcours client — de la découverte à la fidélisation."""
+    journeys = {
+        "ecommerce": [
+            ("Découverte", "Le prospect réalise son besoin", ["Google search","Instagram ad","Bouche-à-oreille"], ["SEO optimisé","Créatif scroll-stopping","Ambassadeurs"], "😐"),
+            ("Considération", "Compare les options disponibles", ["Site e-com","Avis","YouTube reviews"], ["Fiches produits","Note 4.5+","Vidéos démo"], "🤔"),
+            ("Décision", "Prêt à acheter — friction = abandon", ["Fiche produit","Panier","Checkout"], ["Paiement 1-clic","Retour gratuit","Rassurants"], "💳"),
+            ("Achat", "Transaction réussie", ["Confirmation email","SMS livraison"], ["Tracking temps réel","Email chaleureux"], "✅"),
+            ("Post-achat", "Satisfaction et fidélisation", ["Email J+7","Avis","Reco produits"], ["Demande avis","Offre fidélité","Parrainage"], "🌟"),
+        ],
+        "saas": [
+            ("Sensibilisation", "Prend conscience du problème", ["Blog","LinkedIn","Podcast"], ["Content marketing","SEO longue traîne","Thought leadership"], "😐"),
+            ("Intérêt", "Recherche activement une solution", ["Site web","Comparatifs","G2/Capterra"], ["Landing page claire","Social proof","ROI calculator"], "🤔"),
+            ("Évaluation", "Teste et compare", ["Trial gratuit","Démo","Onboarding"], ["Onboarding guidé","Quick win J1","Support proactif"], "🔍"),
+            ("Décision", "Choisit le plan payant", ["Pricing page","Sales call","Contrat"], ["Essai→paid smooth","Offre annuelle","Garantie"], "💳"),
+            ("Adoption", "Utilisation régulière, intégration", ["In-app","Email séquence","Webinars"], ["Feature discovery","CSM check-in","Community"], "✅"),
+            ("Expansion", "Upgrades, nouveaux usages", ["In-app upsell","QBR","Newsletter"], ["Usage analytics","ROI reports","Case studies"], "🌟"),
+        ],
+    }
+    return journeys.get(activity, journeys.get("ecommerce", []))
+
+
+@st.cache_data(ttl=86400, show_spinner=False)
+def gen_competitive_intelligence(activity: str, goal: str) -> dict:
+    """Intelligence concurrentielle — matrice décisionnelle stratégique."""
+    frameworks = {
+        "ecommerce": {
+            "matrice_5_forces": [
+                ("Nouveaux entrants", 65, "Barrières faibles — dropshipping accessible", "⚠️ Élevée"),
+                ("Pouvoir fournisseurs", 45, "Dépend du secteur — commodités vs niches", "🟡 Moyen"),
+                ("Pouvoir acheteurs", 80, "Comparaison prix facile, avis publics", "🔴 Fort"),
+                ("Produits substituts", 55, "Occasion, DIY, location selon secteur", "🟡 Moyen"),
+                ("Rivalité interne", 75, "Amazon + pure players + boutiques locales", "🔴 Fort"),
+            ],
+            "avantages_defendables": ["Niche ultra-spécialisée","Marque forte","Exclusivité produit","Service premium","Communauté engagée"],
+            "signaux_faibles": ["Nouveaux formats social commerce","Live shopping","B2B2C","Hyper-personnalisation IA"],
+        },
+        "saas": {
+            "matrice_5_forces": [
+                ("Nouveaux entrants", 50, "IA réduit le coût de dev mais réseau effect protège", "🟡 Moyen"),
+                ("Pouvoir fournisseurs", 60, "Dépendance cloud AWS/GCP/Azure", "🟡 Moyen"),
+                ("Pouvoir acheteurs", 55, "Switching costs modérés si données exportables", "🟡 Moyen"),
+                ("Produits substituts", 45, "Process manuels, Excel, solutions internes", "🟡 Moyen"),
+                ("Rivalité interne", 80, "Marché fragmenté, guerre des fonctionnalités", "🔴 Fort"),
+            ],
+            "avantages_defendables": ["Données propriétaires","Intégrations natives","Effets réseau","Expertise verticale","Brand trust"],
+            "signaux_faibles": ["IA native intégrée","Consolidation marché","Verticaux spécialisés","Open source threats"],
+        },
+    }
+    return frameworks.get(activity, frameworks["saas"])
+
+
+@st.cache_data(ttl=86400, show_spinner=False)
+def gen_growth_hacking(activity: str, monthly_budget: float) -> list:
+    """Growth hacking — tactiques à fort ROI et faible coût."""
+    budget_tier = "bootstrap" if monthly_budget < 100 else "growth" if monthly_budget < 500 else "scale"
+    tactics = {
+        "ecommerce_bootstrap": [
+            ("🛒 Abandon panier email", "Séquence 3 emails (1h/24h/72h) → récupère 15% des abandons", "Gratuit", "ROI: 10x"),
+            ("📸 UGC Marketing", "Encourage photos clients → +32% conversion vs photos studio", "Gratuit", "ROI: 8x"),
+            ("🔄 Parrainage client", "Offre 10€ parrain + 10€ filleul → acquisition à coût fixe", "Produit", "ROI: 6x"),
+            ("⭐ Review automation", "Email J+14 demande avis → +4.6/5 trust signal", "Gratuit", "ROI: 12x"),
+            ("📦 Packaging viral", "Unboxing mémorable → partage réseaux → earned media", "Faible", "ROI: 5x"),
+        ],
+        "saas_bootstrap": [
+            ("🆓 Freemium viral", "Plan gratuit avec watermark → utilisateurs = commerciaux", "Gratuit", "ROI: ∞"),
+            ("📝 Content SEO", "1 article expert/semaine → trafic organique en 6 mois", "Temps", "ROI: 20x"),
+            ("🤝 Intégration partner", "Native integration Zapier/Slack → distribution x3", "Dev", "ROI: 15x"),
+            ("🎯 ProductHunt launch", "Launch bien préparé → 500-2000 signups gratuit", "Temps", "ROI: ∞"),
+            ("💌 Cold outreach", "Séquence LinkedIn 5 messages → 8% de réponse", "Gratuit", "ROI: 12x"),
+        ],
+    }
+    key = f"{activity}_{budget_tier}"
+    return tactics.get(key, tactics.get(f"ecommerce_{budget_tier}", tactics["ecommerce_bootstrap"]))
+
+
+@st.cache_data(ttl=86400, show_spinner=False)
+def gen_email_sequences(activity: str, goal: str) -> list:
+    """Séquences email automation complètes par objectif."""
+    sequences = {
+        "ecommerce": [
+            {"nom": "Welcome Series", "emails": [
+                ("J0 — Bienvenue 🎉", "Sujet: Bienvenue {prénom} — voici votre cadeau de bienvenue", "Présentation marque + code promo 10% + bestsellers top 3"),
+                ("J3 — Valeurs", "Sujet: Pourquoi nous sommes différents", "Story de la marque + engagements qualité + avis clients"),
+                ("J7 — FOMO", "Sujet: {prénom}, votre code expire dans 24h ⏰", "Rappel offre bienvenue + urgence + CTA fort"),
+            ]},
+            {"nom": "Abandon Panier", "emails": [
+                ("H+1 — Rappel doux", "Sujet: Vous avez oublié quelque chose 🛒", "Récapitulatif panier + image produit + CTA retour"),
+                ("J+1 — Social proof", "Sujet: 847 personnes regardent le même produit", "Urgence stock + avis client + FAQ objections"),
+                ("J+3 — Incitation", "Sujet: Un petit coup de pouce pour vous décider", "Code -5% limité + livraison gratuite offerte"),
+            ]},
+            {"nom": "Post-achat", "emails": [
+                ("J+1 — Confirmation", "Sujet: Votre commande est en route ! 📦", "Tracking + date livraison + conseils utilisation"),
+                ("J+7 — Satisfaction", "Sujet: Comment s'est passée votre commande ?", "Demande avis + questions NPS + produits complémentaires"),
+                ("J+30 — Fidélisation", "Sujet: {prénom}, il est temps de renouveler ?", "Programme fidélité + historique commandes + nouveautés"),
+            ]},
+        ],
+        "saas": [
+            {"nom": "Trial Onboarding", "emails": [
+                ("J0 — Activation", "Sujet: Votre accès est prêt — commencez ici", "Lien connexion + 3 actions prioritaires + vidéo 2min"),
+                ("J2 — Quick win", "Sujet: Avez-vous essayé cette fonctionnalité ?", "Feature clé + use case + template prêt à l'emploi"),
+                ("J5 — Progrès", "Sujet: Vous êtes à 60% du potentiel de l'outil", "Checklist d'activation + ressources + invitation webinar"),
+                ("J10 — Objections", "Sujet: Une question ? Je suis là", "Email personnel du fondateur + FAQ + démo 1-1 proposée"),
+                ("J13 — Urgence", "Sujet: Votre essai se termine dans 2 jours", "Récap valeur créée + offre -20% premier mois + témoignages"),
+            ]},
+        ],
+    }
+    return sequences.get(activity, sequences.get("ecommerce", []))
+
+
 _SPIN = {
     "ecommerce": {
         "situation": ["Combien de références produits gérez-vous actuellement ?","Sur quels canaux vendez-vous — site propre, marketplace, boutique physique ?","Quel est votre taux de conversion moyen sur votre site actuel ?"],
@@ -3356,14 +3721,16 @@ else:
 
 spin_data = _SPIN.get(activity, _SPIN["default"])
 
-# ── Données sectorielles — toujours définies dès ici ────────────────────────
-sector_data  = {}
+# ── Données sectorielles — toujours définies, préservées depuis cache ─────────
+# NE PAS réinitialiser sector_data ici — il peut venir du cache session
+if "sector_data" not in dir() or not sector_data:
+    sector_data = {}
 macro_data   = {}
-_sector_live   = {}
-_sector_label  = activity
-_sector_growth = "N/A"
-_sector_market = "N/A"
-_sector_bench  = {}
+_sector_live   = sector_data  # sera mis à jour ci-dessous
+_sector_label  = sector_data.get("label", activity) if sector_data else activity
+_sector_growth = sector_data.get("croissance_2024", "N/A") if sector_data else "N/A"
+_sector_market = sector_data.get("marche_fr_2024", "N/A") if sector_data else "N/A"
+_sector_bench  = sector_data.get("benchmarks", {}) if sector_data else {}
 
 if _HAS_API_LAYER:
     try:
@@ -3448,6 +3815,14 @@ if site_ins:
                 _p["brands"] = [_sn[:30]] + _p["brands"][:2]
 # ── Concurrents ───────────────────────────────────────────────────────────
 comp_results = {}
+# Init variables veille pour éviter NameError
+_hn_items, _devto_items, _gh_items = [], [], []
+_secteur_entreprises = []
+_sector_live = sector_data if sector_data else {}
+_sector_label = _sector_live.get("label", activity) if _sector_live else activity
+_sector_growth = _sector_live.get("croissance_2024", "N/A") if _sector_live else "N/A"
+_sector_market = _sector_live.get("marche_fr_2024", "N/A") if _sector_live else "N/A"
+_sector_bench  = _sector_live.get("benchmarks", {}) if _sector_live else {}
 # Pré-charger concurrents depuis le cache session si déjà analysés
 if comp_urls:
     _ck_pre = "comp_" + str(abs(hash(tuple(sorted(comp_urls)))))
@@ -4075,7 +4450,7 @@ with tabs[5]:
 
     if pagespeed_data:
         st.markdown('<div class="section-h">Audit PageSpeed — Performance site</div>', unsafe_allow_html=True)
-        if pagespeed_data.get("source") == "mock":
+        if pagespeed_data.get("source") in ("mock", "heuristic"):
             st.caption("Scores estimés par analyse heuristique — précis")
         ps_cols = st.columns(4)
         scores = [
