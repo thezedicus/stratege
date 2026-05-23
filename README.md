@@ -120,3 +120,14 @@ stratege/
 ## Licence
 
 MIT — Voir [LICENSE](LICENSE)
+
+
+## Déploiement Streamlit Cloud
+
+**URL GitHub à entrer dans Streamlit Cloud :**
+```
+https://github.com/thezedicus/stratege/blob/main/biziapp.py
+```
+
+> Le repo doit être connecté via GitHub OAuth dans Streamlit Cloud.
+> Le champ "GitHub URL" doit pointer vers le fichier `.py` directement.
