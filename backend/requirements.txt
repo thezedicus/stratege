@@ -4,6 +4,11 @@ uvicorn[standard]==0.24.0
 pydantic==2.5.0
 pydantic-settings==2.1.0
 
+# ── Database ──────────────────────────────────────────────────────────────────
+sqlalchemy==2.0.23
+asyncpg==0.29.0          # PostgreSQL async driver (prod)
+aiosqlite==0.19.0        # SQLite async driver (dev/fallback)
+
 # ── HTTP ──────────────────────────────────────────────────────────────────────
 httpx==0.25.2
 
