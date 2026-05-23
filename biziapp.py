@@ -1845,18 +1845,24 @@ def scrape_site(url: str) -> dict:
         r = req.get(f"https://api.allorigins.win/get?url={_urlparse.quote(url)}", timeout=12,
                     headers={"Accept": "application/json", "User-Agent": "BiziApp/3.0"})
         if r.status_code == 200:
-            lines = r.text.split("\n")
-            def get_meta(prefix):
-                return next((l.replace(prefix,"").strip() for l in lines if l.startswith(prefix)),"")
-            result["title"]       = get_meta("Title:")
-            result["description"] = get_meta("Description:")
-            result["source"]      = "jina"
-            result["status"]      = 200
-            body = [l for l in lines if not l.startswith(("Title:","URL:","Description:","Published","Warning","Markdown"))]
-            result["h1"] = [l.lstrip("# ").strip() for l in body if l.startswith("# ")  and 3<len(l)<120][:5]
-            result["h2"] = [l.lstrip("## ").strip() for l in body if l.startswith("## ") and 3<len(l)<120][:8]
-            result["h3"] = [l.lstrip("### ").strip() for l in body if l.startswith("### ")and 3<len(l)<120][:6]
-            result["main_text"] = " ".join(l for l in body if l and not l.startswith("#") and len(l)>20)[:2000]
+            try:
+                raw_html = r.json().get("contents", "")
+            except Exception:
+                raw_html = ""
+            if _HAS_BS4 and raw_html:
+                from bs4 import BeautifulSoup as _BS4
+                _soup = _BS4(raw_html, "html.parser")
+                _t = _soup.find("title")
+                result["title"] = _t.get_text(strip=True) if _t else ""
+                _md = _soup.find("meta", attrs={"name": "description"})
+                result["description"] = _md.get("content", "") if _md else ""
+                result["h1"] = [x.get_text(strip=True) for x in _soup.find_all("h1")][:5]
+                result["h2"] = [x.get_text(strip=True) for x in _soup.find_all("h2")][:8]
+                result["h3"] = [x.get_text(strip=True) for x in _soup.find_all("h3")][:6]
+                _body_text = " ".join(p.get_text(" ", strip=True) for p in _soup.find_all(["p","li","h1","h2","h3"]))
+                result["main_text"] = _body_text[:2000]
+                result["source"] = "allorigins"
+                result["status"] = 200
     except Exception:
         pass
     # ── Fallback BeautifulSoup ────────────────────────────────────────────────
@@ -2021,29 +2027,38 @@ def scrape_competitor(url: str) -> dict:
         return {"error": "URL invalide", "url": url}
     try:
         text = _veille_get(
-            f"https://r.jina.ai/{url}",
+            f"https://api.allorigins.win/get?url={_urlparse.quote(url)}",
             timeout=15,
-            extra={"Accept": "text/plain"},
         )
-        lines = text.split("\n")
-        def _meta(prefix):
-            return next((l.replace(prefix,"").strip() for l in lines if l.startswith(prefix)), "")
-        skip = {"Title:","URL:","Description:","Published","Warning","Markdown","Links"}
-        body = [l for l in lines if not any(l.startswith(s) for s in skip)]
-        h1 = [l.lstrip("# ").strip()  for l in body if l.startswith("# ")   and 3<len(l)<160][:5]
-        h2 = [l.lstrip("## ").strip() for l in body if l.startswith("## ")  and 3<len(l)<160][:12]
-        h3 = [l.lstrip("### ").strip()for l in body if l.startswith("### ") and 3<len(l)<120][:8]
-        paras = [l for l in body if l and not l.startswith("#") and len(l) > 35]
-        main_text = " ".join(paras)[:3500]
+        if not text:
+            return {}
+        try:
+            import json as _json2
+            raw_html = _json2.loads(text).get("contents", "") if text.startswith("{") else text
+        except Exception:
+            raw_html = text
+        h1, h2, h3, main_text, title, desc, paras = [], [], [], "", "", "", []
+        if _HAS_BS4 and raw_html:
+            from bs4 import BeautifulSoup as _BS2
+            _s = _BS2(raw_html, "html.parser")
+            _t = _s.find("title")
+            title = _t.get_text(strip=True) if _t else ""
+            _md = _s.find("meta", attrs={"name": "description"})
+            desc = _md.get("content", "") if _md else ""
+            h1 = [x.get_text(strip=True) for x in _s.find_all("h1")][:5]
+            h2 = [x.get_text(strip=True) for x in _s.find_all("h2")][:12]
+            h3 = [x.get_text(strip=True) for x in _s.find_all("h3")][:8]
+            paras = [p.get_text(" ", strip=True) for p in _s.find_all("p") if len(p.get_text()) > 35][:10]
+            main_text = " ".join(paras)[:3500]
         return {
-            "title":       _meta("Title:"),
-            "description": _meta("Description:"),
+            "title":       title,
+            "description": desc,
             "url": url,
             "h1": h1, "h2": h2, "h3": h3,
-            "paragraphs":  paras[:10],
+            "paragraphs":  paras,
             "main_text":   main_text,
             "keywords":    _veille_keywords(main_text),
-            "source":      "jina",
+            "source":      "allorigins",
             "fetched_at":  datetime.datetime.now().strftime("%H:%M · %d/%m/%Y"),
         }
     except Exception as e:
