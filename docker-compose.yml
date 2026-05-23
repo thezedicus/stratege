@@ -4,15 +4,15 @@ services:
   db:
     image: postgres:15-alpine
     environment:
-      POSTGRES_USER: stratege
-      POSTGRES_PASSWORD: stratege_pass
-      POSTGRES_DB: stratege
+      POSTGRES_USER: ${DB_USER:-stratege}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?DB_PASSWORD must be set}
+      POSTGRES_DB: ${DB_NAME:-stratege}
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U stratege"]
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-stratege}"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -22,33 +22,31 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     environment:
-      DATABASE_URL: postgresql://stratege:stratege_pass@db:5432/stratege
+      DATABASE_URL: postgresql://${DB_USER:-stratege}:${DB_PASSWORD}@db:5432/${DB_NAME:-stratege}
       OPENAI_API_KEY: ${OPENAI_API_KEY:-}
       PAGESPEED_API_KEY: ${PAGESPEED_API_KEY:-}
-      SECRET_KEY: ${SECRET_KEY:-changeme-in-production}
+      SECRET_KEY: ${SECRET_KEY:?SECRET_KEY must be set}
+      ENVIRONMENT: ${ENVIRONMENT:-production}
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:-http://localhost:3000}
     ports:
       - "8000:8000"
     depends_on:
       db:
         condition: service_healthy
-    volumes:
-      - ./backend:/app
-    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+    restart: on-failure
 
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
     environment:
-      NEXT_PUBLIC_API_URL: http://localhost:8000
+      # Use internal Docker service name — NOT localhost
+      NEXT_PUBLIC_API_URL: http://backend:8000
     ports:
       - "3000:3000"
     depends_on:
       - backend
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
-      - /app/.next
+    restart: on-failure
 
 volumes:
   postgres_data:
