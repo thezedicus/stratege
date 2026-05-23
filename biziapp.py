@@ -42,12 +42,12 @@ st.set_page_config(
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap');
-:root{--graphite:#0F172A;--graphite2:#1E293B;--ambre:#D97706;--ambre-pale:#FEF3C7;--sauge:#047857;--sauge-pale:#D1FAE5;--ivoire:#FAF8F4;--craie:#E7E2D6;--encre:#1A1A1A;--muted:#6B7280;--border:#E5E7EB;}
+:root{--graphite:#0B2221;--graphite2:#267371;--teal:#44C1BA;--teal-pale:#C6ECD9;--jade:#267371;--jade-pale:#C6ECD9;--ivoire:#F7FBF4;--craie:#F2ECD9;--encre:#0B2221;--muted:#339999;--border:#C6ECD9;}
 *,*::before,*::after{box-sizing:border-box}
 html,body,[class*="css"]{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;-webkit-font-smoothing:antialiased;color:var(--encre)}
 #MainMenu,footer,header{visibility:hidden}
 .block-container{padding-top:1.25rem!important;max-width:1280px}
-[data-testid="stSidebar"]{background:#F8F7F4;border-right:1px solid var(--craie)}
+[data-testid="stSidebar"]{background:#F7FBF4;border-right:1px solid var(--craie)}
 [data-testid="stSidebar"] label{font-weight:500;font-size:.88rem}
 
 /* ── Tabs ── */
@@ -74,25 +74,25 @@ html,body,[class*="css"]{font-family:'Inter',-apple-system,BlinkMacSystemFont,'S
 .feature-desc{font-size:.78rem;color:var(--muted);line-height:1.5}
 
 /* ── SWOT ── */
-.swot-strength{border-left:4px solid #22C55E;background:#F0FDF4}
+.swot-strength{border-left:4px solid #44C1BA;background:#F7FBF4}
 .swot-weakness{border-left:4px solid var(--ambre);background:var(--ambre-pale)}
-.swot-oppty{border-left:4px solid #3B82F6;background:#EFF6FF}
-.swot-threat{border-left:4px solid #EF4444;background:#FEF2F2}
+.swot-oppty{border-left:4px solid #393DAC;background:#E4E9F6}
+.swot-threat{border-left:4px solid #B83D4B;background:#F7FBF4}
 
 /* ── Badges ── */
 .badge{display:inline-block;padding:2px 9px;border-radius:999px;font-size:.7rem;font-weight:600;white-space:nowrap}
-.badge-blue{background:#DBEAFE;color:#1D4ED8}.badge-green{background:#DCFCE7;color:#166534}
-.badge-red{background:#FEE2E2;color:#991B1B}.badge-amber{background:var(--ambre-pale);color:#92400E}
-.badge-purple{background:#EDE9FE;color:#5B21B6}.badge-gray{background:#F3F4F6;color:#374151}
-.badge-graphite{background:var(--graphite);color:#F8FAFC}.badge-sauge{background:var(--sauge-pale);color:var(--sauge)}
+.badge-blue{background:#E4E9F6;color:#393DAC}.badge-green{background:#DCFCE7;color:#267371}
+.badge-red{background:#F7FBF4;color:#B83D4B}.badge-amber{background:var(--ambre-pale);color:#267371}
+.badge-purple{background:#E4E9F6;color:#267371}.badge-gray{background:#E4E9F6;color:#267371}
+.badge-graphite{background:var(--graphite);color:#F7FBF4}.badge-sauge{background:var(--sauge-pale);color:var(--sauge)}
 
 /* ── Impact dots ── */
-.dot-pos{display:inline-block;width:8px;height:8px;border-radius:50%;background:#22C55E;margin-right:6px;vertical-align:middle}
-.dot-neg{display:inline-block;width:8px;height:8px;border-radius:50%;background:#EF4444;margin-right:6px;vertical-align:middle}
-.dot-neu{display:inline-block;width:8px;height:8px;border-radius:50%;background:#D97706;margin-right:6px;vertical-align:middle}
+.dot-pos{display:inline-block;width:8px;height:8px;border-radius:50%;background:#44C1BA;margin-right:6px;vertical-align:middle}
+.dot-neg{display:inline-block;width:8px;height:8px;border-radius:50%;background:#B83D4B;margin-right:6px;vertical-align:middle}
+.dot-neu{display:inline-block;width:8px;height:8px;border-radius:50%;background:#44C1BA;margin-right:6px;vertical-align:middle}
 
 /* ── Score ring ── */
-.score-ring{width:110px;height:110px;border-radius:50%;background:conic-gradient(var(--ambre) var(--pct),#E5E7EB 0);display:flex;align-items:center;justify-content:center;font-size:1.5rem;font-weight:800;color:var(--encre);box-shadow:inset 0 0 0 18px white;margin:0 auto 8px}
+.score-ring{width:110px;height:110px;border-radius:50%;background:conic-gradient(var(--ambre) var(--pct),#C6ECD9 0);display:flex;align-items:center;justify-content:center;font-size:1.5rem;font-weight:800;color:var(--encre);box-shadow:inset 0 0 0 18px white;margin:0 auto 8px}
 
 /* ── Metric boxes ── */
 .metric-box{text-align:center;padding:16px 12px;border-radius:12px;background:white;border:1px solid var(--border);box-shadow:0 1px 4px rgba(0,0,0,.05)}
@@ -105,35 +105,35 @@ html,body,[class*="css"]{font-family:'Inter',-apple-system,BlinkMacSystemFont,'S
 
 /* ── Table ── */
 .bizi-table{width:100%;border-collapse:collapse;font-size:.84rem}
-.bizi-table th{background:#F8FAFC;padding:9px 13px;text-align:left;font-weight:600;font-size:.72rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);border-bottom:2px solid var(--border)}
-.bizi-table td{padding:9px 13px;border-bottom:1px solid #F3F4F6;color:var(--encre)}
-.bizi-table tr:hover td{background:#FAFAFA}
+.bizi-table th{background:#F7FBF4;padding:9px 13px;text-align:left;font-weight:600;font-size:.72rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);border-bottom:2px solid var(--border)}
+.bizi-table td{padding:9px 13px;border-bottom:1px solid #E4E9F6;color:var(--encre)}
+.bizi-table tr:hover td{background:#F7FBF4}
 
 /* ── AIDA ── */
-.aida-attention{background:#FFF1F2;border-left:4px solid #EF4444}
-.aida-interest{background:#FFFBEB;border-left:4px solid var(--ambre)}
-.aida-desire{background:#F5F3FF;border-left:4px solid #8B5CF6}
-.aida-action{background:#ECFDF5;border-left:4px solid #10B981}
+.aida-attention{background:#F7FBF4;border-left:4px solid #B83D4B}
+.aida-interest{background:#F7FBF4;border-left:4px solid var(--ambre)}
+.aida-desire{background:#E4E9F6;border-left:4px solid #393DAC}
+.aida-action{background:#F7FBF4;border-left:4px solid #44C1BA}
 
 /* ── Section headers ── */
 .section-h{font-size:.95rem;font-weight:700;color:var(--graphite);display:flex;align-items:center;gap:10px;margin:22px 0 14px}
 .section-h::before{content:"";display:inline-block;width:4px;height:16px;background:var(--ambre);border-radius:2px;flex-shrink:0}
 
 /* ── Progress ── */
-.progress-bar{background:#F3F4F6;border-radius:999px;height:6px;overflow:hidden;margin:5px 0}
-.progress-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--ambre) 0%,#F59E0B 100%);transition:width .5s ease}
+.progress-bar{background:#E4E9F6;border-radius:999px;height:6px;overflow:hidden;margin:5px 0}
+.progress-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--ambre) 0%,#44C1BA 100%);transition:width .5s ease}
 
 /* ── Sidebar wizard steps ── */
 .step-label{font-size:.64rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:14px 0 5px;display:flex;align-items:center;gap:6px}
 .step-num{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;background:var(--graphite);color:white;font-size:.64rem;font-weight:700;flex-shrink:0}
 
 /* ── SONCAS ── */
-.soncas-securite{background:#EFF6FF;border-left:4px solid #3B82F6;border-radius:10px;padding:14px 16px;margin-bottom:10px}
-.soncas-opportunite{background:#F0FDF4;border-left:4px solid #22C55E;border-radius:10px;padding:14px 16px;margin-bottom:10px}
-.soncas-nouveaute{background:#F5F3FF;border-left:4px solid #8B5CF6;border-radius:10px;padding:14px 16px;margin-bottom:10px}
+.soncas-securite{background:#E4E9F6;border-left:4px solid #393DAC;border-radius:10px;padding:14px 16px;margin-bottom:10px}
+.soncas-opportunite{background:#F7FBF4;border-left:4px solid #44C1BA;border-radius:10px;padding:14px 16px;margin-bottom:10px}
+.soncas-nouveaute{background:#E4E9F6;border-left:4px solid #393DAC;border-radius:10px;padding:14px 16px;margin-bottom:10px}
 .soncas-confort{background:var(--ambre-pale);border-left:4px solid var(--ambre);border-radius:10px;padding:14px 16px;margin-bottom:10px}
 .soncas-argent{background:var(--sauge-pale);border-left:4px solid var(--sauge);border-radius:10px;padding:14px 16px;margin-bottom:10px}
-.soncas-sympathie{background:#FCE7F3;border-left:4px solid #EC4899;border-radius:10px;padding:14px 16px;margin-bottom:10px}
+.soncas-sympathie{background:#C6ECD9;border-left:4px solid #44C1BA;border-radius:10px;padding:14px 16px;margin-bottom:10px}
 
 /* ── URL analysis panel ── */
 .url-panel{background:linear-gradient(135deg,var(--graphite) 0%,var(--graphite2) 100%);color:white;border-radius:14px;padding:22px 26px;margin-bottom:18px}
@@ -143,13 +143,13 @@ html,body,[class*="css"]{font-family:'Inter',-apple-system,BlinkMacSystemFont,'S
 
 /* ── Context bar ── */
 .ctx-pill{background:var(--graphite);color:white;border-radius:6px;padding:4px 12px;font-size:.74rem;font-weight:600;letter-spacing:.03em}
-.ctx-pill.ambre{background:var(--ambre)}.ctx-pill.sauge{background:var(--sauge)}.ctx-pill.blue{background:#1D4ED8}
+.ctx-pill.ambre{background:var(--ambre)}.ctx-pill.sauge{background:var(--sauge)}.ctx-pill.blue{background:#393DAC}
 
 /* ── Scrollbar ── */
 ::-webkit-scrollbar{width:5px;height:5px}
-::-webkit-scrollbar-track{background:#F1F5F9}
+::-webkit-scrollbar-track{background:#C6ECD9}
 ::-webkit-scrollbar-thumb{background:var(--craie);border-radius:999px}
-::-webkit-scrollbar-thumb:hover{background:#CBD5E1}
+::-webkit-scrollbar-thumb:hover{background:#339999}
 
 /* ── Mobile ── */
 @media(max-width:768px){
@@ -163,9 +163,9 @@ html,body,[class*="css"]{font-family:'Inter',-apple-system,BlinkMacSystemFont,'S
 }
 
 /* ── RSE / RFM / Prix / Proposition de valeur ── */
-.rse-card{background:#F0FDF4;border:1px solid #86EFAC;border-radius:10px;padding:14px 18px;margin-bottom:10px}
+.rse-card{background:#F7FBF4;border:1px solid #C6ECD9;border-radius:10px;padding:14px 18px;margin-bottom:10px}
 .rfm-card{background:white;border:1px solid var(--craie);border-radius:12px;padding:16px;text-align:center;min-height:140px}
-.prix-badge{display:inline-block;background:var(--ambre-pale);color:#92400E;border-radius:4px;padding:2px 8px;font-size:.65rem;font-weight:700;margin-bottom:6px}
+.prix-badge{display:inline-block;background:var(--ambre-pale);color:#267371;border-radius:4px;padding:2px 8px;font-size:.65rem;font-weight:700;margin-bottom:6px}
 .pv-card{border-radius:12px;padding:18px 20px;margin-bottom:10px;color:white}
 
 /* ── Transitions webkit ── */
@@ -200,8 +200,8 @@ def _check_auth() -> bool:
         <div style="max-width:420px;margin:80px auto;background:white;border-radius:16px;
           padding:40px;box-shadow:0 4px 24px rgba(0,0,0,.1);text-align:center">
           <div style="font-size:2.5rem"></div>
-          <h2 style="font-weight:800;color:#0F172A;margin:12px 0 4px">BiziApp</h2>
-          <p style="color:#8A8A8A;font-size:.9rem;margin-bottom:24px">Accès protégé — entrez le mot de passe</p>
+          <h2 style="font-weight:800;color:#0B2221;margin:12px 0 4px">BiziApp</h2>
+          <p style="color:#339999;font-size:.9rem;margin-bottom:24px">Accès protégé — entrez le mot de passe</p>
         </div>
         """, unsafe_allow_html=True)
         col = st.columns([1, 2, 1])[1]
@@ -2282,15 +2282,15 @@ with st.sidebar:
     st.markdown("""
     <div style="text-align:center;padding:8px 0 12px">
       
-      <div style="font-size:1.25rem;font-weight:800;letter-spacing:-.5px;line-height:1"><span style="color:#0F172A">BIZI</span><span style="color:#D97706">APP</span></div>
-      <div style="font-size:.65rem;color:#8A8A8A;font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-top:3px">Stratégie 360° instantanée</div>
+      <div style="font-size:1.25rem;font-weight:800;letter-spacing:-.5px;line-height:1"><span style="color:#0B2221">BIZI</span><span style="color:#44C1BA">APP</span></div>
+      <div style="font-size:.65rem;color:#339999;font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-top:3px">Stratégie 360° instantanée</div>
     </div>
     """, unsafe_allow_html=True)
 
     # ── WIZARD PROGRESS ──────────────────────────────────────────────────────
     st.markdown("""
     <div style="margin-bottom:12px">
-      <div style="display:flex;justify-content:space-between;font-size:.7rem;color:#8A8A8A;margin-bottom:4px">
+      <div style="display:flex;justify-content:space-between;font-size:.7rem;color:#339999;margin-bottom:4px">
         <span>Étape 1 sur 5 — Contexte</span><span>0%</span>
       </div>
       <div class="progress-bar"><div class="progress-fill" style="width:25%"></div></div>
@@ -2325,7 +2325,7 @@ with st.sidebar:
     st.markdown('<div class="step-label"><span class="step-num">4</span>Budget mensuel</div>', unsafe_allow_html=True)
     st.caption("De 10€ (micro-test) à 1 000€+ (PME)")
     monthly_budget = st.slider("Budget mensuel", min_value=10, max_value=1000, value=200, step=10, label_visibility="collapsed")
-    st.markdown(f"<div style='text-align:center;font-size:1.1rem;font-weight:700;color:#D97706'>{monthly_budget} €/mois</div>", unsafe_allow_html=True)
+    st.markdown(f"<div style='text-align:center;font-size:1.1rem;font-weight:700;color:#44C1BA'>{monthly_budget} €/mois</div>", unsafe_allow_html=True)
 
     total_budget = st.number_input("Capital disponible (€)", min_value=0, max_value=1_000_000, value=5_000, step=500)
     website_url = st.text_input("URL du site à analyser", placeholder="https://monsite.fr")
@@ -2554,24 +2554,24 @@ with tabs[0]:
             st.markdown('<div class="section-h">Observations</div>', unsafe_allow_html=True)
             _obs = []
             if not _sd_desc:
-                _obs.append(("#B91C1C","Meta description absente — impact SEO direct"))
+                _obs.append(("#B83D4B","Meta description absente — impact SEO direct"))
             if not _sd_h1s:
-                _obs.append(("#B91C1C","Aucun H1 détecté — priorité absolue"))
+                _obs.append(("#B83D4B","Aucun H1 détecté — priorité absolue"))
             elif len(_sd_h1s)>1:
-                _obs.append(("#D97706",f"{len(_sd_h1s)} H1 trouvés — un seul est recommandé"))
+                _obs.append(("#44C1BA",f"{len(_sd_h1s)} H1 trouvés — un seul est recommandé"))
             else:
-                _obs.append(("#047857",f"H1 présent : {_sd_h1s[0][:55]}"))
+                _obs.append(("#267371",f"H1 présent : {_sd_h1s[0][:55]}"))
             if _sd_desc and len(_sd_desc)>160:
-                _obs.append(("#D97706",f"Meta description longue ({len(_sd_desc)} car.) — viser 155 max"))
+                _obs.append(("#44C1BA",f"Meta description longue ({len(_sd_desc)} car.) — viser 155 max"))
             elif _sd_desc:
-                _obs.append(("#047857","Meta description bien dimensionnée"))
+                _obs.append(("#267371","Meta description bien dimensionnée"))
             if _sd_kws:
-                _obs.append(("#047857",f"Thématique dominante : {_sd_kws[0]}"))
+                _obs.append(("#267371",f"Thématique dominante : {_sd_kws[0]}"))
             _lc = site_data.get("links_count",0)
             if _lc:
-                _obs.append(("#374151",f"{_lc} liens détectés"))
+                _obs.append(("#267371",f"{_lc} liens détectés"))
             for _c, _msg in _obs:
-                st.markdown(f'<div style="padding:5px 0;border-bottom:1px solid #F3F4F6;font-size:.83rem;color:{_c}">— {_html.escape(_msg)}</div>', unsafe_allow_html=True)
+                st.markdown(f'<div style="padding:5px 0;border-bottom:1px solid #E4E9F6;font-size:.83rem;color:{_c}">— {_html.escape(_msg)}</div>', unsafe_allow_html=True)
         # Enrichissement SWOT avec données site
         if not _sd_h1s:
             swot["weaknesses"].insert(0,"Structure SEO à renforcer (H1 absent)")
@@ -2639,8 +2639,8 @@ with tabs[0]:
             st.markdown(f"""
             <div class="card">
               <div class="card-title">{acteur} <span class="badge {badge_cls}">Pouvoir : {pouvoir}</span></div>
-              <p style='font-size:.85rem;color:#4A4A4A'>{desc}</p>
-              <p style='font-size:.82rem;color:#047857'>{levier}</p>
+              <p style='font-size:.85rem;color:#267371'>{desc}</p>
+              <p style='font-size:.82rem;color:#267371'>{levier}</p>
             </div>""", unsafe_allow_html=True)
 
     # COMPETITIVE
@@ -2657,7 +2657,7 @@ with tabs[0]:
     st.markdown("**Matrice concurrentielle** ( avantage · désavantage · neutre)")
     table_html = '<table class="bizi-table"><thead><tr><th>Critère</th><th>Vous</th><th>Leader</th><th>Analyse</th></tr></thead><tbody>'
     for critere, vous, leader, note in competitive["matrix"]:
-        table_html += f"<tr><td><b>{critere}</b></td><td style='text-align:center;font-size:1.1rem'>{vous}</td><td style='text-align:center;font-size:1.1rem'>{leader}</td><td style='font-size:.82rem;color:#8A8A8A'>{note}</td></tr>"
+        table_html += f"<tr><td><b>{critere}</b></td><td style='text-align:center;font-size:1.1rem'>{vous}</td><td style='text-align:center;font-size:1.1rem'>{leader}</td><td style='font-size:.82rem;color:#339999'>{note}</td></tr>"
     table_html += "</tbody></table>"
     st.markdown(f'<div style="overflow-x:auto">'+ table_html +'</div>', unsafe_allow_html=True)
     st.markdown("<br>", unsafe_allow_html=True)
@@ -2671,7 +2671,7 @@ with tabs[0]:
     st.markdown('<div class="section-h">Proposition de valeur</div>', unsafe_allow_html=True)
     st.caption("Construisez une proposition de valeur differenciante sur 4 dimensions (framework Apple · Tesla · L'Oreal)")
     _pv = gen_proposition_valeur(activity, site_ins.get("name", "") if site_ins else "")
-    _pv_colors = {"fonctionnelle":"#1D4ED8","economique":"#047857","emotionnelle":"#D97706","symbolique":"#7C3AED"}
+    _pv_colors = {"fonctionnelle":"#393DAC","economique":"#267371","emotionnelle":"#44C1BA","symbolique":"#393DAC"}
     _pv_labels = {"fonctionnelle":"Fonctionnelle","economique":"Economique","emotionnelle":"Emotionnelle","symbolique":"Symbolique"}
     st.markdown(f'<div class="card card-dark" style="margin-bottom:16px"><div style="font-size:.75rem;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.5);margin-bottom:6px">Slogan</div><div style="font-size:1.15rem;font-weight:700;color:white">{_html.escape(_pv["slogan"])}</div></div>', unsafe_allow_html=True)
     _pv_cols = st.columns(4)
@@ -2693,7 +2693,7 @@ with tabs[1]:
     st.caption("Profils semi-fictifs construits à partir de données comportementales, sectorielles et psychographiques")
     for i, p in enumerate(personas):
         initials = "".join([w[0] for w in p["name"].split()][:2]).upper()
-        colors = ["#0F172A","#D97706","#047857","#1D4ED8","#B91C1C"]
+        colors = ["#0B2221","#44C1BA","#267371","#393DAC","#B83D4B"]
         color = colors[hash(p["name"]) % len(colors)]
         fw_badge = f'<span class="badge badge-amber">{p.get("framework","")}</span>'if p.get("framework") else ""
         with st.expander(f"**{p['name']}** · {p['age']} ans · {p['job']} · {p['location']}", expanded=(i==0)):
@@ -2706,10 +2706,10 @@ with tabs[1]:
                   {initials}
                 </div>
                 {fw_badge}
-                <p style="text-align:center;font-style:italic;font-size:.78rem;color:#8A8A8A;margin-top:6px">"{p['quote']}"</p>
+                <p style="text-align:center;font-style:italic;font-size:.78rem;color:#339999;margin-top:6px">"{p['quote']}"</p>
                 """, unsafe_allow_html=True)
                 if p.get("framework_match"):
-                    st.markdown(f"<small style='color:#D97706;font-size:.7rem'>↳ {p['framework_match']}</small>", unsafe_allow_html=True)
+                    st.markdown(f"<small style='color:#44C1BA;font-size:.7rem'>↳ {p['framework_match']}</small>", unsafe_allow_html=True)
             with c2:
                 st.markdown("**Objectifs**")
                 for g in p["goals"]: st.markdown(f"{g}")
@@ -2751,7 +2751,7 @@ with tabs[1]:
             <div class="card {css_cls}">
               <div style="font-size:1.4rem">{lever['icon']}</div>
               <div class="card-title" style="margin-top:4px">{lever['label']}</div>
-              <p style='font-size:.8rem;color:#4A4A4A;margin-bottom:8px'>{lever['desc']}</p>
+              <p style='font-size:.8rem;color:#267371;margin-bottom:8px'>{lever['desc']}</p>
               <ul style='padding-left:14px;margin:0'>{args_html}</ul>
             </div>
             """, unsafe_allow_html=True)
@@ -2766,16 +2766,16 @@ with tabs[1]:
     st.caption("Segmentation Récence · Fréquence · Montant — identifiez où concentrer vos efforts de rétention et d'acquisition")
     _rfm_segments = gen_rfm_segments(activity, monthly_budget)
     _rfm_cols = st.columns(4)
-    _rfm_colors = ["#047857","#1D4ED8","#D97706","#B91C1C"]
+    _rfm_colors = ["#267371","#393DAC","#44C1BA","#B83D4B"]
     for _ri, (_rseg, _rcol) in enumerate(zip(_rfm_segments, _rfm_cols)):
         with _rcol:
             _rcolor = _rfm_colors[_ri]
             st.markdown(f"""
             <div class="rfm-card" style="border-top:3px solid {_rcolor}">
-              <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.08em;color:#8A8A8A;margin-bottom:3px">{_rseg['pourcentage']}% des clients</div>
+              <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.08em;color:#339999;margin-bottom:3px">{_rseg['pourcentage']}% des clients</div>
               <div style="font-weight:800;font-size:.95rem;color:{_rcolor};margin-bottom:4px">{_html.escape(_rseg['nom'])}</div>
-              <div style="font-size:.76rem;color:#4A4A4A;margin-bottom:8px;line-height:1.4">{_html.escape(_rseg['description'])}</div>
-              <div style="font-size:.72rem;font-weight:700;color:#0F172A">CLV estimée : {_rseg['clv']:,} €</div>
+              <div style="font-size:.76rem;color:#267371;margin-bottom:8px;line-height:1.4">{_html.escape(_rseg['description'])}</div>
+              <div style="font-size:.72rem;font-weight:700;color:#0B2221">CLV estimée : {_rseg['clv']:,} €</div>
             </div>
             """, unsafe_allow_html=True)
     for _rseg in _rfm_segments:
@@ -2803,15 +2803,15 @@ with tabs[2]:
             st.markdown(f"""
             <div class="card {css}">
               <div class="card-title">{label}</div>
-              <p style='font-weight:600;font-size:.9rem;color:#1A1A1A'>{content['p']}</p>
+              <p style='font-weight:600;font-size:.9rem;color:#0B2221'>{content['p']}</p>
               <div style='background:rgba(255,255,255,.7);border-radius:10px;padding:10px;margin:10px 0'>
-                <small style='color:#8A8A8A;font-weight:600'>EXEMPLE :</small>
-                <p style='font-style:italic;font-size:.85rem;color:#4A4A4A;margin:4px 0'>"{content['e']}"</p>
+                <small style='color:#339999;font-weight:600'>EXEMPLE :</small>
+                <p style='font-style:italic;font-size:.85rem;color:#267371;margin:4px 0'>"{content['e']}"</p>
               </div>
-              <small style='color:#8A8A8A;font-weight:600'>FORMULES :</small>
-              {"".join(f"<p style='font-size:.8rem;color:#4A4A4A;margin:2px 0'>→ {f}</p>" for f in content['f'])}
+              <small style='color:#339999;font-weight:600'>FORMULES :</small>
+              {"".join(f"<p style='font-size:.8rem;color:#267371;margin:2px 0'>→ {f}</p>" for f in content['f'])}
               <div style='background:rgba(255,255,255,.5);border-radius:8px;padding:8px;margin-top:8px'>
-                <small style='color:#8A8A8A'> {content['c']}</small>
+                <small style='color:#339999'> {content['c']}</small>
               </div>
             </div>
             """, unsafe_allow_html=True)
@@ -2827,7 +2827,7 @@ with tabs[2]:
     p_cols = st.columns(5)
     for col_p, (num, pr) in zip(p_cols, principles):
         with col_p:
-            st.markdown(f'<div class="metric-box"><div class="val" style="color:#D97706">{num}</div><div class="lbl" style="white-space:pre-line;line-height:1.3">{pr}</div></div>', unsafe_allow_html=True)
+            st.markdown(f'<div class="metric-box"><div class="val" style="color:#44C1BA">{num}</div><div class="lbl" style="white-space:pre-line;line-height:1.3">{pr}</div></div>', unsafe_allow_html=True)
 
     st.markdown('<div class="section-h">Déclencheurs psychologiques</div>', unsafe_allow_html=True)
     st.caption("Leviers cognitifs issus des sciences comportementales qui guident la décision d'achat")
@@ -2923,7 +2923,7 @@ with tabs[3]:
                 st.info(f"**Exemple :** {_html.escape(_ptec['exemple'])}")
             with _c2p:
                 _ibadge = _impact_badge.get(_ptec["impact"], "badge-gray")
-                st.markdown(f'<div style="text-align:center;padding:16px"><span class="badge {_ibadge}" style="font-size:.8rem;padding:4px 12px">{_html.escape(_ptec["impact"])}</span><div style="font-size:.72rem;color:#8A8A8A;margin-top:6px">Impact conversion</div></div>', unsafe_allow_html=True)
+                st.markdown(f'<div style="text-align:center;padding:16px"><span class="badge {_ibadge}" style="font-size:.8rem;padding:4px 12px">{_html.escape(_ptec["impact"])}</span><div style="font-size:.72rem;color:#339999;margin-top:6px">Impact conversion</div></div>', unsafe_allow_html=True)
 
     # Email templates
     st.markdown('<div class="section-h">Templates emails de prospection</div>', unsafe_allow_html=True)
@@ -2952,20 +2952,20 @@ with tabs[4]:
                 <b style='font-size:.95rem'>{name}</b>
                 <span class="badge {badge}">{prio}</span>
               </div>
-              <small style='color:#8A8A8A'> {freq}</small>
-              <p style='font-size:.8rem;color:#4A4A4A;margin-top:6px'>{content_types}</p>
+              <small style='color:#339999'> {freq}</small>
+              <p style='font-size:.8rem;color:#267371;margin-top:6px'>{content_types}</p>
             </div>""", unsafe_allow_html=True)
 
     # Budget adaptatif
     st.markdown(f'<div class="section-h">Répartition budgétaire — {monthly_budget:,} €/mois</div>', unsafe_allow_html=True)
-    bar_colors = ["#0F172A","#D97706","#047857","#1D4ED8"]
+    bar_colors = ["#0B2221","#44C1BA","#267371","#393DAC"]
     for i, (cat, pct, amt) in enumerate(budget_alloc):
         c1, c2, c3 = st.columns([3, 1, 1])
         c1.markdown(f"**{cat}**")
         c2.markdown(f"**{amt:,.0f} €**")
         c3.markdown(f"*{pct}%*")
         st.markdown(f"""
-        <div style="height:8px;background:#E7E2D6;border-radius:4px;margin-bottom:12px">
+        <div style="height:8px;background:#F2ECD9;border-radius:4px;margin-bottom:12px">
           <div style="height:8px;width:{pct}%;background:{bar_colors[i%4]};border-radius:4px;transition:width .4s ease"></div>
         </div>""", unsafe_allow_html=True)
 
@@ -2983,7 +2983,7 @@ with tabs[4]:
     st.markdown('<div class="section-h">Calendrier éditorial — 8 semaines</div>', unsafe_allow_html=True)
     cal_html = '<table class="bizi-table"><thead><tr><th>Sem.</th><th>Plateforme</th><th>Sujet</th><th>Format</th></tr></thead><tbody>'
     for week, platform, topic, fmt in calendar:
-        cal_html += f"<tr><td><b>S{week}</b></td><td><span class='badge badge-blue'>{platform}</span></td><td style='font-size:.82rem'>{topic}</td><td style='font-size:.82rem;color:#8A8A8A'>{fmt}</td></tr>"
+        cal_html += f"<tr><td><b>S{week}</b></td><td><span class='badge badge-blue'>{platform}</span></td><td style='font-size:.82rem'>{topic}</td><td style='font-size:.82rem;color:#339999'>{fmt}</td></tr>"
     cal_html += "</tbody></table>"
     st.markdown(f'<div style="overflow-x:auto">'+ cal_html +'</div>', unsafe_allow_html=True)
 
@@ -3003,7 +3003,7 @@ with tabs[4]:
 # ══════════════════════════════════════════════════════════════════════════════
 with tabs[5]:
     st.markdown('''
-    <div style="background:linear-gradient(135deg,#D97706,#F59E0B);color:white;border-radius:14px;
+    <div style="background:linear-gradient(135deg,#44C1BA,#44C1BA);color:white;border-radius:14px;
       padding:18px 24px;margin-bottom:20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
       <span style="font-size:2rem"></span>
       <div>
@@ -3019,7 +3019,7 @@ with tabs[5]:
     for row in ads_data["mediaplan"]:
         mp_html += f"""<tr>
           <td><b>{row['platform']}</b></td>
-          <td style='font-weight:700;color:#D97706'>{row['budget']:,.0f} €</td>
+          <td style='font-weight:700;color:#44C1BA'>{row['budget']:,.0f} €</td>
           <td style='font-size:.82rem'>{row['reach']}</td>
           <td><span class='badge badge-sauge'>{row['ctr']}</span></td>
           <td><span class='badge badge-amber'>{row['roi']}</span></td>
@@ -3041,7 +3041,7 @@ with tabs[5]:
                         <span class="badge badge-gray">{cr.get('audience','')}</span>
                       </div>
                       <p style="font-weight:600;margin:8px 0 4px">{cr['headline']}</p>
-                      <p style="font-size:.82rem;color:#8A8A8A">CTA : <b>{cr['cta']}</b></p>
+                      <p style="font-size:.82rem;color:#339999">CTA : <b>{cr['cta']}</b></p>
                     </div>""", unsafe_allow_html=True)
     else:
         st.info("Budget insuffisant pour les campagnes Facebook (minimum recommandé : 30€/mois)")
@@ -3072,12 +3072,12 @@ with tabs[5]:
     if roi_data:
         col_p, col_r, col_o = st.columns(3)
         last = roi_data[-1]
-        col_p.markdown(f'<div class="metric-box"><div class="val" style="color:#B91C1C">{last["pessimiste"]:,} €</div><div class="lbl">Pessimiste (12 mois)</div></div>', unsafe_allow_html=True)
-        col_r.markdown(f'<div class="metric-box"><div class="val" style="color:#D97706">{last["realiste"]:,} €</div><div class="lbl">Réaliste (12 mois)</div></div>', unsafe_allow_html=True)
-        col_o.markdown(f'<div class="metric-box"><div class="val" style="color:#047857">{last["optimiste"]:,} €</div><div class="lbl">Optimiste (12 mois)</div></div>', unsafe_allow_html=True)
+        col_p.markdown(f'<div class="metric-box"><div class="val" style="color:#B83D4B">{last["pessimiste"]:,} €</div><div class="lbl">Pessimiste (12 mois)</div></div>', unsafe_allow_html=True)
+        col_r.markdown(f'<div class="metric-box"><div class="val" style="color:#44C1BA">{last["realiste"]:,} €</div><div class="lbl">Réaliste (12 mois)</div></div>', unsafe_allow_html=True)
+        col_o.markdown(f'<div class="metric-box"><div class="val" style="color:#267371">{last["optimiste"]:,} €</div><div class="lbl">Optimiste (12 mois)</div></div>', unsafe_allow_html=True)
         # Mini tableau mensuel
         st.markdown("<br>", unsafe_allow_html=True)
-        roi_html = '<table class="bizi-table"><thead><tr><th>Mois</th><th style="color:#B91C1C">Pessimiste</th><th style="color:#D97706">Réaliste</th><th style="color:#047857">Optimiste</th></tr></thead><tbody>'
+        roi_html = '<table class="bizi-table"><thead><tr><th>Mois</th><th style="color:#B83D4B">Pessimiste</th><th style="color:#44C1BA">Réaliste</th><th style="color:#267371">Optimiste</th></tr></thead><tbody>'
         for r in roi_data:
             roi_html += f"<tr><td><b>M{r['month']}</b></td><td>{r['pessimiste']:,} €</td><td><b>{r['realiste']:,} €</b></td><td>{r['optimiste']:,} €</td></tr>"
         roi_html += '</tbody></table>'
@@ -3096,7 +3096,7 @@ with tabs[5]:
             ("Bonnes pratiques", pagespeed_data.get("bestPractices",0)),
         ]
         for col, (label, score) in zip(ps_cols, scores):
-            color = "#047857" if score >= 80 else "#D97706" if score >= 60 else "#B91C1C"
+            color = "#267371" if score >= 80 else "#44C1BA" if score >= 60 else "#B83D4B"
             with col:
                 st.markdown(f'<div class="metric-box"><div class="val" style="color:{color}">{score}/100</div><div class="lbl">{label}</div></div>', unsafe_allow_html=True)
         c1, c2 = st.columns(2)
@@ -3109,7 +3109,7 @@ with tabs[5]:
 # ══════════════════════════════════════════════════════════════════════════════
 with tabs[6]:
     st.markdown("""
-    <div style="background:linear-gradient(135deg,#0F172A,#1E293B);color:white;border-radius:14px;
+    <div style="background:linear-gradient(135deg,#0B2221,#267371);color:white;border-radius:14px;
       padding:18px 24px;margin-bottom:20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
       <span style="font-size:2rem"></span>
       <div>
@@ -3174,18 +3174,18 @@ with tabs[6]:
 # ─────────────────────────────────────────────────────────────────────────────
 def _render_kpi_section(kpi_list: list) -> None:
     """Affiche un groupe de KPI en grille 3 colonnes avec code couleur."""
-    _tone_colors = {"sauge": "#D1FAE5", "ambre": "#FEF3C7", "neutral": "#F2EFE8"}
-    _text_colors = {"sauge": "#047857", "ambre": "#D97706", "neutral": "#4A4A4A"}
+    _tone_colors = {"sauge": "#C6ECD9", "ambre": "#C6ECD9", "neutral": "#F2ECD9"}
+    _text_colors = {"sauge": "#267371", "ambre": "#44C1BA", "neutral": "#267371"}
     cols = st.columns(min(3, len(kpi_list)))
     for i, (label, value, hint, tone, target) in enumerate(kpi_list):
-        bg = _tone_colors.get(tone, "#F2EFE8")
-        tc = _text_colors.get(tone, "#4A4A4A")
+        bg = _tone_colors.get(tone, "#F2ECD9")
+        tc = _text_colors.get(tone, "#267371")
         with cols[i % 3]:
             st.markdown(f"""
             <div class="kpi-tile" style="background:{bg};border-left:3px solid {tc}">
-              <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;color:#8A8A8A">{_html.escape(label)}</div>
+              <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;color:#339999">{_html.escape(label)}</div>
               <div style="font-size:1.6rem;font-weight:800;color:{tc};margin:4px 0">{_html.escape(value)}</div>
-              <div style="font-size:.7rem;color:#8A8A8A">{_html.escape(hint)}</div>
+              <div style="font-size:.7rem;color:#339999">{_html.escape(hint)}</div>
               <div style="font-size:.7rem;color:{tc};margin-top:4px;font-weight:600"> Objectif : {_html.escape(target)}</div>
             </div>
             """, unsafe_allow_html=True)
@@ -3216,8 +3216,8 @@ with tabs[7]:
             st.markdown("**Key Results :**")
             for kr in okr["key_results"]:
                 st.markdown(f"""
-                <div style="display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid #E7E2D6">
-                  <div style="min-width:20px;height:20px;border-radius:50%;border:2px solid #D97706"></div>
+                <div style="display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid #F2ECD9">
+                  <div style="min-width:20px;height:20px;border-radius:50%;border:2px solid #44C1BA"></div>
                   <span style="font-size:.88rem">{kr}</span>
                 </div>
                 """, unsafe_allow_html=True)
@@ -3232,13 +3232,13 @@ with tabs[8]:
     st.markdown('<div class="section-h">Score de maturité stratégique</div>', unsafe_allow_html=True)
     c_score, c_kpis = st.columns([1, 3])
     with c_score:
-        score_color = "#047857" if score >= 70 else "#D97706" if score >= 50 else "#B91C1C"
+        score_color = "#267371" if score >= 70 else "#44C1BA" if score >= 50 else "#B83D4B"
         st.markdown(f"""
         <div style="text-align:center;padding:20px 10px">
-          <div class="score-ring" style="--pct:{score * 3.6:.0f}deg;background:conic-gradient({score_color} {score * 3.6:.0f}deg,#E7E2D6 0)">
-            <span style="font-size:1.4rem;font-weight:800;color:#1A1A1A">{score}/100</span>
+          <div class="score-ring" style="--pct:{score * 3.6:.0f}deg;background:conic-gradient({score_color} {score * 3.6:.0f}deg,#F2ECD9 0)">
+            <span style="font-size:1.4rem;font-weight:800;color:#0B2221">{score}/100</span>
           </div>
-          <p style='font-size:.82rem;color:#8A8A8A;margin-top:8px'>Score stratégique global</p>
+          <p style='font-size:.82rem;color:#339999;margin-top:8px'>Score stratégique global</p>
           <span class="badge {'badge-sauge'if score>=70 else 'badge-amber'if score>=50 else 'badge-red'}">
             {'Bon'if score>=70 else 'À améliorer'if score>=50 else 'Attention'}
           </span>
@@ -3249,31 +3249,31 @@ with tabs[8]:
         kpi_cols = st.columns(3)
         for i, (label, val) in enumerate(synthesis["kpis"]):
             with kpi_cols[i % 3]:
-                st.markdown(f'<div class="metric-box"><div class="val" style="font-size:1.1rem;color:#D97706">{val}</div><div class="lbl">{label}</div></div>', unsafe_allow_html=True)
+                st.markdown(f'<div class="metric-box"><div class="val" style="font-size:1.1rem;color:#44C1BA">{val}</div><div class="lbl">{label}</div></div>', unsafe_allow_html=True)
 
     # Priorities
     st.markdown('<div class="section-h">Priorités d\'action</div>', unsafe_allow_html=True)
-    priority_colors = ["#B91C1C","#D97706","#0F172A","#047857"]
+    priority_colors = ["#B83D4B","#44C1BA","#0B2221","#267371"]
     for i, p in enumerate(synthesis["priorities"]):
         color = priority_colors[i % 4]
         st.markdown(f"""
-        <div style="display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid #E7E2D6">
+        <div style="display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid #F2ECD9">
           <div style="min-width:28px;height:28px;border-radius:50%;background:{color};color:white;
             display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem;flex-shrink:0">{i+1}</div>
-          <p style="margin:0;font-size:.9rem;color:#4A4A4A;padding-top:4px">{p}</p>
+          <p style="margin:0;font-size:.9rem;color:#267371;padding-top:4px">{p}</p>
         </div>""", unsafe_allow_html=True)
 
     # Roadmap
     st.markdown('<div class="section-h">Roadmap 180 jours</div>', unsafe_allow_html=True)
     rm_cols = st.columns(4)
-    rm_colors = ["#0F172A","#047857","#D97706","#1D4ED8"]
+    rm_colors = ["#0B2221","#267371","#44C1BA","#393DAC"]
     for i, (period, phase, actions) in enumerate(synthesis["roadmap"]):
         with rm_cols[i]:
             st.markdown(f"""
             <div class="card" style="border-top:3px solid {rm_colors[i]}">
-              <div style='font-size:.68rem;color:#8A8A8A;font-weight:600;text-transform:uppercase;letter-spacing:.05em'>{period}</div>
-              <div style='font-weight:700;font-size:.95rem;color:#1A1A1A;margin:4px 0'>{phase}</div>
-              <p style='font-size:.78rem;color:#4A4A4A;margin:0'>{actions}</p>
+              <div style='font-size:.68rem;color:#339999;font-weight:600;text-transform:uppercase;letter-spacing:.05em'>{period}</div>
+              <div style='font-weight:700;font-size:.95rem;color:#0B2221;margin:4px 0'>{phase}</div>
+              <p style='font-size:.78rem;color:#267371;margin:0'>{actions}</p>
             </div>""", unsafe_allow_html=True)
 
     # Export
@@ -3387,7 +3387,7 @@ with tabs[9]:
             _lk4.metric("Mots-clés",len(_ld.get("keywords",[])))
             if _ld.get("keywords"):
                 st.markdown('<div class="section-h">Mots-clés détectés</div>', unsafe_allow_html=True)
-                _kwh = "".join(f'<span class="url-kw" style="background:var(--ambre-pale);color:#92400E;margin:2px;display:inline-block;border-radius:4px;padding:2px 8px;font-size:.68rem;font-weight:600">{_html.escape(str(k)[:40])}</span>' for k in _ld["keywords"])
+                _kwh = "".join(f'<span class="url-kw" style="background:var(--ambre-pale);color:#267371;margin:2px;display:inline-block;border-radius:4px;padding:2px 8px;font-size:.68rem;font-weight:600">{_html.escape(str(k)[:40])}</span>' for k in _ld["keywords"])
                 st.markdown(f'<div style="margin-bottom:12px">{_kwh}</div>', unsafe_allow_html=True)
             _lca, _lcb = st.columns(2)
             with _lca:
@@ -3398,12 +3398,12 @@ with tabs[9]:
                 if _ld.get("h2"):
                     st.markdown('<div class="section-h">Structure H2</div>', unsafe_allow_html=True)
                     for _h in _ld["h2"][:7]:
-                        st.markdown(f'<div style="padding:5px 12px;border-left:2px solid var(--ambre);margin-bottom:5px;font-size:.83rem;color:#374151">{_html.escape(str(_h)[:110])}</div>', unsafe_allow_html=True)
+                        st.markdown(f'<div style="padding:5px 12px;border-left:2px solid var(--ambre);margin-bottom:5px;font-size:.83rem;color:#267371">{_html.escape(str(_h)[:110])}</div>', unsafe_allow_html=True)
             with _lcb:
                 if _ld.get("paragraphs"):
                     st.markdown('<div class="section-h">Contenu principal</div>', unsafe_allow_html=True)
                     for _p in _ld["paragraphs"][:5]:
-                        st.markdown(f'<div style="font-size:.82rem;color:#4B5563;line-height:1.6;padding:7px 0;border-bottom:1px solid #F3F4F6">{_html.escape(str(_p)[:300])}</div>', unsafe_allow_html=True)
+                        st.markdown(f'<div style="font-size:.82rem;color:#339999;line-height:1.6;padding:7px 0;border-bottom:1px solid #E4E9F6">{_html.escape(str(_p)[:300])}</div>', unsafe_allow_html=True)
     else:
         st.info("Entrez une URL ci-dessus pour lancer une analyse en temps réel — fonctionne avec n'importe quelle page publique")
 
@@ -3420,16 +3420,16 @@ with tabs[9]:
                 _dom = _cu.replace("https://","").replace("http://","").replace("www.","").split("/")[0]
                 _herr = _cd.get("error") and not _cd.get("title")
                 if _herr:
-                    st.markdown(f'<div style="background:#FEE2E2;border:1px solid #FCA5A5;border-radius:10px;padding:14px;font-size:.82rem"><b style="color:#991B1B">{_html.escape(_dom)}</b><br><span style="color:#B91C1C">{_html.escape(str(_cd.get("error","Erreur"))[:80])}</span></div>', unsafe_allow_html=True)
+                    st.markdown(f'<div style="background:#F7FBF4;border:1px solid #C6ECD9;border-radius:10px;padding:14px;font-size:.82rem"><b style="color:#B83D4B">{_html.escape(_dom)}</b><br><span style="color:#B83D4B">{_html.escape(str(_cd.get("error","Erreur"))[:80])}</span></div>', unsafe_allow_html=True)
                 else:
-                    _ckws = "".join(f'<span style="background:#FEF3C7;color:#92400E;border-radius:3px;padding:1px 6px;font-size:.62rem;font-weight:600;margin:1px;display:inline-block">{_html.escape(str(k)[:30])}</span>' for k in _cd.get("keywords",[])[:6])
+                    _ckws = "".join(f'<span style="background:#C6ECD9;color:#267371;border-radius:3px;padding:1px 6px;font-size:.62rem;font-weight:600;margin:1px;display:inline-block">{_html.escape(str(k)[:30])}</span>' for k in _cd.get("keywords",[])[:6])
                     st.markdown(f"""
                     <div class="card">
                       <div style="font-size:.68rem;color:var(--muted);font-family:monospace">{_html.escape(_dom)}</div>
-                      <div style="font-weight:700;font-size:.9rem;color:#0F172A;margin:4px 0 6px">{_html.escape(str(_cd.get('title','—'))[:65])}</div>
-                      <div style="font-size:.78rem;color:#6B7280;line-height:1.45;margin-bottom:8px">{_html.escape(str(_cd.get('description',''))[:160])}</div>
+                      <div style="font-weight:700;font-size:.9rem;color:#0B2221;margin:4px 0 6px">{_html.escape(str(_cd.get('title','—'))[:65])}</div>
+                      <div style="font-size:.78rem;color:#339999;line-height:1.45;margin-bottom:8px">{_html.escape(str(_cd.get('description',''))[:160])}</div>
                       <div style="margin-bottom:6px">{_ckws}</div>
-                      <div style="font-size:.68rem;color:#9CA3AF">{len(_cd.get('h1',[]))+len(_cd.get('h2',[]))} titres · {len(_cd.get('paragraphs',[]))} §</div>
+                      <div style="font-size:.68rem;color:#44C1BA">{len(_cd.get('h1',[]))+len(_cd.get('h2',[]))} titres · {len(_cd.get('paragraphs',[]))} §</div>
                     </div>
                     """, unsafe_allow_html=True)
         if len(comp_results) > 1:
@@ -3456,7 +3456,7 @@ with tabs[9]:
                         st.markdown(f"- {_html.escape(str(_h2)[:130])}")
                 if _cd2.get("main_text"):
                     st.markdown("**Extrait du contenu**")
-                    st.markdown(f'<div style="font-size:.82rem;color:#4B5563;line-height:1.65;background:#F9FAFB;padding:13px;border-radius:8px;border-left:3px solid var(--ambre)">{_html.escape(str(_cd2["main_text"])[:900])}</div>', unsafe_allow_html=True)
+                    st.markdown(f'<div style="font-size:.82rem;color:#339999;line-height:1.65;background:#F9FAFB;padding:13px;border-radius:8px;border-left:3px solid var(--ambre)">{_html.escape(str(_cd2["main_text"])[:900])}</div>', unsafe_allow_html=True)
 
     # ── Actualités marché ─────────────────────────────────────────────────────
     st.markdown('<div class="section-h">Flux actualités en temps réel</div>', unsafe_allow_html=True)
@@ -3469,9 +3469,9 @@ with tabs[9]:
                 _ns = _html.escape(str(_ni.get("source",""))[:45])
                 _np = _ni.get("pub","")
                 _nl = _ni.get("link","")
-                _src_h = f'<span style="background:#FEF3C7;color:#92400E;padding:2px 7px;border-radius:4px;font-size:.63rem;font-weight:600;margin-right:6px">{_ns}</span>' if _ns else ""
-                _link_h = f' <a href="{_html.escape(_nl)}" target="_blank" rel="noopener noreferrer" style="font-size:.68rem;color:#D97706;text-decoration:none">Lire &rarr;</a>' if _nl else ""
-                st.markdown(f'<div style="border-left:3px solid var(--ambre);padding:9px 13px;margin-bottom:8px;background:white;border-radius:0 8px 8px 0"><div style="font-weight:600;font-size:.87rem;color:#0F172A;margin-bottom:3px">{_nt}{_link_h}</div><div style="font-size:.7rem;color:#6B7280">{_src_h}{_np}</div></div>', unsafe_allow_html=True)
+                _src_h = f'<span style="background:#C6ECD9;color:#267371;padding:2px 7px;border-radius:4px;font-size:.63rem;font-weight:600;margin-right:6px">{_ns}</span>' if _ns else ""
+                _link_h = f' <a href="{_html.escape(_nl)}" target="_blank" rel="noopener noreferrer" style="font-size:.68rem;color:#44C1BA;text-decoration:none">Lire &rarr;</a>' if _nl else ""
+                st.markdown(f'<div style="border-left:3px solid var(--ambre);padding:9px 13px;margin-bottom:8px;background:white;border-radius:0 8px 8px 0"><div style="font-weight:600;font-size:.87rem;color:#0B2221;margin-bottom:3px">{_nt}{_link_h}</div><div style="font-size:.7rem;color:#339999">{_src_h}{_np}</div></div>', unsafe_allow_html=True)
 
     # ── Signaux stratégiques ──────────────────────────────────────────────────
     st.markdown('<div class="section-h">Signaux stratégiques</div>', unsafe_allow_html=True)
@@ -3482,8 +3482,8 @@ with tabs[9]:
         with st.spinner("Wikipedia…"):
             _wiki = fetch_wiki(_wt, lang=veille_lang)
         if _wiki.get("extract"):
-            _wurl = f'<div style="margin-top:8px"><a href="{_html.escape(_wiki.get("url",""))}" target="_blank" rel="noopener noreferrer" style="font-size:.72rem;color:#D97706;text-decoration:none">Lire sur Wikipedia &rarr;</a></div>' if _wiki.get("url") else ""
-            st.markdown(f'<div class="card"><div style="font-weight:700;font-size:.93rem;color:#0F172A;margin-bottom:6px">{_html.escape(str(_wiki.get("title",""))[:80])}</div><div style="font-size:.82rem;color:#4B5563;line-height:1.6">{_html.escape(str(_wiki.get("extract",""))[:650])}</div>{_wurl}</div>', unsafe_allow_html=True)
+            _wurl = f'<div style="margin-top:8px"><a href="{_html.escape(_wiki.get("url",""))}" target="_blank" rel="noopener noreferrer" style="font-size:.72rem;color:#44C1BA;text-decoration:none">Lire sur Wikipedia &rarr;</a></div>' if _wiki.get("url") else ""
+            st.markdown(f'<div class="card"><div style="font-weight:700;font-size:.93rem;color:#0B2221;margin-bottom:6px">{_html.escape(str(_wiki.get("title",""))[:80])}</div><div style="font-size:.82rem;color:#339999;line-height:1.6">{_html.escape(str(_wiki.get("extract",""))[:650])}</div>{_wurl}</div>', unsafe_allow_html=True)
         else:
             st.info(f"Aucun article Wikipedia pour « {_html.escape(_wt[:50])} »")
     with _wc2:
@@ -3491,11 +3491,11 @@ with tabs[9]:
         with st.spinner("DuckDuckGo…"):
             _ddg = fetch_ddg(_wt)
         if _ddg.get("abstract"):
-            st.markdown(f'<div style="background:#FEF3C7;border:1px solid #FCD34D;border-radius:10px;padding:14px;font-size:.82rem;color:#1F2937;line-height:1.6">{_html.escape(str(_ddg["abstract"])[:550])}</div>', unsafe_allow_html=True)
+            st.markdown(f'<div style="background:#C6ECD9;border:1px solid #44C1BA;border-radius:10px;padding:14px;font-size:.82rem;color:#0B2221;line-height:1.6">{_html.escape(str(_ddg["abstract"])[:550])}</div>', unsafe_allow_html=True)
         if _ddg.get("related"):
             st.markdown("**Sujets connexes**")
             for _rt in _ddg["related"][:5]:
-                st.markdown(f'<div style="font-size:.8rem;color:#374151;padding:5px 0;border-bottom:1px solid #F3F4F6">{_html.escape(str(_rt)[:160])}</div>', unsafe_allow_html=True)
+                st.markdown(f'<div style="font-size:.8rem;color:#267371;padding:5px 0;border-bottom:1px solid #E4E9F6">{_html.escape(str(_rt)[:160])}</div>', unsafe_allow_html=True)
 
     # ── SWOT live ─────────────────────────────────────────────────────────────
     st.markdown('<div class="section-h">Détection automatique Opportunités / Menaces</div>', unsafe_allow_html=True)
@@ -3508,17 +3508,17 @@ with tabs[9]:
     _thrs = [n for n in _all_news if any(s in n.get("title","").lower() for s in _thr_w)]
     _oc, _tc = st.columns(2)
     with _oc:
-        st.markdown(f'<div style="font-weight:700;font-size:.87rem;color:#065F46;margin-bottom:9px">Opportunités ({len(_opps)})</div>', unsafe_allow_html=True)
+        st.markdown(f'<div style="font-weight:700;font-size:.87rem;color:#0B2221;margin-bottom:9px">Opportunités ({len(_opps)})</div>', unsafe_allow_html=True)
         if _opps:
             for _on in _opps[:5]:
-                st.markdown(f'<div style="background:#D1FAE5;border:1px solid #6EE7B7;border-radius:8px;padding:8px 12px;margin-bottom:6px;font-size:.8rem;line-height:1.4">{_html.escape(str(_on.get("title",""))[:130])}<div style="font-size:.68rem;color:#059669;margin-top:2px">{_on.get("pub","")}</div></div>', unsafe_allow_html=True)
+                st.markdown(f'<div style="background:#C6ECD9;border:1px solid #C6ECD9;border-radius:8px;padding:8px 12px;margin-bottom:6px;font-size:.8rem;line-height:1.4">{_html.escape(str(_on.get("title",""))[:130])}<div style="font-size:.68rem;color:#44C1BA;margin-top:2px">{_on.get("pub","")}</div></div>', unsafe_allow_html=True)
         else:
             st.caption("Aucune opportunité détectée dans les actualités récentes")
     with _tc:
-        st.markdown(f'<div style="font-weight:700;font-size:.87rem;color:#991B1B;margin-bottom:9px">Menaces ({len(_thrs)})</div>', unsafe_allow_html=True)
+        st.markdown(f'<div style="font-weight:700;font-size:.87rem;color:#B83D4B;margin-bottom:9px">Menaces ({len(_thrs)})</div>', unsafe_allow_html=True)
         if _thrs:
             for _tn in _thrs[:5]:
-                st.markdown(f'<div style="background:#FEE2E2;border:1px solid #FCA5A5;border-radius:8px;padding:8px 12px;margin-bottom:6px;font-size:.8rem;line-height:1.4">{_html.escape(str(_tn.get("title",""))[:130])}<div style="font-size:.68rem;color:#DC2626;margin-top:2px">{_tn.get("pub","")}</div></div>', unsafe_allow_html=True)
+                st.markdown(f'<div style="background:#F7FBF4;border:1px solid #C6ECD9;border-radius:8px;padding:8px 12px;margin-bottom:6px;font-size:.8rem;line-height:1.4">{_html.escape(str(_tn.get("title",""))[:130])}<div style="font-size:.68rem;color:#B83D4B;margin-top:2px">{_tn.get("pub","")}</div></div>', unsafe_allow_html=True)
         else:
             st.caption("Aucune menace détectée dans les actualités récentes")
 
@@ -3527,7 +3527,7 @@ with tabs[9]:
 # ══════════════════════════════════════════════════════════════════════════════
 with tabs[10]:
     st.markdown("""
-    <div style="background:linear-gradient(135deg,#064E3B,#047857);color:white;border-radius:14px;
+    <div style="background:linear-gradient(135deg,#0B2221,#267371);color:white;border-radius:14px;
       padding:18px 24px;margin-bottom:20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
       <div>
         <b style="font-size:1rem">RSE & ISO 26000 — Responsabilite Societale des Entreprises</b><br>
@@ -3542,17 +3542,17 @@ with tabs[10]:
     _rse_score_pct = round(_rse_score_total / _rse_score_max * 100)
 
     _rs1, _rs2, _rs3 = st.columns(3)
-    _rs1.markdown(f'<div class="metric-box"><div class="val" style="color:#047857">{_rse_score_pct}/100</div><div class="lbl">Score RSE global</div></div>', unsafe_allow_html=True)
-    _rs2.markdown(f'<div class="metric-box"><div class="val" style="color:#1D4ED8">{len(_rse_data)}</div><div class="lbl">Domaines ISO 26000</div></div>', unsafe_allow_html=True)
+    _rs1.markdown(f'<div class="metric-box"><div class="val" style="color:#267371">{_rse_score_pct}/100</div><div class="lbl">Score RSE global</div></div>', unsafe_allow_html=True)
+    _rs2.markdown(f'<div class="metric-box"><div class="val" style="color:#393DAC">{len(_rse_data)}</div><div class="lbl">Domaines ISO 26000</div></div>', unsafe_allow_html=True)
     _rse_label = "Leader RSE" if _rse_score_pct >= 70 else "En transition" if _rse_score_pct >= 50 else "Rattrapage nécessaire"
-    _rs3.markdown(f'<div class="metric-box"><div class="val" style="font-size:1rem;color:#D97706">{_rse_label}</div><div class="lbl">Niveau de maturité</div></div>', unsafe_allow_html=True)
+    _rs3.markdown(f'<div class="metric-box"><div class="val" style="font-size:1rem;color:#44C1BA">{_rse_label}</div><div class="lbl">Niveau de maturité</div></div>', unsafe_allow_html=True)
 
     st.markdown('<div class="section-h">Les 7 domaines ISO 26000</div>', unsafe_allow_html=True)
     for _dom, _ddata in _rse_data.items():
         _niveau = _ddata["niveau"]
         _bar_filled = "█" * _niveau
         _bar_empty = "░" * (5 - _niveau)
-        _ncolor = "#047857" if _niveau >= 4 else "#D97706" if _niveau >= 3 else "#B91C1C"
+        _ncolor = "#267371" if _niveau >= 4 else "#44C1BA" if _niveau >= 3 else "#B83D4B"
         with st.expander(f"**{_dom}** — Niveau {_niveau}/5 {_bar_filled}{_bar_empty}"):
             _dc1, _dc2 = st.columns([3, 2])
             with _dc1:
@@ -3560,13 +3560,13 @@ with tabs[10]:
                 for _act in _ddata["actions"]:
                     st.markdown(f"""
                     <div class="rse-card">
-                      <div style="font-size:.84rem;color:#065F46">{_html.escape(_act)}</div>
+                      <div style="font-size:.84rem;color:#0B2221">{_html.escape(_act)}</div>
                     </div>
                     """, unsafe_allow_html=True)
             with _dc2:
                 st.markdown("**Risque si inaction :**")
                 st.warning(_html.escape(_ddata["risques"]))
-                st.markdown(f'<div style="margin-top:10px"><div class="progress-bar"><div class="progress-fill" style="width:{_niveau*20}%;background:{_ncolor}"></div></div><div style="font-size:.7rem;color:#8A8A8A;margin-top:3px">Maturité : {_niveau}/5</div></div>', unsafe_allow_html=True)
+                st.markdown(f'<div style="margin-top:10px"><div class="progress-bar"><div class="progress-fill" style="width:{_niveau*20}%;background:{_ncolor}"></div></div><div style="font-size:.7rem;color:#339999;margin-top:3px">Maturité : {_niveau}/5</div></div>', unsafe_allow_html=True)
 
     st.markdown('<div class="section-h">Cadre légal et normatif applicable</div>', unsafe_allow_html=True)
     _normes = [
@@ -3579,9 +3579,9 @@ with tabs[10]:
     ]
     for _nl, _nd in _normes:
         st.markdown(f"""
-        <div style="display:flex;gap:12px;padding:8px 0;border-bottom:1px solid #E7E2D6;align-items:flex-start">
+        <div style="display:flex;gap:12px;padding:8px 0;border-bottom:1px solid #F2ECD9;align-items:flex-start">
           <span class="badge badge-sauge" style="flex-shrink:0">{_html.escape(_nl)}</span>
-          <span style="font-size:.84rem;color:#4A4A4A">{_html.escape(_nd)}</span>
+          <span style="font-size:.84rem;color:#267371">{_html.escape(_nd)}</span>
         </div>
         """, unsafe_allow_html=True)
 
@@ -3595,10 +3595,10 @@ with tabs[10]:
     for _ri, (_per, _ph, _ac) in enumerate(_rse_roadmap):
         with _rr_cols[_ri]:
             st.markdown(f"""
-            <div class="card" style="border-top:3px solid #047857">
-              <div style="font-size:.68rem;color:#8A8A8A;font-weight:600;text-transform:uppercase">{_per}</div>
-              <div style="font-weight:700;font-size:.92rem;color:#065F46;margin:4px 0">{_ph}</div>
-              <p style="font-size:.78rem;color:#4A4A4A;margin:0">{_ac}</p>
+            <div class="card" style="border-top:3px solid #267371">
+              <div style="font-size:.68rem;color:#339999;font-weight:600;text-transform:uppercase">{_per}</div>
+              <div style="font-weight:700;font-size:.92rem;color:#0B2221;margin:4px 0">{_ph}</div>
+              <p style="font-size:.78rem;color:#267371;margin:0">{_ac}</p>
             </div>
             """, unsafe_allow_html=True)
 
@@ -3607,9 +3607,9 @@ with tabs[10]:
 # ─────────────────────────────────────────────────────────────────────────────
 st.divider()
 st.markdown("""
-<div style="text-align:center;color:#8A8A8A;font-size:.78rem;padding:12px 0">
-  <b style="color:#0F172A">BiziApp v3.1</b> — Stratégie 360° · SWOT · QQOQCCP · PESTEL · SONCAS · AIDA · SPIN · Challenger · GEO 2025 · SEA IA · KPIs · OKR · Veille Live · RSE · RFM · BATNA · Prix psychologiques<br>
-  <span style="color:#D97706">Analyse personnalisée · Données live · Cache intelligent · Lecture URL en direct · Veille concurrentielle · Actualités Google News · Wikipedia · DuckDuckGo</span><br>
+<div style="text-align:center;color:#339999;font-size:.78rem;padding:12px 0">
+  <b style="color:#0B2221">BiziApp v3.1</b> — Stratégie 360° · SWOT · QQOQCCP · PESTEL · SONCAS · AIDA · SPIN · Challenger · GEO 2025 · SEA IA · KPIs · OKR · Veille Live · RSE · RFM · BATNA · Prix psychologiques<br>
+  <span style="color:#44C1BA">Analyse personnalisée · Données live · Cache intelligent · Lecture URL en direct · Veille concurrentielle · Actualités Google News · Wikipedia · DuckDuckGo</span><br>
   Données live via Jina.ai · Google News RSS · DuckDuckGo · Wikipedia REST · PageSpeed · Inputs validés &amp; sécurisés (XSS, SSRF, rate-limiting)
 </div>
 """, unsafe_allow_html=True)
