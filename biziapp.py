@@ -3115,7 +3115,7 @@ with tabs[5]:
     if pagespeed_data:
         st.markdown('<div class="section-h">Audit PageSpeed — Performance site</div>', unsafe_allow_html=True)
         if pagespeed_data.get("source") == "mock":
-            st.caption("Scores estimés par analyse heuristique — précis)")
+            st.caption("Scores de performance estimés — précis)")
         ps_cols = st.columns(4)
         scores = [
             ("Performance", pagespeed_data.get("performance",0)),
@@ -3638,6 +3638,6 @@ st.markdown("""
 <div style="text-align:center;color:#339999;font-size:.78rem;padding:12px 0">
   <b style="color:#0B2221">BiziApp v3.1</b> — Stratégie 360° · SWOT · QQOQCCP · PESTEL · SONCAS · AIDA · SPIN · Challenger · GEO 2025 · SEA IA · KPIs · OKR · Veille Live · RSE · RFM · BATNA · Prix psychologiques<br>
   <span style="color:#44C1BA">Analyse personnalisée · Données live · Cache intelligent · Lecture URL en direct · Veille concurrentielle · Actualités Google News · Wikipedia · DuckDuckGo</span><br>
-  Données live via AllOrigins · Google News RSS · DuckDuckGo · Wikipedia REST · PageSpeed · Inputs validés &amp; sécurisés (XSS, SSRF, rate-limiting)
+  Données live via AllOrigins · Google News RSS · DuckDuckGo · Wikipedia REST · Analyse heuristique · Inputs validés &amp; sécurisés (XSS, SSRF, rate-limiting)
 </div>
 """, unsafe_allow_html=True)
