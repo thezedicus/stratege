@@ -40,6 +40,22 @@ try:
     _HAS_API_LAYER = True
 except ImportError:
     _HAS_API_LAYER = False
+    # ── Stubs no-op — évite tout NameError si api_layer absent ───────────────
+    def _read_url_live(url, **kw): return {}
+    def _fetch_news_full(q, lang="fr", max_items=12): return []
+    def _fetch_hn(q, max_items=6): return []
+    def _fetch_devto(tag, max_items=5): return []
+    def _fetch_github(max_items=4): return []
+    def _search_entreprises(q, activite="", max_results=5): return []
+    def _get_secteur_data(a): return {}
+    def _geocode(addr, country="fr"): return {}
+    def _osm_nearby(lat, lon, act, radius=5000): return []
+    def _fetch_wiki_live(t, lang="fr", sentences=5): return {}
+    def _get_ecb_rates(): return {}
+    def _enrich_response(b, s, sec, n): return b
+    def _extract_kw_advanced(t, top_n=20): return []
+    def _personalize_swot(s, sd, sec): return s
+    def _wikidata_sector(lbl): return {}
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Optional imports
@@ -3635,10 +3651,19 @@ if not st.session_state.get("_run", False):
 # ── Cache-clé session : ne recalcule que si les paramètres changent ──────────
 _cache_key = f"{activity}|{goal}|{maturity}|{monthly_budget}"
 
-# Valeurs par défaut — éviter NameError si cache incomplet
-ads_data = {}
-roi_data = []
-_needs_regen = st.session_state.get("_cache_key") != _cache_key
+# ── Valeurs par défaut COMPLÈTES — aucun NameError possible ─────────────────
+ads_data      = {}
+roi_data      = []
+porter_data   = {}
+ansoff_data   = {}
+journey_data  = []
+content_strat = {}
+email_seq     = {}
+social_strat  = {}
+pricing_strat = {}
+comp_intel    = {}
+_sector_bench = {}
+_needs_regen  = st.session_state.get("_cache_key") != _cache_key
 
 if _needs_regen:
     st.session_state["_cache_key"] = _cache_key
@@ -3708,8 +3733,8 @@ else:
     synthesis    = _a.get("synthesis",   gen_synthesis(activity, goal, maturity, monthly_budget))
     okrs         = _a.get("okrs",        gen_okr(goal))
     ads_data     = _a.get("ads_data",    gen_ads(activity, goal, monthly_budget))
-    roi_data     = _a.get("roi_data",    gen_roi_projection(activity, goal, maturity, monthly_budget))
-    sector_data  = _a.get("sector_data",  {})
+    roi_data      = _a.get("roi_data",     gen_roi_projection(activity, goal, maturity, monthly_budget))
+    sector_data   = _a.get("sector_data",  {})
     porter_data  = _a.get("porter_data",  gen_porter_forces(activity))
     ansoff_data  = _a.get("ansoff_data",  gen_ansoff_matrix(activity, goal, maturity))
     journey_data = _a.get("journey_data", gen_customer_journey(activity, goal))
@@ -3760,6 +3785,7 @@ else:
     }
     sector_data  = _SECTOR_STATIC.get(activity, _SECTOR_STATIC["other"])
     _sector_live   = sector_data
+    _sector_bench  = sector_data.get("benchmarks", {})
     _sector_label  = sector_data.get("label", activity)
     _sector_growth = sector_data.get("croissance_2024", "N/A")
     _sector_market = sector_data.get("marche_fr_2024", "N/A")
