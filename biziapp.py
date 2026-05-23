@@ -41,6 +41,18 @@ st.set_page_config(
 # ─────────────────────────────────────────────────────────────────────────────
 st.markdown("""
 <style>
+
+/* ── Override variables CSS NATIVES de Streamlit ─────────────────────────── */
+:root {
+  --primary-color: #44C1BA !important;
+  --secondary-background-color: #C6ECD9 !important;
+  --background-color: #F7FBF4 !important;
+  --text-color: #0B2221 !important;
+  --font: "Inter", system-ui, sans-serif !important;
+}
+/* Force toutes les utilisations de la couleur primaire orange → teal */
+* { --primary: #44C1BA !important; }
+
 /* Inter font loaded via system font stack — no external request */
 :root{--graphite:#0B2221;--graphite2:#267371;--teal:#44C1BA;--teal-pale:#C6ECD9;--jade:#267371;--jade-pale:#C6ECD9;--ivoire:#F7FBF4;--craie:#F2ECD9;--encre:#0B2221;--muted:#339999;--border:#C6ECD9;}
 *,*::before,*::after{box-sizing:border-box}
