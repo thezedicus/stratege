@@ -17,6 +17,31 @@ import streamlit as st
 import math
 
 # ─────────────────────────────────────────────────────────────────────────────
+# api_layer — Couche APIs gratuites (veille, URL, INSEE, OSM, HN, Reddit...)
+# ─────────────────────────────────────────────────────────────────────────────
+try:
+    from api_layer import (
+        read_url as _read_url_live,
+        fetch_news_full as _fetch_news_full,
+        fetch_hackernews as _fetch_hn,
+        fetch_devto as _fetch_devto,
+        fetch_github_trending as _fetch_github,
+        search_entreprises as _search_entreprises,
+        get_secteur_data as _get_secteur_data,
+        geocode as _geocode,
+        osm_competitors_nearby as _osm_nearby,
+        fetch_wikipedia_extract as _fetch_wiki_live,
+        get_ecb_rates as _get_ecb_rates,
+        enrich_response as _enrich_response,
+        extract_keywords_advanced as _extract_kw_advanced,
+        personalize_swot as _personalize_swot,
+        wikidata_sector_info as _wikidata_sector,
+    )
+    _HAS_API_LAYER = True
+except ImportError:
+    _HAS_API_LAYER = False
+
+# ─────────────────────────────────────────────────────────────────────────────
 # Optional imports
 # ─────────────────────────────────────────────────────────────────────────────
 try:
@@ -2061,6 +2086,20 @@ def gen_prix_psychologiques(monthly_budget: float, activity: str) -> list:
 # ─── WEB SCRAPING — AllOrigins Proxy + BeautifulSoup ─────────────────────────
 @st.cache_data(ttl=900)
 def scrape_site(url: str) -> dict:
+    """Lit un site via api_layer.read_url (multi-proxy) puis fallback local."""
+    if _HAS_API_LAYER:
+        try:
+            result = _read_url_live(url)
+            if result and not result.get("error"):
+                return result
+        except Exception:
+            pass
+    # fallback original ci-dessous
+    _orig_scrape = _scrape_site_original(url)
+    return _orig_scrape
+
+@st.cache_data(ttl=1800)
+def _scrape_site_original(url: str) -> dict:
     """
     Extraction structurée via AllOrigins (proxy CORS gratuit, sans clé API).
     Fallback BeautifulSoup si Jina est indisponible.
@@ -2180,7 +2219,7 @@ def _veille_keywords(text: str, top: int = 15) -> list:
             freq[w] = freq.get(w, 0) + 1
     return sorted(freq, key=lambda k: -freq[k])[:top]
 
-@st.cache_data(ttl=1800)
+@st.cache_data(ttl=900)
 def fetch_news(query: str, lang: str = "fr", max_items: int = 12) -> list:
     """Google News RSS — actualités live. Gratuit, sans clé API. Cache 30 min."""
     try:
@@ -2946,6 +2985,7 @@ if _needs_regen:
         "calendar": calendar, "personas": personas, "scripts": scripts,
         "synthesis": synthesis, "okrs": okrs,
         "ads_data": ads_data, "roi_data": roi_data,
+        "sector_data": sector_data,
     }
 else:
     # Récupération instantanée depuis session_state (0ms)
@@ -2968,17 +3008,37 @@ else:
     synthesis    = _a.get("synthesis",   gen_synthesis(activity, goal, maturity, monthly_budget))
     okrs         = _a.get("okrs",        gen_okr(goal))
     ads_data     = _a.get("ads_data",    gen_ads(activity, goal, monthly_budget))
+    sector_data  = _a.get("sector_data",  {})
     roi_data     = _a.get("roi_data",    gen_roi_projection(activity, goal, maturity, monthly_budget))
 
 spin_data = _SPIN.get(activity, _SPIN["default"])
 
-# ── Scraping site (optionnel, async-safe via cache) ─────────────────────────
-site_data = {}
-if website_url:
+# ── Données sectorielles live ────────────────────────────────────────────────
+sector_data = {}
+macro_data  = {}
+if _HAS_API_LAYER:
     try:
-        site_data = scrape_site(website_url)
+        sector_data = _get_secteur_data(activity)
     except Exception:
-        site_data = {}
+        sector_data = {}
+
+# ── Scraping site (optionnel, async-safe via cache) ─────────────────────────
+site_data = st.session_state.get("_site_data_cache", {})
+if website_url:
+    _site_key = f"site_{hash(website_url)}"
+    if _site_key not in st.session_state:
+        try:
+            site_data = scrape_site(website_url)
+            st.session_state["_site_data_cache"] = site_data
+            st.session_state[_site_key] = True
+        except Exception:
+            site_data = {}
+    elif not site_data:
+        try:
+            site_data = scrape_site(website_url)
+            st.session_state["_site_data_cache"] = site_data
+        except Exception:
+            site_data = {}
 site_meta = site_data
 # ── Personnalisation depuis les données du site ───────────────────────────
 site_ins = _site_insights(site_data)
@@ -4149,8 +4209,8 @@ with tabs[10]:
 st.divider()
 st.markdown("""
 <div style="text-align:center;color:#339999;font-size:.78rem;padding:12px 0">
-  <b style="color:#0B2221">BiziApp v3.1</b> — Stratégie 360° · SWOT · QQOQCCP · PESTEL · SONCAS · AIDA · SPIN · Challenger · GEO 2025 · SEA IA · KPIs · OKR · Veille Live · RSE · RFM · BATNA · Prix psychologiques<br>
+  <b style="color:#0B2221">BiziApp v3.2</b> — Stratégie 360° · SWOT · QQOQCCP · PESTEL · SONCAS · AIDA · SPIN · Challenger · GEO 2025 · SEA IA · KPIs · OKR · Veille Live · RSE · RFM · BATNA · Prix psychologiques<br>
   <span style="color:#44C1BA">Analyse personnalisée · Données live · Cache intelligent · Lecture URL en direct · Veille concurrentielle · Actualités Google News · Wikipedia · DuckDuckGo</span><br>
-  Données live via AllOrigins · Google News RSS · DuckDuckGo · Wikipedia REST · Analyse heuristique · Inputs validés &amp; sécurisés (XSS, SSRF, rate-limiting)
+  Données live : Google News · Bing News · Reddit · HN · DEV.to · Recherche-Entreprises · OSM · Wikidata · Wikipedia · AllOrigins · corsproxy.io · Analyse heuristique · Inputs validés &amp; sécurisés (XSS, SSRF, rate-limiting)
 </div>
 """, unsafe_allow_html=True)
