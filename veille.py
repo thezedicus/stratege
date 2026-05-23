@@ -3,7 +3,7 @@ veille.py — BiziVeille : Intelligence Stratégique & Concurrentielle
 Streamlit · Python 3.9+
 
 APIs gratuites, sans clé :
-  Jina.ai Reader  → https://r.jina.ai/{url}     (lecture URL → markdown)
+  AllOrigins Proxy → api.allorigins.win/get     (lecture URL via proxy CORS gratuit)
   Google News RSS → news.google.com/rss/search   (actualités live)
   DuckDuckGo IA   → api.duckduckgo.com           (contexte marché)
   Wikipedia REST  → wikipedia.org/api/rest_v1    (définitions secteur)
@@ -188,40 +188,45 @@ def _extract_keywords(text, top=15):
 
 @st.cache_data(ttl=900)   # 15 min
 def scrape_url(url):
-    """Lit une URL via Jina.ai Reader (+ fallback BS4). Retourne dict structuré."""
+    """Lit une URL via AllOrigins CORS Proxy (gratuit, sans clé). Fallback BS4."""
     if not url or not url.startswith("http"):
         return {"error": "URL invalide", "url": url}
     try:
-        text = _http_get(
-            f"https://r.jina.ai/{url}",
-            timeout=15,
-            extra_headers={"Accept": "text/plain"},
-        )
-        lines = text.split("\n")
+        import urllib.parse as _up2
+        proxy_url = f"https://api.allorigins.win/get?url={_up2.quote(url)}"
+        text = _http_get(proxy_url, timeout=15)
+        # AllOrigins returns JSON with "contents" field
+        try:
+            import json as _j2
+            raw_html = _j2.loads(text).get("contents", "") if text.strip().startswith("{") else text
+        except Exception:
+            raw_html = text
 
-        def meta(prefix):
-            return next(
-                (l.replace(prefix, "").strip() for l in lines if l.startswith(prefix)), ""
-            )
-
-        skip = {"Title:", "URL:", "Description:", "Published", "Warning", "Markdown", "Links"}
-        body = [l for l in lines if not any(l.startswith(s) for s in skip)]
-
-        h1 = [l.lstrip("# ").strip() for l in body if l.startswith("# ") and 3 < len(l) < 160][:5]
-        h2 = [l.lstrip("## ").strip() for l in body if l.startswith("## ") and 3 < len(l) < 160][:12]
-        h3 = [l.lstrip("### ").strip() for l in body if l.startswith("### ") and 3 < len(l) < 120][:8]
-        paras = [l for l in body if l and not l.startswith("#") and len(l) > 35]
-        main_text = " ".join(paras)[:3500]
+        h1, h2, h3, main_text, title_val, desc_val, paras = [], [], [], "", "", "", []
+        if _HAS_BS4 and raw_html:
+            soup = _BS(raw_html, "html.parser")
+            _t = soup.find("title")
+            title_val = _t.get_text(strip=True) if _t else ""
+            for m in soup.find_all("meta"):
+                n = m.get("name", m.get("property", "")).lower()
+                if n in ("description", "og:description"):
+                    desc_val = m.get("content", "")
+                    break
+            h1 = [t.get_text(strip=True) for t in soup.find_all("h1")][:5]
+            h2 = [t.get_text(strip=True) for t in soup.find_all("h2")][:12]
+            h3 = [t.get_text(strip=True) for t in soup.find_all("h3")][:8]
+            paras = [t.get_text(strip=True) for t in soup.find_all("p") if len(t.get_text(strip=True)) > 35][:10]
+            main_text = " ".join(paras)[:3500]
 
         return {
-            "title": meta("Title:"),
-            "description": meta("Description:"),
+            "title": title_val,
+            "description": desc_val,
             "url": url,
             "h1": h1, "h2": h2, "h3": h3,
-            "paragraphs": paras[:10],
+            "paragraphs": paras,
             "main_text": main_text,
             "keywords": _extract_keywords(main_text),
-            "source": "jina",
+            "source": "allorigins",
             "fetched_at": datetime.datetime.now().strftime("%H:%M · %d/%m/%Y"),
         }
     except Exception as e_jina:
