@@ -3646,6 +3646,9 @@ with st.sidebar:
         if st.button("🚀 Lancer l'analyse", type="primary", use_container_width=True):
             st.session_state["_run"] = True
             st.session_state["_cache_key"] = ""  # force regen
+            # Incrémenter le compteur utilisateur
+            if _current_user and _current_user.get("email"):
+                increment_analysis_count(_current_user["email"])
     with _col_b:
         if st.button("↺", use_container_width=True, help="Réinitialiser l'analyse"):
             for _k in ["_run", "_cache_key", "_analysis"]:
@@ -3669,6 +3672,23 @@ with st.sidebar:
 # ═════════════════════════════════════════════════════════════════════════════
 # ── HEADER ───────────────────────────────────────────────────────────────────
 # ═════════════════════════════════════════════════════════════════════════════
+# ── Message de bienvenue personnalisé (neuromarketing : identité + réciprocité) ──
+_welcome_msg = ""
+if _current_user and _current_user.get("name"):
+    _fn = _current_user["name"].split()[0]
+    _cnt = _current_user.get("analyses_count", 0)
+    if _cnt == 0:
+        _welcome_msg = f"Bienvenue {_fn} 👋 — Ton premier plan stratégique est à 10 minutes."
+    elif _cnt == 1:
+        _welcome_msg = f"Content de te revoir {_fn} ! Prêt pour une nouvelle analyse ?"
+    else:
+        _welcome_msg = f"Re-bonjour {_fn} 👋 — {_cnt} analyses générées. Continue sur ta lancée !"
+
+if _welcome_msg:
+    st.markdown(f'<div style="background:linear-gradient(90deg,#C6ECD9,#E4E9F6);border-radius:10px;'
+        f'padding:10px 16px;margin-bottom:14px;font-size:.86rem;font-weight:600;color:#0B2221">'+
+        _welcome_msg + '</div>', unsafe_allow_html=True)
+
 st.markdown('''
 <div class="bizi-header" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;padding:0 0 16px;border-bottom:1px solid #C6ECD9;margin-bottom:18px">
   <div style="display:flex;align-items:center;gap:14px">
