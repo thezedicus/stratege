@@ -119,7 +119,17 @@ html,body,[class*="css"]{font-family:'Inter',system-ui,-apple-system,BlinkMacSys
 /* ── Badges ── */
 .badge{display:inline-block;padding:2px 9px;border-radius:999px;font-size:.7rem;font-weight:600;white-space:nowrap}
 .badge-blue{background:#E4E9F6;color:#393DAC}.badge-green{background:#C6ECD9;color:#0B2221}
-.badge-red{background:#F7EEF0;color:#B83D4B}.badge-teal{background:var(--teal-pale);color:#267371}
+.badge-red{background:#F7EEF0;color:#B83D4B}
+.badge-graphite{background:#E4E9F6;color:#0B2221}
+.badge-muted{background:#F2ECD9;color:#339999}
+.badge-gray{background:#F2ECD9;color:#339999}
+.badge-orange{background:#FEF3C7;color:#B45309}
+.badge-indigo{background:#E4E9F6;color:#393DAC}
+.url-kw{display:inline-block;background:#C6ECD9;color:#267371;border-radius:4px;padding:2px 7px;font-size:.7rem;font-weight:600;margin:2px}
+.url-panel{background:#F7FBF4;border:1.5px solid #C6ECD9;border-radius:12px;padding:16px 20px;margin-bottom:14px}
+.metric-box{text-align:center;padding:14px 10px;background:white;border-radius:12px;border:1.5px solid #C6ECD9}
+.metric-box .val{font-size:1.6rem;font-weight:800;line-height:1.1}
+.metric-box .lbl{font-size:.72rem;color:#339999;font-weight:600;margin-top:3px}.badge-teal{background:var(--teal-pale);color:#267371}
 .badge-purple{background:#E4E9F6;color:#267371}.badge-gray{background:#E4E9F6;color:#267371}
 .badge-graphite{background:var(--graphite);color:#F7FBF4}.badge-jade{background:var(--jade-pale);color:var(--jade)}
 
@@ -2962,6 +2972,10 @@ if not st.session_state.get("_run", False):
 # ─────────────────────────────────────────────────────────────────────────────
 # ── Cache-clé session : ne recalcule que si les paramètres changent ──────────
 _cache_key = f"{activity}|{goal}|{maturity}|{monthly_budget}"
+
+# Valeurs par défaut — éviter NameError si cache incomplet
+ads_data = {}
+roi_data = []
 _needs_regen = st.session_state.get("_cache_key") != _cache_key
 
 if _needs_regen:
@@ -3019,19 +3033,52 @@ else:
     synthesis    = _a.get("synthesis",   gen_synthesis(activity, goal, maturity, monthly_budget))
     okrs         = _a.get("okrs",        gen_okr(goal))
     ads_data     = _a.get("ads_data",    gen_ads(activity, goal, monthly_budget))
-    sector_data  = _a.get("sector_data",  {})
     roi_data     = _a.get("roi_data",    gen_roi_projection(activity, goal, maturity, monthly_budget))
+    sector_data  = _a.get("sector_data",  {})
 
 spin_data = _SPIN.get(activity, _SPIN["default"])
 
-# ── Données sectorielles live ────────────────────────────────────────────────
-sector_data = {}
-macro_data  = {}
+# ── Données sectorielles — toujours définies dès ici ────────────────────────
+sector_data  = {}
+macro_data   = {}
+_sector_live   = {}
+_sector_label  = activity
+_sector_growth = "N/A"
+_sector_market = "N/A"
+_sector_bench  = {}
+
 if _HAS_API_LAYER:
     try:
         sector_data = _get_secteur_data(activity)
+        _sector_live   = sector_data
+        _sector_label  = sector_data.get("label", activity)
+        _sector_growth = sector_data.get("croissance_2024", "N/A")
+        _sector_market = sector_data.get("marche_fr_2024", "N/A")
+        _sector_bench  = sector_data.get("benchmarks", {})
     except Exception:
         sector_data = {}
+else:
+    # Données sectorielles statiques si api_layer absent
+    _SECTOR_STATIC = {
+        "ecommerce": {"label":"E-commerce","croissance_2024":"+12.4%","marche_fr_2024":"159 Md€",
+                      "benchmarks":{"taux_conversion":"2.1%","panier_moyen":"85€","cac":"18€"}},
+        "saas":      {"label":"SaaS / Tech","croissance_2024":"+18.7%","marche_fr_2024":"12.4 Md€",
+                      "benchmarks":{"churn":"5%/mois","ltv_cac":"3.2x","arr_growth":"+35%"}},
+        "service":   {"label":"Services","croissance_2024":"+4.2%","marche_fr_2024":"280 Md€",
+                      "benchmarks":{"taux_closing":"28%","cycle_vente":"21j","retention":"72%"}},
+        "consulting":{"label":"Conseil","croissance_2024":"+6.8%","marche_fr_2024":"18.3 Md€",
+                      "benchmarks":{"taux_occupation":"68%","marge":"45%"}},
+        "content":   {"label":"Contenu / Médias","croissance_2024":"+22.1%","marche_fr_2024":"4.1 Md€",
+                      "benchmarks":{"engagement_rate":"3.8%","cpm":"4.2€"}},
+        "other":     {"label":"Autre secteur","croissance_2024":"+3.1%","marche_fr_2024":"N/A",
+                      "benchmarks":{}},
+    }
+    sector_data  = _SECTOR_STATIC.get(activity, _SECTOR_STATIC["other"])
+    _sector_live   = sector_data
+    _sector_label  = sector_data.get("label", activity)
+    _sector_growth = sector_data.get("croissance_2024", "N/A")
+    _sector_market = sector_data.get("marche_fr_2024", "N/A")
+    _sector_bench  = sector_data.get("benchmarks", {})
 
 # ── Scraping site (optionnel, async-safe via cache) ─────────────────────────
 site_data = st.session_state.get("_site_data_cache", {})
@@ -3989,12 +4036,9 @@ with tabs[9]:
             _gh_items   = _fetch_github(max_items=4)
         except Exception: pass
 
-    # ── Données sectorielles enrichies ────────────────────────────────────────
-    _sector_live = sector_data if sector_data else {}
-    _sector_label = _sector_live.get("label", activity)
-    _sector_growth = _sector_live.get("croissance_2024", "N/A")
-    _sector_market = _sector_live.get("marche_fr_2024", "N/A")
-    _sector_bench  = _sector_live.get("benchmarks", {})
+    # ── Données sectorielles — utilisées depuis le scope global ─────────────
+    # _sector_live, _sector_label, _sector_growth, _sector_market, _sector_bench
+    # sont définis globalement après le bloc session-state ci-dessus
 
     # ── Entreprises du secteur (API Recherche Entreprises) ────────────────────
     _secteur_entreprises = []
