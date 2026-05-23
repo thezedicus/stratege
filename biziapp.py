@@ -2094,6 +2094,303 @@ def gen_prix_psychologiques(monthly_budget: float, activity: str) -> list:
 
 
 # ─── WEB SCRAPING — AllOrigins Proxy + BeautifulSoup ─────────────────────────
+# ══════════════════════════════════════════════════════════════════════════════
+# NOUVELLES FONCTIONS — Analyse 2× plus puissante
+# Ajoutées à biziapp.py comme module inline
+# ══════════════════════════════════════════════════════════════════════════════
+
+@st.cache_data(ttl=3600)
+def gen_porter_forces(activity: str) -> dict:
+    """5 Forces de Porter — analyse concurrentielle approfondie."""
+    _PORTER = {
+        "ecommerce": {
+            "menace_nouveaux": {"score": 8, "label": "Élevée", "details": ["Barrières faibles (Shopify, WooCommerce)", "Amazon, TikTok Shop entrants permanents", "Faibles coûts d'entrée < 5 000€"]},
+            "pouvoir_fournisseurs": {"score": 5, "label": "Modéré", "details": ["Dépendance aux marketplaces (Amazon, FNAC)", "Prestataires logistiques concentrés", "Négociation possible au-delà de 50K€/an"]},
+            "pouvoir_acheteurs": {"score": 7, "label": "Élevé", "details": ["Comparateurs de prix omniprésents", "Coût de changement quasi nul", "Avis clients décisifs (4.2★ minimum)"]},
+            "menace_substituts": {"score": 6, "label": "Modérée", "details": ["Social commerce (Instagram Shop)", "Seconde main (Vinted, eBay)", "Location vs achat — économie circulaire"]},
+            "rivalite": {"score": 9, "label": "Très élevée", "details": ["Marchés saturés", "Guerre des prix permanente", "Différenciation par l'expérience UX/CX"]},
+        },
+        "saas": {
+            "menace_nouveaux": {"score": 6, "label": "Modérée", "details": ["R&D élevée (barrière technique)", "No-code réduit les barrières", "AI accélère le time-to-market"]},
+            "pouvoir_fournisseurs": {"score": 4, "label": "Faible", "details": ["Infra cloud banalisée (AWS, GCP)", "Open-source disponible", "Multi-cloud possible"]},
+            "pouvoir_acheteurs": {"score": 6, "label": "Modéré", "details": ["Coûts de switching réels (formation, migration)", "Benchmarks G2/Capterra décisifs", "Négociation sur contrats annuels"]},
+            "menace_substituts": {"score": 7, "label": "Élevée", "details": ["Excel / Google Sheets toujours présents", "No-code (Notion, Airtable)", "IA générative remplace certains outils"]},
+            "rivalite": {"score": 7, "label": "Élevée", "details": ["Product-led growth dominant", "Freemium standard du secteur", "Guerres de fonctionnalités"]},
+        },
+        "service": {
+            "menace_nouveaux": {"score": 4, "label": "Faible", "details": ["Réputation et références requises", "Accréditations nécessaires", "Relations client = barrière"]},
+            "pouvoir_fournisseurs": {"score": 3, "label": "Faible", "details": ["Freelances interchangeables", "Outils accessibles", "Peu de dépendance fournisseur"]},
+            "pouvoir_acheteurs": {"score": 7, "label": "Élevé", "details": ["Appels d'offres comparatifs", "Négociation systématique", "Turnover prestataires fréquent"]},
+            "menace_substituts": {"score": 6, "label": "Modérée", "details": ["Automatisation (AI, outils)", "Internalisation possible", "Offshore/nearshore compétitif"]},
+            "rivalite": {"score": 5, "label": "Modérée", "details": ["Différenciation par expertise", "Niches protectrices", "Loyauté client si satisfaction"]},
+        },
+        "consulting": {
+            "menace_nouveaux": {"score": 3, "label": "Faible", "details": ["Réputation = 5-10 ans minimum", "Références clients essentielles", "Labellisations sectorielles"]},
+            "pouvoir_fournisseurs": {"score": 2, "label": "Très faible", "details": ["Indépendance totale", "Outils standard disponibles", "Réseau = capital principal"]},
+            "pouvoir_acheteurs": {"score": 6, "label": "Modéré", "details": ["Grands comptes négocient fort", "ROI démontrable requis", "Contrats courts = pression"]},
+            "menace_substituts": {"score": 5, "label": "Modérée", "details": ["Formations en ligne", "Outils d'auto-diagnostic", "Consultants indépendants vs cabinets"]},
+            "rivalite": {"score": 5, "label": "Modérée", "details": ["Positionnement par niche", "Personal branding différenciant", "Co-traitance possible"]},
+        },
+        "content": {
+            "menace_nouveaux": {"score": 9, "label": "Très élevée", "details": ["Barrières nulles", "AI génère du contenu à coût quasi-zéro", "Saturation des plateformes"]},
+            "pouvoir_fournisseurs": {"score": 8, "label": "Élevé", "details": ["Algorithmes plateformes imprévisibles", "Dépendance YouTube/Meta/TikTok", "Démonétisation possible"]},
+            "pouvoir_acheteurs": {"score": 6, "label": "Modéré", "details": ["Abonnements facilement résiliables", "Contenu gratuit concurrent toujours présent", "Niche = fidélité"]},
+            "menace_substituts": {"score": 7, "label": "Élevée", "details": ["Podcasts vs vidéo", "AI summaries remplacent contenu long", "Short-form cannibale"]},
+            "rivalite": {"score": 9, "label": "Très élevée", "details": ["Millions de créateurs", "Attention = ressource rare", "Distribution = avantage décisif"]},
+        },
+    }
+    data = _PORTER.get(activity, _PORTER["service"])
+    data["_activity"] = activity
+    return data
+
+
+@st.cache_data(ttl=3600)
+def gen_ansoff_matrix(activity: str, goal: str, maturity: str) -> dict:
+    """Matrice d'Ansoff — 4 stratégies de croissance avec recommandation."""
+    _score_pen = {"idea": 40, "inprogress": 65, "launched": 80}.get(maturity, 50)
+    _score_dev = {"idea": 20, "inprogress": 50, "launched": 70}.get(maturity, 40)
+    _score_ext = {"idea": 10, "inprogress": 30, "launched": 60}.get(maturity, 30)
+    _score_div = {"idea": 5, "inprogress": 15, "launched": 35}.get(maturity, 15)
+
+    _ACTIONS = {
+        "ecommerce": {
+            "penetration": ["Optimiser le référencement SEO/SEA", "Relances panier abandonné (email)", "Programme de fidélité — points/cashback", "Upselling et cross-selling automatisés"],
+            "developpement": ["Lancer une gamme complémentaire", "Étendre aux marketplaces (Amazon, FNAC, ManoMano)", "Créer une offre abonnement récurrent", "Développer la vente B2B"],
+            "extension": ["Internationalisation (Belgique, Suisse, Canada FR)", "Ouverture d'un point relais ou pop-up store", "Partenariat avec enseignes physiques", "Marketplace propre pour vendeurs tiers"],
+            "diversification": ["Créer une marque propre (PL)", "Formation/ateliers autour du produit", "Services annexes (installation, SAV premium)", "Contenu monétisé (blog/YouTube)"],
+        },
+        "saas": {
+            "penetration": ["Freemium avec conversion trial-to-paid", "Onboarding in-app optimisé (< 5 min)", "Réduction du churn (NPS score > 50)", "Parrainage utilisateur"],
+            "developpement": ["API/intégrations marketplace (Zapier, Make)", "Module Enterprise avec SSO/SCIM", "Formation et certification utilisateurs", "Mobile app complémentaire"],
+            "extension": ["Expansion EU (RGPD compliant)", "Secteur vertical dédié (niche premium)", "Partenariats revendeurs/intégrateurs", "White-label pour agences"],
+            "diversification": ["Consulting autour du logiciel", "Marketplace d'add-ons (app store)", "Data insights/benchmark (données anonymisées)", "Acquisition de micro-SaaS complémentaires"],
+        },
+        "service": {
+            "penetration": ["Optimiser les témoignages clients (Google My Business)", "Système de parrainage actif", "Newsletters expertise mensuelle", "Réactivation base clients dormants"],
+            "developpement": ["Offre de formation autour du service", "Pack premium avec garantie résultats", "Abonnement mensuel (rétainer)", "Extension gamme (services adjacents)"],
+            "extension": ["Géographies voisines (DOM-TOM, Belgique)", "Secteurs d'activité nouveaux", "Clientèle B2C si actuel B2B (ou inverse)", "Partenariats prescripteurs"],
+            "diversification": ["SaaS propriétaire lié au service", "Formation en ligne (LMS)", "Franchise du modèle", "Joint-venture avec complémentaire"],
+        },
+    }
+    actions = _ACTIONS.get(activity, _ACTIONS["service"])
+    recommendation = "penetration" if maturity in ("idea","inprogress") else "developpement" if goal == "sales" else "extension"
+    return {
+        "penetration": {"score": _score_pen, "risk": "Faible", "actions": actions["penetration"]},
+        "developpement": {"score": _score_dev, "risk": "Modéré", "actions": actions.get("developpement", [])},
+        "extension": {"score": _score_ext, "risk": "Modéré-élevé", "actions": actions.get("extension", [])},
+        "diversification": {"score": _score_div, "risk": "Élevé", "actions": actions.get("diversification", [])},
+        "recommendation": recommendation,
+    }
+
+
+@st.cache_data(ttl=3600)
+def gen_customer_journey(activity: str, goal: str) -> list:
+    """Customer Journey Map complète — 7 étapes avec touchpoints et émotions."""
+    _STAGES = {
+        "ecommerce": [
+            {"stage": "Découverte", "emotion": "😐 Neutre", "score": 3, "touchpoints": ["Google Search", "Instagram Ads", "Bouche-à-oreille"], "pain": "Trop d'options disponibles", "opportunity": "SEO + contenu différenciant"},
+            {"stage": "Considération", "emotion": "🤔 Curieux", "score": 5, "touchpoints": ["Page produit", "Comparateurs de prix", "Avis clients"], "pain": "Manque de confiance", "opportunity": "Social proof + politique retour claire"},
+            {"stage": "Intention", "emotion": "😊 Intéressé", "score": 6, "touchpoints": ["Panier", "Wishlist", "Email de relance"], "pain": "Hésitation prix", "opportunity": "Urgence douce + garantie satisfait"},
+            {"stage": "Achat", "emotion": "😀 Enthousiaste", "score": 8, "touchpoints": ["Checkout", "Paiement", "Email confirmation"], "pain": "Friction checkout (trop d'étapes)", "opportunity": "One-click, multi-paiement, Apple Pay"},
+            {"stage": "Livraison", "emotion": "😰 Anxieux", "score": 4, "touchpoints": ["Email suivi", "SMS livraison", "Application transporteur"], "pain": "Incertitude délais", "opportunity": "Tracking temps réel + proactivité"},
+            {"stage": "Utilisation", "emotion": "😍 Satisfait", "score": 9, "touchpoints": ["Produit reçu", "Packaging", "Email post-achat"], "pain": "Pas de support si problème", "opportunity": "Unboxing premium + tutoriel d'usage"},
+            {"stage": "Fidélisation", "emotion": "🤩 Fan", "score": 8, "touchpoints": ["Programme fidélité", "Newsletter", "Réseaux sociaux"], "pain": "Oublié rapidement", "opportunity": "Personnalisation + récompenses surprises"},
+        ],
+        "saas": [
+            {"stage": "Awareness", "emotion": "😐 Neutre", "score": 3, "touchpoints": ["Search Google", "Product Hunt", "LinkedIn"], "pain": "Saturé d'outils SaaS", "opportunity": "Contenu SEO + démo produit vidéo"},
+            {"stage": "Évaluation", "emotion": "🤔 Sceptique", "score": 4, "touchpoints": ["Site web", "G2/Capterra", "Webinaire"], "pain": "Difficulté à comparer", "opportunity": "Comparatif direct concurrents + ROI calculator"},
+            {"stage": "Trial", "emotion": "😊 Curieux", "score": 6, "touchpoints": ["Onboarding", "Email séquence", "Checklist"], "pain": "Time-to-value trop long", "opportunity": "1er résultat en < 5 minutes"},
+            {"stage": "Activation", "emotion": "😀 Convaincu", "score": 8, "touchpoints": ["Dashboard", "1ère feature utilisée", "Support chat"], "pain": "Fonctionnalités trop nombreuses", "opportunity": "Progressive disclosure + milestone rewards"},
+            {"stage": "Conversion", "emotion": "🙂 Décidé", "score": 7, "touchpoints": ["Pricing page", "Commercial", "Contrat"], "pain": "Friction tarification", "opportunity": "Annuel avec remise + transparence complète"},
+            {"stage": "Expansion", "emotion": "😍 Engagé", "score": 9, "touchpoints": ["Usage régulier", "Équipe invitée", "Intégrations"], "pain": "Silos entre équipes", "opportunity": "Templates collaboration + formation in-app"},
+            {"stage": "Advocacy", "emotion": "🤩 Ambassadeur", "score": 9, "touchpoints": ["Témoignage", "Parrainage", "Case study"], "pain": "Pas de programme structuré", "opportunity": "Referral programme + co-marketing"},
+        ],
+    }
+    default_stages = _STAGES.get(activity, _STAGES["saas"])
+    return default_stages
+
+
+@st.cache_data(ttl=3600)
+def gen_content_strategy(activity: str, goal: str, monthly_budget: float) -> dict:
+    """Stratégie de contenu complète — piliers, formats, calendrier, KPIs."""
+    _PILLARS = {
+        "ecommerce": ["Inspiration produit", "Tutos & guides d'achat", "Coulisses & fabrication", "Avis & UGC clients", "Promotions & exclusivités"],
+        "saas": ["Éducation (how-to)", "Cas d'usage clients", "Insights sectoriels", "Product updates", "Thought leadership"],
+        "service": ["Expertise & conseils", "Avant/après projets", "Témoignages clients", "Actualités secteur", "Coulisses équipe"],
+        "consulting": ["Articles de fond", "Études de cas", "Veille stratégique", "Personal branding", "Conférences & talks"],
+        "content": ["Valeur éducative", "Divertissement", "Coulisses création", "Collaborations", "Monétisation transparente"],
+        "other": ["Expertise", "Témoignages", "Actualités", "Conseils pratiques", "Offres spéciales"],
+    }
+    budget_content = min(monthly_budget * 0.20, 300)
+    return {
+        "pillars": _PILLARS.get(activity, _PILLARS["other"]),
+        "formats": {
+            "Short video (Reels/TikTok)": "40%",
+            "Carrousel LinkedIn/Insta": "25%",
+            "Article blog long-form": "15%",
+            "Newsletter hebdo": "10%",
+            "Podcast / Live": "10%",
+        },
+        "frequency": {
+            "Instagram/TikTok": "5 posts/sem",
+            "LinkedIn": "3 posts/sem",
+            "Newsletter": "1/sem",
+            "Blog": "2 articles/mois",
+            "YouTube": "1 vidéo/mois",
+        },
+        "budget_content": f"{budget_content:.0f}€/mois",
+        "kpis": {
+            "Reach organique": "+15%/mois",
+            "Taux engagement": "> 3.5%",
+            "Leads content": f"{max(5, int(monthly_budget/40))}/mois",
+            "SEO positions": "+10 mots-clés top 10/trimestre",
+        },
+        "tools_free": ["Canva (visuels)", "CapCut (vidéo)", "Notion (planning)", "Buffer free (scheduling)", "Google Trends (sujets)"],
+    }
+
+
+@st.cache_data(ttl=3600)
+def gen_pricing_strategy(activity: str, monthly_budget: float, maturity: str) -> dict:
+    """Stratégie pricing complète — modèles, psychologie, positionnement."""
+    _MODELS = {
+        "ecommerce": ["Prix psychologique (9,99€)", "Bundle (lot de 3 = -20%)", "Prix d'ancrage (barré → prix promo)", "Freemium (échantillon → achat)", "Prix dynamique selon stock"],
+        "saas": ["Freemium → Paid", "Par usage (pay-as-you-go)", "Par siège (per seat)", "Flat rate annuel", "Enterprise (sur devis)"],
+        "service": ["Taux journalier moyen (TJM)", "Forfait mission", "Abonnement mensuel (rétainer)", "Prix à la performance", "Pack découverte (starter)"],
+        "consulting": ["Projet clé en main", "TJM + frais", "Rétainer mensuel", "Revenue share", "Formations packagées"],
+        "content": ["Abonnement payant (newsletter premium)", "Sponsoring", "Formations en ligne", "Produits dérivés", "Affiliation"],
+        "other": ["Devis personnalisé", "Forfait standard", "Abonnement", "À l'acte", "Commission"],
+    }
+    _ANCHORS = {
+        "ecommerce": ["Proposer 3 offres (Basic/Standard/Premium)", "Standard = 60% du CA visé", "Premium = 2.5× le prix Standard"],
+        "saas": ["3 tiers prix (Free/Pro/Business)", "Mettre en avant le plan du milieu", "Prix annuel avec remise 20%"],
+        "service": ["Pack Starter + Pack Complet + Sur-mesure", "Le Complet doit être le + rentable", "Afficher valeur hourly dans le forfait"],
+        "other": ["Entrée de gamme → ancre basse", "Offre principale bien mise en avant", "Premium pour 10% clients haute valeur"],
+    }
+    base_price = {"ecommerce": 49, "saas": 79, "service": 1200, "consulting": 1800, "content": 29, "other": 199}.get(activity, 199)
+    multiplier = {"idea": 0.7, "inprogress": 0.9, "launched": 1.1}.get(maturity, 1.0)
+    return {
+        "models": _MODELS.get(activity, _MODELS["other"]),
+        "recommended_base_price": f"{base_price * multiplier:.0f}€",
+        "anchor_strategy": _ANCHORS.get(activity, _ANCHORS["other"]),
+        "psychological_triggers": [
+            "Chiffre 9 (99€ > 100€ perçu 15% moins cher)",
+            "Comparaison économies (vs cabinet conseil à 5K€)",
+            "Urgence temporelle (offre valable 48h)",
+            "Garantie satisfait ou remboursé (réduit le risque perçu)",
+            "Preuve sociale (X clients satisfaits)",
+        ],
+        "elasticite": "Tester A/B +20% et -10% sur 30 jours",
+    }
+
+
+@st.cache_data(ttl=3600)
+def gen_email_sequences(activity: str, goal: str) -> dict:
+    """Séquences email marketing complètes — 5 types de sequences."""
+    _SEQ = {
+        "welcome": {
+            "name": "Bienvenue (J0-J7)",
+            "emails": [
+                {"j": "J+0", "objet": "Bienvenue ! Voici comment démarrer 🚀", "objectif": "Activation — 1ère action dans les 5 min"},
+                {"j": "J+1", "objet": "Le secret de [Bénéfice principal]", "objectif": "Éducation — valeur immédiate"},
+                {"j": "J+3", "objet": "Comment [Nom client] a obtenu [Résultat]", "objectif": "Social proof — cas client"},
+                {"j": "J+5", "objet": "Évitez ces 3 erreurs courantes", "objectif": "Expertise — confiance"},
+                {"j": "J+7", "objet": "Prêt à passer à l'étape suivante ?", "objectif": "Conversion — CTA offre"},
+            ],
+            "kpis": {"open_rate": ">45%", "ctr": ">12%", "conversion": ">8%"}
+        },
+        "nurture": {
+            "name": "Nurturing leads froids (4 semaines)",
+            "emails": [
+                {"j": "S1", "objet": "Insight n°1 : [Tendance sectorielle]", "objectif": "Valeur + positionnement expert"},
+                {"j": "S2", "objet": "Étude de cas : +[X]% en [durée]", "objectif": "Preuve de résultats"},
+                {"j": "S3", "objet": "Template gratuit — [Outil pratique]", "objectif": "Lead magnet — engagement fort"},
+                {"j": "S4", "objet": "Offre exclusive — 48h seulement", "objectif": "Conversion avec urgence"},
+            ],
+            "kpis": {"open_rate": ">28%", "ctr": ">6%", "conversion": ">3%"}
+        },
+        "abandoned_cart": {
+            "name": "Panier abandonné (ecommerce)",
+            "emails": [
+                {"j": "H+1", "objet": "Vous avez oublié quelque chose 👀", "objectif": "Rappel doux"},
+                {"j": "H+24", "objet": "Votre panier expire bientôt", "objectif": "Urgence"},
+                {"j": "H+72", "objet": "Dernière chance + -10% pour vous", "objectif": "Remise de récupération"},
+            ],
+            "kpis": {"open_rate": ">50%", "ctr": ">20%", "conversion": ">15%"}
+        },
+        "reactivation": {
+            "name": "Réactivation clients dormants (90j+)",
+            "emails": [
+                {"j": "J0", "objet": "Vous nous manquez, [Prénom] 💙", "objectif": "Émotion + souvenir positif"},
+                {"j": "J+3", "objet": "Voici ce qui a changé depuis votre départ", "objectif": "Nouveautés produit"},
+                {"j": "J+7", "objet": "Offre de retour — rien que pour vous", "objectif": "Incentive exclusif"},
+                {"j": "J+14", "objet": "C'est notre dernier message", "objectif": "Urgence — dernier essai"},
+            ],
+            "kpis": {"open_rate": ">35%", "ctr": ">8%", "conversion": ">5%"}
+        },
+        "upsell": {
+            "name": "Upsell / Cross-sell post-achat",
+            "emails": [
+                {"j": "J+3", "objet": "Comment tirer le meilleur de votre achat", "objectif": "Adoption + satisfaction"},
+                {"j": "J+10", "objet": "Clients comme vous utilisent aussi...", "objectif": "Cross-sell naturel"},
+                {"j": "J+21", "objet": "Passez au niveau supérieur 🚀", "objectif": "Upsell offre premium"},
+            ],
+            "kpis": {"open_rate": ">38%", "ctr": ">10%", "conversion": ">7%"}
+        },
+    }
+    return _SEQ
+
+
+@st.cache_data(ttl=3600)
+def gen_social_media_strategy(activity: str, monthly_budget: float) -> dict:
+    """Stratégie réseaux sociaux complète avec tactiques par plateforme."""
+    budget_ads = monthly_budget * 0.3
+    _PLATFORMS = {
+        "ecommerce": {
+            "Instagram": {"priorite": 1, "objectif": "Conversion", "format": "Reels + Shopping", "budget": f"{budget_ads*0.4:.0f}€/mois", "freq": "7 posts/sem", "kpi": "ROAS > 3x"},
+            "TikTok": {"priorite": 2, "objectif": "Awareness + Viral", "format": "UGC + trends", "budget": f"{budget_ads*0.3:.0f}€/mois", "freq": "5 posts/sem", "kpi": "Views + CTR"},
+            "Pinterest": {"priorite": 3, "objectif": "Trafic SEO social", "format": "Pins produit", "budget": "Organique", "freq": "10 pins/sem", "kpi": "Clics vers site"},
+            "Facebook": {"priorite": 4, "objectif": "Retargeting", "format": "Carrousel + DPA", "budget": f"{budget_ads*0.3:.0f}€/mois", "freq": "3 posts/sem", "kpi": "CPA < 15€"},
+        },
+        "saas": {
+            "LinkedIn": {"priorite": 1, "objectif": "Lead gen B2B", "format": "Articles + Thought leadership", "budget": f"{budget_ads*0.5:.0f}€/mois", "freq": "5 posts/sem", "kpi": "MQLs générés"},
+            "Twitter/X": {"priorite": 2, "objectif": "Awareness dev/tech", "format": "Threads + insights", "budget": "Organique", "freq": "3 posts/j", "kpi": "Followers + engagement"},
+            "YouTube": {"priorite": 3, "objectif": "SEO + Éducation", "format": "Tutoriels + Demos", "budget": "Temps de production", "freq": "2 vidéos/mois", "kpi": "Watch time + abonnés"},
+            "Product Hunt": {"priorite": 4, "objectif": "Launch + notoriété", "format": "Launch page", "budget": "0€", "freq": "1 launch/trimestre", "kpi": "Upvotes + signups"},
+        },
+        "consulting": {
+            "LinkedIn": {"priorite": 1, "objectif": "Personal branding", "format": "Articles expertise", "budget": "Organique", "freq": "3 posts/sem", "kpi": "Connexions + DMs entrants"},
+            "Newsletter": {"priorite": 2, "objectif": "Nurturing", "format": "Insights hebdo", "budget": f"Beehiiv/Substack gratuit", "freq": "1/semaine", "kpi": "Abonnés + open rate"},
+            "YouTube": {"priorite": 3, "objectif": "Autorité", "format": "Vidéos expertise", "budget": "Temps", "freq": "1/mois", "kpi": "Views + leads entrants"},
+            "Podcast": {"priorite": 4, "objectif": "Thought leadership", "format": "Interviews secteur", "budget": "Matériel micro < 100€", "freq": "2/mois", "kpi": "Écoutes + invitations conférence"},
+        },
+    }
+    default_key = "ecommerce" if activity == "ecommerce" else "saas" if activity == "saas" else "consulting"
+    return _PLATFORMS.get(activity, _PLATFORMS[default_key])
+
+
+@st.cache_data(ttl=3600)
+def gen_competitive_intelligence(activity: str, goal: str) -> dict:
+    """Framework intelligence concurrentielle — méthodes et KPIs de veille."""
+    return {
+        "axes_veille": [
+            {"axe": "Pricing", "methode": "Scraping hebdo des pages tarifaires", "outils": ["Wayback Machine", "Google Alerts prix concurrents"]},
+            {"axe": "Contenu", "methode": "Veille RSS + Google News", "outils": ["Feedly", "Google Alerts", "RSS concurrents"]},
+            {"axe": "SEO", "methode": "Analyse mots-clés et backlinks", "outils": ["Google Search Console", "Ubersuggest (gratuit 3/j)"]},
+            {"axe": "Social", "methode": "Monitoring publications", "outils": ["Mention free", "Social Blade"]},
+            {"axe": "Avis clients", "methode": "Suivi G2, Trustpilot, Google Maps", "outils": ["Google Alerts avis", "ReviewTrackers free"]},
+            {"axe": "Offre produit", "methode": "Inscription newsletters concurrents", "outils": ["Email perso dédié", "Swipe file"]},
+        ],
+        "signaux_opportunite": [
+            "Concurrent lève des fonds → accélérer son acquisition",
+            "Concurrent reçoit des avis négatifs → gap à exploiter",
+            "Concurrent augmente ses prix → communiquer sur votre tarif",
+            "Concurrent quitte un segment → s'y positionner",
+            "Concurrent recrute beaucoup → il va s'étendre",
+        ],
+        "cadence": {"quotidien": "Alertes Google (5 min)", "hebdo": "Analyse SEO + social (30 min)", "mensuel": "Rapport pricing + offre complet (2h)"},
+    }
+
+
 @st.cache_data(ttl=900)
 def scrape_site(url: str) -> dict:
     """Lit un site via api_layer.read_url (multi-proxy) puis fallback local."""
