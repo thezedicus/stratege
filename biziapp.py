@@ -1842,7 +1842,7 @@ def scrape_site(url: str) -> dict:
     # ── AllOrigins CORS Proxy (priorité) ─────────────────────────────────────
     try:
         import requests as req
-        r = req.get(f"https://api.allorigins.win/get?url={_urlparse.quote(url)}", timeout=12,
+        r = req.get(f"https://api.allorigins.win/get?url={_urlparse.quote(url)}", timeout=8,
                     headers={"Accept": "application/json", "User-Agent": "BiziApp/3.0"})
         if r.status_code == 200:
             try:
@@ -2286,7 +2286,7 @@ def _sanitize_input(text: str, max_len: int = 200) -> str:
 
 def _site_insights(site_data: dict) -> dict:
     """Extrait des insights personnalisés depuis les données du site scrapé."""
-    if not site_data or site_data.get("error"):
+    if not site_data or not isinstance(site_data, dict) or site_data.get("error"):
         return {}
     kws = site_data.get("keywords_page", [])
     h1s = site_data.get("h1", [])
@@ -2377,11 +2377,16 @@ with st.sidebar:
     veille_lang = st.selectbox("Langue actualités", ["fr", "en", "es", "de"], index=0, key="sb_vlang")
 
     st.divider()
-    if st.button("Lancer l'analyse", type="primary", use_container_width=True):
-        st.session_state["_run"] = True
-    if st.session_state.get("_run") and st.button("Réinitialiser", use_container_width=True):
-        st.session_state["_run"] = False
-        st.rerun()
+    _col_a, _col_b = st.columns([3, 1])
+    with _col_a:
+        if st.button("🚀 Lancer l'analyse", type="primary", use_container_width=True):
+            st.session_state["_run"] = True
+            st.session_state["_cache_key"] = ""  # force regen
+    with _col_b:
+        if st.button("↺", use_container_width=True, help="Réinitialiser l'analyse"):
+            for _k in ["_run", "_cache_key", "_analysis"]:
+                st.session_state.pop(_k, None)
+            st.rerun()
     run = st.session_state.get("_run", False)
     st.caption("Analyse personnalisée · Données live · Cache intelligent")
     if _HAS_BS4 and website_url:
@@ -2573,7 +2578,7 @@ c2.markdown(f'<span class="badge badge-jade">{LABELS.get(goal, goal)}</span>', u
 c3.markdown(f'<span class="badge badge-teal">{LABELS.get(maturity, maturity)}</span>', unsafe_allow_html=True)
 c4.markdown(f'<span class="badge badge-blue">{monthly_budget:,} €/mois</span>', unsafe_allow_html=True)
 
-if site_data.get("title"):
+if site_data and isinstance(site_data, dict) and site_data.get("title"):
     st.caption(f"Site analysé : **{site_data.get('title','')}** — {site_data.get('description','')[:120]}")
 
 st.markdown("<br>", unsafe_allow_html=True)
