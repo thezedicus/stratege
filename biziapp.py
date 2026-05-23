@@ -20,6 +20,28 @@ import time
 # ─────────────────────────────────────────────────────────────────────────────
 # api_layer — Couche APIs gratuites (veille, URL, INSEE, OSM, HN, Reddit...)
 # ─────────────────────────────────────────────────────────────────────────────
+# ── Modules complémentaires ──────────────────────────────────────────────────
+try:
+    from seo_module import inject_seo_meta as _inject_seo_meta
+    _HAS_SEO_MODULE = True
+except ImportError:
+    _HAS_SEO_MODULE = False
+    def _inject_seo_meta(activity="other"): return ""
+
+try:
+    from new_project_tab import render_new_project_tab as _render_new_project_tab
+    _HAS_PROJECT_TAB = True
+except ImportError:
+    _HAS_PROJECT_TAB = False
+    def _render_new_project_tab(): pass
+
+try:
+    from resources_module import render_resources_page as _render_resources_page
+    _HAS_RESOURCES = True
+except ImportError:
+    _HAS_RESOURCES = False
+    def _render_resources_page(): pass
+
 try:
     from api_layer import (
         read_url as _read_url_live,
@@ -520,6 +542,26 @@ img  { max-width: 100%; height: auto; }
   animation: skeleton 1.5s ease-in-out infinite;
   border-radius: 8px; height: 16px; margin: 6px 0;
 }
+
+/* ── Responsive fixes supplémentaires ─────────────────────────────────────── */
+@media (max-width:768px) {
+  .ben-card{padding:14px 12px!important}
+  .stat-box{padding:12px 8px!important}
+  .stat-num{font-size:1.6rem!important}
+  .proof-card{padding:18px!important}
+  [data-testid="stSidebar"]{min-width:260px!important}
+  .lp-hero h1{font-size:1.6rem!important}
+  div[data-testid="column"]{min-width:140px}
+}
+@media (max-width:480px) {
+  .stat-num{font-size:1.2rem!important}
+  .ticker-item{font-size:.68rem!important;padding:0 14px!important}
+  .cta-btn{padding:12px 22px!important;font-size:.9rem!important}
+}
+/* Overflow fix global */
+* {box-sizing:border-box}
+body,html {overflow-x:hidden!important}
+[data-testid="stApp"] {overflow-x:hidden!important}
 
 </style>
 """, unsafe_allow_html=True)
@@ -3275,14 +3317,16 @@ if not st.session_state.get("_run", False):
             return []
 
     _ticker_base = [
-        "📊 +847 000 entreprises créées en France en 2024",
-        "💼 73% des TPE manquent d'une stratégie commerciale structurée",
-        "⏱ Un cabinet conseil facture 5 000€ ce que BiziApp génère en 10 min",
-        "🚀 Freelances : votre plan complet en un clic",
-        "📈 Les PME avec stratégie écrite croissent 2× plus vite",
-        "🎯 Consultants : présentez un diagnostic professionnel dès demain",
-        "💡 87% des dirigeants de TPE n'ont pas de plan marketing formalisé",
-        "🔑 BiziApp : SWOT · PESTEL · Personas · SEO · KPIs · Synthèse",
+        "📊 +847 000 entreprises créées en France en 2024 — BiziApp les aide à se structurer",
+        "💼 73% des TPE manquent d'une stratégie commerciale — BiziApp la génère en 10 min",
+        "⏱ Alternative gratuite à un cabinet conseil à 5 000€ — résultat identique, immédiat",
+        "🚀 Freelances & consultants : plan commercial professionnel en 10 minutes",
+        "📈 Alternative à LivePlan, Stratego, BizPlan : BiziApp est 100% gratuit",
+        "🎯 SWOT · PESTEL · Porter · Ansoff · Personas · AIDA · SONCAS · OKR — tout en un",
+        "💡 87% des dirigeants de TPE n'ont pas de plan marketing formalisé — changez ça",
+        "🔑 BiziApp : le diagnostic stratégique que votre concurrent n'a pas encore fait",
+        "🏆 Mieux que Canva Business, LivePlan, Stratego — entièrement gratuit sans inscription",
+        "🌟 Votre plan commercial complet : SWOT · Marketing · SEO · KPIs · Roadmap 180j",
     ]
     _ticker_live = _get_ticker_data()
     _all_tickers = (_ticker_base + ["🆕 " + t for t in _ticker_live]) * 2
@@ -3765,6 +3809,8 @@ tabs = st.tabs([
     "⚔️ Stratégie+",
     "📧 Emailing",
     "📱 Social Media",
+    "🚀 Nouveau Projet",
+    "📚 Ressources",
 ])
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -5410,6 +5456,46 @@ with tabs[13]:
 </div>
 ''', unsafe_allow_html=True)
 
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# TAB 14 — NOUVEAU PROJET (wizard indépendant)
+# ══════════════════════════════════════════════════════════════════════════════
+with tabs[14]:
+    if _HAS_PROJECT_TAB:
+        _render_new_project_tab()
+    else:
+        st.info("Module Nouveau Projet en cours de chargement...")
+        st.markdown("""
+**🚀 Wizard de création de projet**
+
+Ce module vous guide étape par étape pour :
+1. 🎯 Définir le concept de votre projet
+2. 🏢 Renseigner les infos de votre entreprise  
+3. 👥 Identifier votre cible client
+4. 💰 Configurer votre budget et objectifs
+5. 🔑 Définir vos mots-clés SEO
+6. ✅ Générer votre fiche stratégique et l'exporter
+""")
+
+# ══════════════════════════════════════════════════════════════════════════════
+# TAB 15 — RESSOURCES (blog + Top 10)
+# ══════════════════════════════════════════════════════════════════════════════
+with tabs[15]:
+    if _HAS_RESOURCES:
+        _render_resources_page()
+    else:
+        st.info("Module Ressources en cours de chargement...")
+        st.markdown("""
+**📚 Ressources & Outils gratuits**
+
+- 📰 Actualités marketing & stratégie en temps réel (Google News RSS)
+- 🕵️ Top 10 outils de veille
+- 🔑 Top 10 outils SEO gratuits
+- 📊 Top 10 outils d'enquête de marché
+- 🎯 Top 10 outils d'acquisition de leads
+- 📣 Top 10 outils de communication
+""")
 
 # ─────────────────────────────────────────────────────────────────────────────
 # FOOTER
