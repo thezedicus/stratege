@@ -102,7 +102,7 @@ except ImportError:
 # ─────────────────────────────────────────────────────────────────────────────
 st.set_page_config(
     page_title="BiziApp — Plan Stratégique Complet en 10 Minutes | Expert Commercial IA",
-    page_icon="🎯",
+    page_icon="",
     layout="wide",
     initial_sidebar_state="expanded",
     menu_items={
@@ -831,16 +831,16 @@ def _show_auth_page():
     # Urgence neuromarketing (scarcité + FOMO)
     st.markdown(f"""
 <div class="neuro-urgency">
-  🔥 {_active} entrepreneurs génèrent leur stratégie en ce moment — Rejoins-les gratuitement
+  {_active} entrepreneurs génèrent leur stratégie en ce moment — Rejoins-les gratuitement
 </div>
 """, unsafe_allow_html=True)
 
     # Onglets Connexion / Inscription
     _tab_choice = st.radio(
-        "", ["🔐 Me connecter", "✨ Créer mon compte"],
+        "", ["Connexion", "Inscription"],
         horizontal=True, label_visibility="collapsed"
     )
-    is_login = _tab_choice == "🔐 Me connecter"
+    is_login = _tab_choice == "Connexion"
 
     st.markdown("<br>", unsafe_allow_html=True)
 
@@ -871,7 +871,7 @@ def _show_login_form():
 <div style="background:linear-gradient(135deg,#C6ECD9,#E4E9F6);border-radius:12px;
   padding:12px 16px;margin-bottom:20px;text-align:center">
   <span style="font-size:.82rem;font-weight:700;color:#0B2221">
-    🎁 Accès immédiat à 14 modules stratégiques — valeur cabinet conseil : 5 000€
+     Accès immédiat à 14 modules stratégiques — valeur cabinet conseil : 5 000€
   </span>
 </div>
 """, unsafe_allow_html=True)
@@ -887,7 +887,7 @@ def _show_login_form():
 
     col_btn, col_forgot = st.columns([2, 1])
     with col_btn:
-        _login_clicked = st.button("🚀 Accéder à mon espace", type="primary", use_container_width=True, key="btn_login")
+        _login_clicked = st.button("Acceder a mon espace", type="primary", use_container_width=True, key="btn_login")
     with col_forgot:
         _forgot = st.button("Oublié ?", use_container_width=True, key="btn_forgot")
 
@@ -896,7 +896,7 @@ def _show_login_form():
             result = _login_user(_email, _pwd)
             if result.get("ok"):
                 set_session(result["user"])
-                st.success(f"Bienvenue {result['user'].get('name','').split()[0] or '!'} 👋")
+                st.success(f"Bienvenue {result['user'].get('name','').split()[0] or '!'} ")
                 st.balloons()
                 st.rerun()
             else:
@@ -910,7 +910,7 @@ def _show_login_form():
         # Lien magique (simulé — affiche le token pour demo)
         if _HAS_AUTH:
             _tok = _generate_magic_token(_email)
-            st.info(f"🔗 En production, un email est envoyé à {_email}. Token de demo : `{_tok}`")
+            st.info(f"[lien] En production, un email est envoyé à {_email}. Token de demo : `{_tok}`")
         else:
             st.info("Fonctionnalité disponible avec auth_system configuré.")
 
@@ -921,7 +921,7 @@ def _show_login_form():
   <div style="display:flex;gap:8px;flex-wrap:wrap">
     <span style="background:white;border:1px solid #C6ECD9;border-radius:50px;padding:3px 10px;font-size:.68rem;color:#267371;font-weight:600">👔 Thomas D. — Dirigeant TPE</span>
     <span style="background:white;border:1px solid #C6ECD9;border-radius:50px;padding:3px 10px;font-size:.68rem;color:#267371;font-weight:600">💻 Sarah M. — Freelance</span>
-    <span style="background:white;border:1px solid #C6ECD9;border-radius:50px;padding:3px 10px;font-size:.68rem;color:#267371;font-weight:600">🚀 Lucas R. — Startup</span>
+    <span style="background:white;border:1px solid #C6ECD9;border-radius:50px;padding:3px 10px;font-size:.68rem;color:#267371;font-weight:600">Lucas R. — Startup</span>
     <span style="background:white;border:1px solid #C6ECD9;border-radius:50px;padding:3px 10px;font-size:.68rem;color:#267371;font-weight:600">🧠 Marie C. — Consultante</span>
   </div>
 </div>
@@ -939,9 +939,9 @@ def _show_register_form():
     ✅ Ce que tu reçois gratuitement :
   </div>
   <div style="font-size:.76rem;color:rgba(255,255,255,.85);line-height:1.7">
-    ⚔️ 14 modules stratégiques &nbsp;·&nbsp; 📊 SWOT personnalisé<br>
-    👥 Personas clients &nbsp;·&nbsp; 📈 Plan marketing &nbsp;·&nbsp; 🔑 SEO/GEO<br>
-    📧 Séquences email &nbsp;·&nbsp; 💰 Stratégie pricing &nbsp;·&nbsp; 🗺️ Customer Journey
+    ⚔️ 14 modules stratégiques &nbsp;·&nbsp; SWOT personnalisé<br>
+    Personas clients &nbsp;·&nbsp; Plan marketing &nbsp;·&nbsp; SEO/GEO<br>
+     Séquences email &nbsp;·&nbsp;  Stratégie pricing &nbsp;·&nbsp;  Customer Journey
   </div>
 </div>
 """, unsafe_allow_html=True)
@@ -975,13 +975,13 @@ def _show_register_form():
         key="reg_consent_rgpd"
     )
     _consent_mkt  = st.checkbox(
-        "📧 J'accepte de recevoir des conseils stratégiques par email (optionnel)",
+        " J'accepte de recevoir des conseils stratégiques par email (optionnel)",
         key="reg_consent_mkt"
     )
 
     # CTA (neuromarketing : urgence + gain)
     _register_clicked = st.button(
-        "🚀 Créer mon compte gratuit — Accès immédiat",
+        "Créer mon compte gratuit — Accès immédiat",
         type="primary", use_container_width=True, key="btn_register"
     )
 
@@ -1004,7 +1004,7 @@ def _show_register_form():
             if result.get("ok"):
                 set_session(result["user"])
                 st.balloons()
-                st.success(f"Bienvenue {_name.split()[0]} ! Ton espace est prêt. 🎉")
+                st.success(f"Bienvenue {_name.split()[0]} ! Ton espace est prêt. ")
                 st.rerun()
             else:
                 st.markdown(f'<div class="auth-error">❌ {result.get("error","Erreur")}</div>', unsafe_allow_html=True)
@@ -1080,18 +1080,18 @@ def _render_oauth_buttons():
     st.markdown("""
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:4px">
   <div class="oauth-btn" style="opacity:.6;cursor:default;font-size:.78rem;padding:9px 10px">
-    🟣 Yahoo — bientôt
+     Yahoo — bientôt
   </div>
   <div class="oauth-btn" style="opacity:.6;cursor:default;font-size:.78rem;padding:9px 10px">
-    🔵 Microsoft — bientôt
+     Microsoft — bientôt
   </div>
 </div>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
   <div class="oauth-btn" style="opacity:.6;cursor:default;font-size:.78rem;padding:9px 10px">
-    🛍️ Shopify — bientôt
+     Shopify — bientôt
   </div>
   <div class="oauth-btn" style="opacity:.6;cursor:default;font-size:.78rem;padding:9px 10px">
-    🔐 LinkedIn — bientôt
+    LinkedIn — bientôt
   </div>
 </div>
 """, unsafe_allow_html=True)
@@ -2315,18 +2315,18 @@ def gen_growth_hacking(activity: str, monthly_budget: float) -> list:
     budget_tier = "bootstrap" if monthly_budget < 100 else "growth" if monthly_budget < 500 else "scale"
     tactics = {
         "ecommerce_bootstrap": [
-            ("🛒 Abandon panier email", "Séquence 3 emails (1h/24h/72h) → récupère 15% des abandons", "Gratuit", "ROI: 10x"),
-            ("📸 UGC Marketing", "Encourage photos clients → +32% conversion vs photos studio", "Gratuit", "ROI: 8x"),
-            ("🔄 Parrainage client", "Offre 10€ parrain + 10€ filleul → acquisition à coût fixe", "Produit", "ROI: 6x"),
+            (" Abandon panier email", "Séquence 3 emails (1h/24h/72h) → récupère 15% des abandons", "Gratuit", "ROI: 10x"),
+            ("Insta UGC Marketing", "Encourage photos clients → +32% conversion vs photos studio", "Gratuit", "ROI: 8x"),
+            (" Parrainage client", "Offre 10€ parrain + 10€ filleul → acquisition à coût fixe", "Produit", "ROI: 6x"),
             ("⭐ Review automation", "Email J+14 demande avis → +4.6/5 trust signal", "Gratuit", "ROI: 12x"),
-            ("📦 Packaging viral", "Unboxing mémorable → partage réseaux → earned media", "Faible", "ROI: 5x"),
+            (" Packaging viral", "Unboxing mémorable → partage réseaux → earned media", "Faible", "ROI: 5x"),
         ],
         "saas_bootstrap": [
-            ("🆓 Freemium viral", "Plan gratuit avec watermark → utilisateurs = commerciaux", "Gratuit", "ROI: ∞"),
-            ("📝 Content SEO", "1 article expert/semaine → trafic organique en 6 mois", "Temps", "ROI: 20x"),
-            ("🤝 Intégration partner", "Native integration Zapier/Slack → distribution x3", "Dev", "ROI: 15x"),
-            ("🎯 ProductHunt launch", "Launch bien préparé → 500-2000 signups gratuit", "Temps", "ROI: ∞"),
-            ("💌 Cold outreach", "Séquence LinkedIn 5 messages → 8% de réponse", "Gratuit", "ROI: 12x"),
+            (" Freemium viral", "Plan gratuit avec watermark → utilisateurs = commerciaux", "Gratuit", "ROI: ∞"),
+            (" Content SEO", "1 article expert/semaine → trafic organique en 6 mois", "Temps", "ROI: 20x"),
+            (" Intégration partner", "Native integration Zapier/Slack → distribution x3", "Dev", "ROI: 15x"),
+            ("ProductHunt launch", "Launch bien préparé → 500-2000 signups gratuit", "Temps", "ROI: ∞"),
+            (" Cold outreach", "Séquence LinkedIn 5 messages → 8% de réponse", "Gratuit", "ROI: 12x"),
         ],
     }
     key = f"{activity}_{budget_tier}"
@@ -2880,22 +2880,22 @@ def gen_customer_journey(activity: str, goal: str) -> list:
     """Customer Journey Map complète — 7 étapes avec touchpoints et émotions."""
     _STAGES = {
         "ecommerce": [
-            {"stage": "Découverte", "emotion": "😐 Neutre", "score": 3, "touchpoints": ["Google Search", "Instagram Ads", "Bouche-à-oreille"], "pain": "Trop d'options disponibles", "opportunity": "SEO + contenu différenciant"},
-            {"stage": "Considération", "emotion": "🤔 Curieux", "score": 5, "touchpoints": ["Page produit", "Comparateurs de prix", "Avis clients"], "pain": "Manque de confiance", "opportunity": "Social proof + politique retour claire"},
-            {"stage": "Intention", "emotion": "😊 Intéressé", "score": 6, "touchpoints": ["Panier", "Wishlist", "Email de relance"], "pain": "Hésitation prix", "opportunity": "Urgence douce + garantie satisfait"},
-            {"stage": "Achat", "emotion": "😀 Enthousiaste", "score": 8, "touchpoints": ["Checkout", "Paiement", "Email confirmation"], "pain": "Friction checkout (trop d'étapes)", "opportunity": "One-click, multi-paiement, Apple Pay"},
-            {"stage": "Livraison", "emotion": "😰 Anxieux", "score": 4, "touchpoints": ["Email suivi", "SMS livraison", "Application transporteur"], "pain": "Incertitude délais", "opportunity": "Tracking temps réel + proactivité"},
-            {"stage": "Utilisation", "emotion": "😍 Satisfait", "score": 9, "touchpoints": ["Produit reçu", "Packaging", "Email post-achat"], "pain": "Pas de support si problème", "opportunity": "Unboxing premium + tutoriel d'usage"},
-            {"stage": "Fidélisation", "emotion": "🤩 Fan", "score": 8, "touchpoints": ["Programme fidélité", "Newsletter", "Réseaux sociaux"], "pain": "Oublié rapidement", "opportunity": "Personnalisation + récompenses surprises"},
+            {"stage": "Découverte", "emotion": "Neutre", "score": 3, "touchpoints": ["Google Search", "Instagram Ads", "Bouche-à-oreille"], "pain": "Trop d'options disponibles", "opportunity": "SEO + contenu différenciant"},
+            {"stage": "Considération", "emotion": "Curieux", "score": 5, "touchpoints": ["Page produit", "Comparateurs de prix", "Avis clients"], "pain": "Manque de confiance", "opportunity": "Social proof + politique retour claire"},
+            {"stage": "Intention", "emotion": "Interesse", "score": 6, "touchpoints": ["Panier", "Wishlist", "Email de relance"], "pain": "Hésitation prix", "opportunity": "Urgence douce + garantie satisfait"},
+            {"stage": "Achat", "emotion": "Enthousiaste", "score": 8, "touchpoints": ["Checkout", "Paiement", "Email confirmation"], "pain": "Friction checkout (trop d'étapes)", "opportunity": "One-click, multi-paiement, Apple Pay"},
+            {"stage": "Livraison", "emotion": "Anxieux", "score": 4, "touchpoints": ["Email suivi", "SMS livraison", "Application transporteur"], "pain": "Incertitude délais", "opportunity": "Tracking temps réel + proactivité"},
+            {"stage": "Utilisation", "emotion": "Satisfait", "score": 9, "touchpoints": ["Produit reçu", "Packaging", "Email post-achat"], "pain": "Pas de support si problème", "opportunity": "Unboxing premium + tutoriel d'usage"},
+            {"stage": "Fidélisation", "emotion": "Fan", "score": 8, "touchpoints": ["Programme fidélité", "Newsletter", "Réseaux sociaux"], "pain": "Oublié rapidement", "opportunity": "Personnalisation + récompenses surprises"},
         ],
         "saas": [
-            {"stage": "Awareness", "emotion": "😐 Neutre", "score": 3, "touchpoints": ["Search Google", "Product Hunt", "LinkedIn"], "pain": "Saturé d'outils SaaS", "opportunity": "Contenu SEO + démo produit vidéo"},
-            {"stage": "Évaluation", "emotion": "🤔 Sceptique", "score": 4, "touchpoints": ["Site web", "G2/Capterra", "Webinaire"], "pain": "Difficulté à comparer", "opportunity": "Comparatif direct concurrents + ROI calculator"},
-            {"stage": "Trial", "emotion": "😊 Curieux", "score": 6, "touchpoints": ["Onboarding", "Email séquence", "Checklist"], "pain": "Time-to-value trop long", "opportunity": "1er résultat en < 5 minutes"},
-            {"stage": "Activation", "emotion": "😀 Convaincu", "score": 8, "touchpoints": ["Dashboard", "1ère feature utilisée", "Support chat"], "pain": "Fonctionnalités trop nombreuses", "opportunity": "Progressive disclosure + milestone rewards"},
-            {"stage": "Conversion", "emotion": "🙂 Décidé", "score": 7, "touchpoints": ["Pricing page", "Commercial", "Contrat"], "pain": "Friction tarification", "opportunity": "Annuel avec remise + transparence complète"},
-            {"stage": "Expansion", "emotion": "😍 Engagé", "score": 9, "touchpoints": ["Usage régulier", "Équipe invitée", "Intégrations"], "pain": "Silos entre équipes", "opportunity": "Templates collaboration + formation in-app"},
-            {"stage": "Advocacy", "emotion": "🤩 Ambassadeur", "score": 9, "touchpoints": ["Témoignage", "Parrainage", "Case study"], "pain": "Pas de programme structuré", "opportunity": "Referral programme + co-marketing"},
+            {"stage": "Awareness", "emotion": "Neutre", "score": 3, "touchpoints": ["Search Google", "Product Hunt", "LinkedIn"], "pain": "Saturé d'outils SaaS", "opportunity": "Contenu SEO + démo produit vidéo"},
+            {"stage": "Évaluation", "emotion": "Sceptique", "score": 4, "touchpoints": ["Site web", "G2/Capterra", "Webinaire"], "pain": "Difficulté à comparer", "opportunity": "Comparatif direct concurrents + ROI calculator"},
+            {"stage": "Trial", "emotion": " Curieux", "score": 6, "touchpoints": ["Onboarding", "Email séquence", "Checklist"], "pain": "Time-to-value trop long", "opportunity": "1er résultat en < 5 minutes"},
+            {"stage": "Activation", "emotion": "Convaincu", "score": 8, "touchpoints": ["Dashboard", "1ère feature utilisée", "Support chat"], "pain": "Fonctionnalités trop nombreuses", "opportunity": "Progressive disclosure + milestone rewards"},
+            {"stage": "Conversion", "emotion": "Decide", "score": 7, "touchpoints": ["Pricing page", "Commercial", "Contrat"], "pain": "Friction tarification", "opportunity": "Annuel avec remise + transparence complète"},
+            {"stage": "Expansion", "emotion": "Engage", "score": 9, "touchpoints": ["Usage régulier", "Équipe invitée", "Intégrations"], "pain": "Silos entre équipes", "opportunity": "Templates collaboration + formation in-app"},
+            {"stage": "Advocacy", "emotion": "Ambassadeur", "score": 9, "touchpoints": ["Témoignage", "Parrainage", "Case study"], "pain": "Pas de programme structuré", "opportunity": "Referral programme + co-marketing"},
         ],
     }
     default_stages = _STAGES.get(activity, _STAGES["saas"])
@@ -2982,7 +2982,7 @@ def gen_email_sequences(activity: str, goal: str) -> dict:
         "welcome": {
             "name": "Bienvenue (J0-J7)",
             "emails": [
-                {"j": "J+0", "objet": "Bienvenue ! Voici comment démarrer 🚀", "objectif": "Activation — 1ère action dans les 5 min"},
+                {"j": "J+0", "objet": "Bienvenue ! Voici comment démarrer ", "objectif": "Activation — 1ère action dans les 5 min"},
                 {"j": "J+1", "objet": "Le secret de [Bénéfice principal]", "objectif": "Éducation — valeur immédiate"},
                 {"j": "J+3", "objet": "Comment [Nom client] a obtenu [Résultat]", "objectif": "Social proof — cas client"},
                 {"j": "J+5", "objet": "Évitez ces 3 erreurs courantes", "objectif": "Expertise — confiance"},
@@ -3003,7 +3003,7 @@ def gen_email_sequences(activity: str, goal: str) -> dict:
         "abandoned_cart": {
             "name": "Panier abandonné (ecommerce)",
             "emails": [
-                {"j": "H+1", "objet": "Vous avez oublié quelque chose 👀", "objectif": "Rappel doux"},
+                {"j": "H+1", "objet": "Vous avez oublié quelque chose (curiosite)", "objectif": "Rappel doux"},
                 {"j": "H+24", "objet": "Votre panier expire bientôt", "objectif": "Urgence"},
                 {"j": "H+72", "objet": "Dernière chance + -10% pour vous", "objectif": "Remise de récupération"},
             ],
@@ -3012,7 +3012,7 @@ def gen_email_sequences(activity: str, goal: str) -> dict:
         "reactivation": {
             "name": "Réactivation clients dormants (90j+)",
             "emails": [
-                {"j": "J0", "objet": "Vous nous manquez, [Prénom] 💙", "objectif": "Émotion + souvenir positif"},
+                {"j": "J0", "objet": "Vous nous manquez, [Prénom] ", "objectif": "Émotion + souvenir positif"},
                 {"j": "J+3", "objet": "Voici ce qui a changé depuis votre départ", "objectif": "Nouveautés produit"},
                 {"j": "J+7", "objet": "Offre de retour — rien que pour vous", "objectif": "Incentive exclusif"},
                 {"j": "J+14", "objet": "C'est notre dernier message", "objectif": "Urgence — dernier essai"},
@@ -3024,7 +3024,7 @@ def gen_email_sequences(activity: str, goal: str) -> dict:
             "emails": [
                 {"j": "J+3", "objet": "Comment tirer le meilleur de votre achat", "objectif": "Adoption + satisfaction"},
                 {"j": "J+10", "objet": "Clients comme vous utilisent aussi...", "objectif": "Cross-sell naturel"},
-                {"j": "J+21", "objet": "Passez au niveau supérieur 🚀", "objectif": "Upsell offre premium"},
+                {"j": "J+21", "objet": "Passez au niveau supérieur ", "objectif": "Upsell offre premium"},
             ],
             "kpis": {"open_rate": ">38%", "ctr": ">10%", "conversion": ">7%"}
         },
@@ -3651,7 +3651,7 @@ with st.sidebar:
     st.divider()
     _col_a, _col_b = st.columns([3, 1])
     with _col_a:
-        if st.button("🚀 Lancer l'analyse", type="primary", use_container_width=True):
+        if st.button("Lancer l'analyse", type="primary", use_container_width=True):
             st.session_state["_run"] = True
             st.session_state["_cache_key"] = ""  # force regen
             # Incrémenter le compteur utilisateur
@@ -3702,7 +3702,7 @@ st.markdown('''
   <div style="display:flex;align-items:center;gap:14px">
     <div style="width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#44C1BA,#267371);
       display:flex;align-items:center;justify-content:center;font-size:1.3rem;
-      box-shadow:0 4px 16px rgba(68,193,186,.3)">🎯</div>
+      box-shadow:0 4px 16px rgba(68,193,186,.3)"></div>
     <div>
       <div style="font-size:1.6rem;font-weight:900;letter-spacing:-1.5px;line-height:1">
         <span style="color:#0B2221">BIZI</span><span class="shimmer-txt">APP</span>
@@ -3739,19 +3739,19 @@ if not st.session_state.get("_run", False):
             return []
 
     _ticker_base = [
-        "📊 +847 000 entreprises créées en France en 2024 — BiziApp les aide à se structurer",
-        "💼 73% des TPE manquent d'une stratégie commerciale — BiziApp la génère en 10 min",
-        "⏱ Alternative gratuite à un cabinet conseil à 5 000€ — résultat identique, immédiat",
-        "🚀 Freelances & consultants : plan commercial professionnel en 10 minutes",
-        "📈 Alternative à LivePlan, Stratego, BizPlan : BiziApp est 100% gratuit",
-        "🎯 SWOT · PESTEL · Porter · Ansoff · Personas · AIDA · SONCAS · OKR — tout en un",
-        "💡 87% des dirigeants de TPE n'ont pas de plan marketing formalisé — changez ça",
-        "🔑 BiziApp : le diagnostic stratégique que votre concurrent n'a pas encore fait",
-        "🏆 Mieux que Canva Business, LivePlan, Stratego — entièrement gratuit sans inscription",
-        "🌟 Votre plan commercial complet : SWOT · Marketing · SEO · KPIs · Roadmap 180j",
+        "+847 000 entreprises créées en France en 2024 — BiziApp les aide à se structurer",
+        "73% des TPE manquent d'une stratégie commerciale — BiziApp la génère en 10 min",
+        "Alternative gratuite à un cabinet conseil à 5 000€ — résultat identique, immédiat",
+        "Freelances & consultants : plan commercial professionnel en 10 minutes",
+        "Alternative à LivePlan, Stratego, BizPlan : BiziApp est 100% gratuit",
+        "SWOT · PESTEL · Porter · Ansoff · Personas · AIDA · SONCAS · OKR — tout en un",
+        "87% des dirigeants de TPE n'ont pas de plan marketing formalisé — changez ça",
+        "BiziApp : le diagnostic stratégique que votre concurrent n'a pas encore fait",
+        "Mieux que Canva Business, LivePlan, Stratego — entièrement gratuit sans inscription",
+        "Votre plan commercial complet : SWOT · Marketing · SEO · KPIs · Roadmap 180j",
     ]
     _ticker_live = _get_ticker_data()
-    _all_tickers = (_ticker_base + ["🆕 " + t for t in _ticker_live]) * 2
+    _all_tickers = (_ticker_base + ["Nouveau: " + t for t in _ticker_live]) * 2
     _ticker_html = "".join(
         '<span class="ticker-item"><span class="ticker-dot"></span>' + item + '</span>'
         for item in _all_tickers
@@ -3767,7 +3767,7 @@ if not st.session_state.get("_run", False):
   <div style="display:inline-block;background:linear-gradient(135deg,#C6ECD9,#E4E9F6);
     border-radius:50px;padding:6px 18px;font-size:.78rem;font-weight:700;
     color:#267371;letter-spacing:.06em;text-transform:uppercase;margin-bottom:18px">
-    🇫🇷 Conçu pour les entrepreneurs français
+     Conçu pour les entrepreneurs français
   </div>
   <h1 style="font-size:clamp(1.8rem,4vw,2.8rem);font-weight:900;line-height:1.15;
     color:#0B2221;margin:0 0 16px;letter-spacing:-.03em">
@@ -3810,9 +3810,9 @@ if not st.session_state.get("_run", False):
   <span class="tgt-pill">👔 Dirigeant de TPE</span>
   <span class="tgt-pill">💻 Freelance</span>
   <span class="tgt-pill">🧠 Consultant</span>
-  <span class="tgt-pill">🛍️ E-commerçant</span>
-  <span class="tgt-pill">🚀 Créateur de startup</span>
-  <span class="tgt-pill">📱 Créateur de contenu</span>
+  <span class="tgt-pill"> E-commerçant</span>
+  <span class="tgt-pill">Créateur de startup</span>
+  <span class="tgt-pill"> Créateur de contenu</span>
 </div>
 <div class="lp-targets" style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:8px">
   <div style="background:#F7FBF4;border-radius:14px;padding:18px 16px;border:1.5px solid #C6ECD9">
@@ -3826,7 +3826,7 @@ if not st.session_state.get("_run", False):
     <div style="font-size:.8rem;color:#339999;line-height:1.5">Tu veux impressionner tes clients avec un diagnostic professionnel. Génère un plan complet avant chaque RDV.</div>
   </div>
   <div style="background:#F7FBF4;border-radius:14px;padding:18px 16px;border:1.5px solid #C6ECD9">
-    <div style="font-size:1.5rem;margin-bottom:8px">🚀</div>
+    <div style="font-size:1.5rem;margin-bottom:8px"></div>
     <div style="font-weight:700;font-size:.9rem;color:#0B2221;margin-bottom:5px">Créateur d'entreprise</div>
     <div style="font-size:.8rem;color:#339999;line-height:1.5">Tu lances ton projet et tu as besoin d'un cadre stratégique solide sans payer 5 000€ un cabinet de conseil.</div>
   </div>
@@ -3837,9 +3837,9 @@ if not st.session_state.get("_run", False):
     st.markdown('<div class="lp-stitle lp-problems">Les 4 problèmes que tu connais</div>', unsafe_allow_html=True)
     _probs = [
         ("⏱", "Manque de temps", "Tu passes tes journées dans le quotidien et tu n'as jamais l'occasion de prendre du recul sur ta stratégie."),
-        ("🗺️", "Absence de méthode", "Tu sais que tu dois faire du SWOT, du SEO, des personas... mais tu ne sais pas par où commencer."),
-        ("💸", "Budget conseil limité", "Un cabinet stratégique facture 3 000 à 8 000€ pour un diagnostic. BiziApp te donne le même résultat gratuitement."),
-        ("📊", "Pas de données structurées", "Aucun tableau de bord, aucun KPI suivi, aucune roadmap écrite. Tout est dans ta tête."),
+        ("", "Absence de méthode", "Tu sais que tu dois faire du SWOT, du SEO, des personas... mais tu ne sais pas par où commencer."),
+        ("", "Budget conseil limité", "Un cabinet stratégique facture 3 000 à 8 000€ pour un diagnostic. BiziApp te donne le même résultat gratuitement."),
+        ("", "Pas de données structurées", "Aucun tableau de bord, aucun KPI suivi, aucune roadmap écrite. Tout est dans ta tête."),
     ]
     for i, (icon, title, text) in enumerate(_probs):
         st.markdown(
@@ -3856,9 +3856,9 @@ if not st.session_state.get("_run", False):
     st.markdown('<div class="lp-stitle lp-benefits">Ce que tu gagnes concrètement</div>', unsafe_allow_html=True)
     b1, b2, b3 = st.columns(3)
     _bens = [
-        (b1, "⚡", "10 min au lieu de 3 semaines", "Fini les heures perdues à structurer. Ton plan complet est prêt avant la fin de ton café.", "Gain de temps", "92%"),
-        (b2, "🎯", "Clarté et direction immédiates", "Tu sais exactement quoi faire, dans quel ordre et avec quel budget. Fini le flou stratégique.", "Clarté", "88%"),
-        (b3, "💰", "5 000€ économisés", "Nos 11 modules couvrent ce qu'un consultant junior produit en 1 mois de travail.", "Économies", "95%"),
+        (b1, "", "10 min au lieu de 3 semaines", "Fini les heures perdues à structurer. Ton plan complet est prêt avant la fin de ton café.", "Gain de temps", "92%"),
+        (b2, "", "Clarté et direction immédiates", "Tu sais exactement quoi faire, dans quel ordre et avec quel budget. Fini le flou stratégique.", "Clarté", "88%"),
+        (b3, "", "5 000€ économisés", "Nos 11 modules couvrent ce qu'un consultant junior produit en 1 mois de travail.", "Économies", "95%"),
     ]
     for col, icon, title, desc, gauge_lbl, pct in _bens:
         col.markdown(
@@ -3891,7 +3891,7 @@ if not st.session_state.get("_run", False):
           ✅ Vente 24h/24 sans contrainte géo<br>
           ✅ Marges optimisées sans intermédiaire<br>
           ⚠️ CAC élevé — optimiser Google Ads<br>
-          🎯 TikTok Shop — croissance +340%
+          TikTok Shop — croissance +340%
         </div>
       </div>
       <div style="background:rgba(255,255,255,.08);border-radius:10px;padding:12px;border:1px solid rgba(68,193,186,.3)">
@@ -3900,7 +3900,7 @@ if not st.session_state.get("_run", False):
           📅 J1–J30 : SEO technique + 3 personas<br>
           📅 J31–J60 : Campagne Meta 80€/mois<br>
           📅 J61–J90 : Email auto + retargeting<br>
-          🎯 ROI estimé : +180% trafic organique
+          ROI estimé : +180% trafic organique
         </div>
       </div>
     </div>
@@ -3968,7 +3968,7 @@ if not st.session_state.get("_run", False):
     <div style="font-size:.72rem;color:#339999">SEO · GEO 2025 · Ads</div>
   </div>
   <div class="ben-card" style="padding:14px 12px">
-    <div style="font-size:1.2rem;margin-bottom:5px">🎯</div>
+    <div style="font-size:1.2rem;margin-bottom:5px"></div>
     <div style="font-weight:700;font-size:.8rem;color:#0B2221;margin-bottom:3px">Plan d'action</div>
     <div style="font-size:.72rem;color:#339999">KPIs · OKR · Roadmap 180j</div>
   </div>
@@ -4246,23 +4246,23 @@ st.markdown("<br>", unsafe_allow_html=True)
 # TABS
 # ─────────────────────────────────────────────────────────────────────────────
 tabs = st.tabs([
-    "🔍 Diagnostic",
-    "👥 Personas",
-    "✍️ Copywriting",
-    "💼 Vente",
-    "📈 Marketing",
-    "📣 Campagnes",
-    "🔑 SEO / GEO",
-    "📊 KPIs",
-    "🎯 Synthèse",
-    "🕵️ Veille",
-    "🌱 RSE",
-    "⚔️ Stratégie+",
-    "📧 Emailing",
-    "📱 Social Media",
-    "💳 Tarifs & Plans",
-    "🚀 Nouveau Projet",
-    "📚 Ressources",
+    "Diagnostic",
+    "Personas",
+    "Copywriting",
+    "Vente",
+    "Marketing",
+    "Campagnes",
+    "SEO / GEO",
+    "KPIs",
+    "Synthese",
+    "Veille",
+    "RSE",
+    "Strategie+",
+    "Emailing",
+    "Social Media",
+    "Tarifs & Plans",
+    "Nouveau Projet",
+    "Ressources",
 ])
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -4343,7 +4343,7 @@ with tabs[0]:
         st.markdown(f'''
 <div style="display:inline-flex;align-items:center;gap:8px;background:#C6ECD9;
   border-radius:50px;padding:5px 14px;margin-bottom:12px;font-size:.75rem;font-weight:700;color:#267371">
-  <span>🎯</span> Analyse personnalisée à {_pers_score}% — basée sur données réelles
+  <span></span> Analyse personnalisée à {_pers_score}% — basée sur données réelles
   {"| Site analysé: " + site_data.get("title","")[:30] if site_data and site_data.get("title") else ""}
 </div>
 ''', unsafe_allow_html=True)
@@ -5184,7 +5184,7 @@ with tabs[9]:
 
     # ── Sources tech additionnelles ────────────────────────────────────────────
     if _hn_items or _devto_items or _gh_items:
-        with st.expander("🔬 Sources tech — HackerNews · DEV.to · GitHub Trending"):
+        with st.expander("Sources tech — HackerNews · DEV.to · GitHub Trending"):
             if _hn_items:
                 st.markdown("**HackerNews**")
                 for _hn in _hn_items[:4]:
@@ -5470,10 +5470,10 @@ with tabs[11]:
     st.markdown('<div class="section-h">5 Forces de Porter</div>', unsafe_allow_html=True)
     _p5 = porter_data if porter_data else {}
     _forces_names = {
-        "menace_nouveaux": "🆕 Menace nouveaux entrants",
-        "pouvoir_fournisseurs": "🏭 Pouvoir fournisseurs",
-        "pouvoir_acheteurs": "🛒 Pouvoir acheteurs",
-        "menace_substituts": "🔄 Menace substituts",
+        "menace_nouveaux": "Nouveau: Menace nouveaux entrants",
+        "pouvoir_fournisseurs": "Pouvoir fournisseurs",
+        "pouvoir_acheteurs": "Pouvoir acheteurs",
+        "menace_substituts": "Menace substituts",
         "rivalite": "⚔️ Rivalité concurrentielle",
     }
     _pcols = st.columns(5)
@@ -5505,10 +5505,10 @@ with tabs[11]:
     _ansoff = ansoff_data if ansoff_data else {}
     _reco = _ansoff.get("recommendation", "penetration")
     _ansoff_labels = {
-        "penetration": ("🎯 Pénétration marché", "Marchés existants + Produits existants", "#267371"),
-        "developpement": ("🚀 Développement produit", "Marchés existants + Nouveaux produits", "#44C1BA"),
-        "extension": ("🌍 Extension marché", "Nouveaux marchés + Produits existants", "#393DAC"),
-        "diversification": ("💡 Diversification", "Nouveaux marchés + Nouveaux produits", "#B83D4B"),
+        "penetration": ("Pénétration marché", "Marchés existants + Produits existants", "#267371"),
+        "developpement": ("Développement produit", "Marchés existants + Nouveaux produits", "#44C1BA"),
+        "extension": (" Extension marché", "Nouveaux marchés + Produits existants", "#393DAC"),
+        "diversification": ("Diversification", "Nouveaux marchés + Nouveaux produits", "#B83D4B"),
     }
     _a_cols = st.columns(2)
     for _ci, (_akey, (_alabel, _adesc, _acolor)) in enumerate(_ansoff_labels.items()):
@@ -5549,8 +5549,8 @@ with tabs[11]:
                 for _tp in _stage.get("touchpoints", []):
                     st.markdown(f"- {_tp}")
             with _jc2:
-                st.markdown(f"**🔴 Pain point** : {_stage.get('pain','')}")
-                st.markdown(f"**🟢 Opportunité** : {_stage.get('opportunity','')}")
+                st.markdown(f"**[-] Pain point** : {_stage.get('pain','')}")
+                st.markdown(f"**[+] Opportunité** : {_stage.get('opportunity','')}")
 
     st.divider()
 
@@ -5570,7 +5570,7 @@ with tabs[11]:
     st.markdown("**Déclencheurs psychologiques :**")
     for _pt in _pric.get("psychological_triggers", []):
         st.markdown(f"- {_pt}")
-    st.info(f"🧪 Test A/B recommandé : {_pric.get('elasticite','')}")
+    st.info(f"[Test] Test A/B recommandé : {_pric.get('elasticite','')}")
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -5587,10 +5587,10 @@ with tabs[12]:
 """, unsafe_allow_html=True)
 
     _seq = email_seq if email_seq else {}
-    _seq_icons = {"welcome": "👋", "nurture": "🌱", "abandoned_cart": "🛒", "reactivation": "💙", "upsell": "⬆️"}
+    _seq_icons = {"welcome": "", "nurture": "~", "abandoned_cart": "[P]", "reactivation": "", "upsell": "⬆️"}
 
     for _seq_key, _seq_data in _seq.items():
-        _icon = _seq_icons.get(_seq_key, "📧")
+        _icon = _seq_icons.get(_seq_key, "")
         with st.expander(f"{_icon} {_seq_data.get('name','')}", expanded=(_seq_key == 'welcome')):
             _kpis = _seq_data.get("kpis", {})
             _kc = st.columns(3)
@@ -5605,7 +5605,7 @@ with tabs[12]:
   <div style="background:#C6ECD9;border-radius:8px;padding:4px 10px;font-size:.7rem;font-weight:800;color:#267371;flex-shrink:0">{_em.get('j','')}</div>
   <div>
     <div style="font-weight:700;font-size:.88rem;color:#0B2221">"{_em.get('objet','')}"</div>
-    <div style="font-size:.76rem;color:#339999;margin-top:2px">🎯 {_em.get('objectif','')}</div>
+    <div style="font-size:.76rem;color:#339999;margin-top:2px">{_em.get('objectif','')}</div>
   </div>
 </div>""", unsafe_allow_html=True)
 
@@ -5618,18 +5618,18 @@ with tabs[13]:
     st.markdown("""
 <div style="background:linear-gradient(135deg,#393DAC,#44C1BA);color:white;border-radius:14px;
   padding:18px 24px;margin-bottom:20px">
-  <b style="font-size:1.05rem">📱 Stratégie Social Media — Plan par plateforme</b><br>
+  <b style="font-size:1.05rem"> Stratégie Social Media — Plan par plateforme</b><br>
   <span style="opacity:.9;font-size:.85rem">Priorités · Formats · Budgets · KPIs · Fréquences</span>
 </div>
 """, unsafe_allow_html=True)
 
     _social = social_strat if social_strat else {}
-    _platform_icons = {"Instagram": "📸", "TikTok": "🎵", "LinkedIn": "💼", "YouTube": "▶️",
-                       "Pinterest": "📌", "Facebook": "👥", "Twitter/X": "🐦", "Newsletter": "📧",
-                       "Product Hunt": "🚀", "Podcast": "🎙️"}
+    _platform_icons = {"Instagram": "Insta", "TikTok": "TikTok", "LinkedIn": "", "YouTube": "[YT]",
+                       "Pinterest": "Pinterest", "Facebook": "", "Twitter/X": "Twitter", "Newsletter": "[NL]",
+                       "Product Hunt": "", "Podcast": "Podcast"}
 
     for _pname, _pdata in sorted(_social.items(), key=lambda x: x[1].get("priorite",99)):
-        _icon = _platform_icons.get(_pname, "📱")
+        _icon = _platform_icons.get(_pname, "")
         _prio = _pdata.get("priorite", 0)
         _prio_color = "#B83D4B" if _prio == 1 else "#44C1BA" if _prio == 2 else "#339999"
         st.markdown(f"""
@@ -5656,7 +5656,7 @@ with tabs[13]:
             st.markdown(f"**{_ax.get('axe','')}** — {_ax.get('methode','')} · Outils : {', '.join(_ax.get('outils',[]))}")
     st.markdown("**Signaux d'opportunité à surveiller :**")
     for _sig in _ci.get("signaux_opportunite", []):
-        st.markdown(f"- 🎯 {_sig}")
+        st.markdown(f"- {_sig}")
     _cad = _ci.get("cadence", {})
     if _cad:
         _cadc = st.columns(3)
@@ -5692,7 +5692,7 @@ with tabs[11]:
     st.markdown('''
 <div style="background:linear-gradient(135deg,#0B2221,#267371);color:white;border-radius:14px;
   padding:18px 24px;margin-bottom:20px;display:flex;align-items:center;gap:12px">
-  <span style="font-size:2rem">🗺️</span>
+  <span style="font-size:2rem"></span>
   <div>
     <b style="font-size:1rem">Parcours Client — Customer Journey Map</b><br>
     <span style="opacity:.85;font-size:.84rem">Chaque étape de la découverte à la fidélisation — avec les frictions et leviers d'action</span>
@@ -5767,7 +5767,7 @@ with tabs[12]:
     st.markdown('''
 <div style="background:linear-gradient(135deg,#267371,#44C1BA);color:white;border-radius:14px;
   padding:18px 24px;margin-bottom:20px">
-  <b style="font-size:1rem">💰 Stratégie de prix — Psychologie & Positionnement</b><br>
+  <b style="font-size:1rem"> Stratégie de prix — Psychologie & Positionnement</b><br>
   <span style="opacity:.85;font-size:.84rem">Techniques de pricing basées sur la psychologie comportementale et les données marché</span>
 </div>
 ''', unsafe_allow_html=True)
@@ -5812,15 +5812,15 @@ with tabs[12]:
     # Business Model Canvas
     st.markdown('<div class="section-h" style="margin-top:24px">Business Model Canvas</div>', unsafe_allow_html=True)
     _bmc_items = [
-        ("🎯 Segments", _bmc.get("segments",[])),
-        ("💎 Proposition valeur", _bmc.get("proposition",[])),
-        ("📣 Canaux", _bmc.get("canaux",[])),
+        ("Segments", _bmc.get("segments",[])),
+        (" Proposition valeur", _bmc.get("proposition",[])),
+        (" Canaux", _bmc.get("canaux",[])),
         ("❤️ Relations", _bmc.get("relation",[])),
-        ("💰 Revenus", _bmc.get("revenus",[])),
-        ("🏗 Ressources clés", _bmc.get("ressources",[])),
+        (" Revenus", _bmc.get("revenus",[])),
+        (" Ressources clés", _bmc.get("ressources",[])),
         ("⚙️ Activités clés", _bmc.get("activites",[])),
-        ("🤝 Partenaires", _bmc.get("partenaires",[])),
-        ("💸 Structure coûts", _bmc.get("couts",[])),
+        (" Partenaires", _bmc.get("partenaires",[])),
+        (" Structure coûts", _bmc.get("couts",[])),
     ]
     for i in range(0, 9, 3):
         _bm_cols = st.columns(3)
@@ -5871,7 +5871,7 @@ with tabs[13]:
 
     for _seq in _email_seqs:
         _seq_name = _seq.get("nom","")
-        with st.expander(f"📬 {_seq_name}", expanded=(_seq_name == _email_seqs[0].get("nom",""))):
+        with st.expander(f"{_seq_name}", expanded=(_seq_name == _email_seqs[0].get("nom",""))):
             for _ej, (_timing, _subject, _content_hint) in enumerate(_seq.get("emails",[])):
                 st.markdown(f'''
 <div class="card" style="border-left:3px solid #393DAC;margin-bottom:10px">
@@ -5890,7 +5890,7 @@ with tabs[13]:
 ''', unsafe_allow_html=True)
 
     # Growth Hacking tactics
-    st.markdown('<div class="section-h" style="margin-top:24px">🚀 Growth Hacking — Tactiques ROI maximal</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-h" style="margin-top:24px">Growth Hacking — Tactiques ROI maximal</div>', unsafe_allow_html=True)
     for _gt in _gh_tactics:
         if len(_gt) >= 4:
             _gt_name, _gt_desc, _gt_cost, _gt_roi = _gt
@@ -5919,15 +5919,15 @@ with tabs[15]:
     else:
         st.info("Module Nouveau Projet en cours de chargement...")
         st.markdown("""
-**🚀 Wizard de création de projet**
+**Wizard de création de projet**
 
 Ce module vous guide étape par étape pour :
-1. 🎯 Définir le concept de votre projet
-2. 🏢 Renseigner les infos de votre entreprise  
-3. 👥 Identifier votre cible client
-4. 💰 Configurer votre budget et objectifs
-5. 🔑 Définir vos mots-clés SEO
-6. ✅ Générer votre fiche stratégique et l'exporter
+1. Définir le concept de votre projet
+2. Renseigner les infos de votre entreprise  
+3.  Identifier votre cible client
+4.  Configurer votre budget et objectifs
+5. Définir vos mots-clés SEO
+6. Generer votre fiche stratégique et l'exporter
 """)
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -5939,14 +5939,14 @@ with tabs[16]:
     else:
         st.info("Module Ressources en cours de chargement...")
         st.markdown("""
-**📚 Ressources & Outils gratuits**
+**Ressources & Outils gratuits**
 
-- 📰 Actualités marketing & stratégie en temps réel (Google News RSS)
-- 🕵️ Top 10 outils de veille
-- 🔑 Top 10 outils SEO gratuits
-- 📊 Top 10 outils d'enquête de marché
-- 🎯 Top 10 outils d'acquisition de leads
-- 📣 Top 10 outils de communication
+- Actualites marketing & stratégie en temps réel (Google News RSS)
+- Top 10 outils de veille
+- Top 10 outils SEO gratuits
+- Top 10 outils d'enquête de marché
+- Top 10 outils d'acquisition de leads
+- Top 10 outils de communication
 """)
 
 
