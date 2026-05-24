@@ -3619,6 +3619,35 @@ with st.sidebar:
     </div>
     """, unsafe_allow_html=True)
 
+    # ── Auth sidebar ─────────────────────────────────────────────────────────
+    if _is_demo:
+        st.markdown("""
+<div style='background:rgba(68,193,186,.08);border:1px solid rgba(68,193,186,.2);
+  border-radius:10px;padding:8px 12px;margin-bottom:8px;text-align:center;font-size:.72rem;color:#339999'>
+  Mode visiteur — fonctions limitees
+</div>""", unsafe_allow_html=True)
+        if st.button("Connexion / Inscription", type="primary",
+                     use_container_width=True, key="btn_auth_sb"):
+            st.session_state["_show_auth"] = True
+            st.rerun()
+    else:
+        st.markdown(f"""
+<div style='display:flex;align-items:center;gap:8px;background:rgba(68,193,186,.1);
+  border-radius:10px;padding:7px 12px;margin-bottom:6px;border:1px solid rgba(68,193,186,.25)'>
+  <div style='width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#44C1BA,#267371);
+    display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:.8rem'>
+    {_user_initial}
+  </div>
+  <div>
+    <div style='font-weight:700;font-size:.76rem;color:#0B2221'>{_user_first}</div>
+    <div style='font-size:.62rem;color:#339999'>{_user_analyses} analyse(s)</div>
+  </div>
+</div>""", unsafe_allow_html=True)
+        if st.button("Deconnexion", use_container_width=True, key="btn_logout_sb"):
+            logout()
+            st.rerun()
+    st.markdown("<hr style='border-color:#C6ECD9;margin:4px 0 8px'>", unsafe_allow_html=True)
+
     # ── WIZARD PROGRESS ──────────────────────────────────────────────────────
     st.markdown("""
     <div style="margin-bottom:12px">
