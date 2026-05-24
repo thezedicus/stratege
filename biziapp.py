@@ -17,6 +17,24 @@ import streamlit as st
 import math
 import time
 
+st.set_page_config(
+    page_title="BiziApp — Plan Stratégique Complet en 10 Minutes | Expert Commercial IA",
+    page_icon="",
+    layout="wide",
+    initial_sidebar_state="expanded",
+    menu_items={
+        "Get Help": "https://thezedicus-stratege-biziapp-micaz5.streamlit.app/Blog",
+        "Report a bug": None,
+        "About": (
+            "## BiziApp v3.2\n"
+            "Votre expert virtuel en stratégie commerciale.\n\n"
+            "Générez votre plan 360° en 10 minutes : SWOT · Personas · SEO · Marketing · KPIs\n\n"
+            "**100% gratuit · Sans inscription · Données sécurisées**"
+        ),
+    }
+)
+
+
 # ─────────────────────────────────────────────────────────────────────────────
 # api_layer — Couche APIs gratuites (veille, URL, INSEE, OSM, HN, Reddit...)
 # ─────────────────────────────────────────────────────────────────────────────
@@ -47,7 +65,7 @@ try:
     _HAS_PRICING = True
 except ImportError:
     _HAS_PRICING = False
-    def render_pricing_page(**kwargs): st.info("Module pricing non disponible")
+    def render_pricing_page(**kwargs): pass  # module absent
 
 try:
     from api_layer import (
@@ -100,23 +118,6 @@ except ImportError:
 # ─────────────────────────────────────────────────────────────────────────────
 # CONFIG PAGE
 # ─────────────────────────────────────────────────────────────────────────────
-st.set_page_config(
-    page_title="BiziApp — Plan Stratégique Complet en 10 Minutes | Expert Commercial IA",
-    page_icon="",
-    layout="wide",
-    initial_sidebar_state="expanded",
-    menu_items={
-        "Get Help": "https://thezedicus-stratege-biziapp-micaz5.streamlit.app/Blog",
-        "Report a bug": None,
-        "About": (
-            "## BiziApp v3.2\n"
-            "Votre expert virtuel en stratégie commerciale.\n\n"
-            "Générez votre plan 360° en 10 minutes : SWOT · Personas · SEO · Marketing · KPIs\n\n"
-            "**100% gratuit · Sans inscription · Données sécurisées**"
-        ),
-    }
-)
-
 # ── SEO: Injection méta-tags Open Graph et structured data ──────────────────
 st.markdown("""
 <head>
@@ -1118,6 +1119,14 @@ _is_pro   = _current_user.get("plan") in ("starter", "pro")
 _user_first = (_current_user.get("name","") or _current_user.get("email","")).split()[0]
 _user_initial = _user_first[0].upper() if _user_first else "V"
 _user_analyses = _current_user.get("analyses_count", 0)
+
+# Si l'utilisateur demande la page auth depuis sidebar
+if st.session_state.get("_show_auth") and _is_demo:
+    _show_auth_page()
+    if st.button("Continuer en mode demo", key="btn_skip_auth"):
+        st.session_state.pop("_show_auth", None)
+        st.rerun()
+    st.stop()
 
 # Bandeau demo non bloquant
 if _is_demo:
