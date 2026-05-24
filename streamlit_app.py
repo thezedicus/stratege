@@ -1,17 +1,14 @@
-# streamlit_app.py — Entry point for Streamlit Cloud
-# Launches biziapp.py in the same Python namespace
+# streamlit_app.py — Point d'entree Streamlit Cloud
+# Streamlit Cloud detecte automatiquement ce fichier
+# Importe biziapp.py directement sans exec() pour compatibilite maximale
 
 import os
 import sys
 
-# Add current directory to path
+# S'assurer que le repertoire courant est dans le path
 _dir = os.path.dirname(os.path.abspath(__file__))
 if _dir not in sys.path:
     sys.path.insert(0, _dir)
 
-# Execute biziapp.py directly
-_app = os.path.join(_dir, "biziapp.py")
-with open(_app, "r", encoding="utf-8") as _f:
-    _code = _f.read()
-
-exec(compile(_code, _app, "exec"), {"__name__": "__main__", "__file__": _app})
+# Import direct — Streamlit Cloud peut detecter st.set_page_config()
+import biziapp  # noqa: F401
