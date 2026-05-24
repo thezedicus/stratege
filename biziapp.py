@@ -23,7 +23,7 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded",
     menu_items={
-        "Get Help": "https://thezedicus-stratege-biziapp-micaz5.streamlit.app/Blog",
+        "Get Help": "https://biziapp.streamlit.app",
         "Report a bug": None,
         "About": (
             "## BiziApp v3.2\n"
@@ -5977,9 +5977,9 @@ with tabs[13]:
 with tabs[15]:
     if _HAS_PROJECT_TAB:
         try:
-        _render_new_project_tab()
-    except Exception as _e_proj:
-        st.error(f"Erreur module projet: {_e_proj}")
+            _render_new_project_tab()
+        except Exception as _e_proj:
+            st.error(f"Erreur chargement module projet: {_e_proj}")
     else:
         st.info("Module Nouveau Projet en cours de chargement...")
         st.markdown("""
@@ -6000,9 +6000,9 @@ Ce module vous guide étape par étape pour :
 with tabs[16]:
     if _HAS_RESOURCES:
         try:
-        _render_resources_page()
-    except Exception as _e_res:
-        st.error(f"Erreur module ressources: {_e_res}")
+            _render_resources_page()
+        except Exception as _e_res:
+            st.error(f"Erreur module ressources: {_e_res}")
     else:
         st.info("Module Ressources en cours de chargement...")
         st.markdown("""
