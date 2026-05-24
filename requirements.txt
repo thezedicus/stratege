@@ -1,14 +1,13 @@
-# BiziApp v4.1 — Dépendances Streamlit Cloud
+# BiziApp v4.2 — Dependances Streamlit Cloud
 # Python 3.11
 
-# ── Core ─────────────────────────────────────────────────────────────────────
+# Core
 streamlit>=1.35.0,<2.0.0
 
-# ── HTTP & parsing ────────────────────────────────────────────────────────────
+# HTTP & parsing
 requests>=2.31.0
 beautifulsoup4>=4.12.0
 lxml>=5.1.0
 
-# ── Modules de BiziApp (fichiers locaux — pas besoin d'installer)
-# seo_module.py, new_project_tab.py, resources_module.py, api_layer.py
-# sont dans le repo et importés directement
+# Crypto (auth system — hashlib est built-in Python, pas besoin)
+# Tous les autres modules (auth_system, api_layer, pricing_plans) sont locaux
