@@ -4399,7 +4399,7 @@ with tabs[0]:
     # Badge de personnalisation
     _pers_score = 40
     if site_data and not site_data.get("error"): _pers_score += 30
-    if _sector_live and _sector_live.get("benchmarks"): _pers_score += 20
+    if isinstance(_sector_live, dict) and _sector_live.get("benchmarks"): _pers_score += 20
     if _pers_score > 40:
         st.markdown(f'''
 <div style="display:inline-flex;align-items:center;gap:8px;background:#C6ECD9;
@@ -5976,7 +5976,10 @@ with tabs[13]:
 # ══════════════════════════════════════════════════════════════════════════════
 with tabs[15]:
     if _HAS_PROJECT_TAB:
+        try:
         _render_new_project_tab()
+    except Exception as _e_proj:
+        st.error(f"Erreur module projet: {_e_proj}")
     else:
         st.info("Module Nouveau Projet en cours de chargement...")
         st.markdown("""
@@ -5996,7 +5999,10 @@ Ce module vous guide étape par étape pour :
 # ══════════════════════════════════════════════════════════════════════════════
 with tabs[16]:
     if _HAS_RESOURCES:
+        try:
         _render_resources_page()
+    except Exception as _e_res:
+        st.error(f"Erreur module ressources: {_e_res}")
     else:
         st.info("Module Ressources en cours de chargement...")
         st.markdown("""
