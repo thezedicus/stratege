@@ -3679,11 +3679,11 @@ if _current_user and _current_user.get("name"):
     _fn = _current_user["name"].split()[0]
     _cnt = _current_user.get("analyses_count", 0)
     if _cnt == 0:
-        _welcome_msg = f"Bienvenue {_fn} 👋 — Ton premier plan stratégique est à 10 minutes."
+        _welcome_msg = f"Bienvenue {_fn} ! Ton premier plan stratégique est à 10 minutes."
     elif _cnt == 1:
         _welcome_msg = f"Content de te revoir {_fn} ! Prêt pour une nouvelle analyse ?"
     else:
-        _welcome_msg = f"Re-bonjour {_fn} 👋 — {_cnt} analyses générées. Continue sur ta lancée !"
+        _welcome_msg = f"Re-bonjour {_fn} — {_cnt} analyses générées. Continue sur ta lancée !"
 
 if _welcome_msg:
     st.markdown(f'<div style="background:linear-gradient(90deg,#C6ECD9,#E4E9F6);border-radius:10px;'
@@ -3989,6 +3989,13 @@ social_strat  = {}
 pricing_strat = {}
 comp_intel    = {}
 _sector_bench = {}
+# ── sector_data TOUJOURS initialisé AVANT _needs_regen ───────────────────────
+sector_data    = {}
+_sector_live   = {}
+_sector_label  = activity
+_sector_growth = "N/A"
+_sector_market = "N/A"
+_sector_bench  = {}
 _needs_regen  = st.session_state.get("_cache_key") != _cache_key
 
 if _needs_regen:
@@ -4013,6 +4020,22 @@ if _needs_regen:
     okrs         = gen_okr(goal)
     ads_data     = gen_ads(activity, goal, monthly_budget)
     roi_data     = gen_roi_projection(activity, goal, maturity, monthly_budget)
+    # ── sector_data calculé ICI dans _needs_regen ─────────────────────────
+    if _HAS_API_LAYER:
+        try:
+            sector_data = _get_secteur_data(activity)
+        except Exception:
+            sector_data = {}
+    if not sector_data:
+        _SECTOR_ST = {
+            "ecommerce": {"label":"E-commerce","croissance_2024":"+12.4%","marche_fr_2024":"159 Md€","benchmarks":{"taux_conversion":"2.1%","panier_moyen":"85€","cac":"18€"},"top_canaux":["SEO","Meta Ads","Email"]},
+            "saas":      {"label":"SaaS","croissance_2024":"+18.7%","marche_fr_2024":"12.4 Md€","benchmarks":{"churn":"5%/mois","ltv_cac":"3.2x"},"top_canaux":["LinkedIn","SEO","Product Hunt"]},
+            "service":   {"label":"Services","croissance_2024":"+4.2%","marche_fr_2024":"280 Md€","benchmarks":{"taux_closing":"28%","retention":"72%"},"top_canaux":["Bouche-à-oreille","LinkedIn"]},
+            "consulting":{"label":"Conseil","croissance_2024":"+6.8%","marche_fr_2024":"18.3 Md€","benchmarks":{"taux_occupation":"68%","marge":"45%"},"top_canaux":["Réseau","LinkedIn"]},
+            "content":   {"label":"Contenu","croissance_2024":"+22.1%","marche_fr_2024":"4.1 Md€","benchmarks":{"engagement_rate":"3.8%","cpm":"4.2€"},"top_canaux":["Instagram","YouTube","TikTok"]},
+            "other":     {"label":"Autre","croissance_2024":"+3.1%","marche_fr_2024":"N/A","benchmarks":{},"top_canaux":["SEO","Social Media","Email"]},
+        }
+        sector_data = _SECTOR_ST.get(activity, _SECTOR_ST["other"])
     # ── Nouvelles analyses avancées ─────────────────────────────────────────
     porter_data    = gen_porter_forces(activity)
     ansoff_data    = gen_ansoff_matrix(activity, goal, maturity)
@@ -4061,6 +4084,12 @@ else:
     ads_data     = _a.get("ads_data",    gen_ads(activity, goal, monthly_budget))
     roi_data      = _a.get("roi_data",     gen_roi_projection(activity, goal, maturity, monthly_budget))
     sector_data   = _a.get("sector_data",  {})
+    # Recalculer sector_data si vide dans le cache
+    if not sector_data and _HAS_API_LAYER:
+        try:
+            sector_data = _get_secteur_data(activity)
+        except Exception:
+            pass
     porter_data  = _a.get("porter_data",  gen_porter_forces(activity))
     ansoff_data  = _a.get("ansoff_data",  gen_ansoff_matrix(activity, goal, maturity))
     journey_data = _a.get("journey_data", gen_customer_journey(activity, goal))
