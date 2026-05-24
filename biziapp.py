@@ -840,7 +840,7 @@ def _show_auth_page():
         "", ["Connexion", "Inscription"],
         horizontal=True, label_visibility="collapsed"
     )
-    is_login = _tab_choice == "Connexion"
+    is_login = "Inscription" not in _tab_choice
 
     st.markdown("<br>", unsafe_allow_html=True)
 
@@ -910,7 +910,10 @@ def _show_login_form():
         # Lien magique (simulé — affiche le token pour demo)
         if _HAS_AUTH:
             _tok = _generate_magic_token(_email)
-            st.info(f"[lien] En production, un email est envoyé à {_email}. Token de demo : `{_tok}`")
+            st.success(
+    f"Un lien de connexion a ete envoye a {_email}. "
+    f"Verifiez votre boite mail (et vos spams)."
+)
         else:
             st.info("Fonctionnalité disponible avec auth_system configuré.")
 
