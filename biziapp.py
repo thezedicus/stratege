@@ -571,6 +571,30 @@ img  { max-width: 100%; height: auto; }
 body,html {overflow-x:hidden!important}
 [data-testid="stApp"] {overflow-x:hidden!important}
 
+
+/* ── Auth classes ── */
+.auth-wrap{background:linear-gradient(135deg,#0B2221,#267371);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.auth-card{background:white;border-radius:20px;max-width:460px;width:100%;box-shadow:0 24px 64px rgba(0,0,0,.22);overflow:hidden}
+.auth-header{background:linear-gradient(135deg,#0B2221,#267371);padding:28px 32px 24px;text-align:center}
+.auth-logo{font-size:2rem;font-weight:900;letter-spacing:-2px;margin-bottom:4px}
+.auth-logo .bizi{color:white}.auth-logo .app{color:#44C1BA}
+.auth-tagline{font-size:.76rem;color:rgba(255,255,255,.65);font-weight:500;letter-spacing:.06em;text-transform:uppercase}
+.auth-proof{display:flex;justify-content:center;gap:18px;margin-top:14px;flex-wrap:wrap}
+.auth-proof-item{text-align:center}
+.auth-proof-num{font-size:1.2rem;font-weight:900;color:#44C1BA}
+.auth-proof-lbl{font-size:.6rem;color:rgba(255,255,255,.55);text-transform:uppercase;letter-spacing:.05em}
+.auth-body{padding:24px 30px 30px}
+.auth-divider{display:flex;align-items:center;gap:10px;margin:14px 0;color:#339999;font-size:.73rem;font-weight:600}
+.auth-divider::before,.auth-divider::after{content:'';flex:1;height:1px;background:#C6ECD9}
+.auth-error{background:#F7EEF0;border:1.5px solid #B83D4B;border-radius:8px;padding:9px 13px;font-size:.78rem;color:#B83D4B;margin-bottom:12px;font-weight:600}
+.auth-success{background:#C6ECD9;border:1.5px solid #44C1BA;border-radius:8px;padding:9px 13px;font-size:.78rem;color:#0B2221;margin-bottom:12px;font-weight:600}
+.auth-footer{font-size:.68rem;color:#339999;text-align:center;margin-top:12px;line-height:1.6}
+.auth-footer a{color:#44C1BA;text-decoration:none;font-weight:600}
+.oauth-btn{width:100%;padding:10px 14px;border-radius:10px;font-weight:700;font-size:.84rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:9px;border:1.5px solid #C6ECD9;background:white;margin-bottom:8px;transition:all .2s;color:#0B2221}
+.oauth-btn:hover{border-color:#44C1BA;background:#F7FBF4;transform:translateY(-1px)}
+.rgpd-box{background:#F7FBF4;border:1.5px solid #C6ECD9;border-radius:10px;padding:11px 13px;font-size:.7rem;color:#267371;line-height:1.6;margin-bottom:11px}
+.neuro-urgency{background:linear-gradient(135deg,#FDF0F2,#F7EEF0);border:1px solid #B83D4B;border-radius:8px;padding:8px 13px;font-size:.72rem;color:#B83D4B;font-weight:600;text-align:center;margin-bottom:12px}
+
 </style>
 """, unsafe_allow_html=True)
 
