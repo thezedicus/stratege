@@ -4260,6 +4260,7 @@ tabs = st.tabs([
     "⚔️ Stratégie+",
     "📧 Emailing",
     "📱 Social Media",
+    "💳 Tarifs & Plans",
     "🚀 Nouveau Projet",
     "📚 Ressources",
 ])
