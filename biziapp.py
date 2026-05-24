@@ -23,7 +23,7 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded",
     menu_items={
-        "Get Help": "https://biziapp.streamlit.app",
+        "Get Help": None,
         "Report a bug": None,
         "About": (
             "## BiziApp v3.2\n"
