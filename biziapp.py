@@ -43,7 +43,7 @@ except ImportError:
     def _render_resources_page(): pass
 
 try:
-    from pricing_plans import render_pricing_page, PLANS, SVG_CHECK, SVG_STAR
+    from pricing_plans import render_pricing_page, PLANS, SVG_CHECK, SVG_STAR, render_countdown
     _HAS_PRICING = True
 except ImportError:
     _HAS_PRICING = False
