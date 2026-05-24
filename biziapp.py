@@ -1100,16 +1100,36 @@ def _render_oauth_buttons():
 """, unsafe_allow_html=True)
 
 
-# ── Exécuter l'auth ────────────────────────────────────────────────────────────
+# ── Auth optionnelle — non connecté = mode Demo ──────────────────────────────
 _current_user = get_current_user()
-if not _current_user:
-    _show_auth_page()
-    st.stop()
+# Si non connecté → mode démo (accès limité sans blocage)
+if _current_user is None:
+    _current_user = {
+        "email": "demo@biziapp.fr",
+        "name": "Visiteur",
+        "provider": "demo",
+        "analyses_count": 0,
+        "plan": "demo",
+    }
+_is_demo = _current_user.get("provider") == "demo"
+_is_pro   = _current_user.get("plan") in ("starter", "pro")
 
-# Utilisateur connecté — afficher le badge dans la sidebar
+# Badge utilisateur
 _user_first = (_current_user.get("name","") or _current_user.get("email","")).split()[0]
-_user_initial = _user_first[0].upper() if _user_first else "U"
+_user_initial = _user_first[0].upper() if _user_first else "V"
 _user_analyses = _current_user.get("analyses_count", 0)
+
+# Bandeau demo non bloquant
+if _is_demo:
+    st.markdown("""
+<div style="background:linear-gradient(90deg,#0B2221,#267371);color:white;
+  padding:10px 20px;border-radius:0;text-align:center;font-size:.82rem;font-weight:600;
+  display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap">
+  <span>Mode demo — Fonctionnalites limitees</span>
+  <span style="color:#44C1BA">|</span>
+  <span>Creez un compte gratuit pour acceder a toutes les analyses</span>
+</div>
+""", unsafe_allow_html=True)
 
 # ═════════════════════════════════════════════════════════════════════════════
 # ── DATA & GENERATORS ────────────────────────────────────────────────────────
