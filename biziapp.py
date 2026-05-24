@@ -126,20 +126,20 @@ st.markdown("""
 <meta property="og:title" content="BiziApp — Plan Stratégique Complet en 10 Minutes">
 <meta property="og:description" content="Votre expert virtuel en stratégie commerciale. SWOT, Personas, SEO, Marketing, KPIs générés instantanément.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://thezedicus-stratege-biziapp-micaz5.streamlit.app">
+<meta property="og:url" content="https://thezedicus-stratege-biziapp.streamlit.app">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="BiziApp — Stratégie commerciale en 10 minutes">
 <meta name="twitter:description" content="Expert virtuel gratuit pour TPE, freelances et consultants. Plan complet en 10 minutes.">
 <meta name="robots" content="index, follow">
 <meta name="author" content="BiziApp">
-<link rel="canonical" href="https://thezedicus-stratege-biziapp-micaz5.streamlit.app">
+<link rel="canonical" href="https://thezedicus-stratege-biziapp.streamlit.app">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
   "name": "BiziApp",
   "description": "Expert virtuel en stratégie commerciale — plan complet en 10 minutes",
-  "url": "https://thezedicus-stratege-biziapp-micaz5.streamlit.app",
+  "url": "https://thezedicus-stratege-biziapp.streamlit.app",
   "applicationCategory": "BusinessApplication",
   "operatingSystem": "Web",
   "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"},
