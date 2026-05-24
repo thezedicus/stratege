@@ -5911,9 +5911,9 @@ with tabs[13]:
 
 
 # ══════════════════════════════════════════════════════════════════════════════
-# TAB 14 — NOUVEAU PROJET (wizard indépendant)
+# TAB 15 — NOUVEAU PROJET (wizard indépendant)
 # ══════════════════════════════════════════════════════════════════════════════
-with tabs[14]:
+with tabs[15]:
     if _HAS_PROJECT_TAB:
         _render_new_project_tab()
     else:
@@ -5931,9 +5931,9 @@ Ce module vous guide étape par étape pour :
 """)
 
 # ══════════════════════════════════════════════════════════════════════════════
-# TAB 15 — RESSOURCES (blog + Top 10)
+# TAB 16 — RESSOURCES (blog + Top 10)
 # ══════════════════════════════════════════════════════════════════════════════
-with tabs[15]:
+with tabs[16]:
     if _HAS_RESOURCES:
         _render_resources_page()
     else:
