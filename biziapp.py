@@ -43,6 +43,13 @@ except ImportError:
     def _render_resources_page(): pass
 
 try:
+    from pricing_plans import render_pricing_page, PLANS, SVG_CHECK, SVG_STAR
+    _HAS_PRICING = True
+except ImportError:
+    _HAS_PRICING = False
+    def render_pricing_page(**kwargs): st.info("Module pricing non disponible")
+
+try:
     from api_layer import (
         read_url as _read_url_live,
         fetch_news_full as _fetch_news_full,
@@ -5940,6 +5947,75 @@ with tabs[15]:
 - 🎯 Top 10 outils d'acquisition de leads
 - 📣 Top 10 outils de communication
 """)
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# TAB 14 — TARIFS & PLANS (Neuromarketing + RGPD)
+# ══════════════════════════════════════════════════════════════════════════════
+with tabs[14]:
+    st.markdown("""
+<div style="background:linear-gradient(135deg,#0B2221,#267371);color:white;border-radius:14px;
+  padding:20px 26px;margin-bottom:24px">
+  <div style="font-size:1.1rem;font-weight:900;margin-bottom:6px">Choisissez votre plan BiziApp</div>
+  <div style="font-size:.85rem;opacity:.85">
+    14 modules strategiques · Export PDF · Donnees live · Support inclus
+  </div>
+</div>
+""", unsafe_allow_html=True)
+
+    def _on_plan_select(plan_id):
+        st.session_state["selected_plan"] = plan_id
+        if plan_id == "demo":
+            st.success("Vous etes deja en acces Demo. Toutes les fonctions de base sont disponibles.")
+        elif plan_id in ("starter","pro"):
+            st.session_state["show_checkout"] = plan_id
+            st.rerun()
+
+    if _HAS_PRICING:
+        render_pricing_page(
+            billing=st.session_state.get("billing_pref","annual"),
+            on_plan_select=_on_plan_select
+        )
+    else:
+        # Affichage minimal si pricing_plans absent
+        c1, c2, c3 = st.columns(3)
+        with c1:
+            st.metric("Demo", "Gratuit", "Fonctions de base")
+            st.button("Commencer gratuitement", key="plan_demo_fb", use_container_width=True)
+        with c2:
+            st.metric("Starter", "39€/mois", "14 modules complets")
+            st.button("Essai 7j gratuit", key="plan_starter_fb", type="primary", use_container_width=True)
+        with c3:
+            st.metric("Pro", "89€/mois", "Tout inclus + IA")
+            st.button("Essai Pro 7j", key="plan_pro_fb", type="primary", use_container_width=True)
+
+    # ── Checkout simulé ────────────────────────────────────────────────────────
+    _plan_to_checkout = st.session_state.get("show_checkout")
+    if _plan_to_checkout:
+        plan_info = PLANS.get(_plan_to_checkout, {}) if _HAS_PRICING else {}
+        price = plan_info.get("monthly", 0)
+        st.divider()
+        st.markdown(f"""
+<div style="background:#F7FBF4;border-radius:14px;padding:24px;border:2px solid #44C1BA;max-width:520px;margin:0 auto">
+  <div style="font-size:1rem;font-weight:800;color:#0B2221;margin-bottom:12px">
+    Finaliser votre abonnement {plan_info.get("name","Pro")}
+  </div>
+  <div style="font-size:2rem;font-weight:900;color:#44C1BA;margin-bottom:8px">
+    {price}€<span style="font-size:1rem;color:#339999;font-weight:500">/mois</span>
+  </div>
+  <div style="font-size:.78rem;color:#267371;margin-bottom:16px">
+    Essai 7 jours gratuit · Aucun debit pendant l'essai · Résiliation libre
+  </div>
+  <div style="font-size:.72rem;color:#339999;background:white;border-radius:8px;padding:10px;border:1px solid #C6ECD9">
+    Le paiement securise sera configure dans votre espace compte.<br>
+    <b>Stripe</b> · Visa · Mastercard · SEPA · Apple Pay · Google Pay
+  </div>
+</div>
+""", unsafe_allow_html=True)
+        if st.button("Confirmer l'abonnement", type="primary", key="confirm_checkout"):
+            st.success(f"Abonnement {plan_info.get('name','')} active ! Bienvenue dans BiziApp.")
+            st.session_state.pop("show_checkout", None)
+
 
 # ─────────────────────────────────────────────────────────────────────────────
 # FOOTER
