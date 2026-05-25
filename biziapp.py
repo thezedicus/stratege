@@ -4740,6 +4740,9 @@ if _needs_regen:
         "ikigai_data": ikigai_data, "blue_ocean": blue_ocean,
         "lean_canvas": lean_canvas, "scenarios": scenarios,
         "analytics_data": analytics_data, "plan_180j": plan_180j,
+        "financial_proj": financial_proj, "gtm_strategy": gtm_strategy,
+        "seo_strategy": seo_strategy, "crm_pipeline": crm_pipeline,
+        "brand_strategy": brand_strategy, "auto_stack": auto_stack,
         "journey_data": journey_data, "content_strat": content_strat,
         "email_seq": email_seq, "social_strat": social_strat,
         "pricing_strat": pricing_strat, "comp_intel": comp_intel,
@@ -4780,6 +4783,12 @@ else:
     scenarios    = _a.get("scenarios",    gen_scenario_planning(activity, goal))
     analytics_data = _a.get("analytics_data", gen_data_analytics(activity, goal, monthly_budget))
     plan_180j    = _a.get("plan_180j",    gen_action_plan_180j(activity, goal, maturity, monthly_budget))
+    financial_proj = _a.get("financial_proj", gen_financial_projection(activity, goal, maturity, monthly_budget))
+    gtm_strategy   = _a.get("gtm_strategy",   gen_gtm_strategy(activity, goal, maturity, monthly_budget))
+    seo_strategy   = _a.get("seo_strategy",   gen_seo_strategy(activity, goal, monthly_budget))
+    crm_pipeline   = _a.get("crm_pipeline",   gen_crm_pipeline(activity, goal, monthly_budget))
+    brand_strategy = _a.get("brand_strategy", gen_brand_strategy(activity, goal, maturity))
+    auto_stack     = _a.get("auto_stack",     gen_automation_stack(activity, monthly_budget))
     ansoff_data  = _a.get("ansoff_data",  gen_ansoff_matrix(activity, goal, maturity))
     journey_data = _a.get("journey_data", gen_customer_journey(activity, goal))
     content_strat= _a.get("content_strat",gen_content_strategy(activity, goal, monthly_budget))
@@ -6261,7 +6270,7 @@ with tabs[11]:
 """, unsafe_allow_html=True)
 
     # ── Sous-onglets Stratégie+ ──────────────────────────────────────────────
-    _strat_tabs = st.tabs(["Porter 5 Forces","Ansoff","Customer Journey","Pricing","Ikigai","Ocean Bleu","Lean Canvas","Scenarios","Plan 180j","Analytics"])
+    _strat_tabs = st.tabs(["Porter 5 Forces","Ansoff","Customer Journey","Pricing","Ikigai","Ocean Bleu","Lean Canvas","Scenarios","Plan 180j","Analytics","Projection Fin.","GTM","CRM Pipeline","Brand & Stack"])
     with _strat_tabs[0]:
      st.markdown('<div class="section-h">5 Forces de Porter</div>', unsafe_allow_html=True)
     _p5 = porter_data if porter_data else {}
@@ -6944,6 +6953,130 @@ with tabs[14]:
         st.markdown("**Formules KPIs essentiels**")
         for kpi_item in ad.get("kpis_dashboard",[]):
             st.markdown(f"- **{kpi_item.get('kpi','')}** : {kpi_item.get('calcul','')}")
+
+
+
+    # ── Projection Financiere ────────────────────────────────────────────────
+    with _strat_tabs[10]:
+        st.markdown('<div class="section-h">Projection financiere 12 mois -- P&L simplifie</div>', unsafe_allow_html=True)
+        fp = financial_proj if financial_proj else {}
+        if fp:
+            fpc1, fpc2, fpc3, fpc4 = st.columns(4)
+            fpc1.metric("CA annuel", str(fp.get("ca_annuel","N/A")) + " EUR")
+            fpc2.metric("Marge brute", fp.get("marge_moy","N/A"))
+            fpc3.metric("EBITDA M12", str(fp.get("ebitda_m12","N/A")) + " EUR")
+            fpc4.metric("Break-even", fp.get("breakeven","N/A"))
+            rows = fp.get("rows",[])
+            if rows:
+                import json as _jfp
+                _tbl = "| Mois | CA EUR | Marge brute | EBITDA |
+|---|---|---|---|
+"
+                for r in rows:
+                    _tbl += f"| {r['mois']} | {r['ca']:,} | {r['marge_brute']:,} | {r['ebitda']:,} |
+"
+                st.markdown(_tbl)
+        else:
+            st.info("Lancez une analyse pour voir la projection financiere.")
+
+    # ── GTM Strategy ─────────────────────────────────────────────────────────
+    with _strat_tabs[11]:
+        st.markdown('<div class="section-h">Go-To-Market Strategy</div>', unsafe_allow_html=True)
+        gm = gtm_strategy if gtm_strategy else {}
+        if gm:
+            gmc1, gmc2 = st.columns(2)
+            with gmc1:
+                st.markdown("**Canal primaire**")
+                st.success(gm.get("primary",""))
+                st.markdown("**Canal secondaire**")
+                st.info(gm.get("secondary",""))
+            with gmc2:
+                st.markdown("**Croissance organique**")
+                st.info(gm.get("organic",""))
+                st.metric("Repartition budget", gm.get("paid_split",""))
+            st.divider()
+            st.markdown("**Phases de lancement**")
+            for phase in gm.get("phases",[]):
+                with st.expander(f"{phase.get('phase','')} -- {phase.get('focus','')} ({phase.get('budget_pct','')} du budget)"):
+                    for action in phase.get("actions",[]): st.markdown(f"- {action}")
+            st.caption(f"Budget total estime: {gm.get('budget_total','')} | KPI 1: {gm.get('kpi_primaire','')} | KPI 2: {gm.get('kpi_secondaire','')}")
+
+    # ── CRM Pipeline ─────────────────────────────────────────────────────────
+    with _strat_tabs[12]:
+        st.markdown('<div class="section-h">Pipeline CRM -- Etapes et outils gratuits</div>', unsafe_allow_html=True)
+        cp = crm_pipeline if crm_pipeline else {}
+        pipeline = cp.get("pipeline",[])
+        if pipeline:
+            for stage in pipeline:
+                taux = stage.get("taux_conversion","")
+                col_c = "#267371" if "%" in taux and int(taux.replace("%","")) >= 30 else "#44C1BA"
+                with st.expander(f"{stage.get('etape','')} -- Conversion : {taux}"):
+                    sc1, sc2 = st.columns(2)
+                    with sc1:
+                        st.markdown("**Actions**")
+                        for a in stage.get("actions",[]): st.markdown(f"- {a}")
+                    with sc2:
+                        st.markdown("**Outils gratuits**")
+                        for o in stage.get("outils",[]): st.markdown(f"- {o}")
+            kpis = cp.get("kpi_pipeline",{})
+            if kpis:
+                kpc = st.columns(4)
+                kpc[0].metric("Leads objectif/mois", str(kpis.get("leads_objectif","")))
+                kpc[1].metric("Taux closing cible", kpis.get("closing_rate_cible",""))
+                kpc[2].metric("Cycle vente", kpis.get("cycle_vente_cible",""))
+                kpc[3].metric("MRR objectif", kpis.get("mrr_objectif",""))
+        outils_g = cp.get("outils_gratuits_recommandes",{})
+        if outils_g:
+            with st.expander("Outils CRM gratuits recommandes"):
+                for cat, outil in outils_g.items():
+                    st.markdown(f"**{cat}** : {outil}")
+
+    # ── Brand Strategy + Automation Stack ────────────────────────────────────
+    with _strat_tabs[13]:
+        bst = brand_strategy if brand_strategy else {}
+        ast_data = auto_stack if auto_stack else {}
+        bs_tab, as_tab = st.tabs(["Strategie de marque","Stack d'outils gratuits"])
+        with bs_tab:
+            st.markdown('<div class="section-h">Strategie de marque -- Identite et positionnement</div>', unsafe_allow_html=True)
+            if bst:
+                bsc1, bsc2 = st.columns(2)
+                with bsc1:
+                    st.markdown(f"**Archetype de marque** : {bst.get('archetype','')}")
+                    st.markdown("**Valeurs fondamentales**")
+                    for v in bst.get("valeurs",[]): st.markdown(f"- {v}")
+                    st.markdown(f"**Ton de communication** : {bst.get('ton','')}")
+                    st.success(f"**Promesse de marque** : {bst.get('promesse','')}")
+                with bsc2:
+                    cv = bst.get("charte_visuelle",{})
+                    if cv:
+                        st.markdown("**Charte visuelle**")
+                        for cat, val in cv.items():
+                            if isinstance(val, dict):
+                                st.markdown(f"*{cat}*")
+                                for k,v in val.items(): st.markdown(f"  - {k}: {v}")
+                            else:
+                                st.markdown(f"- **{cat}** : {val}")
+                pm = bst.get("plateforme_de_marque",{})
+                if pm:
+                    st.divider()
+                    st.info(f"**Claim** : {pm.get('claim','')}")
+                    st.info(f"**Elevator pitch** : {pm.get('elevator_pitch','')}")
+        with as_tab:
+            st.markdown('<div class="section-h">Stack d'automatisation -- Outils 100% gratuits</div>', unsafe_allow_html=True)
+            if ast_data:
+                stack = ast_data.get("stack",{})
+                st.success(f"**Economie estimee** : {ast_data.get('economie_mensuelle_estimee','')}")
+                st.info(f"**Stack core recommande** : {' -- '.join(ast_data.get('stack_core',[]))}")
+                st.caption(ast_data.get("conseil",""))
+                if stack:
+                    asc = st.columns(2)
+                    for idx, (cat, outils) in enumerate(stack.items()):
+                        with asc[idx % 2]:
+                            with st.expander(cat):
+                                if isinstance(outils, list):
+                                    for o in outils: st.markdown(f"- {o}")
+                                else:
+                                    st.markdown(str(outils))
 
 
 # ─────────────────────────────────────────────────────────────────────────────
