@@ -757,6 +757,9 @@ img,video{max-width:100%;height:auto}
 </style>
 """, unsafe_allow_html=True)
 
+# ── SEO meta (schema.org, FAQ, Open Graph) — injecté après CSS ──────────────
+if _HAS_SEO_COMPETITIVE:
+    st.markdown(_inject_seo_html(), unsafe_allow_html=True)
 
 st.markdown('''<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">''',
             unsafe_allow_html=True)
