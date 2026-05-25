@@ -68,6 +68,31 @@ except ImportError:
     def render_pricing_page(**kwargs): pass  # module absent
 
 try:
+    from enrichment_apis import (
+        get_forex_rates as _get_forex,
+        fetch_google_news as _fetch_gnews,
+        fetch_startups_fr as _fetch_startups,
+        get_macro_france as _get_macro,
+        fetch_google_trends_rss as _fetch_trends,
+        fetch_product_hunt_rss as _fetch_ph,
+        analyze_url_advanced as _analyze_url_adv,
+        get_wikipedia_summary as _wiki_summary,
+        get_survie_stats as _get_survie,
+    )
+    _HAS_ENRICHMENT = True
+except ImportError:
+    _HAS_ENRICHMENT = False
+    def _get_forex(): return {"USD":1.08,"GBP":0.86,"CHF":0.97}
+    def _fetch_gnews(q, **kw): return []
+    def _fetch_startups(s): return []
+    def _get_macro(): return {}
+    def _fetch_trends(geo="FR"): return []
+    def _fetch_ph(): return []
+    def _analyze_url_adv(u): return {}
+    def _wiki_summary(t, **kw): return {}
+    def _get_survie(a="other"): return {}
+
+try:
     from api_layer import (
         read_url as _read_url_live,
         fetch_news_full as _fetch_news_full,
@@ -4767,6 +4792,31 @@ with tabs[3]:
     # Challenger
     st.markdown('<div class="section-h">Challenger Sale — Vendre par la conviction</div>', unsafe_allow_html=True)
     st.caption("La méthode Challenger s'appuie sur 3 piliers : Enseigner · Adapter · Prendre le contrôle")
+# ── Challenger Sale data ──────────────────────────────────────────────────────
+_CHALLENGER = {
+    "teach": [
+        "Partagez une donnée contre-intuitive : 87% des TPE échouent faute de stratégie écrite, pas de capital.",
+        "Montrez-leur ce que leurs concurrents font et qu'ils ignorent — avec des chiffres.",
+        "Éduquez sur une tendance à 18 mois qui transformera leur marché (ex: AI Overviews = -30% trafic SEO).",
+        "Prouvez que leur problème principal n'est pas celui qu'ils croient (ex: pas de lead = pas de closing ≠ pas assez de contenu).",
+        "Partagez un benchmark sectoriel surprenant : 'Vos concurrents convertissent à 4.2%, vous êtes à combien ?'",
+    ],
+    "tailor": [
+        "Adaptez chaque argument aux KPIs du décideur : CA pour le DG, coût pour le DAF, risque pour le DRH.",
+        "Utilisez le vocabulaire de leur secteur — pas le vôtre.",
+        "Référencez des pairs qu'ils respectent : 'Chez [concurrent connu], ils ont résolu ça ainsi...'",
+        "Connectez l'enjeu à leur actualité récente (levée de fonds, expansion, recrutement).",
+        "Personnalisez l'urgence : 'Dans votre secteur, Q4 est critique — agir en septembre est 3x plus efficace qu'en janvier.'",
+    ],
+    "take_control": [
+        "Cadrez vous-même la conversation — posez les questions avant de répondre.",
+        "Ne cédez pas sur le prix sans obtenir quelque chose en échange (périmètre, délai, référence).",
+        "Si le client dérive : 'Permettez-moi de recentrer — l'enjeu principal que vous m'avez décrit est X...'",
+        "Proposez toujours une prochaine étape concrète avec une date : 'Je vous envoie la proposition vendredi, on en parle lundi 10h ?'",
+        "Assumez la décision : 'Sur la base de tout ce qu'on a vu, je pense que vous devriez démarrer maintenant.'",
+    ],
+}
+
     chal_tabs = st.tabs(["Enseigner (Teach)","Adapter (Tailor)","Prendre le contrôle"])
     chal_keys = ["teach","tailor","take_control"]
     for ctab, ckey in zip(chal_tabs, chal_keys):
