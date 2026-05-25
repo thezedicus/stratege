@@ -35,10 +35,21 @@ st.set_page_config(
 )
 
 
+# ── SEO meta injection (schema.org + meta tags + performance) ─────────────────
+if _HAS_SEO_COMPETITIVE:
+    st.markdown(_inject_seo_html(), unsafe_allow_html=True)
+
 # ─────────────────────────────────────────────────────────────────────────────
 # api_layer  --  Couche APIs gratuites (veille, URL, INSEE, OSM, HN, Reddit...)
 # ─────────────────────────────────────────────────────────────────────────────
 # ── Modules complémentaires ──────────────────────────────────────────────────
+try:
+    from seo_competitive import inject_seo_html as _inject_seo_html, SEO_META
+    _HAS_SEO_COMPETITIVE = True
+except ImportError:
+    _HAS_SEO_COMPETITIVE = False
+    def _inject_seo_html(): return ""
+
 try:
     from seo_module import inject_seo_meta as _inject_seo_meta
     _HAS_SEO_MODULE = True
@@ -619,6 +630,128 @@ body,html {overflow-x:hidden!important}
 .oauth-btn:hover{border-color:#44C1BA;background:#F7FBF4;transform:translateY(-1px)}
 .rgpd-box{background:#F7FBF4;border:1.5px solid #C6ECD9;border-radius:10px;padding:11px 13px;font-size:.7rem;color:#267371;line-height:1.6;margin-bottom:11px}
 .neuro-urgency{background:linear-gradient(135deg,#FDF0F2,#F7EEF0);border:1px solid #B83D4B;border-radius:8px;padding:8px 13px;font-size:.72rem;color:#B83D4B;font-weight:600;text-align:center;margin-bottom:12px}
+
+
+/* ═══ PERFORMANCE CSS — Critical rendering path ═════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box}
+img,video{max-width:100%;height:auto}
+[data-testid="stApp"]{font-display:swap}
+
+/* ═══ LAYOUT SYSTÈME ════════════════════════════════════════════════════════ */
+.main-container{max-width:1200px;margin:0 auto;padding:0 16px}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+
+/* ═══ TABS — Style amélioré ══════════════════════════════════════════════════ */
+[data-testid="stTabs"] [role="tablist"]{
+  gap:2px;overflow-x:auto;-webkit-overflow-scrolling:touch;
+  scrollbar-width:none;padding-bottom:2px;flex-wrap:nowrap
+}
+[data-testid="stTabs"] [role="tablist"]::-webkit-scrollbar{display:none}
+[data-testid="stTabs"] button[role="tab"]{
+  font-size:.75rem!important;font-weight:600!important;
+  padding:8px 12px!important;white-space:nowrap;
+  border-radius:8px 8px 0 0!important;transition:all .2s;
+  min-width:fit-content
+}
+[data-testid="stTabs"] button[role="tab"][aria-selected="true"]{
+  background:#44C1BA!important;color:white!important;
+  font-weight:800!important;border-bottom:3px solid #267371!important
+}
+[data-testid="stTabs"] button[role="tab"]:hover:not([aria-selected="true"]){
+  background:rgba(68,193,186,.1)!important;color:#267371!important
+}
+
+/* ═══ SIDEBAR — Style professionnel ══════════════════════════════════════════ */
+[data-testid="stSidebar"]{
+  background:linear-gradient(180deg,#F7FBF4 0%,#FFFFFF 100%)!important;
+  border-right:1.5px solid #C6ECD9!important
+}
+[data-testid="stSidebar"] [data-testid="stSelectbox"] > div{
+  border-radius:10px!important;border-color:#C6ECD9!important
+}
+[data-testid="stSidebar"] .stSlider [data-testid="stThumbValue"]{
+  background:#44C1BA!important;color:white!important
+}
+
+/* ═══ MÉTRIQUES — Style amélioré ════════════════════════════════════════════ */
+[data-testid="stMetricValue"]{
+  font-size:1.8rem!important;font-weight:900!important;
+  color:#0B2221!important;letter-spacing:-.03em!important
+}
+[data-testid="stMetricLabel"]{
+  font-size:.72rem!important;font-weight:600!important;
+  color:#339999!important;text-transform:uppercase;letter-spacing:.04em
+}
+[data-testid="stMetricDelta"]{font-size:.75rem!important;font-weight:700!important}
+
+/* ═══ EXPANDERS ══════════════════════════════════════════════════════════════ */
+[data-testid="stExpander"]{
+  border:1.5px solid #C6ECD9!important;border-radius:12px!important;
+  margin-bottom:8px!important;overflow:hidden
+}
+[data-testid="stExpander"] summary{
+  padding:12px 16px!important;font-weight:600!important;
+  font-size:.88rem!important;color:#0B2221!important
+}
+[data-testid="stExpander"]:hover{
+  border-color:#44C1BA!important;transition:border-color .2s
+}
+
+/* ═══ BOUTONS ════════════════════════════════════════════════════════════════ */
+.stButton > button[kind="primary"]{
+  background:linear-gradient(135deg,#44C1BA,#267371)!important;
+  border:none!important;border-radius:10px!important;
+  font-weight:700!important;letter-spacing:.02em!important;
+  transition:transform .2s,box-shadow .2s!important
+}
+.stButton > button[kind="primary"]:hover{
+  transform:translateY(-2px)!important;
+  box-shadow:0 6px 20px rgba(68,193,186,.35)!important
+}
+.stButton > button[kind="secondary"]{
+  border:1.5px solid #44C1BA!important;border-radius:10px!important;
+  color:#267371!important;font-weight:600!important
+}
+
+/* ═══ INPUTS ═════════════════════════════════════════════════════════════════ */
+[data-testid="stTextInput"] input,
+[data-testid="stTextArea"] textarea{
+  border-radius:10px!important;border-color:#C6ECD9!important;
+  font-size:.88rem!important
+}
+[data-testid="stTextInput"] input:focus,
+[data-testid="stTextArea"] textarea:focus{
+  border-color:#44C1BA!important;
+  box-shadow:0 0 0 3px rgba(68,193,186,.15)!important
+}
+
+/* ═══ SUCCESS / INFO / WARNING / ERROR ═══════════════════════════════════════ */
+[data-testid="stAlert"]{border-radius:10px!important;font-size:.85rem!important}
+
+/* ═══ DATAFRAME ══════════════════════════════════════════════════════════════ */
+[data-testid="stDataFrame"]{border-radius:10px!important;overflow:hidden}
+
+/* ═══ RESPONSIVE MOBILE COMPLET ════════════════════════════════════════════ */
+@media (max-width:900px){
+  .grid-3{grid-template-columns:1fr 1fr!important}
+  .grid-4{grid-template-columns:1fr 1fr!important}
+  .pricing-grid{grid-template-columns:1fr!important}
+}
+@media (max-width:640px){
+  .grid-2,.grid-3,.grid-4{grid-template-columns:1fr!important}
+  [data-testid="stTabs"] button[role="tab"]{font-size:.65rem!important;padding:6px 8px!important}
+  [data-testid="stMetricValue"]{font-size:1.3rem!important}
+  .lp-hero h1{font-size:1.4rem!important}
+  .auth-card{border-radius:14px!important}
+  .stat-box{padding:12px 8px!important}
+  .stat-num{font-size:1.6rem!important}
+}
+@media (max-width:380px){
+  [data-testid="stSidebar"]{min-width:240px!important}
+  body{font-size:14px!important}
+}
 
 </style>
 """, unsafe_allow_html=True)
@@ -1444,7 +1577,7 @@ _QQOQCCP_GENERIC = {
 }
 
 
-@st.cache_data(ttl=3600)
+@st.cache_data(ttl=3600, show_spinner=False)
 def gen_qqoqccp(activity: str) -> dict:
     return copy.deepcopy(_QQOQCCP.get(activity, _QQOQCCP_GENERIC))
 
@@ -1554,7 +1687,7 @@ _PESTEL_GENERIC = {
 }
 
 
-@st.cache_data(ttl=3600)
+@st.cache_data(ttl=3600, show_spinner=False)
 def gen_pestel(activity: str) -> dict:
     return copy.deepcopy(_PESTEL.get(activity, _PESTEL_GENERIC))
 
@@ -1606,7 +1739,7 @@ _MICRO_GENERIC = {
 }
 
 
-@st.cache_data(ttl=3600)
+@st.cache_data(ttl=3600, show_spinner=False)
 def gen_micro_env(activity: str) -> dict:
     return copy.deepcopy(_MICRO_ENV.get(activity, _MICRO_GENERIC))
 
@@ -1677,7 +1810,7 @@ _COMPETITIVE_GENERIC = {
 }
 
 
-@st.cache_data(ttl=3600)
+@st.cache_data(ttl=3600, show_spinner=False)
 def gen_competitive(activity: str) -> dict:
     return copy.deepcopy(_COMPETITIVE.get(activity, _COMPETITIVE_GENERIC))
 
@@ -1959,7 +2092,7 @@ _SONCAS = {
 }
 
 
-@st.cache_data(ttl=3600)
+@st.cache_data(ttl=3600, show_spinner=False)
 def gen_soncas(activity: str) -> dict:
     """Return the SONCAS data dict for a given activity type.
 
@@ -2007,7 +2140,7 @@ _TRIGGERS = [
     ("Appartenance","Les humains veulent appartenir à un groupe qui partage leurs valeurs","Rejoignez 5000 entrepreneurs qui ont choisi de [valeur commune]","Positioning de marque, communication de communauté, onboarding"," La communauté doit être réelle et active"),
 ]
 
-@st.cache_data(ttl=3600)
+@st.cache_data(ttl=3600, show_spinner=False)
 def gen_aida(activity: str) -> dict:
     return copy.deepcopy(_AIDA.get(activity, _AIDA_GENERIC))
 
@@ -2040,7 +2173,7 @@ _SEA_IA = [
     ("Audience Signals","Signaux d'audience pour guider l'IA vers vos meilleurs prospects",["Customer Match : uploadez vos emails clients pour trouver des similaires","Similar Audiences basées sur vos convertisseurs","In-Market Audiences : personas en phase d'achat active","Custom Intent : audiences basées sur les recherches récentes"],"Plus vous fournissez de signaux de qualité, plus l'IA cible efficacement"),
 ]
 
-@st.cache_data(ttl=3600)
+@st.cache_data(ttl=3600, show_spinner=False)
 def gen_geo(activity: str) -> dict:
     return copy.deepcopy(_GEO.get(activity, _GEO_GENERIC))
 
@@ -2151,7 +2284,7 @@ _KEYWORDS = {
     "default": [("[mot-clé principal] guide","1K-5K","Moyen","Informationnel"),("meilleur [produit/service] 2025","1K-5K","Moyen","Commercial"),("comment [résoudre problème]","5K-10K","Facile","Informationnel"),("[secteur] prix tarif","500-1K","Moyen","Transactionnel"),("avis [marque/service]","500-1K","Facile","Commercial")],
 }
 
-@st.cache_data(ttl=3600)
+@st.cache_data(ttl=3600, show_spinner=False)
 def gen_keywords(activity: str) -> list:
     enriched = _KEYWORDS_ENRICHED.get(activity, _KEYWORDS_ENRICHED["default"])
     base = copy.deepcopy(_KEYWORDS.get(activity, _KEYWORDS["default"]))
@@ -2176,12 +2309,12 @@ _CALENDAR_TOPICS = {
     "traffic": ["Guide SEO : [mot-clé cible] expliqué","Les [X] meilleures ressources pour [sujet]","Tutorial : [processus étape par étape]","Infographie : [données secteur] en 2025"],
 }
 
-@st.cache_data(ttl=3600)
+@st.cache_data(ttl=3600, show_spinner=False)
 def gen_platforms(activity: str) -> list:
     enriched = _PLATFORM_ENRICHED.get(activity, _PLATFORM_ENRICHED["default"])
     return copy.deepcopy(enriched)
 
-@st.cache_data(ttl=3600)
+@st.cache_data(ttl=3600, show_spinner=False)
 def gen_budget_alloc(monthly: float) -> list:
     if monthly <= 50:
         cats = [("Création de contenu (outils gratuits)", 60), ("Outils freemium", 30), ("Formation / veille", 10)]
@@ -2193,7 +2326,7 @@ def gen_budget_alloc(monthly: float) -> list:
         cats = [("Publicité payante (SEA/Social Ads)", 50), ("Outils & logiciels (CRM, analytics)", 25), ("Création de contenu", 15), ("SEO & link-building", 10)]
     return [(c, pct, round(monthly * pct / 100, 0)) for c, pct in cats]
 
-@st.cache_data(ttl=3600)
+@st.cache_data(ttl=3600, show_spinner=False)
 def gen_budget_reco(monthly: float) -> list:
     if monthly <= 50:
         return [
@@ -2229,7 +2362,7 @@ def gen_budget_reco(monthly: float) -> list:
             "Considérez 1 freelance content ou growth hacker à mi-temps pour accélérer",
         ]
 
-@st.cache_data(ttl=3600)
+@st.cache_data(ttl=3600, show_spinner=False)
 def gen_calendar(goal: str) -> list:
     topics = _CALENDAR_TOPICS.get(goal, _CALENDAR_TOPICS["awareness"])
     formats = ["Article de blog","Vidéo courte","Email newsletter","Infographie / Carrousel"]
@@ -2296,7 +2429,7 @@ _PERSONA_DATA = {
     ],
 }
 
-@st.cache_data(ttl=3600)
+@st.cache_data(ttl=3600, show_spinner=False)
 def gen_personas(activity: str) -> list:
     key = activity if activity in _PERSONA_DATA else "default"
     base = copy.deepcopy(_PERSONA_DATA[key])
@@ -2418,7 +2551,7 @@ def gen_growth_hacking(activity: str, monthly_budget: float) -> list:
     return tactics.get(key, tactics.get(f"ecommerce_{budget_tier}", tactics["ecommerce_bootstrap"]))
 
 
-@st.cache_data(ttl=3600)
+@st.cache_data(ttl=3600, show_spinner=False)
 def gen_scripts(activity: str) -> list:
     scripts = {
         "ecommerce": [
@@ -2498,7 +2631,7 @@ _OKR_TEMPLATES = {
     ],
 }
 
-@st.cache_data(ttl=3600)
+@st.cache_data(ttl=3600, show_spinner=False)
 def gen_okr(goal: str) -> list:
     return copy.deepcopy(_OKR_TEMPLATES.get(goal, _OKR_TEMPLATES["awareness"]))
 
@@ -2516,7 +2649,7 @@ _ROADMAP = [
     ("J91-J180","Scalabilité","Augmenter les budgets gagnants · Nouveaux canaux · Recruter/déléguer · Préparer la prochaine phase"),
 ]
 
-@st.cache_data(ttl=3600)
+@st.cache_data(ttl=3600, show_spinner=False)
 def gen_synthesis(activity: str, goal: str, maturity: str, monthly: float) -> dict:
     score = {"ecommerce":72,"saas":68,"service":75,"consulting":80,"content":65,"other":60}.get(activity, 65)
     if maturity == "launched": score += 8
@@ -2543,7 +2676,7 @@ def _get_kpis(goal: str, monthly: float) -> list:
     return base + extras.get(goal, [])
 
 # ─── PROPOSITION DE VALEUR (from TGC suite) ──────────────────────────────────
-@st.cache_data(ttl=3600)
+@st.cache_data(ttl=3600, show_spinner=False)
 def gen_proposition_valeur(activity: str, site_name: str = "") -> dict:
     """Proposition de valeur 4 dimensions (Apple/Tesla/L'Oreal framework)."""
     _pv = {
@@ -2632,7 +2765,7 @@ def gen_proposition_valeur(activity: str, site_name: str = "") -> dict:
     return data
 
 
-@st.cache_data(ttl=3600)
+@st.cache_data(ttl=3600, show_spinner=False)
 def gen_rfm_segments(activity: str, monthly_budget: float) -> list:
     """Segmentation RFM 4 segments avec CLV et actions."""
     base_clv = {"ecommerce": 350, "saas": 1200, "service": 2500, "consulting": 5000, "content": 180, "default": 800}
@@ -2689,7 +2822,7 @@ def gen_rfm_segments(activity: str, monthly_budget: float) -> list:
     ]
 
 
-@st.cache_data(ttl=3600)
+@st.cache_data(ttl=3600, show_spinner=False)
 def gen_rse(activity: str) -> dict:
     """Analyse RSE / ISO 26000  --  7 domaines."""
     _rse_base = {
@@ -2766,7 +2899,7 @@ def gen_rse(activity: str) -> dict:
     return copy.deepcopy(_rse_base)
 
 
-@st.cache_data(ttl=3600)
+@st.cache_data(ttl=3600, show_spinner=False)
 def gen_negociation(activity: str, monthly_budget: float) -> dict:
     """Tactiques de négociation BATNA/ZOPA/SONCAS."""
     _batna_map = {
@@ -2818,7 +2951,7 @@ def gen_negociation(activity: str, monthly_budget: float) -> dict:
     }
 
 
-@st.cache_data(ttl=3600)
+@st.cache_data(ttl=3600, show_spinner=False)
 def gen_prix_psychologiques(monthly_budget: float, activity: str) -> list:
     """7 techniques de prix psychologiques avec exemples concrets."""
     ref_price = max(29, round(monthly_budget * 0.15))
@@ -2921,7 +3054,7 @@ def gen_porter_forces(activity: str) -> dict:
     return data
 
 
-@st.cache_data(ttl=3600)
+@st.cache_data(ttl=3600, show_spinner=False)
 def gen_ansoff_matrix(activity: str, goal: str, maturity: str) -> dict:
     """Matrice d'Ansoff  --  4 stratégies de croissance avec recommandation."""
     _score_pen = {"idea": 40, "inprogress": 65, "launched": 80}.get(maturity, 50)
@@ -2960,7 +3093,7 @@ def gen_ansoff_matrix(activity: str, goal: str, maturity: str) -> dict:
     }
 
 
-@st.cache_data(ttl=3600)
+@st.cache_data(ttl=3600, show_spinner=False)
 def gen_customer_journey(activity: str, goal: str) -> list:
     """Customer Journey Map complète  --  7 étapes avec touchpoints et émotions."""
     _STAGES = {
@@ -2987,7 +3120,7 @@ def gen_customer_journey(activity: str, goal: str) -> list:
     return default_stages
 
 
-@st.cache_data(ttl=3600)
+@st.cache_data(ttl=3600, show_spinner=False)
 def gen_content_strategy(activity: str, goal: str, monthly_budget: float) -> dict:
     """Stratégie de contenu complète  --  piliers, formats, calendrier, KPIs."""
     _PILLARS = {
@@ -3026,7 +3159,7 @@ def gen_content_strategy(activity: str, goal: str, monthly_budget: float) -> dic
     }
 
 
-@st.cache_data(ttl=3600)
+@st.cache_data(ttl=3600, show_spinner=False)
 def gen_pricing_strategy(activity: str, monthly_budget: float, maturity: str) -> dict:
     """Stratégie pricing complète  --  modèles, psychologie, positionnement."""
     _MODELS = {
@@ -3060,7 +3193,7 @@ def gen_pricing_strategy(activity: str, monthly_budget: float, maturity: str) ->
     }
 
 
-@st.cache_data(ttl=3600)
+@st.cache_data(ttl=3600, show_spinner=False)
 def gen_email_sequences(activity: str, goal: str) -> dict:
     """Séquences email marketing complètes  --  5 types de sequences."""
     _SEQ = {
@@ -3117,7 +3250,7 @@ def gen_email_sequences(activity: str, goal: str) -> dict:
     return _SEQ
 
 
-@st.cache_data(ttl=3600)
+@st.cache_data(ttl=3600, show_spinner=False)
 def gen_social_media_strategy(activity: str, monthly_budget: float) -> dict:
     """Stratégie réseaux sociaux complète avec tactiques par plateforme."""
     budget_ads = monthly_budget * 0.3
@@ -3145,7 +3278,7 @@ def gen_social_media_strategy(activity: str, monthly_budget: float) -> dict:
     return _PLATFORMS.get(activity, _PLATFORMS[default_key])
 
 
-@st.cache_data(ttl=3600)
+@st.cache_data(ttl=3600, show_spinner=False)
 def gen_competitive_intelligence(activity: str, goal: str) -> dict:
     """Framework intelligence concurrentielle  --  méthodes et KPIs de veille."""
     return {
@@ -3335,7 +3468,7 @@ def fetch_news(query: str, lang: str = "fr", max_items: int = 12) -> list:
     except Exception as e:
         return [{"title": f"Erreur chargement actualités : {e}", "link": "", "pub": "", "source": ""}]
 
-@st.cache_data(ttl=3600)
+@st.cache_data(ttl=3600, show_spinner=False)
 def fetch_ddg(query: str) -> dict:
     """DuckDuckGo Instant Answer API. Gratuit, sans clé. Cache 1h."""
     try:
@@ -3358,7 +3491,7 @@ def fetch_ddg(query: str) -> dict:
     except Exception:
         return {}
 
-@st.cache_data(ttl=3600)
+@st.cache_data(ttl=3600, show_spinner=False)
 def fetch_wiki(topic: str, lang: str = "fr") -> dict:
     """Wikipedia REST API  --  résumé d'un sujet. Cache 1h."""
     try:
@@ -3437,7 +3570,7 @@ def _estimate_reach(budget: float, platform: str) -> str:
     def fmt(n): return f"{n:,}".replace(",", " ")
     return f"{fmt(low)} – {fmt(high)} {unit}"
 
-@st.cache_data(ttl=3600)
+@st.cache_data(ttl=3600, show_spinner=False)
 def gen_ads(activity: str, goal: str, monthly_budget: float) -> dict:
     fb_budget = round(monthly_budget * 0.40)
     gads_budget = round(monthly_budget * 0.35)
@@ -3501,7 +3634,7 @@ def gen_ads(activity: str, goal: str, monthly_budget: float) -> dict:
     return {"mediaplan": mediaplan, "facebook": fb_campaigns, "google": google_campaigns, "organic": organic}
 
 # ─── ROI PROJECTION 12 MOIS ──────────────────────────────────────────────────
-@st.cache_data(ttl=3600)
+@st.cache_data(ttl=3600, show_spinner=False)
 def gen_roi_projection(activity: str, goal: str, maturity: str, monthly_budget: float) -> list:
     avg_sale = {"ecommerce":45,"saas":49,"service":200,"consulting":250,"content":60,"other":80}.get(activity,80)
     paid = monthly_budget * 0.40
@@ -3522,7 +3655,7 @@ def gen_roi_projection(activity: str, goal: str, maturity: str, monthly_budget: 
     return data
 
 # ─── PAGESPEED MOCK ───────────────────────────────────────────────────────────
-@st.cache_data(ttl=1800)
+@st.cache_data(ttl=1800, show_spinner=False)
 def get_pagespeed(url: str) -> dict:
     """
     Analyse de performance sans API key  --  100% gratuit.
@@ -4130,10 +4263,13 @@ if not st.session_state.get("_run", False):
   </div>
   <h1 style="font-size:clamp(1.8rem,4vw,2.8rem);font-weight:900;line-height:1.15;
     color:#0B2221;margin:0 0 16px;letter-spacing:-.03em">
-    Ton plan commercial complet en
+    Business plan &amp; stratégie commerciale complète en
     <span class="shimmer-txt">10 minutes</span>
-    &mdash; sans cabinet à 5&nbsp;000€
+    — gratuit, sans cabinet à 5&nbsp;000€
   </h1>
+  <p style="font-size:.8rem;color:#339999;margin:0 0 8px;font-weight:500">
+    Alternative gratuite à LivePlan, BPI France, Enloop · 14 modules · SWOT · Personas · SEO · KPIs · Roadmap
+  </p>
   <p class="lp-sub" style="font-size:1.05rem;color:#339999;max-width:600px;
     margin:0 auto 24px;line-height:1.65;font-weight:500">
     BiziApp analyse ton activité et génère instantanément ton diagnostic SWOT,
@@ -4684,6 +4820,8 @@ tabs = st.tabs([
     "Nouveau Projet",
     "Ressources",
 ])
+# Note: onglets dans l'ordre logique du parcours strategique
+# Diagnostic > Personas > Copy > Vente > Marketing > Campagnes > SEO > KPIs > Synthese > Veille > RSE > Strategie+ > Email > Social > Tarifs > Projet > Ressources
 
 # ══════════════════════════════════════════════════════════════════════════════
 # TAB 1  --  DIAGNOSTIC
