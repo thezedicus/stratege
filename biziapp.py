@@ -3601,6 +3601,220 @@ _CHALLENGER = {
     ],
 }
 
+# ════════════════════════════════════════════════════════════════════════════════
+# NOUVELLES FONCTIONS — Doublement puissance analytique
+# ════════════════════════════════════════════════════════════════════════════════
+
+@st.cache_data(ttl=3600, show_spinner=False)
+def gen_ikigai(activity: str, goal: str) -> dict:
+    """Ikigai professionnel — raison d'etre et positionnement unique."""
+    _M = {
+        "ecommerce": {
+            "passion":["Creer des experiences d'achat memorables","Selectionner des produits qui changent des vies","Construire une marque authentique"],
+            "mission":["Democratiser l'acces a des produits de qualite","Reduire l'empreinte carbone via la conso locale","Creer de l'emploi local"],
+            "vocation":["Maitriser la logistique","Optimiser la conversion","Gerer la rentabilite"],
+            "profession":["E-commerce Manager","Growth Marketer","Product Owner"],
+        },
+        "saas": {
+            "passion":["Resoudre des problemes avec elegance","Voir ses clients reussir","Innover en permanence"],
+            "mission":["Democratiser les outils des grandes entreprises","Automatiser pour liberer le potentiel humain"],
+            "vocation":["Developpement produit","Customer Success","Growth Hacking"],
+            "profession":["SaaS Founder","Product Manager","Developpeur Full-stack"],
+        },
+        "consulting": {
+            "passion":["Transformer les organisations","Transmettre une expertise rare","Resoudre des defis complexes"],
+            "mission":["Accelerer la reussite des entreprises","Partager un savoir-faire unique"],
+            "vocation":["Analyse strategique","Facilitation","Communication d'influence"],
+            "profession":["Consultant senior","Coach executif","Formateur expert"],
+        },
+        "service": {
+            "passion":["Creer des relations durables","Delivrer une qualite superieure","Developper une reputation solide"],
+            "mission":["Simplifier la vie des clients","Apporter une valeur mesurable"],
+            "vocation":["Gestion de projets","Relation client","Operations"],
+            "profession":["Prestataire expert","Chef de projet","Manager de compte"],
+        },
+        "content": {
+            "passion":["Creer du contenu qui touche","Developper une audience fidele","Innover dans les formats"],
+            "mission":["Informer et divertir","Creer une communaute engagee"],
+            "vocation":["Production de contenu","Distribution multiplateforme","Monetisation"],
+            "profession":["Createur de contenu","Youtuber","Journaliste digital"],
+        },
+        "other": {
+            "passion":["Resoudre des problemes importants","Creer de la valeur durable"],
+            "mission":["Contribuer positivement a son secteur"],
+            "vocation":["Gestion","Innovation","Relation client"],
+            "profession":["Entrepreneur","Dirigeant","Fondateur"],
+        },
+    }
+    d = _M.get(activity, _M["other"])
+    return {**d,
+            "intersection": f"Expert {LABELS.get(activity,activity)} qui aide les entreprises via {LABELS.get(goal,goal)} avec une approche unique",
+            "raison_etre": f"Creer de la valeur durable dans le secteur {LABELS.get(activity,activity)}"}
+
+
+@st.cache_data(ttl=3600, show_spinner=False)
+def gen_blue_ocean(activity: str, goal: str) -> dict:
+    """Strategie Ocean Bleu — Canevas 4 actions."""
+    _A = {
+        "ecommerce": {
+            "eliminer":["Frais de port systematiques","Retour complique","Manque de personnalisation"],
+            "reduire":["Delai livraison (viser J+1)","Etapes checkout (viser 2 max)","Clics avant achat"],
+            "augmenter":["Transparence tracabilite produit","Richesse contenu (video 360, avis verifies)","Service client proactif"],
+            "creer":["Communaute ambassadeurs","Personnalisation produit","Abonnement curated surprise"],
+        },
+        "saas": {
+            "eliminer":["Onboarding > 30 min","Contrats annuels obligs","Limitations free tier artificielles"],
+            "reduire":["Time-to-value (viser < 5 min)","Friction integration","Support tickets (self-service IA)"],
+            "augmenter":["Transparence pricing","Densite valeur par feature","Documentation gratuite complete"],
+            "creer":["Marketplace integrations tierces","Certification utilisateur gratuite","Community-led growth"],
+        },
+        "service": {
+            "eliminer":["Devis opaques","Engagements longs sans garantie","Communication uniquement reactive"],
+            "reduire":["Delai demande-livraison","Complexite administrative","Dependance prestataire"],
+            "augmenter":["Transparence processus","Formation client incluse","Preuves resultats chiffres"],
+            "creer":["Garantie resultats mesurables","Portail client suivi temps reel","Reseau partenaires complementaires"],
+        },
+        "consulting": {
+            "eliminer":["Jargon inutile","Livrables de 200 pages","Facturation heure opaque"],
+            "reduire":["Duree missions","Nombre interlocuteurs","Reunions sans valeur"],
+            "augmenter":["Impact mesurable chiffre","Co-construction client","Transfert de competences"],
+            "creer":["Retainer mensuel KPIs garantis","Communaute clients alumni","Toolbox proprietaire"],
+        },
+        "content": {
+            "eliminer":["Contenu generique","Formats depassés","Publication irreguliere"],
+            "reduire":["Temps production par piece","Dependance une plateforme","Cout distribution"],
+            "augmenter":["Qualite et profondeur","Formats interactifs","Distribution multi-canal"],
+            "creer":["Abonnement premium","Formations derivees","Communaute payante"],
+        },
+        "other": {
+            "eliminer":["Friction inutile","Complexite superflue"],
+            "reduire":["Temps de reponse","Couts operationnels"],
+            "augmenter":["Valeur client","Qualite livraison"],
+            "creer":["Offre unique","Positionnement distinct"],
+        },
+    }
+    d = _A.get(activity, _A["other"])
+    return {**d, "espace_non_conteste": f"Combinaison unique {LABELS.get(goal,goal)} + experience superieure dans {LABELS.get(activity,activity)}"}
+
+
+@st.cache_data(ttl=3600, show_spinner=False)
+def gen_lean_canvas(activity: str, goal: str, maturity: str) -> dict:
+    """Lean Canvas — 9 blocs validation business model."""
+    _PROB = {
+        "ecommerce":["Livraisons lentes et couteuses","Manque de confiance produit","Experience client mediocre"],
+        "saas":["Solutions trop complexes ou cheres","Time-to-value trop long","Integrations difficiles"],
+        "service":["Manque de transparence prestataires","Difficulte mesurer la valeur","Relation ponctuelle sans suivi"],
+        "consulting":["Factures opaques","Recommendations sans ROI mesurable","Dependance au consultant"],
+        "content":["Saturation et bruit informationnel","Monetisation difficile","Fidelisation audience complexe"],
+        "other":["Manque de methode","Budget conseil limite","Manque de temps"],
+    }
+    _SOL = {
+        "ecommerce":["Livraison J+1 garantie","Avis verifies + video produit","SAV proactif par SMS"],
+        "saas":["Onboarding < 5 min","API plug-and-play","Tableau de bord ROI integre"],
+        "service":["Portail client avec KPIs en direct","Rapport mensuel automatique","Garantie resultat ou remboursement"],
+        "consulting":["Prix fixe par livrable","Tableau ROI co-construit","Transfert de competences inclus"],
+        "content":["Niche verticale ultra-ciblee","Formats exclusifs non copiables","Abonnement premium communaute"],
+        "other":["Solution simple et rapide","Cout abordable","Support inclus"],
+    }
+    return {
+        "probleme": {"bloc":"Probleme","contenu":_PROB.get(activity,_PROB["other"]),"alternatives":"Cabinets conseils (5-10K€), Excel, intuition"},
+        "solution": {"bloc":"Solution","contenu":_SOL.get(activity,_SOL["other"])},
+        "proposition_valeur": f"Plan strategique {LABELS.get(activity,activity)} en 10 min — valeur cabinet 5 000€",
+        "avantage_competitif": "Donnees sectorielles live + personnalisation + prix accessible",
+        "segments": {"early_adopters":"Dirigeants TPE/PME tech-friendly, freelances ambitieux","marche_total":f"1.2M dirigeants France — {LABELS.get(activity,activity)}"},
+        "canaux": ["SEO / Content marketing","LinkedIn organique","Bouche-a-oreille","Product-led growth"],
+        "revenus": "Starter 39€/mois, Pro 89€/mois — recurrent · Cible +15%/mois",
+        "couts": "Infrastructure cloud ~50€/mois + APIs gratuites + temps fondateur",
+        "metriques": ["MRR","Churn < 5%/mois","LTV/CAC > 3x","NPS > 50","Time-to-value < 10 min"],
+    }
+
+
+@st.cache_data(ttl=3600, show_spinner=False)
+def gen_scenario_planning(activity: str, goal: str) -> list:
+    """Planification 3 scenarios — 18 mois."""
+    return [
+        {"nom":"Scenario Optimiste (+35% CA)","probabilite":"30%","horizon":"18 mois","couleur":"#267371",
+         "conditions":["Traction rapide canaux digitaux","Bouche-a-oreille fort","Conjoncture favorable"],
+         "actions":["Recruter 1 commercial","Budget Ads x3","Partenariats strategiques"],
+         "kpis":{"ca_growth":"+35%","clients_nets":"+150","nps":">70"}},
+        {"nom":"Scenario Base (+12% CA)","probabilite":"50%","horizon":"18 mois","couleur":"#44C1BA",
+         "conditions":["Croissance organique stable","Retention > 75%","Marche sans disruption"],
+         "actions":["Optimiser funnel existant","Maintenir budget Ads","Ameliorer retention"],
+         "kpis":{"ca_growth":"+12%","clients_nets":"+50","nps":">50"}},
+        {"nom":"Scenario Prudent (-5% CA)","probabilite":"20%","horizon":"18 mois","couleur":"#B83D4B",
+         "conditions":["Crise economique","Concurrent majeur entrant","Perte clients cles"],
+         "actions":["Reduire couts fixes","Pivoter segment resilient","Reactiver clients dormants"],
+         "kpis":{"ca_growth":"-5%","clients_nets":"-10","nps":">40"}},
+    ]
+
+
+@st.cache_data(ttl=3600, show_spinner=False)
+def gen_data_analytics(activity: str, goal: str, monthly_budget: float) -> dict:
+    """Dashboard analytics — metriques, objectifs, alertes."""
+    _B = {
+        "ecommerce":{"taux_conversion":2.1,"panier_moyen":85,"cac":18,"ltv":280,"churn":8.5,"nps":42},
+        "saas":{"taux_conversion":4.2,"arpu":89,"cac":320,"ltv":1780,"churn":5.2,"nps":54},
+        "service":{"taux_closing":28,"ticket_moyen":1200,"cac":250,"ltv":3600,"churn":3.1,"nps":61},
+        "consulting":{"taux_closing":35,"tjm":900,"cac":400,"ltv":7200,"churn":2.0,"nps":68},
+        "content":{"taux_conversion":1.8,"arpu":29,"cac":45,"ltv":290,"churn":12.0,"nps":38},
+        "other":{"taux_conversion":3.0,"ticket_moyen":500,"cac":200,"ltv":1500,"churn":5.0,"nps":50},
+    }
+    bench = _B.get(activity, _B["other"])
+    bf = min(2.5, max(0.5, monthly_budget / 200))
+    return {
+        "benchmarks": bench,
+        "objectifs_90j": {
+            "leads_mensuel": int(max(10, monthly_budget / 15)),
+            "clients_nouveaux": int(max(2, monthly_budget / 80)),
+            "ca_additionnel": f"{int(monthly_budget * bf * 3):,} €",
+            "roi_cible": f"{int(bf * 2.8 * 100)} %",
+        },
+        "alertes": [
+            f"Surveiller le churn — objectif < {bench.get('churn',5):.1f}%/mois",
+            f"CAC cible < {bench.get('cac',300):.0f} € — comparer au LTV {bench.get('ltv',1000):.0f} €",
+            f"NPS sectoriel moyen {bench.get('nps',50)} — viser +10 points",
+        ],
+        "kpis_dashboard": [
+            {"kpi":"MRR","calcul":f"Clients × {bench.get('arpu', bench.get('ticket_moyen',500))} €/mois"},
+            {"kpi":"LTV/CAC","calcul":f"{bench.get('ltv',1000):.0f} / {bench.get('cac',300):.0f} = {bench.get('ltv',1000)/max(1,bench.get('cac',300)):.1f}x"},
+            {"kpi":"Churn rate","calcul":"Clients perdus / Clients debut mois"},
+            {"kpi":"NPS","calcul":"% Promoteurs - % Detracteurs"},
+        ],
+    }
+
+
+@st.cache_data(ttl=3600, show_spinner=False)
+def gen_action_plan_180j(activity: str, goal: str, maturity: str, monthly_budget: float) -> list:
+    """Plan d'action 180 jours — 6 sprints de 30 jours."""
+    base = [
+        {"sprint":1,"theme":"Fondations","objectif":"Clarifier positionnement et valider la cible",
+         "actions":["Definir les 3 personas prioritaires","Formaliser la proposition de valeur unique","Choisir 1 canal acquisition principal","Creer le contenu fondamental (landing, social)"],
+         "kpi":"3 personas valides · Landing page live"},
+        {"sprint":2,"theme":"Acquisition","objectif":f"Generer les premiers leads qualifies en {LABELS.get(activity,activity)}",
+         "actions":["Lancer 2 canaux acquisition (organique + paid)","Publier 8 contenus experts","Tester 3 accroches differentes","Mettre en place le tracking analytique"],
+         "kpi":"50 leads · CAC < budget/10"},
+        {"sprint":3,"theme":"Conversion","objectif":"Transformer les leads en clients payants",
+         "actions":["Optimiser le funnel de conversion","Deployer les sequences email","Activer le social proof (avis, temoignages)","Simplifier le parcours d'achat/signature"],
+         "kpi":f"10 clients · Taux conversion > 15%"},
+        {"sprint":4,"theme":"Retention","objectif":"Fidéliser et maximiser la valeur client",
+         "actions":["Lancer l'onboarding structure","Mesurer et ameliorer le NPS","Creer un programme de fidelite","Automatiser le suivi post-achat"],
+         "kpi":"Churn < 8% · NPS > 40"},
+        {"sprint":5,"theme":"Expansion","objectif":"Accélérer la croissance via upsell et referral",
+         "actions":["Identifier le top 20% clients haute valeur","Creer une offre premium","Lancer le programme de parrainage","Developper 3 partenariats complementaires"],
+         "kpi":"ARPU +20% · 10 referrals actifs"},
+        {"sprint":6,"theme":"Scale","objectif":"Systemiser et preparer la prochaine phase",
+         "actions":["Automatiser les processus repetitifs","Documenter les processus cles","Recruter ou externaliser 1 poste cle","Definir la roadmap S2"],
+         "kpi":f"CA mensuel > {int(monthly_budget * 4):,} € · Process documentes"},
+    ]
+    # Ajuster selon maturite
+    if maturity == "launched":
+        base[0]["theme"] = "Audit & Quick Wins"
+        base[0]["objectif"] = "Identifier les 3 leviers de croissance immediate"
+        base[0]["actions"] = ["Audit metriques actuelles","Corriger les fuites du funnel","Reactiver clients dormants","Optimiser top 3 pages"]
+    return base
+
+
+
 # ─── SCRIPTS VENTE AVANCÉS ───────────────────────────────────────────────────
 _CLOSING_TECHNIQUES = [
     {"name":"Alternative","desc":"Proposez deux options favorables — évitez le oui/non binaire.","ex":"Vous préférez commencer lundi ou mercredi ?"},
