@@ -6594,10 +6594,10 @@ with tabs[14]:
 
     # ── Plan 180 jours ────────────────────────────────────────────────────────
     with _strat_tabs[8]:
-        st.markdown('<div class="section-h">Plan d'action 180 jours  --  6 sprints</div>', unsafe_allow_html=True)
+        st.markdown('<div class="section-h">Plan d&apos;action 180 jours</div>', unsafe_allow_html=True)
         for sprint in (plan_180j or []):
             _color = ["#44C1BA","#267371","#393DAC","#0B2221","#B83D4B","#339999"][sprint.get("sprint",1)-1]
-            with st.expander(f"Sprint {sprint.get('sprint','?')}  --  {sprint.get('theme','')}", expanded=(sprint.get("sprint")==1)):
+            with st.expander(f"Sprint {sprint.get('sprint','?')} - {sprint.get('theme','')}", expanded=(sprint.get("sprint")==1)):
                 st.markdown(f"**Objectif** : {sprint.get('objectif','')}")
                 pc1, pc2 = st.columns(2)
                 with pc1:
