@@ -3571,6 +3571,32 @@ def get_pagespeed(url: str) -> dict:
         "source": "heuristic",
     }
 
+
+# ── Challenger Sale data (niveau module) ──────────────────────────────────────
+_CHALLENGER = {
+    "teach": [
+        "87% des TPE echouent faute de strategie ecrite — pas de capital. Avez-vous la votre ?",
+        "Vos concurrents utilisent deja [tendance] — voici ce que vous ratez.",
+        "Dans 18 mois, AI Overviews representera 40% des recherches Google. Votre SEO est-il pret ?",
+        "Le probleme n'est pas le manque de leads — c'est le manque de methode de closing.",
+        "Benchmark : vos concurrents convertissent a 4.2%. Vous etes ou ?",
+    ],
+    "tailor": [
+        "DG : 'Ca impacte votre CA comment ?' — DAF : 'Quel est le ROI sur 12 mois ?' — DSI : 'Combien de jours d integration ?'",
+        "Utilisez leur vocabulaire metier, pas le votre — montrez que vous comprenez leur monde.",
+        "Ref. pairs respectes : 'Chez [concurrent A], ils ont resolu ca en 3 mois avec cette approche...'",
+        "Connectez a leur actualite : levee de fonds, expansion, recrutement = urgence accrue.",
+        "Q4 est critique pour votre secteur — agir maintenant est 3x plus efficace qu en janvier.",
+    ],
+    "take_control": [
+        "Cadrez la conversation — posez les questions, ne repondez pas a tout.",
+        "Prix : 'Ce n est pas une question de budget, c est une question de priorite.'",
+        "Deviation : 'Permettez-moi de recentrer — l enjeu principal que vous m avez decrit est X.'",
+        "Prochaine etape concrete : 'Je vous envoie la proposition vendredi, on en parle lundi 10h ?'",
+        "Assumez la decision : 'Sur la base de tout ce qu on a vu, vous devriez demarrer maintenant.'",
+    ],
+}
+
 # ─── SCRIPTS VENTE AVANCÉS ───────────────────────────────────────────────────
 _CLOSING_TECHNIQUES = [
     {"name":"Alternative","desc":"Proposez deux options favorables — évitez le oui/non binaire.","ex":"Vous préférez commencer lundi ou mercredi ?"},
@@ -4792,31 +4818,6 @@ with tabs[3]:
     # Challenger
     st.markdown('<div class="section-h">Challenger Sale — Vendre par la conviction</div>', unsafe_allow_html=True)
     st.caption("La méthode Challenger s'appuie sur 3 piliers : Enseigner · Adapter · Prendre le contrôle")
-# ── Challenger Sale data ──────────────────────────────────────────────────────
-_CHALLENGER = {
-    "teach": [
-        "Partagez une donnée contre-intuitive : 87% des TPE échouent faute de stratégie écrite, pas de capital.",
-        "Montrez-leur ce que leurs concurrents font et qu'ils ignorent — avec des chiffres.",
-        "Éduquez sur une tendance à 18 mois qui transformera leur marché (ex: AI Overviews = -30% trafic SEO).",
-        "Prouvez que leur problème principal n'est pas celui qu'ils croient (ex: pas de lead = pas de closing ≠ pas assez de contenu).",
-        "Partagez un benchmark sectoriel surprenant : 'Vos concurrents convertissent à 4.2%, vous êtes à combien ?'",
-    ],
-    "tailor": [
-        "Adaptez chaque argument aux KPIs du décideur : CA pour le DG, coût pour le DAF, risque pour le DRH.",
-        "Utilisez le vocabulaire de leur secteur — pas le vôtre.",
-        "Référencez des pairs qu'ils respectent : 'Chez [concurrent connu], ils ont résolu ça ainsi...'",
-        "Connectez l'enjeu à leur actualité récente (levée de fonds, expansion, recrutement).",
-        "Personnalisez l'urgence : 'Dans votre secteur, Q4 est critique — agir en septembre est 3x plus efficace qu'en janvier.'",
-    ],
-    "take_control": [
-        "Cadrez vous-même la conversation — posez les questions avant de répondre.",
-        "Ne cédez pas sur le prix sans obtenir quelque chose en échange (périmètre, délai, référence).",
-        "Si le client dérive : 'Permettez-moi de recentrer — l'enjeu principal que vous m'avez décrit est X...'",
-        "Proposez toujours une prochaine étape concrète avec une date : 'Je vous envoie la proposition vendredi, on en parle lundi 10h ?'",
-        "Assumez la décision : 'Sur la base de tout ce qu'on a vu, je pense que vous devriez démarrer maintenant.'",
-    ],
-}
-
     chal_tabs = st.tabs(["Enseigner (Teach)","Adapter (Tailor)","Prendre le contrôle"])
     chal_keys = ["teach","tailor","take_control"]
     for ctab, ckey in zip(chal_tabs, chal_keys):
