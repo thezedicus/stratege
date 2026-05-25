@@ -140,6 +140,11 @@ except ImportError:
     def _extract_kw_advanced(t, top_n=20): return []
     def _personalize_swot(s, sd, sec): return s
     def _wikidata_sector(lbl): return {}
+    def _fetch_business_news(s, n=10): return []
+    def _get_sector_finance(s): return {}
+    def _get_funding_news(): return []
+    def _check_site_seo(url): return {}
+    def _fetch_competitor_data(d): return {}
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Optional imports
