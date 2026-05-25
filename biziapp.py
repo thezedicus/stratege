@@ -6972,9 +6972,9 @@ with tabs[14]:
                     st.markdown(f"**{r['mois']}** -- CA: {r['ca']:,} EUR -- EBITDA: {r['ebitda']:,} EUR")
 
 
-                for r in rows:
 
-"
+
+
 
         else:
             st.info("Lancez une analyse pour voir la projection financiere.")
