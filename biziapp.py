@@ -26,7 +26,7 @@ st.set_page_config(
         "Get Help": None,
         "Report a bug": None,
         "About": (
-            "## BiziApp v3.2\n"
+            "## BiziApp v5.0\n"
             "Votre expert virtuel en stratégie commerciale.\n\n"
             "Générez votre plan 360° en 10 minutes : SWOT · Personas · SEO · Marketing · KPIs\n\n"
             "**100% gratuit · Sans inscription · Données sécurisées**"
@@ -6642,7 +6642,7 @@ with tabs[14]:
 st.divider()
 st.markdown("""
 <div style="text-align:center;color:#339999;font-size:.78rem;padding:12px 0">
-  <b style="color:#0B2221">BiziApp v4.0</b> — Stratégie 360° · SWOT · QQOQCCP · PESTEL · SONCAS · AIDA · SPIN · Challenger · GEO 2025 · SEA IA · KPIs · OKR · Veille Live · RSE · RFM · BATNA · Prix psychologiques<br>
+  <b style="color:#0B2221">BiziApp v5.0</b> — Stratégie 360° · SWOT · QQOQCCP · PESTEL · SONCAS · AIDA · SPIN · Challenger · GEO 2025 · SEA IA · KPIs · OKR · Veille Live · RSE · RFM · BATNA · Prix psychologiques<br>
   <span style="color:#44C1BA">Analyse personnalisée · Données live · Cache intelligent · Lecture URL en direct · Veille concurrentielle · Actualités Google News · Wikipedia · DuckDuckGo</span><br>
   Données live : Google News · Bing News · Reddit · HN · DEV.to · Recherche-Entreprises · OSM · Wikidata · Wikipedia · AllOrigins · corsproxy.io · Analyse heuristique · Inputs validés &amp; sécurisés (XSS, SSRF, rate-limiting)
 </div>
