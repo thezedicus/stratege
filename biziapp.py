@@ -35,10 +35,6 @@ st.set_page_config(
 )
 
 
-# ── SEO meta injection (schema.org + meta tags + performance) ─────────────────
-if _HAS_SEO_COMPETITIVE:
-    st.markdown(_inject_seo_html(), unsafe_allow_html=True)
-
 # ─────────────────────────────────────────────────────────────────────────────
 # api_layer  --  Couche APIs gratuites (veille, URL, INSEE, OSM, HN, Reddit...)
 # ─────────────────────────────────────────────────────────────────────────────
