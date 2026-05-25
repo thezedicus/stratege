@@ -652,3 +652,117 @@ def personalize_swot(swot: dict, site_data: dict, sector: dict) -> dict:
         personalized.setdefault("_sector_opportunity", f"Croissance sectorielle {growth} en 2024")
 
     return personalized
+
+# ─── Nouvelles APIs concurrents (ajout fin api_layer.py) ───────────────────
+
+def fetch_business_news_rss(sector="entreprise", n=10):
+    feeds = [
+        "https://www.lesechos.fr/rss/rss_une.xml",
+        "https://bfmbusiness.bfmtv.com/rss/info/flux-rss/flux-toutes-les-actualites/",
+    ]
+    items = []
+    for feed_url in feeds[:2]:
+        txt = _safe_get(feed_url, timeout=5)
+        if not txt:
+            continue
+        try:
+            root = _ET.fromstring(txt)
+            for item in root.findall(".//item")[:(n//2+1)]:
+                t = (item.findtext("title") or "").strip()
+                l = (item.findtext("link") or "").strip()
+                d = (item.findtext("pubDate") or "")[:16]
+                if t and l:
+                    items.append({"title": t, "link": l, "date": d, "source": feed_url.split("/")[2]})
+        except Exception:
+            pass
+    return items[:n]
+
+
+def get_open_data_sector(sector="other"):
+    D = {
+        "ecommerce": {"marge_brute_moy":"42%","charges_fixes_moy":"28%","bfr_jours":45,"taux_croissance_secteur":"+12.4%","ratios":{"ROE":"18%","ROA":"9%","LTV_CAC":"2.8x"},"source":"INSEE 2024"},
+        "saas": {"marge_brute_moy":"71%","charges_fixes_moy":"55%","bfr_jours":-15,"taux_croissance_secteur":"+18.7%","ratios":{"ARR_growth":"+35%","LTV_CAC":"3.2x","NRR":"108%"},"source":"SaaS France 2024"},
+        "service": {"marge_brute_moy":"58%","charges_fixes_moy":"35%","bfr_jours":55,"taux_croissance_secteur":"+4.2%","ratios":{"ROE":"22%","ROA":"14%","closing":"28%"},"source":"INSEE 2024"},
+        "consulting": {"marge_brute_moy":"65%","charges_fixes_moy":"40%","bfr_jours":60,"taux_croissance_secteur":"+6.8%","ratios":{"ROE":"31%","taux_occupation":"68%","TJM":"900 EUR"},"source":"SYNTEC 2024"},
+        "content": {"marge_brute_moy":"78%","charges_fixes_moy":"25%","bfr_jours":10,"taux_croissance_secteur":"+22.1%","ratios":{"CPM":"4.2 EUR","engagement":"3.8%","RPM_YT":"1.8 EUR"},"source":"Mediametrie 2024"},
+        "other": {"marge_brute_moy":"45%","charges_fixes_moy":"30%","bfr_jours":45,"taux_croissance_secteur":"+3.1%","ratios":{"ROE":"15%","ROA":"8%"},"source":"INSEE 2024"},
+    }
+    return D.get(sector, D["other"])
+
+
+def get_funding_news_fr():
+    txt = _safe_get("https://www.maddyness.com/feed/", timeout=5)
+    items = []
+    if txt:
+        try:
+            root = _ET.fromstring(txt)
+            for item in root.findall(".//item")[:8]:
+                t = item.findtext("title","")
+                l = item.findtext("link","")
+                d = item.findtext("pubDate","")[:16]
+                tl = t.lower()
+                if t and ("lev" in tl or "million" in tl or "leve" in tl or "startup" in tl):
+                    items.append({"title": t, "link": l, "date": d})
+        except Exception:
+            pass
+    return items[:4]
+
+
+def check_site_seo(url):
+    data = read_url(url) if url else {}
+    if not data or data.get("error"):
+        return {"error": "URL inaccessible", "score": 0}
+    score = 0
+    issues = []
+    tips = []
+    title = data.get("title","")
+    desc = data.get("description","")
+    h1s = data.get("h1",[])
+    wc = data.get("word_count",0)
+    if 50 <= len(title) <= 70:
+        score += 20
+    elif title:
+        score += 10
+        issues.append(f"Title {len(title)} chars (ideal 50-70)")
+    else:
+        issues.append("Title manquant")
+    if 120 <= len(desc) <= 160:
+        score += 20
+    elif desc:
+        score += 10
+        issues.append(f"Meta desc {len(desc)} chars")
+    else:
+        issues.append("Meta description absente")
+    if len(h1s) == 1:
+        score += 20
+        tips.append(f"H1 ok : {h1s[0][:40]}")
+    elif len(h1s) > 1:
+        score += 10
+        issues.append(f"{len(h1s)} H1 (viser 1)")
+    else:
+        issues.append("H1 manquant")
+    if data.get("has_ssl"):
+        score += 15
+    else:
+        issues.append("Pas de HTTPS")
+    if wc >= 500:
+        score += 15
+    elif wc >= 200:
+        score += 8
+        issues.append(f"Contenu court ({wc} mots)")
+    if data.get("links_count",0) >= 5:
+        score += 10
+    label = "Excellent" if score>=80 else "Bon" if score>=60 else "A ameliorer" if score>=40 else "Critique"
+    return {"score":score,"label":label,"url":url,"title_length":len(title),"desc_length":len(desc),"h1_count":len(h1s),"word_count":wc,"links_count":data.get("links_count",0),"has_ssl":data.get("has_ssl",False),"issues":issues,"tips":tips,"keywords_detected":data.get("keywords",[])[:10]}
+
+
+def fetch_competitor_data(competitor_domain):
+    if not competitor_domain:
+        return {}
+    url = competitor_domain if competitor_domain.startswith("http") else f"https://{competitor_domain}"
+    data = read_url(url)
+    if data.get("error"):
+        return {"domain": competitor_domain, "accessible": False}
+    data["domain"] = competitor_domain
+    data["accessible"] = True
+    return data
