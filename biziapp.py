@@ -6968,14 +6968,14 @@ with tabs[14]:
             fpc4.metric("Break-even", fp.get("breakeven","N/A"))
             rows = fp.get("rows",[])
             if rows:
-                import json as _jfp
-                _tbl = "| Mois | CA EUR | Marge brute | EBITDA |
-|---|---|---|---|
-"
                 for r in rows:
-                    _tbl += f"| {r['mois']} | {r['ca']:,} | {r['marge_brute']:,} | {r['ebitda']:,} |
+                    st.markdown(f"**{r['mois']}** -- CA: {r['ca']:,} EUR -- EBITDA: {r['ebitda']:,} EUR")
+
+
+                for r in rows:
+
 "
-                st.markdown(_tbl)
+
         else:
             st.info("Lancez une analyse pour voir la projection financiere.")
 
