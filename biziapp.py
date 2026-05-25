@@ -1,5 +1,5 @@
 """
-biziapp.py — Dashboard stratégique 360° complet
+biziapp.py  --  Dashboard stratégique 360° complet
 Streamlit · Python 3.9+
 Intègre : SWOT · QQOQCCP · PESTEL · Micro-Env · Concurrence · SONCAS
            Personas · Copywriting AIDA · Déclencheurs psychologiques
@@ -18,7 +18,7 @@ import math
 import time
 
 st.set_page_config(
-    page_title="BiziApp — Plan Stratégique Complet en 10 Minutes | Expert Commercial IA",
+    page_title="BiziApp  --  Plan Stratégique Complet en 10 Minutes | Expert Commercial IA",
     page_icon="",
     layout="wide",
     initial_sidebar_state="expanded",
@@ -36,7 +36,7 @@ st.set_page_config(
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# api_layer — Couche APIs gratuites (veille, URL, INSEE, OSM, HN, Reddit...)
+# api_layer  --  Couche APIs gratuites (veille, URL, INSEE, OSM, HN, Reddit...)
 # ─────────────────────────────────────────────────────────────────────────────
 # ── Modules complémentaires ──────────────────────────────────────────────────
 try:
@@ -113,7 +113,7 @@ try:
     _HAS_API_LAYER = True
 except ImportError:
     _HAS_API_LAYER = False
-    # ── Stubs no-op — évite tout NameError si api_layer absent ───────────────
+    # ── Stubs no-op  --  évite tout NameError si api_layer absent ───────────────
     def _read_url_live(url, **kw): return {}
     def _fetch_news_full(q, lang="fr", max_items=12): return []
     def _fetch_hn(q, max_items=6): return []
@@ -163,7 +163,7 @@ st.markdown("""
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
   "name": "BiziApp",
-  "description": "Expert virtuel en stratégie commerciale — plan complet en 10 minutes",
+  "description": "Expert virtuel en stratégie commerciale  --  plan complet en 10 minutes",
   "url": "https://thezedicus-stratege-biziapp.streamlit.app",
   "applicationCategory": "BusinessApplication",
   "operatingSystem": "Web",
@@ -191,7 +191,7 @@ st.markdown("""
 /* Force toutes les utilisations de la couleur primaire orange → teal */
 * { --primary: #44C1BA !important; }
 
-/* Inter font loaded via system font stack — no external request */
+/* Inter font loaded via system font stack  --  no external request */
 :root{--graphite:#0B2221;--graphite2:#267371;--teal:#44C1BA;--teal-pale:#C6ECD9;--jade:#267371;--jade-pale:#C6ECD9;--ivoire:#F7FBF4;--craie:#F2ECD9;--encre:#0B2221;--muted:#339999;--border:#C6ECD9;}
 *,*::before,*::after{box-sizing:border-box}
 html,body,[class*="css"]{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;color:var(--encre)}
@@ -333,7 +333,7 @@ html,body,[class*="css"]{font-family:'Inter',system-ui,-apple-system,BlinkMacSys
 .progress-fill{-webkit-transition:width .5s ease}
 
 /* ═══════════════════════════════════════════════════════════════════
-   OVERRIDE COMPLET COMPOSANTS STREAMLIT — Palette teal/jade
+   OVERRIDE COMPLET COMPOSANTS STREAMLIT  --  Palette teal/jade
    Cible tous les composants natifs qui utilisent primaryColor
    ═══════════════════════════════════════════════════════════════════ */
 
@@ -474,12 +474,12 @@ hr{border-color:#C6ECD9!important}
 .mockup-bar{height:22px;background:#0B2221;border-radius:8px 8px 0 0;display:flex;align-items:center;padding:0 10px;gap:5px}
 .mockup-dot{width:9px;height:9px;border-radius:50%}
 
-/* ═══ RESPONSIVE — iOS/Android/Linux/Windows/macOS ═══════════════════════ */
+/* ═══ RESPONSIVE  --  iOS/Android/Linux/Windows/macOS ═══════════════════════ */
 * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 img  { max-width: 100%; height: auto; }
 
-/* Viewport mobile — éviter dépassement */
+/* Viewport mobile  --  éviter dépassement */
 .main .block-container { max-width: 100% !important; padding: 1rem !important; }
 
 @media (max-width: 768px) {
@@ -533,7 +533,7 @@ img  { max-width: 100%; height: auto; }
 
 /* Dark mode OS respect */
 @media (prefers-color-scheme: dark) {
-  /* Ne pas forcer le dark — BiziApp a son propre thème clair */
+  /* Ne pas forcer le dark  --  BiziApp a son propre thème clair */
   :root { color-scheme: light; }
 }
 
@@ -648,7 +648,7 @@ if (_isIOS) {
   });
 }
 
-// ── Intersection Observer — fadeIn au scroll ──────────────────
+// ── Intersection Observer  --  fadeIn au scroll ──────────────────
 (function() {
   var els = document.querySelectorAll('.ben-card,.prob-row,.stat-box,.proof-card,.tgt-pill');
   if (!('IntersectionObserver' in window)) return;
@@ -690,7 +690,7 @@ if (_isIOS) {
   });
 })();
 
-// ── Gauge bars — déclencher l'animation ───────────────────────
+// ── Gauge bars  --  déclencher l'animation ───────────────────────
 (function() {
   document.querySelectorAll('.gauge-fill').forEach(function(el) {
     var w = getComputedStyle(el).getPropertyValue('--bw') || '70%';
@@ -726,7 +726,7 @@ st.markdown('''
 # AUTHENTIFICATION OPTIONNELLE (définie tôt pour bloquer avant tout rendu)
 # ─────────────────────────────────────────────────────────────────────────────
 # ════════════════════════════════════════════════════════════════════════════
-# SYSTÈME D'AUTHENTIFICATION COMPLET — RGPD Compliant
+# SYSTÈME D'AUTHENTIFICATION COMPLET  --  RGPD Compliant
 # Email/Password · Google OAuth · GitHub OAuth · Liens magiques
 # ════════════════════════════════════════════════════════════════════════════
 
@@ -885,7 +885,7 @@ def _show_auth_page():
     # Urgence neuromarketing (scarcité + FOMO)
     st.markdown(f"""
 <div class="neuro-urgency">
-  {_active} entrepreneurs génèrent leur stratégie en ce moment — Rejoins-les gratuitement
+  {_active} entrepreneurs génèrent leur stratégie en ce moment  --  Rejoins-les gratuitement
 </div>
 """, unsafe_allow_html=True)
 
@@ -908,7 +908,7 @@ def _show_auth_page():
     st.markdown("""
 <div class="auth-footer" style="margin-top:24px;padding:16px;background:#F7FBF4;border-radius:12px;
   border:1px solid #C6ECD9;font-size:.69rem;color:#339999;line-height:1.7">
-  🔒 <b>Vos données sont protégées</b> — BiziApp respecte le RGPD.<br>
+  🔒 <b>Vos données sont protégées</b>  --  BiziApp respecte le RGPD.<br>
   Données minimales collectées · Chiffrement AES-256 · Droit à l'effacement sur demande.<br>
   <a href="#" style="color:#44C1BA">Politique de confidentialité</a> · 
   <a href="#" style="color:#44C1BA">Mentions légales</a> · 
@@ -925,7 +925,7 @@ def _show_login_form():
 <div style="background:linear-gradient(135deg,#C6ECD9,#E4E9F6);border-radius:12px;
   padding:12px 16px;margin-bottom:20px;text-align:center">
   <span style="font-size:.82rem;font-weight:700;color:#0B2221">
-     Accès immédiat à 14 modules stratégiques — valeur cabinet conseil : 5 000€
+     Accès immédiat à 14 modules stratégiques  --  valeur cabinet conseil : 5 000€
   </span>
 </div>
 """, unsafe_allow_html=True)
@@ -961,7 +961,7 @@ def _show_login_form():
             st.rerun()
 
     if _forgot and _email:
-        # Lien magique (simulé — affiche le token pour demo)
+        # Lien magique (simulé  --  affiche le token pour demo)
         if _HAS_AUTH:
             _tok = _generate_magic_token(_email)
             st.success(
@@ -1003,7 +1003,7 @@ def _show_register_form():
 </div>
 """, unsafe_allow_html=True)
 
-    # OAuth en premier (moins de friction — neuromarketing : facilité)
+    # OAuth en premier (moins de friction  --  neuromarketing : facilité)
     _render_oauth_buttons()
 
     st.markdown('<div class="auth-divider">ou avec votre email</div>', unsafe_allow_html=True)
@@ -1022,7 +1022,7 @@ def _show_register_form():
     # Consentements RGPD (obligatoire légalement)
     st.markdown("""
 <div class="rgpd-box">
-  🔒 <b>Vos droits RGPD</b> — BiziApp collecte uniquement les données nécessaires au service.
+  🔒 <b>Vos droits RGPD</b>  --  BiziApp collecte uniquement les données nécessaires au service.
   Vous pouvez demander la suppression de votre compte à tout moment. Données hébergées en France.
 </div>
 """, unsafe_allow_html=True)
@@ -1038,7 +1038,7 @@ def _show_register_form():
 
     # CTA (neuromarketing : urgence + gain)
     _register_clicked = st.button(
-        "Créer mon compte gratuit — Accès immédiat",
+        "Créer mon compte gratuit  --  Accès immédiat",
         type="primary", use_container_width=True, key="btn_register"
     )
 
@@ -1082,7 +1082,7 @@ def _show_register_form():
 
 
 def _render_oauth_buttons():
-    """Boutons OAuth Google + GitHub (liens directs — PKCE sans backend)."""
+    """Boutons OAuth Google + GitHub (liens directs  --  PKCE sans backend)."""
 
     # Google OAuth (nécessite client_id dans secrets.toml)
     _google_url = ""
@@ -1119,7 +1119,7 @@ def _render_oauth_buttons():
         st.markdown("""
 <div class="oauth-btn" style="opacity:.5;cursor:default;justify-content:flex-start">
   <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
-  Google — configurer client_id dans secrets.toml
+  Google  --  configurer client_id dans secrets.toml
 </div>""", unsafe_allow_html=True)
 
     if _github_url:
@@ -1137,24 +1137,24 @@ def _render_oauth_buttons():
     st.markdown("""
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:4px">
   <div class="oauth-btn" style="opacity:.6;cursor:default;font-size:.78rem;padding:9px 10px">
-     Yahoo — bientôt
+     Yahoo  --  bientôt
   </div>
   <div class="oauth-btn" style="opacity:.6;cursor:default;font-size:.78rem;padding:9px 10px">
-     Microsoft — bientôt
+     Microsoft  --  bientôt
   </div>
 </div>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
   <div class="oauth-btn" style="opacity:.6;cursor:default;font-size:.78rem;padding:9px 10px">
-     Shopify — bientôt
+     Shopify  --  bientôt
   </div>
   <div class="oauth-btn" style="opacity:.6;cursor:default;font-size:.78rem;padding:9px 10px">
-    LinkedIn — bientôt
+    LinkedIn  --  bientôt
   </div>
 </div>
 """, unsafe_allow_html=True)
 
 
-# ── Auth optionnelle — non connecté = mode Demo ──────────────────────────────
+# ── Auth optionnelle  --  non connecté = mode Demo ──────────────────────────────
 _current_user = get_current_user()
 # Si non connecté → mode démo (accès limité sans blocage)
 if _current_user is None:
@@ -1245,7 +1245,7 @@ _SWOT_DATA = {
         ],
         "threats": [
             "Géants tech qui copient les fonctionnalités",
-            "Fatigue SaaS — consolidation des budgets",
+            "Fatigue SaaS  --  consolidation des budgets",
             "Open-source alternatives gratuites",
         ],
     },
@@ -1356,7 +1356,7 @@ def gen_swot(activity: str, goal: str, maturity: str) -> dict:
         d["strengths"].insert(0, "Opportunité de construire sans dette technique")
         d["weaknesses"].insert(0, "Absence de validation marché et de revenus")
     elif maturity == "inprogress":
-        d["strengths"].insert(0, "Développement en cours — apprentissage rapide")
+        d["strengths"].insert(0, "Développement en cours  --  apprentissage rapide")
     elif maturity == "launched":
         d["strengths"].insert(0, "Traction initiale prouvée et premiers retours clients")
     goal_opp = {
@@ -1380,13 +1380,13 @@ _QQOQCCP = {
                     "r": "Produits avec proposition de valeur unique et différenciante",
                     "a": "Rédigez une USP en 10 mots max : bénéfice principal + différenciateur + cible"},
         "où": {"q": "Où vos clients achètent-ils ?",
-                    "r": "Mobile (68%), desktop (29%) — majorité via Google Shopping et réseaux sociaux",
+                    "r": "Mobile (68%), desktop (29%)  --  majorité via Google Shopping et réseaux sociaux",
                     "a": "Priorisez l'expérience mobile-first et optimisez vos fiches Google Shopping"},
         "quand": {"q": "Quand vos clients achètent-ils ?",
                     "r": "Pics : vendredi soir, samedi matin, pauses déjeuner (12h-14h), saisons festives",
                     "a": "Programmez vos campagnes sur ces créneaux + soldes/événements clés"},
         "comment": {"q": "Comment décident-ils d'acheter ?",
-                    "r": "Google → comparaison avis → réseaux sociaux → achat — cycle 2-7 jours",
+                    "r": "Google → comparaison avis → réseaux sociaux → achat  --  cycle 2-7 jours",
                     "a": "Couvrez chaque étape : SEO, reviews Trustpilot, retargeting Meta, panier abandonné"},
         "combien": {"q": "Combien sont-ils prêts à payer ?",
                     "r": "Panier moyen cible : 45-120 € selon la niche. Sensibilité prix forte sous 30 €",
@@ -1400,7 +1400,7 @@ _QQOQCCP = {
                     "r": "Double cible : utilisateurs finaux (opérationnels) et acheteurs (dirigeants/DSI)",
                     "a": "Créez un messaging distinct pour chaque persona : bénéfice usage vs ROI business"},
         "quoi": {"q": "Quel problème résolvez-vous exactement ?",
-                    "r": "Économie de temps, réduction d'erreurs ou augmentation de revenus — toujours quantifiable",
+                    "r": "Économie de temps, réduction d'erreurs ou augmentation de revenus  --  toujours quantifiable",
                     "a": "Quantifiez le problème : 'X heures perdues/semaine'ou 'Y% d'erreurs évitées'"},
         "où": {"q": "Où vos prospects cherchent-ils des solutions ?",
                     "r": "G2, Capterra, Product Hunt, LinkedIn, communautés Slack/Discord sectorielles",
@@ -1462,7 +1462,7 @@ _PESTEL = {
             ("Inflation des coûts logistiques +18% en 3 ans", "négatif",
              "Comprimez via négociation transporteur et stocks optimisés"),
             ("Croissance e-commerce +5-7%/an en France (FEVAD 2024)", "positif",
-             "Marché en expansion — capturez la part de marché tôt"),
+             "Marché en expansion  --  capturez la part de marché tôt"),
         ],
         "Socioculturel": [
             ("M-commerce : ~55% du trafic e-commerce depuis mobile (France)", "positif",
@@ -1477,47 +1477,47 @@ _PESTEL = {
              "Adaptez votre SEO à l'intention de recherche IA (GEO)"),
         ],
         " Écologique": [
-            ("Emballages durables — obligation légale 2025", "neutre",
+            ("Emballages durables  --  obligation légale 2025", "neutre",
              "Coût d'adaptation + avantage marketing si bien communiqué"),
         ],
         " Légal": [
-            ("Directive Omnibus — transparence des prix", "négatif",
+            ("Directive Omnibus  --  transparence des prix", "négatif",
              "Obligation d'afficher le prix de référence avant promotion"),
-            ("Droit de rétractation 14 jours — coût retours", "négatif",
+            ("Droit de rétractation 14 jours  --  coût retours", "négatif",
              "Optimisez la logistique retour pour limiter l'impact financier"),
         ],
     },
     "saas": {
         " Politique": [
             ("AI Act européen (2024-2026)", "neutre",
-             "Contraintes sur les systèmes IA à haut risque — auditez votre conformité"),
+             "Contraintes sur les systèmes IA à haut risque  --  auditez votre conformité"),
             ("Cloud Act US vs RGPD", "neutre",
              "Hébergement EU peut devenir un avantage pour les clients corporate"),
         ],
         " Économique": [
             ("Compression des budgets SaaS (stack fatigue)", "négatif",
              "ROI démontrable en <30 jours devient critère de survie"),
-            ("Valorisations SaaS stabilisées — retour à la rentabilité", "neutre",
+            ("Valorisations SaaS stabilisées  --  retour à la rentabilité", "neutre",
              "Les investisseurs cherchent la profitabilité"),
         ],
         "Socioculturel": [
-            ("Remote work permanent — outils collaboratifs essentiels", "positif",
+            ("Remote work permanent  --  outils collaboratifs essentiels", "positif",
              "Intégrations Slack/Teams/Notion deviennent des must-have"),
             ("Adoption IA par les utilisateurs finaux +67% en 2024", "positif",
              "Intégrez des fonctionnalités IA pour rester compétitif"),
         ],
         " Technologique": [
-            ("LLMs open-source — commoditisation de l'IA", "neutre",
-             "L'IA seule ne suffit plus — l'avantage est dans les données propriétaires"),
-            ("API-first & intégrations — ecosystème Zapier/Make", "positif",
+            ("LLMs open-source  --  commoditisation de l'IA", "neutre",
+             "L'IA seule ne suffit plus  --  l'avantage est dans les données propriétaires"),
+            ("API-first & intégrations  --  ecosystème Zapier/Make", "positif",
              "Une bonne API multiplie votre reach sans effort commercial"),
         ],
         " Écologique": [
-            ("GreenOps — empreinte carbone des serveurs", "neutre",
+            ("GreenOps  --  empreinte carbone des serveurs", "neutre",
              "Hébergeurs green (OVH, Scaleway) deviennent un argument marketing B2B"),
         ],
         " Légal": [
-            ("RGPD + DMA — obligations plateformes numériques", "neutre",
+            ("RGPD + DMA  --  obligations plateformes numériques", "neutre",
              "Nommez un DPO et auditez votre collecte de données régulièrement"),
         ],
     },
@@ -1538,13 +1538,13 @@ _PESTEL_GENERIC = {
          "Votre présence digitale est désormais votre première vitrine"),
     ],
     " Technologique": [
-        ("IA générative — opportunités de productivité", "positif",
+        ("IA générative  --  opportunités de productivité", "positif",
          "Intégrez des outils IA dans vos processus"),
-        ("Cybersécurité — risques en hausse", "négatif",
+        ("Cybersécurité  --  risques en hausse", "négatif",
          "Investissez dans la sécurité de vos données"),
     ],
     " Écologique": [
-        ("Transition écologique — attente des parties prenantes", "neutre",
+        ("Transition écologique  --  attente des parties prenantes", "neutre",
          "Définissez votre politique RSE même à petite échelle"),
     ],
     " Légal": [
@@ -1563,16 +1563,16 @@ def gen_pestel(activity: str) -> dict:
 _MICRO_ENV = {
     "ecommerce": {
         "Clients": ("élevé",
-                              "Hyperchoix, faible coût de switching — exigence maximale",
+                              "Hyperchoix, faible coût de switching  --  exigence maximale",
                               "Fidélisez via programme de fidélité, contenu exclusif et service irréprochable"),
         "Fournisseurs": ("moyen",
                               "Multiples sources possibles mais dépendance aux délais de livraison",
                               "Diversifiez vos sources et stockez les SKU critiques"),
         " Concurrents": ("élevé",
-                              "Amazon, Cdiscount, Pure Players niche — guerre des prix permanente",
+                              "Amazon, Cdiscount, Pure Players niche  --  guerre des prix permanente",
                               "Différenciez sur l'expérience, la niche et le contenu, pas sur le prix seul"),
         "Intermédiaires": ("moyen",
-                              "Marketplaces, comparateurs, influenceurs — dépendance aux algorithmes",
+                              "Marketplaces, comparateurs, influenceurs  --  dépendance aux algorithmes",
                               "Développez votre canal direct (DTC) pour réduire les commissions tiers"),
     },
     "saas": {
@@ -1580,7 +1580,7 @@ _MICRO_ENV = {
                               "Churn élevé si valeur non démontrée à J30",
                               "Customer Success proactif + tableau de bord ROI intégré au produit"),
         "Fournisseurs": ("moyen",
-                              "AWS/GCP/Azure — switching coûteux mais offres compétitives",
+                              "AWS/GCP/Azure  --  switching coûteux mais offres compétitives",
                               "Architecture cloud-agnostic et réserves d'instances pour optimiser les coûts"),
         " Concurrents": ("très élevé",
                               "Marché SaaS ultra-compétitif, consolidation en cours (M&A)",
@@ -1625,10 +1625,10 @@ _COMPETITIVE = {
             "Marketplace B2B sectorielles",
         ],
         "matrix": [
-            ("Prix", "", "", "Leaders tirent le prix vers le bas — différenciez-vous"),
+            ("Prix", "", "", "Leaders tirent le prix vers le bas  --  différenciez-vous"),
             ("Expérience UX", "", "", "Levier fort si vous investissez dans le design"),
-            ("Catalogue", "", "", "Ne tentez pas de rivaliser en volume — spécialisez"),
-            ("SAV & fidélisation","", "", "Avantage structurel des petites structures — exploitez-le"),
+            ("Catalogue", "", "", "Ne tentez pas de rivaliser en volume  --  spécialisez"),
+            ("SAV & fidélisation","", "", "Avantage structurel des petites structures  --  exploitez-le"),
             ("Contenu & SEO", "", "", "Blog expert + UGC = trafic organique gratuit"),
         ],
         "oppty": "Niche premium + contenu expert + communauté = triangle défendable",
@@ -1646,7 +1646,7 @@ _COMPETITIVE = {
             "Solutions open-source",
         ],
         "matrix": [
-            ("Fonctionnalités", "", "", "Ne copiez pas tout — identifiez votre killer feature"),
+            ("Fonctionnalités", "", "", "Ne copiez pas tout  --  identifiez votre killer feature"),
             ("Prix", "", "", "Agilité tarifaire vs les poids lourds = avantage PME"),
             ("Support", "", "", "Accès fondateur direct = différenciateur early-stage"),
             ("Intégrations", "", "", "Priorisez 5 intégrations critiques pour votre ICP"),
@@ -1693,7 +1693,7 @@ _SONCAS = {
                 "Politique de retour gratuit 30 jours sans condition",
                 "Avis clients vérifiés (Trustpilot, Google Reviews) avec étoiles visibles",
             ],
-            "objection": "Je ne vous connais pas — comment savoir si votre site est fiable ?",
+            "objection": "Je ne vous connais pas  --  comment savoir si votre site est fiable ?",
             "reponse": "Nous affichons nos +2 000 avis vérifiés Trustpilot, notre garantie satisfait ou remboursé 30 jours et notre certification SSL. Commandez sans risque.",
         },
         "opportunite": {
@@ -1705,7 +1705,7 @@ _SONCAS = {
                 "Accès VIP en avant-première aux nouvelles collections",
             ],
             "objection": "Je n'ai pas besoin d'un produit premium.",
-            "reponse": "Nos clients premium ne cherchent pas juste un produit — ils veulent une expérience unique et reconnaissable. Nos éditions limitées sont portées par des leaders et des early adopters.",
+            "reponse": "Nos clients premium ne cherchent pas juste un produit  --  ils veulent une expérience unique et reconnaissable. Nos éditions limitées sont portées par des leaders et des early adopters.",
         },
         "nouveaute": {
             "label": "Nouveauté", "icon": "",
@@ -1716,7 +1716,7 @@ _SONCAS = {
                 "Collaboration capsule ou édition limitée pour créer l'événement",
             ],
             "objection": "Je veux être sûr que ce produit est bien ce qu'il y a de plus récent.",
-            "reponse": "Cette référence vient d'être ajoutée à notre catalogue cette semaine. Nos abonnés newsletter la découvrent en avant-première — rejoignez-les pour ne plus jamais rater un lancement.",
+            "reponse": "Cette référence vient d'être ajoutée à notre catalogue cette semaine. Nos abonnés newsletter la découvrent en avant-première  --  rejoignez-les pour ne plus jamais rater un lancement.",
         },
         "confort": {
             "label": "Confort", "icon": "",
@@ -1738,7 +1738,7 @@ _SONCAS = {
                 "Paiement en 3x sans frais pour les paniers > 100 €",
             ],
             "objection": "C'est moins cher sur Amazon.",
-            "reponse": "Notre prix inclut la livraison offerte, le retour gratuit et 2 ans de garantie. Sur Amazon, ces frais s'ajoutent. Calculez le coût total — nous sommes souvent moins chers.",
+            "reponse": "Notre prix inclut la livraison offerte, le retour gratuit et 2 ans de garantie. Sur Amazon, ces frais s'ajoutent. Calculez le coût total  --  nous sommes souvent moins chers.",
         },
         "sympathie": {
             "label": "Sympathie", "icon": "",
@@ -1749,7 +1749,7 @@ _SONCAS = {
                 "Communauté active sur les réseaux sociaux avec réponses aux commentaires",
             ],
             "objection": "Il y a tellement de boutiques en ligne, pourquoi vous ?",
-            "reponse": "Nous sommes une équipe de 5 personnes passionnées par [niche]. Chaque commande est préparée avec soin. Lisez nos avis — nos clients reviennent parce qu'ils se sentent vraiment considérés.",
+            "reponse": "Nous sommes une équipe de 5 personnes passionnées par [niche]. Chaque commande est préparée avec soin. Lisez nos avis  --  nos clients reviennent parce qu'ils se sentent vraiment considérés.",
         },
     },
     "saas": {
@@ -1757,9 +1757,9 @@ _SONCAS = {
             "label": "Sécurité", "icon": "",
             "desc": "Le décideur SaaS craint les risques : perte de données, downtime, contrat difficile à résilier. Minimisez chaque risque perçu.",
             "args": [
-                "SOC 2 Type II / ISO 27001 — certifications de sécurité affichées",
+                "SOC 2 Type II / ISO 27001  --  certifications de sécurité affichées",
                 "SLA 99.9% uptime avec crédits automatiques en cas d'incident",
-                "Export des données à tout moment — no lock-in garanti",
+                "Export des données à tout moment  --  no lock-in garanti",
             ],
             "objection": "Et si vous faites faillite ou si vous augmentez les prix brutalement ?",
             "reponse": "Notre code source est en escrow, vos données sont exportables en 1 clic et notre contrat inclut un préavis de 90 jours pour toute modification tarifaire. Votre continuité est protégée.",
@@ -1770,7 +1770,7 @@ _SONCAS = {
             "args": [
                 "Badge 'Client Pionnier'et présence dans vos références sectorielles",
                 "Cas clients avec métriques avant/après dans le même secteur",
-                "Early adopter pricing — accès aux nouvelles fonctionnalités en priorité",
+                "Early adopter pricing  --  accès aux nouvelles fonctionnalités en priorité",
             ],
             "objection": "Je ne vois pas vraiment ce que j'ai à gagner par rapport à ce que j'utilise déjà.",
             "reponse": "Nos clients [même secteur] sont cités comme références dans leur industrie grâce à ce gain de productivité. Je peux vous positionner parmi eux en 15 minutes de démo.",
@@ -1801,12 +1801,12 @@ _SONCAS = {
             "label": "Argent", "icon": "",
             "desc": "Le budget SaaS est scruté. Démontrez un ROI clair et un coût total de possession inférieur aux alternatives.",
             "args": [
-                "Prix par utilisateur actif — payez uniquement ce que vous utilisez",
+                "Prix par utilisateur actif  --  payez uniquement ce que vous utilisez",
                 "Consolidation de plusieurs outils en un seul = économies immédiates",
-                "Essai gratuit 14 jours sans carte bancaire — aucun risque financier",
+                "Essai gratuit 14 jours sans carte bancaire  --  aucun risque financier",
             ],
             "objection": "Votre abonnement représente X € de plus par mois dans notre budget.",
-            "reponse": "Calculons ensemble : si [fonctionnalité] économise 3h/semaine à votre équipe de 5 personnes, c'est 60h/mois à votre TJM interne — soit bien plus que notre abonnement. Le ROI est positif dès le premier mois.",
+            "reponse": "Calculons ensemble : si [fonctionnalité] économise 3h/semaine à votre équipe de 5 personnes, c'est 60h/mois à votre TJM interne  --  soit bien plus que notre abonnement. Le ROI est positif dès le premier mois.",
         },
         "sympathie": {
             "label": "Sympathie", "icon": "",
@@ -1814,10 +1814,10 @@ _SONCAS = {
             "args": [
                 "Accès direct aux fondateurs pour les clients early stage",
                 "Communauté Slack/Discord active avec entraide et partages",
-                "Compte manager dédié dès 10 utilisateurs — relation humaine garantie",
+                "Compte manager dédié dès 10 utilisateurs  --  relation humaine garantie",
             ],
             "objection": "Avec les grandes plateformes, j'ai un support dédié. Que m'offrez-vous ?",
-            "reponse": "Chez nous, votre interlocuteur connaît votre usage par cœur. Vous n'attendez pas en file d'attente — vous avez mon numéro direct. Nos clients restent parce qu'ils se sentent partenaires, pas numéros.",
+            "reponse": "Chez nous, votre interlocuteur connaît votre usage par cœur. Vous n'attendez pas en file d'attente  --  vous avez mon numéro direct. Nos clients restent parce qu'ils se sentent partenaires, pas numéros.",
         },
     },
     "service": {
@@ -1841,7 +1841,7 @@ _SONCAS = {
                 "Offre 'Partenaire Stratégique'avec visibilité dans nos references",
             ],
             "objection": "Est-ce vraiment le bon moment pour investir dans ce service ?",
-            "reponse": "Les dirigeants que nous accompagnons voient cela comme un signal de leadership. C'est ce qui les différencie — et qui leur permet d'être cités comme référence dans leur secteur.",
+            "reponse": "Les dirigeants que nous accompagnons voient cela comme un signal de leadership. C'est ce qui les différencie  --  et qui leur permet d'être cités comme référence dans leur secteur.",
         },
         "nouveaute": {
             "label": "Nouveauté", "icon": "",
@@ -1851,14 +1851,14 @@ _SONCAS = {
                 "Méthodologie propriétaire nommée et expliquée",
                 "Veille sectorielle continue partagée avec les clients (newsletter, insights)",
             ],
-            "objection": "Votre approche me semble classique — qu'est-ce qui vous différencie ?",
+            "objection": "Votre approche me semble classique  --  qu'est-ce qui vous différencie ?",
             "reponse": "Notre méthode [Nom] intègre les dernières avancées en [domaine]. Elle nous permet de livrer en 3 semaines ce qui prenait 3 mois avec les approches traditionnelles.",
         },
         "confort": {
             "label": "Confort", "icon": "",
             "desc": "Le client veut être accompagné sans avoir à tout gérer. Promettez une expérience clé en main et sans friction.",
             "args": [
-                "Gestion de projet complète — le client n'a qu'à valider",
+                "Gestion de projet complète  --  le client n'a qu'à valider",
                 "Reporting clair et visuel chaque semaine sans jargon technique",
                 "Disponibilité garantie avec temps de réponse < 4h ouvrées",
             ],
@@ -1869,12 +1869,12 @@ _SONCAS = {
             "label": "Argent", "icon": "",
             "desc": "Le client compare le coût du service à la valeur générée. Ancrez le prix sur le ROI, pas sur le temps passé.",
             "args": [
-                "Prix fixe par livrable — pas de surprise sur la facture finale",
+                "Prix fixe par livrable  --  pas de surprise sur la facture finale",
                 "Présentation du ROI attendu : coût vs valeur générée",
                 "Offre starter pour tester la collaboration à faible risque",
             ],
             "objection": "Votre tarif est élevé par rapport à d'autres prestataires.",
-            "reponse": "Un prestataire moins cher qui ne livre pas résulte vous coûtera 3x plus : le temps perdu, le travail à refaire, l'opportunité manquée. Notre tarif reflète un résultat garanti — calculons ensemble le ROI.",
+            "reponse": "Un prestataire moins cher qui ne livre pas résulte vous coûtera 3x plus : le temps perdu, le travail à refaire, l'opportunité manquée. Notre tarif reflète un résultat garanti  --  calculons ensemble le ROI.",
         },
         "sympathie": {
             "label": "Sympathie", "icon": "",
@@ -1898,7 +1898,7 @@ _SONCAS = {
                 "Processus transparent de bout en bout sans surprise",
             ],
             "objection": "Et si ça ne correspond pas à ce que j'attends ?",
-            "reponse": "Notre garantie [X jours] couvre exactement ce scénario. Si ce n'est pas parfait, nous remboursons intégralement — sans question. Vous n'avez rien à perdre.",
+            "reponse": "Notre garantie [X jours] couvre exactement ce scénario. Si ce n'est pas parfait, nous remboursons intégralement  --  sans question. Vous n'avez rien à perdre.",
         },
         "opportunite": {
             "label": "Orgueil", "icon": "",
@@ -1909,7 +1909,7 @@ _SONCAS = {
                 "Valorisez son rôle de précurseur dans son secteur",
             ],
             "objection": "Je ne vois pas encore ce que j'y gagne clairement.",
-            "reponse": "Nos clients leaders ont tous pris cette décision avant leurs concurrents. C'est ce qui les distingue aujourd'hui — et qui les positionne comme références dans leur secteur.",
+            "reponse": "Nos clients leaders ont tous pris cette décision avant leurs concurrents. C'est ce qui les distingue aujourd'hui  --  et qui les positionne comme références dans leur secteur.",
         },
         "nouveaute": {
             "label": "Nouveauté", "icon": "",
@@ -1942,7 +1942,7 @@ _SONCAS = {
                 "Options flexibles de paiement adaptées à la taille du projet",
             ],
             "objection": "C'est au-dessus de notre budget prévu.",
-            "reponse": "Je comprends. Calculons ensemble ce que vous coûte actuellement [problème] chaque mois. Si notre solution coûte moins que ce problème, le budget est justifié — sinon, nous trouverons une formule adaptée.",
+            "reponse": "Je comprends. Calculons ensemble ce que vous coûte actuellement [problème] chaque mois. Si notre solution coûte moins que ce problème, le budget est justifié  --  sinon, nous trouverons une formule adaptée.",
         },
         "sympathie": {
             "label": "Sympathie", "icon": "",
@@ -1953,7 +1953,7 @@ _SONCAS = {
                 "Histoire de marque ou parcours personnel qui crée la connexion",
             ],
             "objection": "Je ne suis pas encore convaincu par votre approche.",
-            "reponse": "C'est totalement normal à ce stade. Ce qui compte, c'est que vous trouviez la bonne solution pour vous — même si ce n'est pas nous. Pouvez-vous me dire ce qui vous manque pour être convaincu ?",
+            "reponse": "C'est totalement normal à ce stade. Ce qui compte, c'est que vous trouviez la bonne solution pour vous  --  même si ce n'est pas nous. Pouvez-vous me dire ce qui vous manque pour être convaincu ?",
         },
     },
 }
@@ -1977,33 +1977,33 @@ def gen_soncas(activity: str) -> dict:
 # ─── AIDA ────────────────────────────────────────────────────────────────────
 _AIDA = {
     "ecommerce": {
-        "attention": {"p":"Headline qui interrompt le scroll","e":"Pourquoi 94% des acheteurs reviennent toujours chez nous","f":["Arrêtez de [problème] — voici pourquoi [solution inattendue]","La vraie raison pour laquelle [cible] rate [résultat]","[Chiffre] acheteurs ont découvert [bénéfice] — voici comment"],"c":"Utilisez chiffres, questions rhétoriques et promesses spécifiques. Évitez le générique."},
-        "interest": {"p":"Développez le problème pour créer l'identification","e":"Vous passez des heures à chercher... pour toujours tomber sur des produits décevants","f":["Comme [X] clients avant vous, vous avez peut-être déjà vécu [situation]","Voici ce que personne ne vous dit sur [sujet]","Le problème avec [solution classique], c'est que [raison spécifique]"],"c":"Montrez que vous comprenez exactement la douleur du client — avant de parler de vous."},
-        "desire": {"p":"Projeter le client dans l'état désiré après achat","e":"Imaginez recevoir exactement ce que vous attendiez, livré en 48h, avec garantie satisfait ou remboursé","f":["Imaginez [bénéfice émotionnel] — c'est exactement ce que [X] clients vivent","[Bénéfice concret] + [bénéfice émotionnel] = votre nouvelle réalité","Nos clients témoignent : '[citation courte et spécifique]'"],"c":"Combinez preuve sociale, bénéfices tangibles et projetez l'état émotionnel post-achat."},
-        "action": {"p":"CTA unique, urgent et sans friction","e":"Commander maintenant — Livraison offerte aujourd'hui","f":["Je veux [bénéfice] → [bouton d'action]","Profitez-en maintenant — [raison de l'urgence réelle]","Commencez sans risque — [garantie spécifique]"],"c":"Un seul CTA visible, urgence authentique, garantie de risque zéro, friction minimale."},
+        "attention": {"p":"Headline qui interrompt le scroll","e":"Pourquoi 94% des acheteurs reviennent toujours chez nous","f":["Arrêtez de [problème]  --  voici pourquoi [solution inattendue]","La vraie raison pour laquelle [cible] rate [résultat]","[Chiffre] acheteurs ont découvert [bénéfice]  --  voici comment"],"c":"Utilisez chiffres, questions rhétoriques et promesses spécifiques. Évitez le générique."},
+        "interest": {"p":"Développez le problème pour créer l'identification","e":"Vous passez des heures à chercher... pour toujours tomber sur des produits décevants","f":["Comme [X] clients avant vous, vous avez peut-être déjà vécu [situation]","Voici ce que personne ne vous dit sur [sujet]","Le problème avec [solution classique], c'est que [raison spécifique]"],"c":"Montrez que vous comprenez exactement la douleur du client  --  avant de parler de vous."},
+        "desire": {"p":"Projeter le client dans l'état désiré après achat","e":"Imaginez recevoir exactement ce que vous attendiez, livré en 48h, avec garantie satisfait ou remboursé","f":["Imaginez [bénéfice émotionnel]  --  c'est exactement ce que [X] clients vivent","[Bénéfice concret] + [bénéfice émotionnel] = votre nouvelle réalité","Nos clients témoignent : '[citation courte et spécifique]'"],"c":"Combinez preuve sociale, bénéfices tangibles et projetez l'état émotionnel post-achat."},
+        "action": {"p":"CTA unique, urgent et sans friction","e":"Commander maintenant  --  Livraison offerte aujourd'hui","f":["Je veux [bénéfice] → [bouton d'action]","Profitez-en maintenant  --  [raison de l'urgence réelle]","Commencez sans risque  --  [garantie spécifique]"],"c":"Un seul CTA visible, urgence authentique, garantie de risque zéro, friction minimale."},
     },
     "saas": {
-        "attention": {"p":"Chiffrez la douleur ou promettez le résultat","e":"Réduisez de 4h à 20min votre reporting hebdomadaire","f":["[X] heures perdues chaque semaine à faire [tâche manuelle] — et si ce n'était plus le cas ?","Comment [client similaire] a multiplié par [X] [métrique] en [temps]","Votre concurrent utilise déjà [solution] — voici ce qu'il gagne"],"c":"Les décideurs SaaS sont rationnels — commencez par un chiffre ou un résultat mesurable."},
-        "interest": {"p":"Nommez le problème précis que seul votre outil résout","e":"La plupart des équipes perdent 23% de leur temps dans des tâches que [Outil] automatise en un clic","f":["Le vrai problème avec [workflow actuel], c'est [coût caché invisible]","[Chiffre] équipes ont abandonné [ancienne méthode] — voici pourquoi","Sans [fonctionnalité], chaque [événement] vous coûte [quantification]"],"c":"Soyez ultra-précis sur le pain point. Plus c'est spécifique, plus ça résonne."},
-        "desire": {"p":"Démo, cas client avec métriques, social proof B2B","e":"[Client connu] a réduit son CAC de 34% après 60 jours","f":["'Depuis [Outil], on a [résultat] en [temps]'— [Prénom, Titre, Entreprise]","Rejoignez [X] équipes qui ont déjà transformé [process]","Essayez gratuitement 14 jours — sans carte bancaire, sans engagement"],"c":"Case studies avec métriques > témoignages génériques."},
-        "action": {"p":"Essai gratuit sans friction ou démo personnalisée","e":"Commencer mon essai gratuit — En ligne en 2 minutes","f":["Voir une démo en 15 min → [calendrier direct]","Essayer gratuitement 14 jours → aucune CB requise","Obtenir mon accès maintenant → [bénéfice immédiat à l'inscription]"],"c":"Réduisez le risque perçu au maximum — freemium, démo, POC — jamais de salesman dès le premier contact."},
+        "attention": {"p":"Chiffrez la douleur ou promettez le résultat","e":"Réduisez de 4h à 20min votre reporting hebdomadaire","f":["[X] heures perdues chaque semaine à faire [tâche manuelle]  --  et si ce n'était plus le cas ?","Comment [client similaire] a multiplié par [X] [métrique] en [temps]","Votre concurrent utilise déjà [solution]  --  voici ce qu'il gagne"],"c":"Les décideurs SaaS sont rationnels  --  commencez par un chiffre ou un résultat mesurable."},
+        "interest": {"p":"Nommez le problème précis que seul votre outil résout","e":"La plupart des équipes perdent 23% de leur temps dans des tâches que [Outil] automatise en un clic","f":["Le vrai problème avec [workflow actuel], c'est [coût caché invisible]","[Chiffre] équipes ont abandonné [ancienne méthode]  --  voici pourquoi","Sans [fonctionnalité], chaque [événement] vous coûte [quantification]"],"c":"Soyez ultra-précis sur le pain point. Plus c'est spécifique, plus ça résonne."},
+        "desire": {"p":"Démo, cas client avec métriques, social proof B2B","e":"[Client connu] a réduit son CAC de 34% après 60 jours","f":["'Depuis [Outil], on a [résultat] en [temps]' --  [Prénom, Titre, Entreprise]","Rejoignez [X] équipes qui ont déjà transformé [process]","Essayez gratuitement 14 jours  --  sans carte bancaire, sans engagement"],"c":"Case studies avec métriques > témoignages génériques."},
+        "action": {"p":"Essai gratuit sans friction ou démo personnalisée","e":"Commencer mon essai gratuit  --  En ligne en 2 minutes","f":["Voir une démo en 15 min → [calendrier direct]","Essayer gratuitement 14 jours → aucune CB requise","Obtenir mon accès maintenant → [bénéfice immédiat à l'inscription]"],"c":"Réduisez le risque perçu au maximum  --  freemium, démo, POC  --  jamais de salesman dès le premier contact."},
     },
 }
 _AIDA_GENERIC = {
-    "attention": {"p":"Captez l'attention avec un headline irrésistible","e":"Le problème que vous n'avez jamais su nommer — et notre solution","f":["[Chiffre provocateur] raisons pour lesquelles [problème persiste]","Comment [cible similaire] a obtenu [résultat] sans [obstacle perçu]","Arrêtez [action coûteuse] — il existe une meilleure façon"],"c":"Votre headline est lu 5x plus que le reste. Investissez 50% de votre temps copywriting dessus."},
-    "interest": {"p":"Développez la promesse en identifiant la douleur précise","e":"Vous savez que [problème] vous coûte [temps/argent] — mais la vraie cause est ailleurs","f":["Voici ce que la plupart des [cible] ignorent sur [sujet]","Le coût invisible de [problème] : [quantification inattendue]","Comme [X personnes], vous avez peut-être essayé [solutions inefficaces]"],"c":"Empathie d'abord, solution ensuite. Montrez que vous comprenez avant de convaincre."},
-    "desire": {"p":"Créez l'envie avec preuves, projections et social proof","e":"Nos clients obtiennent [résultat tangible] et [bénéfice émotionnel] — ils en témoignent","f":["Imaginez [situation désirée] — c'est possible dès [timing réaliste]","[X] personnes ont déjà [résultat] — voici leurs retours","Garantie : si vous n'obtenez pas [résultat], [engagement spécifique]"],"c":"Preuves > promesses. Spécifique > général. Résultat émotionnel > fonctionnalité technique."},
-    "action": {"p":"Un seul appel à l'action, clair et sans friction","e":"Commencer maintenant — [bénéfice immédiat] → [CTA]","f":["Je veux [résultat précis] → [bouton action]","C'est gratuit jusqu'à [date/seuil] — [CTA]","[Bénéfice] sans [risque perçu] → [CTA]"],"c":"Supprimez tout ce qui pourrait faire hésiter : formulaires longs, prix cachés, processus flous."},
+    "attention": {"p":"Captez l'attention avec un headline irrésistible","e":"Le problème que vous n'avez jamais su nommer  --  et notre solution","f":["[Chiffre provocateur] raisons pour lesquelles [problème persiste]","Comment [cible similaire] a obtenu [résultat] sans [obstacle perçu]","Arrêtez [action coûteuse]  --  il existe une meilleure façon"],"c":"Votre headline est lu 5x plus que le reste. Investissez 50% de votre temps copywriting dessus."},
+    "interest": {"p":"Développez la promesse en identifiant la douleur précise","e":"Vous savez que [problème] vous coûte [temps/argent]  --  mais la vraie cause est ailleurs","f":["Voici ce que la plupart des [cible] ignorent sur [sujet]","Le coût invisible de [problème] : [quantification inattendue]","Comme [X personnes], vous avez peut-être essayé [solutions inefficaces]"],"c":"Empathie d'abord, solution ensuite. Montrez que vous comprenez avant de convaincre."},
+    "desire": {"p":"Créez l'envie avec preuves, projections et social proof","e":"Nos clients obtiennent [résultat tangible] et [bénéfice émotionnel]  --  ils en témoignent","f":["Imaginez [situation désirée]  --  c'est possible dès [timing réaliste]","[X] personnes ont déjà [résultat]  --  voici leurs retours","Garantie : si vous n'obtenez pas [résultat], [engagement spécifique]"],"c":"Preuves > promesses. Spécifique > général. Résultat émotionnel > fonctionnalité technique."},
+    "action": {"p":"Un seul appel à l'action, clair et sans friction","e":"Commencer maintenant  --  [bénéfice immédiat] → [CTA]","f":["Je veux [résultat précis] → [bouton action]","C'est gratuit jusqu'à [date/seuil]  --  [CTA]","[Bénéfice] sans [risque perçu] → [CTA]"],"c":"Supprimez tout ce qui pourrait faire hésiter : formulaires longs, prix cachés, processus flous."},
 }
 
 _TRIGGERS = [
-    ("Urgence temporelle","Crée une pression de temps pour déclencher l'action immédiate","Offre valable jusqu'à minuit — Stock limité à 47 unités","Ventes flash, périodes de promotion, lancement de produit"," Doit être AUTHENTIQUE — la fausse urgence détruit la confiance"),
-    ("Preuve sociale","Les gens imitent ce que font d'autres personnes similaires à eux","12 847 clients satisfaits — Rejoignez-les","Témoignages, compteurs d'utilisateurs, logos clients, médias"," Spécifique et vérifiable > chiffre rond et non sourcé"),
+    ("Urgence temporelle","Crée une pression de temps pour déclencher l'action immédiate","Offre valable jusqu'à minuit  --  Stock limité à 47 unités","Ventes flash, périodes de promotion, lancement de produit"," Doit être AUTHENTIQUE  --  la fausse urgence détruit la confiance"),
+    ("Preuve sociale","Les gens imitent ce que font d'autres personnes similaires à eux","12 847 clients satisfaits  --  Rejoignez-les","Témoignages, compteurs d'utilisateurs, logos clients, médias"," Spécifique et vérifiable > chiffre rond et non sourcé"),
     ("Autorité","Les experts et figures d'autorité crédibilisent votre offre","Recommandé par [expert connu] · Certifié [organisme] · Cité dans [media]","Badges certifications, mentions presse, partenariats experts"," L'autorité doit être pertinente pour votre cible, pas seulement impressionnante"),
     ("Rareté","La valeur perçue augmente quand la disponibilité diminue","Plus que 3 places disponibles ce mois · Édition limitée 500 exemplaires","Services premium, places de formation, stocks limités"," La rareté inventée génère du ressentiment"),
-    ("Réciprocité","Donner quelque chose de valeur crée une obligation naturelle de rendre","Guide gratuit (vraie valeur) → lead nurturing → vente naturelle","Lead magnets, contenus premium gratuits, consultations offertes"," La valeur du cadeau détermine la réciprocité — évitez les ebooks creux"),
+    ("Réciprocité","Donner quelque chose de valeur crée une obligation naturelle de rendre","Guide gratuit (vraie valeur) → lead nurturing → vente naturelle","Lead magnets, contenus premium gratuits, consultations offertes"," La valeur du cadeau détermine la réciprocité  --  évitez les ebooks creux"),
     ("Engagement & Cohérence","Une fois qu'une personne a dit oui à quelque chose de petit, elle dit oui à plus grand","Quiz gratuit → email → webinaire → offre → vente","Funnels de conversion, séquences email, onboarding progressif"," Chaque micro-engagement doit délivrer de la valeur"),
-    ("Aversion à la perte","La douleur de perdre est 2x plus intense que le plaisir de gagner","Ne laissez pas vos concurrents prendre de l'avance · Évitez de perdre X €/mois","Messaging sur les risques de ne pas agir, coûts de l'inaction"," À utiliser avec parcimonie — le fear marketing permanent génère du rejet"),
+    ("Aversion à la perte","La douleur de perdre est 2x plus intense que le plaisir de gagner","Ne laissez pas vos concurrents prendre de l'avance · Évitez de perdre X €/mois","Messaging sur les risques de ne pas agir, coûts de l'inaction"," À utiliser avec parcimonie  --  le fear marketing permanent génère du rejet"),
     ("Appartenance","Les humains veulent appartenir à un groupe qui partage leurs valeurs","Rejoignez 5000 entrepreneurs qui ont choisi de [valeur commune]","Positioning de marque, communication de communauté, onboarding"," La communauté doit être réelle et active"),
 ]
 
@@ -2014,29 +2014,29 @@ def gen_aida(activity: str) -> dict:
 # ─── GEO 2025 ────────────────────────────────────────────────────────────────
 _GEO = {
     "ecommerce": {
-        "topics": ["Guide ultime d'achat [produit phare] — le contenu pilier de référence","Comparatif [produit A] vs [produit B] — contenu cluster haute valeur","FAQ produits enrichie — capture les requêtes conversationnelles IA","Avis clients structurés (schema Review) — utilisés par Google SGE"],
+        "topics": ["Guide ultime d'achat [produit phare]  --  le contenu pilier de référence","Comparatif [produit A] vs [produit B]  --  contenu cluster haute valeur","FAQ produits enrichie  --  capture les requêtes conversationnelles IA","Avis clients structurés (schema Review)  --  utilisés par Google SGE"],
         "clusters": [("Guide d'achat [niche]",["Comment choisir X","Meilleur X pour Y","X test & avis","X prix comparatif"]),("Guide entretien / utilisation",["Comment utiliser X","Erreurs à éviter","X durée de vie","Tutoriel X"])],
         "optims": [("Ajoutez des FAQ schema markup sur toutes vos fiches produit"," Élevé"),("Répondez aux questions 'quel est le meilleur X pour Y'dans vos contenus"," Élevé"),("Utilisez du langage naturel conversationnel dans vos descriptions","Moyen"),("Structurez vos avis en données structurées (schema Review)"," Élevé")],
-        "tips": ["Google SGE et ChatGPT extraient des réponses directes — soyez la source citée","Perplexity cite les sources — des backlinks de qualité restent essentiels","Les requêtes vocales explosent — optimisez pour le langage parlé"],
+        "tips": ["Google SGE et ChatGPT extraient des réponses directes  --  soyez la source citée","Perplexity cite les sources  --  des backlinks de qualité restent essentiels","Les requêtes vocales explosent  --  optimisez pour le langage parlé"],
     },
     "saas": {
-        "topics": ["Guides pratiques ultra-complets sur les problèmes que votre outil résout","Études de cas sectorielles avec métriques et ROI quantifiés","Comparatifs objectifs avec vos concurrents (even-handed = crédibilité)","Glossaire du secteur — topical authority signal fort pour Google"],
+        "topics": ["Guides pratiques ultra-complets sur les problèmes que votre outil résout","Études de cas sectorielles avec métriques et ROI quantifiés","Comparatifs objectifs avec vos concurrents (even-handed = crédibilité)","Glossaire du secteur  --  topical authority signal fort pour Google"],
         "clusters": [("Guide [fonctionnalité principale]",["Comment faire X sans outil","X automatisation guide","X pour les débutants","X cas d'usage avancés"]),("Comparatif outils [catégorie]",["Vous vs Concurrent A","Vous vs Concurrent B","Meilleur outil X 2025","Migrer de X vers vous"])],
         "optims": [("Créez une documentation technique complète (boon for AI crawlers)"," Élevé"),("Publiez des datasets ou benchmarks sectoriels citables par l'IA","Très élevé"),("Répondez aux questions 'comment [task] avec [catégorie d'outil]'exhaustivement"," Élevé"),("Structurez vos how-to avec des étapes numérotées (schema HowTo)","Moyen")],
-        "tips": ["Les LLMs sont entraînés sur le web — votre contenu publié aujourd'hui formera les réponses de demain","Soyez la ressource la plus citée de votre niche — qualité > quantité","ChatGPT et Perplexity favoritent les sites avec API publique et documentation claire"],
+        "tips": ["Les LLMs sont entraînés sur le web  --  votre contenu publié aujourd'hui formera les réponses de demain","Soyez la ressource la plus citée de votre niche  --  qualité > quantité","ChatGPT et Perplexity favoritent les sites avec API publique et documentation claire"],
     },
 }
 _GEO_GENERIC = {
     "topics": ["Contenus piliers ultra-complets sur votre thème principal","Clusters de contenu répondant à toutes les questions de votre ICP","FAQ structurée avec schema markup pour la capture des requêtes IA","Études de cas et données sectorielles propriétaires"],
     "clusters": [("Guide principal [thème]",["Introduction","Niveau avancé","Cas pratiques","FAQ"]),("Solutions aux problèmes [cible]",["Problème A → solution","Problème B → solution","Comparatif solutions","Erreurs à éviter"])],
     "optims": [("Utilisez des questions naturelles comme sous-titres H2/H3"," Élevé"),("Ajoutez un schema FAQ sur toutes vos pages clés"," Élevé"),("Répondez directement et précisément en début de section (featured snippet)"," Élevé"),("Créez du contenu E-E-A-T : Experience, Expertise, Authority, Trust","Très élevé")],
-    "tips": ["39% des Français utilisent l'IA conversationnelle — optimisez maintenant pour ces moteurs","Les IA citent les sources qui répondent directement et exhaustivement","L'intention de recherche prime sur le mot-clé exact — comprenez le 'pourquoi'"],
+    "tips": ["39% des Français utilisent l'IA conversationnelle  --  optimisez maintenant pour ces moteurs","Les IA citent les sources qui répondent directement et exhaustivement","L'intention de recherche prime sur le mot-clé exact  --  comprenez le 'pourquoi'"],
 }
 
 _SEA_IA = [
-    ("Google AI Max","Performance Max avec IA Max — diffusion automatique sur tous les canaux Google",["Diffusion sur Search, Display, YouTube, Gmail, Maps, Shopping","Optimisation en temps réel des enchères et audiences via ML","Asset generation IA — génère des variantes de titres et descriptions"],"Fournissez des assets de qualité — la qualité des inputs détermine la qualité des outputs IA"),
-    ("Smart Bidding","Stratégies d'enchères automatisées par Google ML pour maximiser les conversions",["Target CPA : coût par acquisition fixe — idéal si vous connaissez votre CPA cible","Target ROAS : retour sur dépenses publicitaires — pour e-commerce avec données de valeur","Maximize Conversions : maximise le volume dans votre budget — pour démarrer","Enhanced CPC : manuel + ajustement IA — contrôle maximal pour débutants"],"Donnez au Smart Bidding 2-4 semaines d'apprentissage avant d'évaluer les performances"),
-    ("AI Overviews","Google AI Overviews — réponses IA intégrées dans les résultats de recherche",["Annonces textuelles dans les AI Overviews (beta 2025) — position premium visible","Shopping ads dans les réponses IA pour les requêtes produits","Position 0 : votre annonce affichée dans la synthèse IA de Google"],"Combinez SEA (paiement garanti) + SEO GEO (organique IA) pour une visibilité maximale"),
+    ("Google AI Max","Performance Max avec IA Max  --  diffusion automatique sur tous les canaux Google",["Diffusion sur Search, Display, YouTube, Gmail, Maps, Shopping","Optimisation en temps réel des enchères et audiences via ML","Asset generation IA  --  génère des variantes de titres et descriptions"],"Fournissez des assets de qualité  --  la qualité des inputs détermine la qualité des outputs IA"),
+    ("Smart Bidding","Stratégies d'enchères automatisées par Google ML pour maximiser les conversions",["Target CPA : coût par acquisition fixe  --  idéal si vous connaissez votre CPA cible","Target ROAS : retour sur dépenses publicitaires  --  pour e-commerce avec données de valeur","Maximize Conversions : maximise le volume dans votre budget  --  pour démarrer","Enhanced CPC : manuel + ajustement IA  --  contrôle maximal pour débutants"],"Donnez au Smart Bidding 2-4 semaines d'apprentissage avant d'évaluer les performances"),
+    ("AI Overviews","Google AI Overviews  --  réponses IA intégrées dans les résultats de recherche",["Annonces textuelles dans les AI Overviews (beta 2025)  --  position premium visible","Shopping ads dans les réponses IA pour les requêtes produits","Position 0 : votre annonce affichée dans la synthèse IA de Google"],"Combinez SEA (paiement garanti) + SEO GEO (organique IA) pour une visibilité maximale"),
     ("Audience Signals","Signaux d'audience pour guider l'IA vers vos meilleurs prospects",["Customer Match : uploadez vos emails clients pour trouver des similaires","Similar Audiences basées sur vos convertisseurs","In-Market Audiences : personas en phase d'achat active","Custom Intent : audiences basées sur les recherches récentes"],"Plus vous fournissez de signaux de qualité, plus l'IA cible efficacement"),
 ]
 
@@ -2201,7 +2201,7 @@ def gen_budget_reco(monthly: float) -> list:
             "Outils gratuits : Canva Free, Mailchimp Free, Google Search Console, Google Analytics",
             "Stratégie : 2 posts/semaine sur 1 réseau · 1 article de blog SEO/semaine · Newsletter mensuelle",
             "ROI attendu : notoriété et premiers leads organiques en 2-4 mois",
-            " Évitez la pub payante — budget insuffisant pour obtenir des données statistiques fiables",
+            " Évitez la pub payante  --  budget insuffisant pour obtenir des données statistiques fiables",
         ]
     elif monthly <= 200:
         return [
@@ -2307,12 +2307,12 @@ def gen_personas(activity: str) -> list:
 # ─── SPIN SELLING ────────────────────────────────────────────────────────────
 
 # ══════════════════════════════════════════════════════════════════════════════
-# NOUVELLES FONCTIONS D'ANALYSE — Puissance x2
+# NOUVELLES FONCTIONS D'ANALYSE  --  Puissance x2
 # ══════════════════════════════════════════════════════════════════════════════
 
 @st.cache_data(ttl=86400, show_spinner=False)
 def gen_value_chain(activity: str) -> dict:
-    """Chaîne de valeur Porter — analyse complète des activités primaires et support."""
+    """Chaîne de valeur Porter  --  analyse complète des activités primaires et support."""
     chains = {
         "ecommerce": {
             "primaires": [
@@ -2366,7 +2366,7 @@ def gen_value_chain(activity: str) -> dict:
 
 @st.cache_data(ttl=86400, show_spinner=False)
 def gen_business_model_canvas(activity: str, goal: str) -> dict:
-    """Business Model Canvas complet — 9 blocs."""
+    """Business Model Canvas complet  --  9 blocs."""
     _bmc = {
         "ecommerce": {
             "segments": ["Acheteurs en ligne 25-45 ans","Early adopters tech","Pros recherchant B2B"],
@@ -2396,7 +2396,7 @@ def gen_business_model_canvas(activity: str, goal: str) -> dict:
 
 @st.cache_data(ttl=86400, show_spinner=False)
 def gen_growth_hacking(activity: str, monthly_budget: float) -> list:
-    """Growth hacking — tactiques à fort ROI et faible coût."""
+    """Growth hacking  --  tactiques à fort ROI et faible coût."""
     budget_tier = "bootstrap" if monthly_budget < 100 else "growth" if monthly_budget < 500 else "scale"
     tactics = {
         "ecommerce_bootstrap": [
@@ -2422,28 +2422,28 @@ def gen_growth_hacking(activity: str, monthly_budget: float) -> list:
 def gen_scripts(activity: str) -> list:
     scripts = {
         "ecommerce": [
-            {"title":"Email de relance panier abandonné","type":"email_followup","content":"Objet : Votre panier vous attend \n\nBonjour [Prénom],\n\nVous avez laissé quelque chose derrière vous !\n\nVotre sélection : [Produit(s)] est encore disponible — mais le stock est limité.\n\n→ Commander maintenant et bénéficiez de la livraison offerte jusqu'à ce soir.\n\n[BOUTON : Finaliser ma commande]\n\nÀ très vite,\nL'équipe [Marque]","keyPoints":["Personnaliser avec le nom du produit exact","Ajouter l'urgence (stock limité)","Un seul CTA : finaliser la commande","Livraison offerte = levier de conversion puissant"]},
-            {"title":"Script appel client fidèle (upsell)","type":"follow_up","content":"Bonjour [Prénom], c'est [Votre Prénom] de [Marque].\nJe vous appelle car vous êtes l'un de nos meilleurs clients et je souhaitais vous présenter en avant-première notre nouvelle [Collection/Produit].\n\nVous avez commandé [Produit X] il y a [X semaines] — est-ce que vous en êtes satisfait ?\n[Écoute active]\n\nParfait. Je me permets de vous appeler car nous avons justement [Produit complémentaire] qui va parfaitement avec [Produit X]. Nos clients qui associent les deux témoignent de [bénéfice].\n\nPuis-je vous envoyer un lien avec 15% de remise réservée spécialement à nos clients VIP ?","keyPoints":["Ouvrir avec la relation client existante","Valider la satisfaction avant de pitcher","Proposer le produit complémentaire logique","Offre exclusive VIP pour déclencher l'action"]},
+            {"title":"Email de relance panier abandonné","type":"email_followup","content":"Objet : Votre panier vous attend \n\nBonjour [Prénom],\n\nVous avez laissé quelque chose derrière vous !\n\nVotre sélection : [Produit(s)] est encore disponible  --  mais le stock est limité.\n\n→ Commander maintenant et bénéficiez de la livraison offerte jusqu'à ce soir.\n\n[BOUTON : Finaliser ma commande]\n\nÀ très vite,\nL'équipe [Marque]","keyPoints":["Personnaliser avec le nom du produit exact","Ajouter l'urgence (stock limité)","Un seul CTA : finaliser la commande","Livraison offerte = levier de conversion puissant"]},
+            {"title":"Script appel client fidèle (upsell)","type":"follow_up","content":"Bonjour [Prénom], c'est [Votre Prénom] de [Marque].\nJe vous appelle car vous êtes l'un de nos meilleurs clients et je souhaitais vous présenter en avant-première notre nouvelle [Collection/Produit].\n\nVous avez commandé [Produit X] il y a [X semaines]  --  est-ce que vous en êtes satisfait ?\n[Écoute active]\n\nParfait. Je me permets de vous appeler car nous avons justement [Produit complémentaire] qui va parfaitement avec [Produit X]. Nos clients qui associent les deux témoignent de [bénéfice].\n\nPuis-je vous envoyer un lien avec 15% de remise réservée spécialement à nos clients VIP ?","keyPoints":["Ouvrir avec la relation client existante","Valider la satisfaction avant de pitcher","Proposer le produit complémentaire logique","Offre exclusive VIP pour déclencher l'action"]},
         ],
         "saas": [
-            {"title":"Email cold outreach B2B","type":"cold_call","content":"Objet : [Prénom], [Résultat en 5 mots]\n\nBonjour [Prénom],\n\nJ'ai remarqué que [Entreprise] est en train de [croissance/changement observé] — c'est souvent à ce stade que [problème que vous résolvez] devient un vrai frein.\n\nOn a aidé [Client similaire] à [résultat mesurable] en [délai]. Voici le détail : [lien cas client]\n\nÊtes-vous disponible 15 minutes cette semaine pour voir si on peut faire la même chose pour [Entreprise] ?\n\n[Prénom]\nPS : Si ce n'est pas le bon moment, pas de problème — je reviendrai en [date].","keyPoints":["Personnaliser avec un signal d'actualité de l'entreprise","Référencer un cas client similaire","Demander 15 min, pas une heure","PS humanise et réduit la pression"]},
-            {"title":"Script démo SaaS SPIN (30 min)","type":"discovery","content":"Introduction (2 min)\n'Merci [Prénom] de prendre le temps. Avant de vous montrer quoi que ce soit, j'aimerais comprendre votre situation. Ça m'évitera de vous montrer des features qui ne vous concernent pas.'\n\nDécouverte SPIN (10 min)\n- Situation : 'Comment gérez-vous actuellement [processus] ?'\n- Problème : 'Qu'est-ce qui vous frustre le plus avec cette façon de faire ?'\n- Implication : 'Ça représente combien de temps/argent par semaine ?'\n- Need : 'Si vous pouviez [résoudre ce problème], quel impact sur [objectif] ?'\n\nDémonstration ciblée (12 min)\nMontrez UNIQUEMENT les features qui répondent aux douleurs identifiées.\n\nClosing (6 min)\n'Basé sur ce qu'on vient de voir, est-ce que ça correspond à ce que vous cherchez ?'\n'Quelle est la prochaine étape de votre côté pour avancer ?'","keyPoints":["Découverte avant démonstration — toujours","SPIN : Situation → Problème → Implication → Need","Démo ciblée = démo courte = démo efficace","Closing = next step concret, pas 'Je vous envoie une proposition'"]},
+            {"title":"Email cold outreach B2B","type":"cold_call","content":"Objet : [Prénom], [Résultat en 5 mots]\n\nBonjour [Prénom],\n\nJ'ai remarqué que [Entreprise] est en train de [croissance/changement observé]  --  c'est souvent à ce stade que [problème que vous résolvez] devient un vrai frein.\n\nOn a aidé [Client similaire] à [résultat mesurable] en [délai]. Voici le détail : [lien cas client]\n\nÊtes-vous disponible 15 minutes cette semaine pour voir si on peut faire la même chose pour [Entreprise] ?\n\n[Prénom]\nPS : Si ce n'est pas le bon moment, pas de problème  --  je reviendrai en [date].","keyPoints":["Personnaliser avec un signal d'actualité de l'entreprise","Référencer un cas client similaire","Demander 15 min, pas une heure","PS humanise et réduit la pression"]},
+            {"title":"Script démo SaaS SPIN (30 min)","type":"discovery","content":"Introduction (2 min)\n'Merci [Prénom] de prendre le temps. Avant de vous montrer quoi que ce soit, j'aimerais comprendre votre situation. Ça m'évitera de vous montrer des features qui ne vous concernent pas.'\n\nDécouverte SPIN (10 min)\n- Situation : 'Comment gérez-vous actuellement [processus] ?'\n- Problème : 'Qu'est-ce qui vous frustre le plus avec cette façon de faire ?'\n- Implication : 'Ça représente combien de temps/argent par semaine ?'\n- Need : 'Si vous pouviez [résoudre ce problème], quel impact sur [objectif] ?'\n\nDémonstration ciblée (12 min)\nMontrez UNIQUEMENT les features qui répondent aux douleurs identifiées.\n\nClosing (6 min)\n'Basé sur ce qu'on vient de voir, est-ce que ça correspond à ce que vous cherchez ?'\n'Quelle est la prochaine étape de votre côté pour avancer ?'","keyPoints":["Découverte avant démonstration  --  toujours","SPIN : Situation → Problème → Implication → Need","Démo ciblée = démo courte = démo efficace","Closing = next step concret, pas 'Je vous envoie une proposition'"]},
         ],
         "service": [
-            {"title":"Script appel découverte","type":"discovery","content":"Bonjour [Prénom], c'est [Votre Prénom].\nMerci d'avoir pris le temps d'échanger.\n\nAvant de parler de moi, j'aimerais comprendre où vous en êtes.\n\n'Pouvez-vous me décrire votre situation actuelle en matière de [domaine] ?'\n[Écoute]\n\n'Qu'est-ce qui vous a poussé à chercher de l'aide maintenant ?'\n[Écoute — noter le déclencheur]\n\n'Si on résolvait ce problème ensemble, à quoi ressemblerait une situation idéale pour vous dans 6 mois ?'\n[Écoute — noter la vision]\n\nProposition :\n'Basé sur ce que vous m'avez dit, voici comment je pourrais vous aider : [offre en 3 lignes].'\n\n'Est-ce que ça vous semble correspondre à ce que vous cherchez ?'","keyPoints":["Écouter 80% du temps — parler 20%","Identifier le déclencheur d'achat","Faire visualiser l'état désiré avant de pitcher","Offre courte et personnalisée en fin d'appel"]},
+            {"title":"Script appel découverte","type":"discovery","content":"Bonjour [Prénom], c'est [Votre Prénom].\nMerci d'avoir pris le temps d'échanger.\n\nAvant de parler de moi, j'aimerais comprendre où vous en êtes.\n\n'Pouvez-vous me décrire votre situation actuelle en matière de [domaine] ?'\n[Écoute]\n\n'Qu'est-ce qui vous a poussé à chercher de l'aide maintenant ?'\n[Écoute  --  noter le déclencheur]\n\n'Si on résolvait ce problème ensemble, à quoi ressemblerait une situation idéale pour vous dans 6 mois ?'\n[Écoute  --  noter la vision]\n\nProposition :\n'Basé sur ce que vous m'avez dit, voici comment je pourrais vous aider : [offre en 3 lignes].'\n\n'Est-ce que ça vous semble correspondre à ce que vous cherchez ?'","keyPoints":["Écouter 80% du temps  --  parler 20%","Identifier le déclencheur d'achat","Faire visualiser l'état désiré avant de pitcher","Offre courte et personnalisée en fin d'appel"]},
         ],
         "default": [
             {"title":"Email de prospection","type":"cold_call","content":"Objet : [Résultat concret] pour [Type d'entreprise]\n\nBonjour [Prénom],\n\nJe travaille avec des [profil similaire] qui font face à [problème courant].\n\nNotre approche leur a permis d'obtenir [résultat mesurable] en [délai].\n\nSeriez-vous disponible 15 minutes pour explorer si nous pouvons faire la même chose pour vous ?\n\n[Votre signature]","keyPoints":["Cibler précisément le profil","Mentionner un résultat concret","Demander un petit engagement (15 min)","Personnaliser si possible avec une info de l'entreprise"]},
-            {"title":"Gestion des objections prix","type":"follow_up","content":"Client : 'C'est trop cher.'\n\nVous : 'Je comprends. Puis-je vous poser une question ?'\nSi vous n'investissez pas maintenant, comment comptez-vous résoudre [problème] ?\n\n[Écoute]\n\nEt quel est le coût de ce problème pour vous chaque mois ?\n\n[Écoute]\n\nSi on compare [X € par mois] avec [coût mensuel du problème]... l'investissement semble-t-il encore aussi élevé ?\n\nAlternativement, nous pouvons commencer par [offre d'entrée] à [prix réduit] pour vous permettre d'en mesurer la valeur.","keyPoints":["Ne jamais défendre le prix — questionner le problème","Calculer le coût de l'inaction","Proposer une entrée de gamme si budget bloquant","Retourner l'objection en opportunité"]},
+            {"title":"Gestion des objections prix","type":"follow_up","content":"Client : 'C'est trop cher.'\n\nVous : 'Je comprends. Puis-je vous poser une question ?'\nSi vous n'investissez pas maintenant, comment comptez-vous résoudre [problème] ?\n\n[Écoute]\n\nEt quel est le coût de ce problème pour vous chaque mois ?\n\n[Écoute]\n\nSi on compare [X € par mois] avec [coût mensuel du problème]... l'investissement semble-t-il encore aussi élevé ?\n\nAlternativement, nous pouvons commencer par [offre d'entrée] à [prix réduit] pour vous permettre d'en mesurer la valeur.","keyPoints":["Ne jamais défendre le prix  --  questionner le problème","Calculer le coût de l'inaction","Proposer une entrée de gamme si budget bloquant","Retourner l'objection en opportunité"]},
         ],
     }
     return copy.deepcopy(scripts.get(activity, scripts["default"]))
 
 _OBJECTIONS = [
     ("C'est trop cher","Comprenez-vous vraiment à quoi correspond l'investissement ? Calculons ensemble le coût de votre problème actuel chaque mois. Si [solution] résout ce problème, quel est le ROI ?"),
-    ("J'ai besoin d'y réfléchir","Tout à fait naturel. Qu'est-ce qui vous ferait encore hésiter après réflexion ? En général c'est le prix, le timing, ou le fit — lequel des trois vous préoccupe le plus ?"),
-    ("Je travaille déjà avec quelqu'un","Excellent signe — vous prenez déjà le sujet au sérieux. Qu'est-ce qui vous donnerait envie d'explorer une alternative si les résultats n'étaient pas au rendez-vous ?"),
-    ("On n'a pas de budget","Le budget n'est jamais le vrai problème — c'est la priorité. Si je vous prouvais que [solution] génère plus qu'elle ne coûte en 90 jours, comment vous organiseriez-vous ?"),
+    ("J'ai besoin d'y réfléchir","Tout à fait naturel. Qu'est-ce qui vous ferait encore hésiter après réflexion ? En général c'est le prix, le timing, ou le fit  --  lequel des trois vous préoccupe le plus ?"),
+    ("Je travaille déjà avec quelqu'un","Excellent signe  --  vous prenez déjà le sujet au sérieux. Qu'est-ce qui vous donnerait envie d'explorer une alternative si les résultats n'étaient pas au rendez-vous ?"),
+    ("On n'a pas de budget","Le budget n'est jamais le vrai problème  --  c'est la priorité. Si je vous prouvais que [solution] génère plus qu'elle ne coûte en 90 jours, comment vous organiseriez-vous ?"),
     ("On peut le faire en interne","Absolument possible. Quelle est la valeur du temps de votre équipe sur cette tâche vs son coût avec nous ? Et ont-ils l'expertise spécifique nécessaire ?"),
 ]
 
@@ -2504,8 +2504,8 @@ def gen_okr(goal: str) -> list:
 
 # ─── SYNTHESIS ───────────────────────────────────────────────────────────────
 _PRIORITIES = {
-    "awareness": ["Créez votre contenu pilier (2000+ mots) sur votre thème principal","Lancez votre présence sur 2 réseaux sociaux maximum — maîtrisez avant d'étendre","Définissez votre TOV (Tone of Voice) et charte éditoriale","Construisez votre liste email dès maintenant — c'est votre actif le plus précieux"],
-    "sales": ["Optimisez votre tunnel de conversion — identifiez où vous perdez les prospects","Testez 2 versions de votre CTA principal (A/B test)","Mettez en place le retargeting sur Meta et Google","Activez les emails de relance automatiques (panier abandonné, devis non signé)"],
+    "awareness": ["Créez votre contenu pilier (2000+ mots) sur votre thème principal","Lancez votre présence sur 2 réseaux sociaux maximum  --  maîtrisez avant d'étendre","Définissez votre TOV (Tone of Voice) et charte éditoriale","Construisez votre liste email dès maintenant  --  c'est votre actif le plus précieux"],
+    "sales": ["Optimisez votre tunnel de conversion  --  identifiez où vous perdez les prospects","Testez 2 versions de votre CTA principal (A/B test)","Mettez en place le retargeting sur Meta et Google","Activez les emails de relance automatiques (panier abandonné, devis non signé)"],
     "leads": ["Créez votre premier lead magnet à haute valeur perçue","Configurez une séquence email de nurturing (7 emails sur 14 jours)","Optimisez vos landing pages pour un seul objectif : la conversion","Intégrez un CRM pour tracker chaque lead de A à Z"],
     "traffic": ["Publiez 2 contenus SEO par semaine minimum pendant 3 mois","Lancez votre stratégie de backlinks (guest posting, digital PR)","Optimisez vos Core Web Vitals (LCP < 2.5s, CLS < 0.1)","Créez vos clusters de contenu autour de 3 thèmes piliers"],
 }
@@ -2554,7 +2554,7 @@ def gen_proposition_valeur(activity: str, site_name: str = "") -> dict:
             "emotionnelle": "Tranquillite d'esprit, fierte du produit recu, sentiment d'etre bien traite",
             "symbolique": "Marque de confiance qui respecte ses clients et tient ses promesses",
             "differenciateurs": [
-                "Service client reactif — reponse en moins de 2h",
+                "Service client reactif  --  reponse en moins de 2h",
                 "Retours gratuits 30 jours sans condition",
                 "Avis clients verifies et transparents",
                 "Livraison express disponible",
@@ -2570,7 +2570,7 @@ def gen_proposition_valeur(activity: str, site_name: str = "") -> dict:
                 "Onboarding en moins de 10 minutes",
                 "Support fondateur accessible directement",
                 "Intégrations natives avec vos outils existants",
-                "Données exportables — aucun lock-in",
+                "Données exportables  --  aucun lock-in",
             ],
         },
         "service": {
@@ -2593,7 +2593,7 @@ def gen_proposition_valeur(activity: str, site_name: str = "") -> dict:
             "emotionnelle": "Confiance dans les decisions, clarté dans la direction, réduction du stress",
             "symbolique": "Etre accompagné par un expert reconnu qui partage votre ambition",
             "differenciateurs": [
-                "Approche personnalisée — aucun template générique",
+                "Approche personnalisée  --  aucun template générique",
                 "Expertise sectorielle pointue et vérifiable",
                 "Transfert de compétences inclus",
                 "Accès direct au consultant senior",
@@ -2640,7 +2640,7 @@ def gen_rfm_segments(activity: str, monthly_budget: float) -> list:
     return [
         {
             "nom": "Champions",
-            "description": "Acheteurs récents, fréquents, à fort montant — vos meilleurs clients",
+            "description": "Acheteurs récents, fréquents, à fort montant  --  vos meilleurs clients",
             "clv": round(clv * 3.5),
             "pourcentage": 15,
             "actions": [
@@ -2652,7 +2652,7 @@ def gen_rfm_segments(activity: str, monthly_budget: float) -> list:
         },
         {
             "nom": "Fidèles",
-            "description": "Clients réguliers avec bon montant — le coeur de votre business",
+            "description": "Clients réguliers avec bon montant  --  le coeur de votre business",
             "clv": round(clv * 1.8),
             "pourcentage": 25,
             "actions": [
@@ -2664,7 +2664,7 @@ def gen_rfm_segments(activity: str, monthly_budget: float) -> list:
         },
         {
             "nom": "A risque",
-            "description": "Clients qui n'ont pas acheté depuis longtemps — risque de churn",
+            "description": "Clients qui n'ont pas acheté depuis longtemps  --  risque de churn",
             "clv": round(clv * 0.6),
             "pourcentage": 30,
             "actions": [
@@ -2676,7 +2676,7 @@ def gen_rfm_segments(activity: str, monthly_budget: float) -> list:
         },
         {
             "nom": "Perdus",
-            "description": "Clients inactifs depuis longtemps — win-back ou abandon",
+            "description": "Clients inactifs depuis longtemps  --  win-back ou abandon",
             "clv": round(clv * 0.1),
             "pourcentage": 30,
             "actions": [
@@ -2691,7 +2691,7 @@ def gen_rfm_segments(activity: str, monthly_budget: float) -> list:
 
 @st.cache_data(ttl=3600)
 def gen_rse(activity: str) -> dict:
-    """Analyse RSE / ISO 26000 — 7 domaines."""
+    """Analyse RSE / ISO 26000  --  7 domaines."""
     _rse_base = {
         "Gouvernance de l'organisation": {
             "niveau": 3,
@@ -2788,29 +2788,29 @@ def gen_negociation(activity: str, monthly_budget: float) -> dict:
         "batna": {
             "vendeur": batna_a,
             "acheteur": batna_b,
-            "conseil": "Renforcez votre BATNA avant toute négociation — plus votre alternative est forte, plus vous négociez de haut",
+            "conseil": "Renforcez votre BATNA avant toute négociation  --  plus votre alternative est forte, plus vous négociez de haut",
         },
         "zopa": {
             "min": zopa_min,
             "max": zopa_max,
             "amplitude": round((zopa_max - zopa_min) / zopa_max * 100),
-            "conseil": f"Zone d'accord probable entre {zopa_min:,} € et {zopa_max:,} € — ancrez votre première offre au-dessus de votre objectif",
+            "conseil": f"Zone d'accord probable entre {zopa_min:,} € et {zopa_max:,} €  --  ancrez votre première offre au-dessus de votre objectif",
         },
         "concessions": [
             "Concession conditionnelle : 'Si vous acceptez X, alors je peux faire Y'",
             "Concession de valeur perçue : offrez quelque chose qui coûte peu mais vaut beaucoup",
-            "Ne jamais faire de concession sans contrepartie — chaque concession doit être échangée",
-            "La dernière concession doit toujours être petite — cela donne l'impression d'avoir atteint la limite",
+            "Ne jamais faire de concession sans contrepartie  --  chaque concession doit être échangée",
+            "La dernière concession doit toujours être petite  --  cela donne l'impression d'avoir atteint la limite",
         ],
         "tactiques": [
             "Ancrage : première offre toujours haute pour calibrer les attentes",
-            "Silence stratégique : après une offre, ne parlez pas — laissez la pression s'exercer",
+            "Silence stratégique : après une offre, ne parlez pas  --  laissez la pression s'exercer",
             "Flinch : réaction surprise visible face à chaque demande de concession",
             "Good cop / Bad cop : jouez sur plusieurs interlocuteurs pour créer de la flexibilité",
             "Deadline artificielle : 'Notre tarif change en fin de semaine'",
         ],
         "objections_prix": [
-            ("C'est trop cher", "Calculons ensemble le ROI — si notre solution rapporte plus qu'elle coûte, est-ce encore trop cher ?"),
+            ("C'est trop cher", "Calculons ensemble le ROI  --  si notre solution rapporte plus qu'elle coûte, est-ce encore trop cher ?"),
             ("J'ai une offre moins chère", "Comparez le coût total : prix + temps d'implémentation + risques. Notre offre inclut..."),
             ("Je dois consulter ma direction", "Bien sûr. Que vous faut-il pour avoir une recommandation solide à lui présenter ?"),
             ("On n'a pas le budget", "Si je vous montrais comment financer cela sans impact trésorerie immédiat, on pourrait avancer ?"),
@@ -2827,64 +2827,64 @@ def gen_prix_psychologiques(monthly_budget: float, activity: str) -> list:
     return [
         {
             "nom": "Prix en charme (X9)",
-            "description": "Terminez vos prix par 9 ou 7 — le cerveau perçoit 99 € comme nettement moins que 100 €",
-            "exemple": f"{ref_price - 1}€ au lieu de {ref_price}€ — gain de conversion estimé +15 à +30%",
+            "description": "Terminez vos prix par 9 ou 7  --  le cerveau perçoit 99 € comme nettement moins que 100 €",
+            "exemple": f"{ref_price - 1}€ au lieu de {ref_price}€  --  gain de conversion estimé +15 à +30%",
             "impact": "Élevé",
         },
         {
             "nom": "Ancrage haut",
             "description": "Affichez d'abord le prix le plus élevé pour calibrer les attentes",
-            "exemple": f"Affichez l'offre Premium {anchor}€ avant l'offre Standard {ref_price}€ — la Standard semble abordable",
+            "exemple": f"Affichez l'offre Premium {anchor}€ avant l'offre Standard {ref_price}€  --  la Standard semble abordable",
             "impact": "Très élevé",
         },
         {
             "nom": "Prix barré",
-            "description": "Montrez le prix de référence barré avec le prix promotionnel — active l'aversion à la perte",
-            "exemple": f"~~{round(ref_price * 1.4)}€~~ {ref_price}€ — économie visible = valeur perçue augmentée",
+            "description": "Montrez le prix de référence barré avec le prix promotionnel  --  active l'aversion à la perte",
+            "exemple": f"~~{round(ref_price * 1.4)}€~~ {ref_price}€  --  économie visible = valeur perçue augmentée",
             "impact": "Élevé",
         },
         {
             "nom": "Tarification par paliers (decoy)",
-            "description": "Créez 3 offres où la médiane est votre cible — l'effet decoy pousse vers le milieu",
+            "description": "Créez 3 offres où la médiane est votre cible  --  l'effet decoy pousse vers le milieu",
             "exemple": f"Starter {round(ref_price * 0.6)}€ | Pro {ref_price}€ (recommandé) | Enterprise {premium}€",
             "impact": "Très élevé",
         },
         {
             "nom": "Prix fractionnés",
             "description": "Exprimez le prix en coût journalier ou hebdomadaire pour réduire la perception du montant",
-            "exemple": f"{ref_price}€/mois devient 'Moins de {round(ref_price/30)}€/jour — moins qu'un café'",
+            "exemple": f"{ref_price}€/mois devient 'Moins de {round(ref_price/30)}€/jour  --  moins qu'un café'",
             "impact": "Moyen",
         },
         {
             "nom": "Bundle et économies affichées",
             "description": "Regroupez des produits et affichez l'économie en euros ET en pourcentage",
-            "exemple": f"Pack complet {round(ref_price * 2.4)}€ au lieu de {round(ref_price * 3)}€ — économisez {round(ref_price * 0.6)}€ (20%)",
+            "exemple": f"Pack complet {round(ref_price * 2.4)}€ au lieu de {round(ref_price * 3)}€  --  économisez {round(ref_price * 0.6)}€ (20%)",
             "impact": "Élevé",
         },
         {
             "nom": "Essai gratuit puis prix",
-            "description": "L'engagement progressif augmente la conversion — l'utilisateur s'est déjà approprié le produit",
-            "exemple": f"14 jours gratuits sans CB → {ref_price}€/mois — réduction du risque perçu = +40% de conversion",
+            "description": "L'engagement progressif augmente la conversion  --  l'utilisateur s'est déjà approprié le produit",
+            "exemple": f"14 jours gratuits sans CB → {ref_price}€/mois  --  réduction du risque perçu = +40% de conversion",
             "impact": "Très élevé",
         },
     ]
 
 
-# ─── WEB SCRAPING — AllOrigins Proxy + BeautifulSoup ─────────────────────────
+# ─── WEB SCRAPING  --  AllOrigins Proxy + BeautifulSoup ─────────────────────────
 # ══════════════════════════════════════════════════════════════════════════════
-# NOUVELLES FONCTIONS — Analyse 2× plus puissante
+# NOUVELLES FONCTIONS  --  Analyse 2× plus puissante
 # Ajoutées à biziapp.py comme module inline
 # ══════════════════════════════════════════════════════════════════════════════
 
 @st.cache_data(ttl=86400, show_spinner=False)
 def gen_porter_forces(activity: str) -> dict:
-    """5 Forces de Porter — analyse concurrentielle approfondie."""
+    """5 Forces de Porter  --  analyse concurrentielle approfondie."""
     _PORTER = {
         "ecommerce": {
             "menace_nouveaux": {"score": 8, "label": "Élevée", "details": ["Barrières faibles (Shopify, WooCommerce)", "Amazon, TikTok Shop entrants permanents", "Faibles coûts d'entrée < 5 000€"]},
             "pouvoir_fournisseurs": {"score": 5, "label": "Modéré", "details": ["Dépendance aux marketplaces (Amazon, FNAC)", "Prestataires logistiques concentrés", "Négociation possible au-delà de 50K€/an"]},
             "pouvoir_acheteurs": {"score": 7, "label": "Élevé", "details": ["Comparateurs de prix omniprésents", "Coût de changement quasi nul", "Avis clients décisifs (4.2★ minimum)"]},
-            "menace_substituts": {"score": 6, "label": "Modérée", "details": ["Social commerce (Instagram Shop)", "Seconde main (Vinted, eBay)", "Location vs achat — économie circulaire"]},
+            "menace_substituts": {"score": 6, "label": "Modérée", "details": ["Social commerce (Instagram Shop)", "Seconde main (Vinted, eBay)", "Location vs achat  --  économie circulaire"]},
             "rivalite": {"score": 9, "label": "Très élevée", "details": ["Marchés saturés", "Guerre des prix permanente", "Différenciation par l'expérience UX/CX"]},
         },
         "saas": {
@@ -2923,7 +2923,7 @@ def gen_porter_forces(activity: str) -> dict:
 
 @st.cache_data(ttl=3600)
 def gen_ansoff_matrix(activity: str, goal: str, maturity: str) -> dict:
-    """Matrice d'Ansoff — 4 stratégies de croissance avec recommandation."""
+    """Matrice d'Ansoff  --  4 stratégies de croissance avec recommandation."""
     _score_pen = {"idea": 40, "inprogress": 65, "launched": 80}.get(maturity, 50)
     _score_dev = {"idea": 20, "inprogress": 50, "launched": 70}.get(maturity, 40)
     _score_ext = {"idea": 10, "inprogress": 30, "launched": 60}.get(maturity, 30)
@@ -2931,7 +2931,7 @@ def gen_ansoff_matrix(activity: str, goal: str, maturity: str) -> dict:
 
     _ACTIONS = {
         "ecommerce": {
-            "penetration": ["Optimiser le référencement SEO/SEA", "Relances panier abandonné (email)", "Programme de fidélité — points/cashback", "Upselling et cross-selling automatisés"],
+            "penetration": ["Optimiser le référencement SEO/SEA", "Relances panier abandonné (email)", "Programme de fidélité  --  points/cashback", "Upselling et cross-selling automatisés"],
             "developpement": ["Lancer une gamme complémentaire", "Étendre aux marketplaces (Amazon, FNAC, ManoMano)", "Créer une offre abonnement récurrent", "Développer la vente B2B"],
             "extension": ["Internationalisation (Belgique, Suisse, Canada FR)", "Ouverture d'un point relais ou pop-up store", "Partenariat avec enseignes physiques", "Marketplace propre pour vendeurs tiers"],
             "diversification": ["Créer une marque propre (PL)", "Formation/ateliers autour du produit", "Services annexes (installation, SAV premium)", "Contenu monétisé (blog/YouTube)"],
@@ -2962,7 +2962,7 @@ def gen_ansoff_matrix(activity: str, goal: str, maturity: str) -> dict:
 
 @st.cache_data(ttl=3600)
 def gen_customer_journey(activity: str, goal: str) -> list:
-    """Customer Journey Map complète — 7 étapes avec touchpoints et émotions."""
+    """Customer Journey Map complète  --  7 étapes avec touchpoints et émotions."""
     _STAGES = {
         "ecommerce": [
             {"stage": "Découverte", "emotion": "Neutre", "score": 3, "touchpoints": ["Google Search", "Instagram Ads", "Bouche-à-oreille"], "pain": "Trop d'options disponibles", "opportunity": "SEO + contenu différenciant"},
@@ -2989,7 +2989,7 @@ def gen_customer_journey(activity: str, goal: str) -> list:
 
 @st.cache_data(ttl=3600)
 def gen_content_strategy(activity: str, goal: str, monthly_budget: float) -> dict:
-    """Stratégie de contenu complète — piliers, formats, calendrier, KPIs."""
+    """Stratégie de contenu complète  --  piliers, formats, calendrier, KPIs."""
     _PILLARS = {
         "ecommerce": ["Inspiration produit", "Tutos & guides d'achat", "Coulisses & fabrication", "Avis & UGC clients", "Promotions & exclusivités"],
         "saas": ["Éducation (how-to)", "Cas d'usage clients", "Insights sectoriels", "Product updates", "Thought leadership"],
@@ -3028,7 +3028,7 @@ def gen_content_strategy(activity: str, goal: str, monthly_budget: float) -> dic
 
 @st.cache_data(ttl=3600)
 def gen_pricing_strategy(activity: str, monthly_budget: float, maturity: str) -> dict:
-    """Stratégie pricing complète — modèles, psychologie, positionnement."""
+    """Stratégie pricing complète  --  modèles, psychologie, positionnement."""
     _MODELS = {
         "ecommerce": ["Prix psychologique (9,99€)", "Bundle (lot de 3 = -20%)", "Prix d'ancrage (barré → prix promo)", "Freemium (échantillon → achat)", "Prix dynamique selon stock"],
         "saas": ["Freemium → Paid", "Par usage (pay-as-you-go)", "Par siège (per seat)", "Flat rate annuel", "Enterprise (sur devis)"],
@@ -3062,16 +3062,16 @@ def gen_pricing_strategy(activity: str, monthly_budget: float, maturity: str) ->
 
 @st.cache_data(ttl=3600)
 def gen_email_sequences(activity: str, goal: str) -> dict:
-    """Séquences email marketing complètes — 5 types de sequences."""
+    """Séquences email marketing complètes  --  5 types de sequences."""
     _SEQ = {
         "welcome": {
             "name": "Bienvenue (J0-J7)",
             "emails": [
-                {"j": "J+0", "objet": "Bienvenue ! Voici comment démarrer ", "objectif": "Activation — 1ère action dans les 5 min"},
-                {"j": "J+1", "objet": "Le secret de [Bénéfice principal]", "objectif": "Éducation — valeur immédiate"},
-                {"j": "J+3", "objet": "Comment [Nom client] a obtenu [Résultat]", "objectif": "Social proof — cas client"},
-                {"j": "J+5", "objet": "Évitez ces 3 erreurs courantes", "objectif": "Expertise — confiance"},
-                {"j": "J+7", "objet": "Prêt à passer à l'étape suivante ?", "objectif": "Conversion — CTA offre"},
+                {"j": "J+0", "objet": "Bienvenue ! Voici comment démarrer ", "objectif": "Activation  --  1ère action dans les 5 min"},
+                {"j": "J+1", "objet": "Le secret de [Bénéfice principal]", "objectif": "Éducation  --  valeur immédiate"},
+                {"j": "J+3", "objet": "Comment [Nom client] a obtenu [Résultat]", "objectif": "Social proof  --  cas client"},
+                {"j": "J+5", "objet": "Évitez ces 3 erreurs courantes", "objectif": "Expertise  --  confiance"},
+                {"j": "J+7", "objet": "Prêt à passer à l'étape suivante ?", "objectif": "Conversion  --  CTA offre"},
             ],
             "kpis": {"open_rate": ">45%", "ctr": ">12%", "conversion": ">8%"}
         },
@@ -3080,8 +3080,8 @@ def gen_email_sequences(activity: str, goal: str) -> dict:
             "emails": [
                 {"j": "S1", "objet": "Insight n°1 : [Tendance sectorielle]", "objectif": "Valeur + positionnement expert"},
                 {"j": "S2", "objet": "Étude de cas : +[X]% en [durée]", "objectif": "Preuve de résultats"},
-                {"j": "S3", "objet": "Template gratuit — [Outil pratique]", "objectif": "Lead magnet — engagement fort"},
-                {"j": "S4", "objet": "Offre exclusive — 48h seulement", "objectif": "Conversion avec urgence"},
+                {"j": "S3", "objet": "Template gratuit  --  [Outil pratique]", "objectif": "Lead magnet  --  engagement fort"},
+                {"j": "S4", "objet": "Offre exclusive  --  48h seulement", "objectif": "Conversion avec urgence"},
             ],
             "kpis": {"open_rate": ">28%", "ctr": ">6%", "conversion": ">3%"}
         },
@@ -3099,8 +3099,8 @@ def gen_email_sequences(activity: str, goal: str) -> dict:
             "emails": [
                 {"j": "J0", "objet": "Vous nous manquez, [Prénom] ", "objectif": "Émotion + souvenir positif"},
                 {"j": "J+3", "objet": "Voici ce qui a changé depuis votre départ", "objectif": "Nouveautés produit"},
-                {"j": "J+7", "objet": "Offre de retour — rien que pour vous", "objectif": "Incentive exclusif"},
-                {"j": "J+14", "objet": "C'est notre dernier message", "objectif": "Urgence — dernier essai"},
+                {"j": "J+7", "objet": "Offre de retour  --  rien que pour vous", "objectif": "Incentive exclusif"},
+                {"j": "J+14", "objet": "C'est notre dernier message", "objectif": "Urgence  --  dernier essai"},
             ],
             "kpis": {"open_rate": ">35%", "ctr": ">8%", "conversion": ">5%"}
         },
@@ -3147,7 +3147,7 @@ def gen_social_media_strategy(activity: str, monthly_budget: float) -> dict:
 
 @st.cache_data(ttl=3600)
 def gen_competitive_intelligence(activity: str, goal: str) -> dict:
-    """Framework intelligence concurrentielle — méthodes et KPIs de veille."""
+    """Framework intelligence concurrentielle  --  méthodes et KPIs de veille."""
     return {
         "axes_veille": [
             {"axe": "Pricing", "methode": "Scraping hebdo des pages tarifaires", "outils": ["Wayback Machine", "Google Alerts prix concurrents"]},
@@ -3268,7 +3268,7 @@ def scrape_site_meta(url: str) -> dict:
     return scrape_site(url)
 
 # ─────────────────────────────────────────────────────────────────────────────
-# VEILLE — Fonctions live (Google News · DuckDuckGo · Wikipedia)
+# VEILLE  --  Fonctions live (Google News · DuckDuckGo · Wikipedia)
 # ─────────────────────────────────────────────────────────────────────────────
 _UA_VEILLE = "Mozilla/5.0 BiziApp-Veille/2.0"
 _STOP_VEILLE = {
@@ -3307,7 +3307,7 @@ def _veille_keywords(text: str, top: int = 15) -> list:
 
 @st.cache_data(ttl=900)
 def fetch_news(query: str, lang: str = "fr", max_items: int = 12) -> list:
-    """Google News RSS — actualités live. Gratuit, sans clé API. Cache 30 min."""
+    """Google News RSS  --  actualités live. Gratuit, sans clé API. Cache 30 min."""
     try:
         encoded = _urlparse.quote(query)
         rss = (
@@ -3360,7 +3360,7 @@ def fetch_ddg(query: str) -> dict:
 
 @st.cache_data(ttl=3600)
 def fetch_wiki(topic: str, lang: str = "fr") -> dict:
-    """Wikipedia REST API — résumé d'un sujet. Cache 1h."""
+    """Wikipedia REST API  --  résumé d'un sujet. Cache 1h."""
     try:
         encoded = _urlparse.quote(topic)
         text = _veille_get(
@@ -3422,7 +3422,7 @@ def scrape_competitor(url: str) -> dict:
         return {"error": str(e), "url": url}
 
 # ═════════════════════════════════════════════════════════════════════════════
-# ── SIDEBAR — WIZARD ─────────────────────────────────────────────────────────
+# ── SIDEBAR  --  WIZARD ─────────────────────────────────────────────────────────
 # ═════════════════════════════════════════════════════════════════════════════
 
 # ─── ADS & MEDIA PLAN ────────────────────────────────────────────────────────
@@ -3469,13 +3469,13 @@ def gen_ads(activity: str, goal: str, monthly_budget: float) -> dict:
 
     fb_campaigns = []
     if fb_budget > 0:
-        fb_campaigns.append({"name":"Acquisition — Audience Froide","objective":fb_obj,"budget":round(fb_budget*0.6),"format":"Reel + Carrousel",
+        fb_campaigns.append({"name":"Acquisition  --  Audience Froide","objective":fb_obj,"budget":round(fb_budget*0.6),"format":"Reel + Carrousel",
             "creatives":[
                 {"format":"Reel 15s","headline":"Découvrez comment [activité] peut transformer votre quotidien","cta":"En savoir plus","audience":"Lookalike 2% clients"},
                 {"format":"Carrousel","headline":"3 raisons qui font la différence","cta":"Voir l'offre","audience":"Intérêts ciblés 25-45 ans"},
             ]})
         if fb_budget >= 60:
-            fb_campaigns.append({"name":"Retargeting — Audience Chaude","objective":"Conversions","budget":round(fb_budget*0.4),"format":"Image + Story",
+            fb_campaigns.append({"name":"Retargeting  --  Audience Chaude","objective":"Conversions","budget":round(fb_budget*0.4),"format":"Image + Story",
                 "creatives":[
                     {"format":"Image unique","headline":"Vous n'avez pas encore sauté le pas ?","cta":f"Profitez de -{discount}","audience":"Visiteurs 30 derniers jours"},
                     {"format":"Story vidéo","headline":"Ils ont essayé. Voici ce qu'ils disent.","cta":"Voir les témoignages","audience":"Engagement page + panier abandonné"},
@@ -3483,9 +3483,9 @@ def gen_ads(activity: str, goal: str, monthly_budget: float) -> dict:
 
     google_campaigns = []
     if gads_budget > 0:
-        google_campaigns.append({"name":"Search — Intention directe","type":"Search","budget":round(gads_budget*0.7),"keywords":kws})
+        google_campaigns.append({"name":"Search  --  Intention directe","type":"Search","budget":round(gads_budget*0.7),"keywords":kws})
         if gads_budget >= 50:
-            google_campaigns.append({"name":"Display — Remarketing","type":"Display Network","budget":round(gads_budget*0.3),
+            google_campaigns.append({"name":"Display  --  Remarketing","type":"Display Network","budget":round(gads_budget*0.3),
                 "keywords":["Remarketing visiteurs 30j","Audiences similaires 2%","In-market Google"]})
 
     organic = [
@@ -3525,7 +3525,7 @@ def gen_roi_projection(activity: str, goal: str, maturity: str, monthly_budget: 
 @st.cache_data(ttl=1800)
 def get_pagespeed(url: str) -> dict:
     """
-    Analyse de performance sans API key — 100% gratuit.
+    Analyse de performance sans API key  --  100% gratuit.
     Utilise une analyse heuristique enrichie : HEAD request + analyse URL + score déterministe.
     """
     if not url or not url.startswith("http"):
@@ -3579,35 +3579,35 @@ def get_pagespeed(url: str) -> dict:
 # ── Challenger Sale data (niveau module) ──────────────────────────────────────
 _CHALLENGER = {
     "teach": [
-        "87% des TPE echouent faute de strategie ecrite — pas de capital. Avez-vous la votre ?",
-        "Vos concurrents utilisent deja [tendance] — voici ce que vous ratez.",
+        "87% des TPE echouent faute de strategie ecrite  --  pas de capital. Avez-vous la votre ?",
+        "Vos concurrents utilisent deja [tendance]  --  voici ce que vous ratez.",
         "Dans 18 mois, AI Overviews representera 40% des recherches Google. Votre SEO est-il pret ?",
-        "Le probleme n'est pas le manque de leads — c'est le manque de methode de closing.",
+        "Le probleme n'est pas le manque de leads  --  c'est le manque de methode de closing.",
         "Benchmark : vos concurrents convertissent a 4.2%. Vous etes ou ?",
     ],
     "tailor": [
-        "DG : 'Ca impacte votre CA comment ?' — DAF : 'Quel est le ROI sur 12 mois ?' — DSI : 'Combien de jours d integration ?'",
-        "Utilisez leur vocabulaire metier, pas le votre — montrez que vous comprenez leur monde.",
+        "DG : 'Ca impacte votre CA comment ?'  --  DAF : 'Quel est le ROI sur 12 mois ?'  --  DSI : 'Combien de jours d integration ?'",
+        "Utilisez leur vocabulaire metier, pas le votre  --  montrez que vous comprenez leur monde.",
         "Ref. pairs respectes : 'Chez [concurrent A], ils ont resolu ca en 3 mois avec cette approche...'",
         "Connectez a leur actualite : levee de fonds, expansion, recrutement = urgence accrue.",
-        "Q4 est critique pour votre secteur — agir maintenant est 3x plus efficace qu en janvier.",
+        "Q4 est critique pour votre secteur  --  agir maintenant est 3x plus efficace qu en janvier.",
     ],
     "take_control": [
-        "Cadrez la conversation — posez les questions, ne repondez pas a tout.",
+        "Cadrez la conversation  --  posez les questions, ne repondez pas a tout.",
         "Prix : 'Ce n est pas une question de budget, c est une question de priorite.'",
-        "Deviation : 'Permettez-moi de recentrer — l enjeu principal que vous m avez decrit est X.'",
+        "Deviation : 'Permettez-moi de recentrer  --  l enjeu principal que vous m avez decrit est X.'",
         "Prochaine etape concrete : 'Je vous envoie la proposition vendredi, on en parle lundi 10h ?'",
         "Assumez la decision : 'Sur la base de tout ce qu on a vu, vous devriez demarrer maintenant.'",
     ],
 }
 
 # ════════════════════════════════════════════════════════════════════════════════
-# NOUVELLES FONCTIONS — Doublement puissance analytique
+# NOUVELLES FONCTIONS  --  Doublement puissance analytique
 # ════════════════════════════════════════════════════════════════════════════════
 
 @st.cache_data(ttl=3600, show_spinner=False)
 def gen_ikigai(activity: str, goal: str) -> dict:
-    """Ikigai professionnel — raison d'etre et positionnement unique."""
+    """Ikigai professionnel  --  raison d'etre et positionnement unique."""
     _M = {
         "ecommerce": {
             "passion":["Creer des experiences d'achat memorables","Selectionner des produits qui changent des vies","Construire une marque authentique"],
@@ -3654,7 +3654,7 @@ def gen_ikigai(activity: str, goal: str) -> dict:
 
 @st.cache_data(ttl=3600, show_spinner=False)
 def gen_blue_ocean(activity: str, goal: str) -> dict:
-    """Strategie Ocean Bleu — Canevas 4 actions."""
+    """Strategie Ocean Bleu  --  Canevas 4 actions."""
     _A = {
         "ecommerce": {
             "eliminer":["Frais de port systematiques","Retour complique","Manque de personnalisation"],
@@ -3699,7 +3699,7 @@ def gen_blue_ocean(activity: str, goal: str) -> dict:
 
 @st.cache_data(ttl=3600, show_spinner=False)
 def gen_lean_canvas(activity: str, goal: str, maturity: str) -> dict:
-    """Lean Canvas — 9 blocs validation business model."""
+    """Lean Canvas  --  9 blocs validation business model."""
     _PROB = {
         "ecommerce":["Livraisons lentes et couteuses","Manque de confiance produit","Experience client mediocre"],
         "saas":["Solutions trop complexes ou cheres","Time-to-value trop long","Integrations difficiles"],
@@ -3719,11 +3719,11 @@ def gen_lean_canvas(activity: str, goal: str, maturity: str) -> dict:
     return {
         "probleme": {"bloc":"Probleme","contenu":_PROB.get(activity,_PROB["other"]),"alternatives":"Cabinets conseils (5-10K€), Excel, intuition"},
         "solution": {"bloc":"Solution","contenu":_SOL.get(activity,_SOL["other"])},
-        "proposition_valeur": f"Plan strategique {LABELS.get(activity,activity)} en 10 min — valeur cabinet 5 000€",
+        "proposition_valeur": f"Plan strategique {LABELS.get(activity,activity)} en 10 min  --  valeur cabinet 5 000€",
         "avantage_competitif": "Donnees sectorielles live + personnalisation + prix accessible",
-        "segments": {"early_adopters":"Dirigeants TPE/PME tech-friendly, freelances ambitieux","marche_total":f"1.2M dirigeants France — {LABELS.get(activity,activity)}"},
+        "segments": {"early_adopters":"Dirigeants TPE/PME tech-friendly, freelances ambitieux","marche_total":f"1.2M dirigeants France  --  {LABELS.get(activity,activity)}"},
         "canaux": ["SEO / Content marketing","LinkedIn organique","Bouche-a-oreille","Product-led growth"],
-        "revenus": "Starter 39€/mois, Pro 89€/mois — recurrent · Cible +15%/mois",
+        "revenus": "Starter 39€/mois, Pro 89€/mois  --  recurrent · Cible +15%/mois",
         "couts": "Infrastructure cloud ~50€/mois + APIs gratuites + temps fondateur",
         "metriques": ["MRR","Churn < 5%/mois","LTV/CAC > 3x","NPS > 50","Time-to-value < 10 min"],
     }
@@ -3731,7 +3731,7 @@ def gen_lean_canvas(activity: str, goal: str, maturity: str) -> dict:
 
 @st.cache_data(ttl=3600, show_spinner=False)
 def gen_scenario_planning(activity: str, goal: str) -> list:
-    """Planification 3 scenarios — 18 mois."""
+    """Planification 3 scenarios  --  18 mois."""
     return [
         {"nom":"Scenario Optimiste (+35% CA)","probabilite":"30%","horizon":"18 mois","couleur":"#267371",
          "conditions":["Traction rapide canaux digitaux","Bouche-a-oreille fort","Conjoncture favorable"],
@@ -3750,7 +3750,7 @@ def gen_scenario_planning(activity: str, goal: str) -> list:
 
 @st.cache_data(ttl=3600, show_spinner=False)
 def gen_data_analytics(activity: str, goal: str, monthly_budget: float) -> dict:
-    """Dashboard analytics — metriques, objectifs, alertes."""
+    """Dashboard analytics  --  metriques, objectifs, alertes."""
     _B = {
         "ecommerce":{"taux_conversion":2.1,"panier_moyen":85,"cac":18,"ltv":280,"churn":8.5,"nps":42},
         "saas":{"taux_conversion":4.2,"arpu":89,"cac":320,"ltv":1780,"churn":5.2,"nps":54},
@@ -3770,9 +3770,9 @@ def gen_data_analytics(activity: str, goal: str, monthly_budget: float) -> dict:
             "roi_cible": f"{int(bf * 2.8 * 100)} %",
         },
         "alertes": [
-            f"Surveiller le churn — objectif < {bench.get('churn',5):.1f}%/mois",
-            f"CAC cible < {bench.get('cac',300):.0f} € — comparer au LTV {bench.get('ltv',1000):.0f} €",
-            f"NPS sectoriel moyen {bench.get('nps',50)} — viser +10 points",
+            f"Surveiller le churn  --  objectif < {bench.get('churn',5):.1f}%/mois",
+            f"CAC cible < {bench.get('cac',300):.0f} €  --  comparer au LTV {bench.get('ltv',1000):.0f} €",
+            f"NPS sectoriel moyen {bench.get('nps',50)}  --  viser +10 points",
         ],
         "kpis_dashboard": [
             {"kpi":"MRR","calcul":f"Clients × {bench.get('arpu', bench.get('ticket_moyen',500))} €/mois"},
@@ -3785,7 +3785,7 @@ def gen_data_analytics(activity: str, goal: str, monthly_budget: float) -> dict:
 
 @st.cache_data(ttl=3600, show_spinner=False)
 def gen_action_plan_180j(activity: str, goal: str, maturity: str, monthly_budget: float) -> list:
-    """Plan d'action 180 jours — 6 sprints de 30 jours."""
+    """Plan d'action 180 jours  --  6 sprints de 30 jours."""
     base = [
         {"sprint":1,"theme":"Fondations","objectif":"Clarifier positionnement et valider la cible",
          "actions":["Definir les 3 personas prioritaires","Formaliser la proposition de valeur unique","Choisir 1 canal acquisition principal","Creer le contenu fondamental (landing, social)"],
@@ -3817,7 +3817,7 @@ def gen_action_plan_180j(activity: str, goal: str, maturity: str, monthly_budget
 
 # ─── SCRIPTS VENTE AVANCÉS ───────────────────────────────────────────────────
 _CLOSING_TECHNIQUES = [
-    {"name":"Alternative","desc":"Proposez deux options favorables — évitez le oui/non binaire.","ex":"Vous préférez commencer lundi ou mercredi ?"},
+    {"name":"Alternative","desc":"Proposez deux options favorables  --  évitez le oui/non binaire.","ex":"Vous préférez commencer lundi ou mercredi ?"},
     {"name":"Urgence authentique","desc":"Créez une raison valide de décider maintenant.","ex":"Notre tarif de lancement se termine vendredi. Je vous réserve une place ?"},
     {"name":"Résumé de valeur","desc":"Récapitulez tous les bénéfices avant de demander la décision.","ex":"Vous obtenez X + Y + Z + garantie 30j. Pour [budget]€/mois. On y va ?"},
     {"name":"Trial sans risque","desc":"Proposez un essai pour lever les blocages.","ex":"Et si on testait 2 semaines sans engagement ? Vous voyez les résultats, vous décidez."},
@@ -3826,7 +3826,7 @@ _CLOSING_TECHNIQUES = [
 
 _MESSAGE_TEMPLATES = [
     {"channel":"Email froid","subject":"[Prénom], [résultat en 5 mots]",
-     "body":"Bonjour [Prénom],\n\nJe serai direct : la plupart des [profil] échouent à [objectif] non par manque de budget, mais par manque de stratégie.\n\nEn analysant votre secteur, j'ai identifié 3 leviers que vous n'exploitez probablement pas encore.\n\nJe vous propose 20 minutes pour vous partager l'analyse — sans engagement.\n\n[Lien calendrier]\n\n[Votre nom]"},
+     "body":"Bonjour [Prénom],\n\nJe serai direct : la plupart des [profil] échouent à [objectif] non par manque de budget, mais par manque de stratégie.\n\nEn analysant votre secteur, j'ai identifié 3 leviers que vous n'exploitez probablement pas encore.\n\nJe vous propose 20 minutes pour vous partager l'analyse  --  sans engagement.\n\n[Lien calendrier]\n\n[Votre nom]"},
     {"channel":"LinkedIn InMail","subject":"Question rapide sur votre stratégie",
      "body":"Bonjour [Prénom],\n\nJ'ai vu votre profil et votre travail sur [Élément spécifique].\n\nUne question : comment gérez-vous actuellement [objectif] ?\n\nJ'aide des profils similaires à structurer ça efficacement. Ouvert à un échange de 15 min ?"},
     {"channel":"SMS / WhatsApp","subject":"",
@@ -3874,7 +3874,7 @@ def _rate_limit_ok(key: str, max_calls: int = 30, window_s: int = 3600) -> bool:
     return True
 
 def _sanitize_input(text: str, max_len: int = 200) -> str:
-    """Nettoie un input texte — enlève caractères de contrôle, limite la longueur."""
+    """Nettoie un input texte  --  enlève caractères de contrôle, limite la longueur."""
     if not text:
         return ""
     import unicodedata
@@ -3917,7 +3917,7 @@ with st.sidebar:
         st.markdown("""
 <div style='background:rgba(68,193,186,.08);border:1px solid rgba(68,193,186,.2);
   border-radius:10px;padding:8px 12px;margin-bottom:8px;text-align:center;font-size:.72rem;color:#339999'>
-  Mode visiteur — fonctions limitees
+  Mode visiteur  --  fonctions limitees
 </div>""", unsafe_allow_html=True)
         if st.button("Connexion / Inscription", type="primary",
                      use_container_width=True, key="btn_auth_sb"):
@@ -3988,7 +3988,7 @@ with st.sidebar:
     # ── VEILLE & CONCURRENTS ─────────────────────────────────────────────────
     st.divider()
     st.markdown('<div class="step-label"><span class="step-num">5</span>Concurrents à surveiller</div>', unsafe_allow_html=True)
-    st.caption("Jusqu'à 3 URLs — analysées en temps réel (proxy gratuit)")
+    st.caption("Jusqu'à 3 URLs  --  analysées en temps réel (proxy gratuit)")
     _comp1 = st.text_input("Concurrent 1", placeholder="https://concurrent1.fr", label_visibility="collapsed", key="sb_c1")
     _comp2 = st.text_input("Concurrent 2", placeholder="https://concurrent2.fr", label_visibility="collapsed", key="sb_c2")
     _comp3 = st.text_input("Concurrent 3", placeholder="https://concurrent3.fr", label_visibility="collapsed", key="sb_c3")
@@ -3997,7 +3997,7 @@ with st.sidebar:
     comp_urls = [u for u in comp_urls if u]
 
     st.markdown('<div class="step-label">Mots-clés veille</div>', unsafe_allow_html=True)
-    st.caption("Un par ligne — alimente le flux d'actualités")
+    st.caption("Un par ligne  --  alimente le flux d'actualités")
     _vkw = st.text_area("Mots-clés", placeholder="intelligence artificielle\nautomation\nstartup", height=80, label_visibility="collapsed", key="sb_vkw")
     veille_keywords = [k.strip() for k in _vkw.strip().split("\n") if k.strip()]
     veille_lang = st.selectbox("Langue actualités", ["fr", "en", "es", "de"], index=0, key="sb_vlang")
@@ -4049,7 +4049,7 @@ if _current_user and _current_user.get("name"):
     elif _cnt == 1:
         _welcome_msg = f"Content de te revoir {_fn} ! Prêt pour une nouvelle analyse ?"
     else:
-        _welcome_msg = f"Re-bonjour {_fn} — {_cnt} analyses générées. Continue sur ta lancée !"
+        _welcome_msg = f"Re-bonjour {_fn}  --  {_cnt} analyses générées. Continue sur ta lancée !"
 
 if _welcome_msg:
     st.markdown(f'<div style="background:linear-gradient(90deg,#C6ECD9,#E4E9F6);border-radius:10px;'
@@ -4098,15 +4098,15 @@ if not st.session_state.get("_run", False):
             return []
 
     _ticker_base = [
-        "+847 000 entreprises créées en France en 2024 — BiziApp les aide à se structurer",
-        "73% des TPE manquent d'une stratégie commerciale — BiziApp la génère en 10 min",
-        "Alternative gratuite à un cabinet conseil à 5 000€ — résultat identique, immédiat",
+        "+847 000 entreprises créées en France en 2024  --  BiziApp les aide à se structurer",
+        "73% des TPE manquent d'une stratégie commerciale  --  BiziApp la génère en 10 min",
+        "Alternative gratuite à un cabinet conseil à 5 000€  --  résultat identique, immédiat",
         "Freelances & consultants : plan commercial professionnel en 10 minutes",
         "Alternative à LivePlan, Stratego, BizPlan : BiziApp est 100% gratuit",
-        "SWOT · PESTEL · Porter · Ansoff · Personas · AIDA · SONCAS · OKR — tout en un",
-        "87% des dirigeants de TPE n'ont pas de plan marketing formalisé — changez ça",
+        "SWOT · PESTEL · Porter · Ansoff · Personas · AIDA · SONCAS · OKR  --  tout en un",
+        "87% des dirigeants de TPE n'ont pas de plan marketing formalisé  --  changez ça",
         "BiziApp : le diagnostic stratégique que votre concurrent n'a pas encore fait",
-        "Mieux que Canva Business, LivePlan, Stratego — entièrement gratuit sans inscription",
+        "Mieux que Canva Business, LivePlan, Stratego  --  entièrement gratuit sans inscription",
         "Votre plan commercial complet : SWOT · Marketing · SEO · KPIs · Roadmap 180j",
     ]
     _ticker_live = _get_ticker_data()
@@ -4138,7 +4138,7 @@ if not st.session_state.get("_run", False):
     margin:0 auto 24px;line-height:1.65;font-weight:500">
     BiziApp analyse ton activité et génère instantanément ton diagnostic SWOT,
     tes personas clients, ta stratégie marketing, ton plan SEO et ta roadmap
-    — personnalisé, structuré, actionnable.
+     --  personnalisé, structuré, actionnable.
   </p>
 </div>
 """, unsafe_allow_html=True)
@@ -4204,7 +4204,7 @@ if not st.session_state.get("_run", False):
         st.markdown(
             '<div class="prob-row lp-problems" style="animation-delay:' + str(i * 0.1) + 's">'
             '<span style="font-size:1.4rem;flex-shrink:0">' + icon + '</span>'
-            '<span style="font-size:.88rem;color:#0B2221;line-height:1.5"><b>' + title + '</b> — ' + text + '</span>'
+            '<span style="font-size:.88rem;color:#0B2221;line-height:1.5"><b>' + title + '</b>  --  ' + text + '</span>'
             '</div>',
             unsafe_allow_html=True
         )
@@ -4241,7 +4241,7 @@ if not st.session_state.get("_run", False):
 <div class="lp-proof proof-card">
   <div style="position:relative;z-index:1">
     <div style="font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#44C1BA;margin-bottom:12px">
-      Exemple — E-commerce · Objectif Ventes · Budget 200€/mois
+      Exemple  --  E-commerce · Objectif Ventes · Budget 200€/mois
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
       <div style="background:rgba(255,255,255,.08);border-radius:10px;padding:12px;border:1px solid rgba(68,193,186,.3)">
@@ -4249,8 +4249,8 @@ if not st.session_state.get("_run", False):
         <div style="font-size:.76rem;color:rgba(255,255,255,.85);line-height:1.6">
           ✅ Vente 24h/24 sans contrainte géo<br>
           ✅ Marges optimisées sans intermédiaire<br>
-          ⚠️ CAC élevé — optimiser Google Ads<br>
-          TikTok Shop — croissance +340%
+          ⚠️ CAC élevé  --  optimiser Google Ads<br>
+          TikTok Shop  --  croissance +340%
         </div>
       </div>
       <div style="background:rgba(255,255,255,.08);border-radius:10px;padding:12px;border:1px solid rgba(68,193,186,.3)">
@@ -4343,7 +4343,7 @@ if not st.session_state.get("_run", False):
 # ── Cache-clé session : ne recalcule que si les paramètres changent ──────────
 _cache_key = f"{activity}|{goal}|{maturity}|{monthly_budget}"
 
-# ── Valeurs par défaut COMPLÈTES — aucun NameError possible ─────────────────
+# ── Valeurs par défaut COMPLÈTES  --  aucun NameError possible ─────────────────
 ads_data      = {}
 roi_data      = []
 porter_data   = {}
@@ -4366,7 +4366,7 @@ _needs_regen  = st.session_state.get("_cache_key") != _cache_key
 
 if _needs_regen:
     st.session_state["_cache_key"] = _cache_key
-    # Données statiques — toutes issues du cache @st.cache_data, <50ms total
+    # Données statiques  --  toutes issues du cache @st.cache_data, <50ms total
     swot        = gen_swot(activity, goal, maturity)
     qqoqccp     = gen_qqoqccp(activity)
     pestel      = gen_pestel(activity)
@@ -4528,7 +4528,7 @@ _SPIN = {
 
 spin_data = _SPIN.get(activity, _SPIN["default"])
 
-# ── Données sectorielles — toujours définies, préservées depuis cache ─────────
+# ── Données sectorielles  --  toujours définies, préservées depuis cache ─────────
 # sector_data vient du cache session ou est initialisé vide
 if not isinstance(sector_data, dict):
     sector_data = {}
@@ -4600,19 +4600,19 @@ if site_ins:
     _scs = site_ins.get("content_signals", [])
     # Enrichir SWOT avec données réelles du site
     if _sn:
-        swot["strengths"].insert(0, f"Présence en ligne confirmée — {_html.escape(_sn[:60])}")
+        swot["strengths"].insert(0, f"Présence en ligne confirmée  --  {_html.escape(_sn[:60])}")
     if _skw:
         swot["strengths"].append(f"Positionnement sur : {', '.join(_html.escape(k) for k in _skw[:4])}")
     if not site_data.get("h1"):
-        swot["weaknesses"].insert(0, "Balise H1 absente — impact SEO négatif")
+        swot["weaknesses"].insert(0, "Balise H1 absente  --  impact SEO négatif")
     if not site_data.get("description"):
-        swot["weaknesses"].insert(0, "Meta description absente — CTR organique à risque")
+        swot["weaknesses"].insert(0, "Meta description absente  --  CTR organique à risque")
     if _sst:
         swot["strengths"].append(f"Signal différenciant détecté : {_html.escape(_sst[0][:80])}")
     # Enrichir keywords avec les vrais mots-clés de la page
     if _skw:
         _site_kw_tuples = [
-            (kw, "réel · site scrapé", "—", "informationnel")
+            (kw, "réel · site scrapé", " -- ", "informationnel")
             for kw in _skw[:5]
         ]
         keywords = _site_kw_tuples + [k for k in keywords if k[0] not in _skw]
@@ -4644,7 +4644,7 @@ if comp_results:
             _comp_names.append(_html.escape(_cd_r["title"][:40]))
     if _comp_names:
         swot["threats"].insert(0, f"Concurrents identifiés : {' · '.join(_comp_names[:3])}")
-        swot["opportunities"].insert(0, "Analyse concurrentielle disponible — exploitez les angles manquants")
+        swot["opportunities"].insert(0, "Analyse concurrentielle disponible  --  exploitez les angles manquants")
 # ads_data and roi_data are now managed in the session-state cache above
 pagespeed_data = get_pagespeed(website_url) if website_url else {}
 closing_tech = _CLOSING_TECHNIQUES
@@ -4658,7 +4658,7 @@ c3.markdown(f'<span class="badge badge-teal">{LABELS.get(maturity, maturity)}</s
 c4.markdown(f'<span class="badge badge-blue">{monthly_budget:,} €/mois</span>', unsafe_allow_html=True)
 
 if site_data and isinstance(site_data, dict) and site_data.get("title"):
-    st.caption(f"Site analysé : **{site_data.get('title','')}** — {site_data.get('description','')[:120]}")
+    st.caption(f"Site analysé : **{site_data.get('title','')}**  --  {site_data.get('description','')[:120]}")
 
 st.markdown("<br>", unsafe_allow_html=True)
 
@@ -4686,7 +4686,7 @@ tabs = st.tabs([
 ])
 
 # ══════════════════════════════════════════════════════════════════════════════
-# TAB 1 — DIAGNOSTIC
+# TAB 1  --  DIAGNOSTIC
 # ══════════════════════════════════════════════════════════════════════════════
 with tabs[0]:
     # ── ANALYSE DU SITE (si URL fournie) ───────────────────────────────────────
@@ -4711,24 +4711,24 @@ with tabs[0]:
         with _col_s:
             st.markdown('<div class="section-h">Structure détectée</div>', unsafe_allow_html=True)
             for _h in (_sd_h1s or [])[:3]:
-                st.markdown(f"**H1** — {_html.escape(_h)}")
+                st.markdown(f"**H1**  --  {_html.escape(_h)}")
             for _h in (_sd_h2s or [])[:4]:
-                st.markdown(f"H2 — {_html.escape(_h)}")
+                st.markdown(f"H2  --  {_html.escape(_h)}")
             if not _sd_h1s and not _sd_h2s:
                 st.caption("Aucun titre H1/H2 détecté")
         with _col_o:
             st.markdown('<div class="section-h">Observations</div>', unsafe_allow_html=True)
             _obs = []
             if not _sd_desc:
-                _obs.append(("#B83D4B","Meta description absente — impact SEO direct"))
+                _obs.append(("#B83D4B","Meta description absente  --  impact SEO direct"))
             if not _sd_h1s:
-                _obs.append(("#B83D4B","Aucun H1 détecté — priorité absolue"))
+                _obs.append(("#B83D4B","Aucun H1 détecté  --  priorité absolue"))
             elif len(_sd_h1s)>1:
-                _obs.append(("#44C1BA",f"{len(_sd_h1s)} H1 trouvés — un seul est recommandé"))
+                _obs.append(("#44C1BA",f"{len(_sd_h1s)} H1 trouvés  --  un seul est recommandé"))
             else:
                 _obs.append(("#267371",f"H1 présent : {_sd_h1s[0][:55]}"))
             if _sd_desc and len(_sd_desc)>160:
-                _obs.append(("#44C1BA",f"Meta description longue ({len(_sd_desc)} car.) — viser 155 max"))
+                _obs.append(("#44C1BA",f"Meta description longue ({len(_sd_desc)} car.)  --  viser 155 max"))
             elif _sd_desc:
                 _obs.append(("#267371","Meta description bien dimensionnée"))
             if _sd_kws:
@@ -4737,12 +4737,12 @@ with tabs[0]:
             if _lc:
                 _obs.append(("#267371",f"{_lc} liens détectés"))
             for _c, _msg in _obs:
-                st.markdown(f'<div style="padding:5px 0;border-bottom:1px solid #E4E9F6;font-size:.83rem;color:{_c}">— {_html.escape(_msg)}</div>', unsafe_allow_html=True)
+                st.markdown(f'<div style="padding:5px 0;border-bottom:1px solid #E4E9F6;font-size:.83rem;color:{_c}"> --  {_html.escape(_msg)}</div>', unsafe_allow_html=True)
         # Enrichissement SWOT avec données site
         if not _sd_h1s:
             swot["weaknesses"].insert(0,"Structure SEO à renforcer (H1 absent)")
         if not _sd_desc:
-            swot["weaknesses"].insert(0,"Meta description absente — référencement à optimiser")
+            swot["weaknesses"].insert(0,"Meta description absente  --  référencement à optimiser")
         if _sd_title:
             swot["strengths"].insert(0,f"Présence web établie : {_sd_title[:55]}")
         st.markdown("<br>", unsafe_allow_html=True)
@@ -4792,7 +4792,7 @@ with tabs[0]:
     st.caption("7 questions pour ne laisser aucune zone d'ombre dans votre diagnostic stratégique")
 
     for key, item in qqoqccp.items():
-        with st.expander(f"**{key.upper()}** — {item['q']}"):
+        with st.expander(f"**{key.upper()}**  --  {item['q']}"):
             col_r, col_a = st.columns(2)
             with col_r:
                 st.markdown("**Réponse stratégique**")
@@ -4813,7 +4813,7 @@ with tabs[0]:
                 st.divider()
 
     # MICRO-ENV
-    st.markdown('<div class="section-h">Micro-environnement — Forces concurrentielles</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-h">Micro-environnement  --  Forces concurrentielles</div>', unsafe_allow_html=True)
     st.caption("Analyse des acteurs en interaction directe (modèle inspiré des 5 forces de Porter) : pouvoir de négociation et leviers d'action")
     pouvoir_color = {"élevé":"badge-red","très élevé":"badge-red","moyen":"badge-teal","faible":"badge-jade"}
     cols = st.columns(2)
@@ -4869,7 +4869,7 @@ with tabs[0]:
             st.markdown(f"• {_html.escape(_d)}")
 
 # ══════════════════════════════════════════════════════════════════════════════
-# TAB 2 — PERSONAS & SONCAS
+# TAB 2  --  PERSONAS & SONCAS
 # ══════════════════════════════════════════════════════════════════════════════
 with tabs[1]:
     # PERSONAS
@@ -4915,8 +4915,8 @@ with tabs[1]:
                     st.markdown(" ".join(f'<span class="badge badge-gray">{v}</span>'for v in p["values"]), unsafe_allow_html=True)
 
     # SONCAS
-    st.markdown('<div class="section-h">Analyse SONCAS — 6 leviers psychologiques de vente</div>', unsafe_allow_html=True)
-    st.caption("SONCAS : Sécurité · Orgueil · Nouveauté · Confort · Argent · Sympathie — les 6 motivations d'achat universelles")
+    st.markdown('<div class="section-h">Analyse SONCAS  --  6 leviers psychologiques de vente</div>', unsafe_allow_html=True)
+    st.caption("SONCAS : Sécurité · Orgueil · Nouveauté · Confort · Argent · Sympathie  --  les 6 motivations d'achat universelles")
     soncas_css_map = {
         "securite": "soncas-securite",
         "opportunite":"soncas-opportunite",
@@ -4942,12 +4942,12 @@ with tabs[1]:
     st.markdown("<br>", unsafe_allow_html=True)
     st.markdown("**Objections SONCAS & réponses**")
     for key, lever in soncas.items():
-        with st.expander(f"{lever['icon']} **{lever['label']}** — *\"{lever['objection']}\"*"):
+        with st.expander(f"{lever['icon']} **{lever['label']}**  --  *\"{lever['objection']}\"*"):
             st.success(f"**Réponse recommandée :**\n\n{lever['reponse']}")
 
     # SEGMENTATION RFM
-    st.markdown('<div class="section-h">Segmentation RFM — 4 segments clients</div>', unsafe_allow_html=True)
-    st.caption("Segmentation Récence · Fréquence · Montant — identifiez où concentrer vos efforts de rétention et d'acquisition")
+    st.markdown('<div class="section-h">Segmentation RFM  --  4 segments clients</div>', unsafe_allow_html=True)
+    st.caption("Segmentation Récence · Fréquence · Montant  --  identifiez où concentrer vos efforts de rétention et d'acquisition")
     _rfm_segments = gen_rfm_segments(activity, monthly_budget)
     _rfm_cols = st.columns(4)
     _rfm_colors = ["#267371","#393DAC","#44C1BA","#B83D4B"]
@@ -4963,15 +4963,15 @@ with tabs[1]:
             </div>
             """, unsafe_allow_html=True)
     for _rseg in _rfm_segments:
-        with st.expander(f"**{_rseg['nom']}** — actions recommandées"):
+        with st.expander(f"**{_rseg['nom']}**  --  actions recommandées"):
             for _ract in _rseg["actions"]:
                 st.markdown(f"→ {_html.escape(_ract)}")
 
 # ══════════════════════════════════════════════════════════════════════════════
-# TAB 3 — COPYWRITING
+# TAB 3  --  COPYWRITING
 # ══════════════════════════════════════════════════════════════════════════════
 with tabs[2]:
-    st.markdown('<div class="section-h">Structure AIDA — Copywriting persuasif</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-h">Structure AIDA  --  Copywriting persuasif</div>', unsafe_allow_html=True)
     st.caption("Le copywriting fusionne sciences comportementales et rédaction persuasive pour déclencher l'action")
     aida_meta = {
         "attention": ("","ATTENTION","aida-attention"),
@@ -5003,10 +5003,10 @@ with tabs[2]:
     st.markdown('<div class="section-h">Principes universels du copywriting</div>', unsafe_allow_html=True)
     principles = [
         ("1","Écrivez pour une personne,\nnon pour 'tout le monde'"),
-        ("2","Bénéfices > fonctionnalités —\ntoujours"),
-        ("3","Spécifique > général —\nles détails créent la crédibilité"),
+        ("2","Bénéfices > fonctionnalités  -- \ntoujours"),
+        ("3","Spécifique > général  -- \nles détails créent la crédibilité"),
         ("4","Une idée par phrase,\nun CTA par page"),
-        ("5","Testez, mesurez, itérez —\nle meilleur texte est celui qui convertit"),
+        ("5","Testez, mesurez, itérez  -- \nle meilleur texte est celui qui convertit"),
     ]
     p_cols = st.columns(5)
     for col_p, (num, pr) in zip(p_cols, principles):
@@ -5026,27 +5026,27 @@ with tabs[2]:
                 st.warning(warn)
 
 # ══════════════════════════════════════════════════════════════════════════════
-# TAB 4 — VENTE & SPIN
+# TAB 4  --  VENTE & SPIN
 # ══════════════════════════════════════════════════════════════════════════════
 with tabs[3]:
     st.markdown('<div class="section-h">Scripts de vente adaptés</div>', unsafe_allow_html=True)
     type_labels = {"cold_call":"Appel à froid","follow_up":"Suivi","discovery":"Découverte","email_followup":" Email suivi","email_outreach":"Email prospection"}
     for script in scripts:
         lbl = type_labels.get(script["type"], script["type"])
-        with st.expander(f"**{script['title']}** — {lbl}"):
+        with st.expander(f"**{script['title']}**  --  {lbl}"):
             st.code(script["content"], language=None)
             if script.get("keyPoints"):
                 st.markdown("**Points clés :**")
                 for kp in script["keyPoints"]: st.markdown(f"• {kp}")
 
     # SPIN
-    st.markdown('<div class="section-h">SPIN Selling — Questions stratégiques</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-h">SPIN Selling  --  Questions stratégiques</div>', unsafe_allow_html=True)
     st.caption("Méthodologie SPIN : Situation → Problème → Implication → Need-payoff. La plus efficace en B2B complexe.")
     spin_tabs = st.tabs(["Situation","Problème","Implication","Need-payoff"])
-    spin_keys = [("situation","Établir le contexte sans interroger — montrez que vous avez fait vos recherches"),
-                 ("probleme","Identifier les douleurs précises — ne proposez pas de solution encore"),
-                 ("implication","Amplifier la conséquence du problème — le client doit ressentir l'urgence"),
-                 ("besoin","Faire formuler le besoin par le client lui-même — la vente devient son idée")]
+    spin_keys = [("situation","Établir le contexte sans interroger  --  montrez que vous avez fait vos recherches"),
+                 ("probleme","Identifier les douleurs précises  --  ne proposez pas de solution encore"),
+                 ("implication","Amplifier la conséquence du problème  --  le client doit ressentir l'urgence"),
+                 ("besoin","Faire formuler le besoin par le client lui-même  --  la vente devient son idée")]
     for spin_tab, (sk, hint) in zip(spin_tabs, spin_keys):
         with spin_tab:
             st.caption(f"{hint}")
@@ -5054,7 +5054,7 @@ with tabs[3]:
                 st.markdown(f"→ {q}")
 
     # Challenger
-    st.markdown('<div class="section-h">Challenger Sale — Vendre par la conviction</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-h">Challenger Sale  --  Vendre par la conviction</div>', unsafe_allow_html=True)
     st.caption("La méthode Challenger s'appuie sur 3 piliers : Enseigner · Adapter · Prendre le contrôle")
     chal_tabs = st.tabs(["Enseigner (Teach)","Adapter (Tailor)","Prendre le contrôle"])
     chal_keys = ["teach","tailor","take_control"]
@@ -5070,7 +5070,7 @@ with tabs[3]:
             st.markdown(response)
 
     # NÉGOCIATION
-    st.markdown('<div class="section-h">Tactiques de négociation — BATNA / ZOPA / SONCAS</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-h">Tactiques de négociation  --  BATNA / ZOPA / SONCAS</div>', unsafe_allow_html=True)
     st.caption("Préparez chaque négociation avec une stratégie BATNA, une zone d'accord et des tactiques testées")
     _nego = gen_negociation(activity, monthly_budget)
     _nc1, _nc2 = st.columns(2)
@@ -5095,12 +5095,12 @@ with tabs[3]:
             st.success(_html.escape(_rep))
 
     # PRIX PSYCHOLOGIQUES
-    st.markdown('<div class="section-h">Prix psychologiques — 7 techniques</div>', unsafe_allow_html=True)
-    st.caption("Techniques de tarification issues des sciences comportementales — augmentez la valeur perçue sans changer votre produit")
+    st.markdown('<div class="section-h">Prix psychologiques  --  7 techniques</div>', unsafe_allow_html=True)
+    st.caption("Techniques de tarification issues des sciences comportementales  --  augmentez la valeur perçue sans changer votre produit")
     _prix_list = gen_prix_psychologiques(monthly_budget, activity)
     _impact_badge = {"Très élevé": "badge-red", "Élevé": "badge-teal", "Moyen": "badge-jade"}
     for _ptec in _prix_list:
-        with st.expander(f"**{_ptec['nom']}** — Impact : {_ptec['impact']}"):
+        with st.expander(f"**{_ptec['nom']}**  --  Impact : {_ptec['impact']}"):
             _c1p, _c2p = st.columns([2, 1])
             with _c1p:
                 st.markdown(f"**Description :** {_html.escape(_ptec['description'])}")
@@ -5112,16 +5112,16 @@ with tabs[3]:
     # Email templates
     st.markdown('<div class="section-h">Templates emails de prospection</div>', unsafe_allow_html=True)
     email_tmpls = [
-        ("Email cold outreach — signal d'actualité","Objet : [Prénom], [résultat en 5 mots]\n\nBonjour [Prénom],\n\nJ'ai vu que [signal d'actualité de l'entreprise].\n\nOn a aidé [client similaire] à [résultat mesurable] en [délai].\n\nDisponible 15 min cette semaine pour voir si on peut faire pareil pour [Entreprise] ?\n\n[Prénom]"),
-        ("Email suivi J+3 (non-réponse)","Objet : Re: [sujet précédent]\n\nBonjour [Prénom],\n\nJe me permets de revenir vers vous suite à mon message de l'autre jour.\n\nJe sais que vous êtes très occupé — une seule question : est-ce que [problème que vous résolvez] est encore d'actualité pour vous ?\n\nSi oui, 15 minutes suffisent pour voir si je peux vous aider. Sinon, dites-le moi et je ne vous recontacte plus.\n\n[Prénom]"),
-        ("Email post-démo — prochaines étapes","Objet : Suite à notre échange — prochaines étapes\n\nBonjour [Prénom],\n\nMerci pour notre échange — c'était très intéressant de comprendre [problème identifié].\n\nComme convenu, voici ce que je vous propose :\n• [Offre adaptée à leur situation]\n• [Prix / modalités]\n• [Garantie ou condition de démarrage]\n\nPour avancer, la prochaine étape est [action concrète].\n\nEst-ce que [date] vous conviendrait pour [prochaine étape] ?\n\n[Prénom]"),
+        ("Email cold outreach  --  signal d'actualité","Objet : [Prénom], [résultat en 5 mots]\n\nBonjour [Prénom],\n\nJ'ai vu que [signal d'actualité de l'entreprise].\n\nOn a aidé [client similaire] à [résultat mesurable] en [délai].\n\nDisponible 15 min cette semaine pour voir si on peut faire pareil pour [Entreprise] ?\n\n[Prénom]"),
+        ("Email suivi J+3 (non-réponse)","Objet : Re: [sujet précédent]\n\nBonjour [Prénom],\n\nJe me permets de revenir vers vous suite à mon message de l'autre jour.\n\nJe sais que vous êtes très occupé  --  une seule question : est-ce que [problème que vous résolvez] est encore d'actualité pour vous ?\n\nSi oui, 15 minutes suffisent pour voir si je peux vous aider. Sinon, dites-le moi et je ne vous recontacte plus.\n\n[Prénom]"),
+        ("Email post-démo  --  prochaines étapes","Objet : Suite à notre échange  --  prochaines étapes\n\nBonjour [Prénom],\n\nMerci pour notre échange  --  c'était très intéressant de comprendre [problème identifié].\n\nComme convenu, voici ce que je vous propose :\n• [Offre adaptée à leur situation]\n• [Prix / modalités]\n• [Garantie ou condition de démarrage]\n\nPour avancer, la prochaine étape est [action concrète].\n\nEst-ce que [date] vous conviendrait pour [prochaine étape] ?\n\n[Prénom]"),
     ]
     for title, body in email_tmpls:
         with st.expander(f" **{title}**"):
             st.code(body, language=None)
 
 # ══════════════════════════════════════════════════════════════════════════════
-# TAB 5 — MARKETING
+# TAB 5  --  MARKETING
 # ══════════════════════════════════════════════════════════════════════════════
 with tabs[4]:
     st.markdown('<div class="section-h">Plateformes recommandées</div>', unsafe_allow_html=True)
@@ -5141,7 +5141,7 @@ with tabs[4]:
             </div>""", unsafe_allow_html=True)
 
     # Budget adaptatif
-    st.markdown(f'<div class="section-h">Répartition budgétaire — {monthly_budget:,} €/mois</div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="section-h">Répartition budgétaire  --  {monthly_budget:,} €/mois</div>', unsafe_allow_html=True)
     bar_colors = ["#0B2221","#44C1BA","#267371","#393DAC"]
     for i, (cat, pct, amt) in enumerate(budget_alloc):
         c1, c2, c3 = st.columns([3, 1, 1])
@@ -5164,7 +5164,7 @@ with tabs[4]:
             st.info(reco)
 
     # Calendrier éditorial
-    st.markdown('<div class="section-h">Calendrier éditorial — 8 semaines</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-h">Calendrier éditorial  --  8 semaines</div>', unsafe_allow_html=True)
     cal_html = '<table class="bizi-table"><thead><tr><th>Sem.</th><th>Plateforme</th><th>Sujet</th><th>Format</th></tr></thead><tbody>'
     for week, platform, topic, fmt in calendar:
         cal_html += f"<tr><td><b>S{week}</b></td><td><span class='badge badge-blue'>{platform}</span></td><td style='font-size:.82rem'>{topic}</td><td style='font-size:.82rem;color:#339999'>{fmt}</td></tr>"
@@ -5172,18 +5172,18 @@ with tabs[4]:
     st.markdown(f'<div style="overflow-x:auto">'+ cal_html +'</div>', unsafe_allow_html=True)
 
     # Règle 80/20
-    st.markdown('<div class="section-h">Règle 80/20 — Focus d\'action</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-h">Règle 80/20  --  Focus d\'action</div>', unsafe_allow_html=True)
     rules_8020 = {
-        "awareness": ["Créez votre contenu pilier avant de penser à la pub","LinkedIn ou Instagram en organic — maîtrisez 1 canal à fond","La newsletter est votre actif le plus précieux — commencez maintenant"],
-        "sales": ["Le retargeting génère 10x plus que la prospection froide — commencez par ça","L'email marketing a un ROI de 42:1 — c'est votre canal le plus rentable","Optimisez votre page de vente avant d'augmenter votre budget pub"],
-        "leads": ["Un bon lead magnet vaut 6 mois de pub payante — investissez dedans","La séquence email post-lead est plus importante que le lead magnet lui-même","Votre formulaire de contact est trop long — réduisez à 3 champs maximum"],
-        "traffic": ["Le SEO prend 3-6 mois — commencez MAINTENANT pour des résultats en milieu d'année","2 articles SEO/semaine > 10 posts sociaux/semaine","Les backlinks sont rois — 1 bon backlink vaut 100 mentions sur les réseaux"],
+        "awareness": ["Créez votre contenu pilier avant de penser à la pub","LinkedIn ou Instagram en organic  --  maîtrisez 1 canal à fond","La newsletter est votre actif le plus précieux  --  commencez maintenant"],
+        "sales": ["Le retargeting génère 10x plus que la prospection froide  --  commencez par ça","L'email marketing a un ROI de 42:1  --  c'est votre canal le plus rentable","Optimisez votre page de vente avant d'augmenter votre budget pub"],
+        "leads": ["Un bon lead magnet vaut 6 mois de pub payante  --  investissez dedans","La séquence email post-lead est plus importante que le lead magnet lui-même","Votre formulaire de contact est trop long  --  réduisez à 3 champs maximum"],
+        "traffic": ["Le SEO prend 3-6 mois  --  commencez MAINTENANT pour des résultats en milieu d'année","2 articles SEO/semaine > 10 posts sociaux/semaine","Les backlinks sont rois  --  1 bon backlink vaut 100 mentions sur les réseaux"],
     }
     for i, r in enumerate(rules_8020.get(goal, rules_8020["awareness"])):
         st.markdown(f"**{i+1}.** {r}")
 
 # ══════════════════════════════════════════════════════════════════════════════
-# TAB 6 — CAMPAGNES PUB
+# TAB 6  --  CAMPAGNES PUB
 # ══════════════════════════════════════════════════════════════════════════════
 with tabs[5]:
     st.markdown('''
@@ -5215,7 +5215,7 @@ with tabs[5]:
     if ads_data["facebook"]:
         st.markdown('<div class="section-h">Campagnes Facebook / Instagram Ads</div>', unsafe_allow_html=True)
         for camp in ads_data["facebook"]:
-            with st.expander(f"**{camp['name']}** — {camp['objective']} — Budget : {camp['budget']:,} €"):
+            with st.expander(f"**{camp['name']}**  --  {camp['objective']}  --  Budget : {camp['budget']:,} €"):
                 st.markdown(f"**Format recommandé :** {camp['format']}")
                 for cr in camp.get("creatives", []):
                     st.markdown(f"""
@@ -5234,7 +5234,7 @@ with tabs[5]:
     if ads_data["google"]:
         st.markdown('<div class="section-h">Campagnes Google Ads</div>', unsafe_allow_html=True)
         for camp in ads_data["google"]:
-            with st.expander(f"**{camp['name']}** — {camp['type']} — Budget : {camp['budget']:,} €"):
+            with st.expander(f"**{camp['name']}**  --  {camp['type']}  --  Budget : {camp['budget']:,} €"):
                 st.markdown("**Mots-clés recommandés :**")
                 for kw in camp["keywords"]:
                     st.markdown(f"• `{kw}`")
@@ -5244,14 +5244,14 @@ with tabs[5]:
     # Organic strategies
     st.markdown('<div class="section-h">Stratégies Organiques (Gratuites)</div>', unsafe_allow_html=True)
     for strat in ads_data["organic"]:
-        with st.expander(f"**{strat['channel']}** — {strat['frequency']}"):
+        with st.expander(f"**{strat['channel']}**  --  {strat['frequency']}"):
             st.markdown(f"*{strat['tactic']}*")
             st.markdown("**Actions concrètes :**")
             for ex in strat["examples"]:
                 st.markdown(f"→ {ex}")
 
     # ROI Projection
-    st.markdown('<div class="section-h">Projection ROI — 12 mois</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-h">Projection ROI  --  12 mois</div>', unsafe_allow_html=True)
     st.caption("Estimation basée sur votre budget, votre secteur et votre maturité. Scénarios : pessimiste · réaliste · optimiste")
     if roi_data:
         col_p, col_r, col_o = st.columns(3)
@@ -5277,7 +5277,7 @@ with tabs[5]:
         }.get(activity,"entrepreneuriat")
         _wiki = _wiki_summary(_wiki_topic, lang="fr")
         if _wiki and _wiki.get("extract"):
-            with st.expander(f"Contexte Wikipedia — {_wiki.get('title','')}"):
+            with st.expander(f"Contexte Wikipedia  --  {_wiki.get('title','')}"):
                 st.markdown(_wiki["extract"])
                 if _wiki.get("url"):
                     st.markdown(f"[Lire l'article complet]({_wiki['url']})")
@@ -5300,20 +5300,20 @@ with tabs[5]:
             st.caption(f"Source : {_macro.get('source','INSEE 2024')}")
 
         if _forex:
-            with st.expander("Taux de change EUR — Banque Centrale Européenne"):
+            with st.expander("Taux de change EUR  --  Banque Centrale Européenne"):
                 _fc = st.columns(len(_forex))
                 for col, (cur, rate) in zip(_fc, _forex.items()):
                     col.metric(f"EUR/{cur}", str(rate))
 
         if _survie:
-            st.markdown('<div class="section-h">Taux de survie — votre secteur</div>', unsafe_allow_html=True)
+            st.markdown('<div class="section-h">Taux de survie  --  votre secteur</div>', unsafe_allow_html=True)
             _sc = st.columns(3)
             _sc[0].metric("Survie 1 an", f"{_survie.get('1an',0)}%")
             _sc[1].metric("Survie 3 ans", f"{_survie.get('3ans',0)}%")
             _sc[2].metric("Survie 5 ans", f"{_survie.get('5ans',0)}%", delta=f"Tendance: {_survie.get('tendance','stable')}")
 
     if _sector_live and _sector_bench:
-        st.markdown('<div class="section-h">Benchmarks sectoriels — Données marché France 2024</div>', unsafe_allow_html=True)
+        st.markdown('<div class="section-h">Benchmarks sectoriels  --  Données marché France 2024</div>', unsafe_allow_html=True)
         _bench_cols = st.columns(min(4, len(_sector_bench)))
         for _col, (_kpi, _val) in zip(_bench_cols, list(_sector_bench.items())[:4]):
             with _col:
@@ -5321,9 +5321,9 @@ with tabs[5]:
         st.caption(f"Source : données sectorielles ouvertes France · {_sector_label} · Marché {_sector_market} · Croissance {_sector_growth}")
 
     if pagespeed_data:
-        st.markdown('<div class="section-h">Audit PageSpeed — Performance site</div>', unsafe_allow_html=True)
+        st.markdown('<div class="section-h">Audit PageSpeed  --  Performance site</div>', unsafe_allow_html=True)
         if pagespeed_data.get("source") in ("mock", "heuristic"):
-            st.caption("Scores estimés par analyse heuristique — précis")
+            st.caption("Scores estimés par analyse heuristique  --  précis")
         ps_cols = st.columns(4)
         scores = [
             ("Performance", pagespeed_data.get("performance",0)),
@@ -5341,7 +5341,7 @@ with tabs[5]:
 
 
 # ══════════════════════════════════════════════════════════════════════════════
-# TAB 6 — SEO & GEO 2025
+# TAB 6  --  SEO & GEO 2025
 # ══════════════════════════════════════════════════════════════════════════════
 with tabs[6]:
     st.markdown("""
@@ -5371,7 +5371,7 @@ with tabs[6]:
     st.markdown(f'<div style="overflow-x:auto">'+ kw_html +'</div>', unsafe_allow_html=True)
 
     # Topics
-    st.markdown('<div class="section-h">Autorité thématique — Contenus à créer</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-h">Autorité thématique  --  Contenus à créer</div>', unsafe_allow_html=True)
     for topic in geo["topics"]:
         st.markdown(f"{topic}")
 
@@ -5395,7 +5395,7 @@ with tabs[6]:
         st.info(tip)
 
     # SEA IA
-    st.markdown('<div class="section-h">SEA IA — Publicité pilotée par l\'IA (2025)</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-h">SEA IA  --  Publicité pilotée par l\'IA (2025)</div>', unsafe_allow_html=True)
     sea_tabs = st.tabs([s[0].strip() for s in _SEA_IA])
     for sea_tab, (name, desc, advantages, conseil) in zip(sea_tabs, _SEA_IA):
         with sea_tab:
@@ -5406,7 +5406,7 @@ with tabs[6]:
             st.info(f"**Conseil pratique :** {conseil}")
 
 # ─────────────────────────────────────────────────────────────────────────────
-# HELPER — KPI tiles renderer (DRY)
+# HELPER  --  KPI tiles renderer (DRY)
 # ─────────────────────────────────────────────────────────────────────────────
 def _render_kpi_section(kpi_list: list) -> None:
     """Affiche un groupe de KPI en grille 3 colonnes avec code couleur."""
@@ -5427,10 +5427,10 @@ def _render_kpi_section(kpi_list: list) -> None:
             """, unsafe_allow_html=True)
 
 # ══════════════════════════════════════════════════════════════════════════════
-# TAB 7 — KPI DASHBOARD
+# TAB 7  --  KPI DASHBOARD
 # ══════════════════════════════════════════════════════════════════════════════
 with tabs[7]:
-    st.markdown('<div class="section-h">Dashboard KPI — Benchmarks 2025</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-h">Dashboard KPI  --  Benchmarks 2025</div>', unsafe_allow_html=True)
     st.caption("Tous les indicateurs clés de performance avec leurs benchmarks sectoriels. Survolez les titres pour les définitions.")
 
     # Email KPIs
@@ -5444,10 +5444,10 @@ with tabs[7]:
     _render_kpi_section(_KPI_BENCHMARKS["social"])
 
     # OKR
-    st.markdown('<div class="section-h">OKR — Objectifs & Key Results</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-h">OKR  --  Objectifs & Key Results</div>', unsafe_allow_html=True)
     st.caption("La méthode OKR (Google, Intel, LinkedIn) aligne les équipes sur des objectifs ambitieux et mesurables")
     for j, okr in enumerate(okrs):
-        with st.expander(f"**OKR {j+1}** — {okr['objective']}", expanded=(j==0)):
+        with st.expander(f"**OKR {j+1}**  --  {okr['objective']}", expanded=(j==0)):
             st.markdown(f"**Objectif :** {okr['objective']}")
             st.markdown("**Key Results :**")
             for kr in okr["key_results"]:
@@ -5459,7 +5459,7 @@ with tabs[7]:
                 """, unsafe_allow_html=True)
 
 # ══════════════════════════════════════════════════════════════════════════════
-# TAB 8 — SYNTHÈSE
+# TAB 8  --  SYNTHÈSE
 # ══════════════════════════════════════════════════════════════════════════════
 with tabs[8]:
     score = synthesis["score"]
@@ -5560,7 +5560,7 @@ with tabs[8]:
     st.caption("JSON complet · compatible CRM, Notion, Google Sheets et tout éditeur de texte")
 
 # ══════════════════════════════════════════════════════════════════════════════
-# TAB 9 — VEILLE STRATÉGIQUE & CONCURRENTIELLE
+# TAB 9  --  VEILLE STRATÉGIQUE & CONCURRENTIELLE
 # ══════════════════════════════════════════════════════════════════════════════
 with tabs[9]:
     if comp_urls:
@@ -5605,10 +5605,10 @@ with tabs[9]:
         if _ph_items:
             with st.expander("Nouveautés Product Hunt"):
                 for p in _ph_items[:5]:
-                    st.markdown(f"- [{p['title']}]({p['link']}) — {p.get('desc','')[:80]}")
+                    st.markdown(f"- [{p['title']}]({p['link']})  --  {p.get('desc','')[:80]}")
 
         if _startups:
-            with st.expander(f"Startups françaises — {_sector_label}"):
+            with st.expander(f"Startups françaises  --  {_sector_label}"):
                 for s in _startups[:6]:
                     st.markdown(f"- **{s['name']}** ({s['country']})")
 
@@ -5625,7 +5625,7 @@ with tabs[9]:
             _gh_items   = _fetch_github(max_items=4)
         except Exception: pass
 
-    # ── Données sectorielles — utilisées depuis le scope global ─────────────
+    # ── Données sectorielles  --  utilisées depuis le scope global ─────────────
     # _sector_live, _sector_label, _sector_growth, _sector_market, _sector_bench
     # sont définis globalement après le bloc session-state ci-dessus
 
@@ -5668,11 +5668,11 @@ with tabs[9]:
 
     # ── Sources tech additionnelles ────────────────────────────────────────────
     if _hn_items or _devto_items or _gh_items:
-        with st.expander("Sources tech — HackerNews · DEV.to · GitHub Trending"):
+        with st.expander("Sources tech  --  HackerNews · DEV.to · GitHub Trending"):
             if _hn_items:
                 st.markdown("**HackerNews**")
                 for _hn in _hn_items[:4]:
-                    st.markdown(f"- [{_hn['title']}]({_hn['link']}) — {_hn['source']}")
+                    st.markdown(f"- [{_hn['title']}]({_hn['link']})  --  {_hn['source']}")
             if _devto_items:
                 st.markdown("**DEV.to**")
                 for _dv in _devto_items[:4]:
@@ -5683,7 +5683,7 @@ with tabs[9]:
                     st.markdown(f"- [{_gh['title']}]({_gh['link']})")
 
     # ── Analyse URL avancée ──────────────────────────────────────────────────────
-    st.markdown('<div class="section-h">Analyse URL complète — SEO · Contenu · Performance</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-h">Analyse URL complète  --  SEO · Contenu · Performance</div>', unsafe_allow_html=True)
     _lcol, _rcol = st.columns([4, 1])
     with _lcol:
         _live_url = st.text_input("URL à analyser", placeholder="https://monsite.fr ou https://concurrent.fr/page", label_visibility="collapsed", key="v_liveurl")
@@ -5697,7 +5697,7 @@ with tabs[9]:
         with st.spinner(f"Lecture de {_target.replace('https://','').replace('http://','').split('/')[0]} via Jina.ai…"):
             _ld = scrape_competitor(_target)
         if _ld.get("error") and not _ld.get("title"):
-            st.error(f"Impossible d'analyser cette URL — {_html.escape(str(_ld.get('error',''))[:120])}")
+            st.error(f"Impossible d'analyser cette URL  --  {_html.escape(str(_ld.get('error',''))[:120])}")
         else:
             _lsrc = {"allorigins":"AllOrigins Proxy","bs4":"BeautifulSoup"}.get(_ld.get("source",""),_ld.get("source","",""))
             st.markdown(f"""
@@ -5739,7 +5739,7 @@ with tabs[9]:
                     for _p in _ld["paragraphs"][:5]:
                         st.markdown(f'<div style="font-size:.82rem;color:#339999;line-height:1.6;padding:7px 0;border-bottom:1px solid #E4E9F6">{_html.escape(str(_p)[:300])}</div>', unsafe_allow_html=True)
     else:
-        st.info("Entrez une URL ci-dessus pour lancer une analyse en temps réel — fonctionne avec n'importe quelle page publique")
+        st.info("Entrez une URL ci-dessus pour lancer une analyse en temps réel  --  fonctionne avec n'importe quelle page publique")
 
     st.markdown('<div style="height:4px"></div>', unsafe_allow_html=True)
 
@@ -5773,17 +5773,17 @@ with tabs[9]:
                 _dom = _cu.replace("https://","").replace("http://","").replace("www.","").split("/")[0]
                 _rows.append({
                     "Domaine": _dom,
-                    "Titre": str(_cd.get("title","—"))[:60],
-                    "Description": str(_cd.get("description","—"))[:100],
-                    "H1 principal": ((_cd.get("h1") or ["—"])[0])[:55],
-                    "Mots-clés": " · ".join((_cd.get("keywords") or [])[:4]) or "—",
+                    "Titre": str(_cd.get("title"," -- "))[:60],
+                    "Description": str(_cd.get("description"," -- "))[:100],
+                    "H1 principal": ((_cd.get("h1") or [" -- "])[0])[:55],
+                    "Mots-clés": " · ".join((_cd.get("keywords") or [])[:4]) or " -- ",
                     "H2 count": len(_cd.get("h2",[])),
                 })
             if _rows:
                 st.dataframe(_rows, use_container_width=True, hide_index=True)
         for _ci2, (_cu2, _cd2) in enumerate(comp_results.items()):
             _dom2 = _cu2.replace("https://","").replace("http://","").replace("www.","").split("/")[0]
-            with st.expander(f"**{_html.escape(_dom2)}** — analyse éditoriale complète", expanded=(_ci2==0)):
+            with st.expander(f"**{_html.escape(_dom2)}**  --  analyse éditoriale complète", expanded=(_ci2==0)):
                 if _cd2.get("h2"):
                     st.markdown("**Structure éditoriale (H2)**")
                     for _h2 in _cd2["h2"][:10]:
@@ -5857,7 +5857,7 @@ with tabs[9]:
             st.caption("Aucune menace détectée dans les actualités récentes")
 
 # ══════════════════════════════════════════════════════════════════════════════
-# TAB 10 — RSE & ISO 26000
+# TAB 10  --  RSE & ISO 26000
 # ══════════════════════════════════════════════════════════════════════════════
 with tabs[10]:
     st.markdown("""
@@ -5887,7 +5887,7 @@ with tabs[10]:
         _bar_filled = "█" * _niveau
         _bar_empty = "░" * (5 - _niveau)
         _ncolor = "#267371" if _niveau >= 4 else "#44C1BA" if _niveau >= 3 else "#B83D4B"
-        with st.expander(f"**{_dom}** — Niveau {_niveau}/5 {_bar_filled}{_bar_empty}"):
+        with st.expander(f"**{_dom}**  --  Niveau {_niveau}/5 {_bar_filled}{_bar_empty}"):
             _dc1, _dc2 = st.columns([3, 2])
             with _dc1:
                 st.markdown("**Actions recommandées :**")
@@ -5904,12 +5904,12 @@ with tabs[10]:
 
     st.markdown('<div class="section-h">Cadre légal et normatif applicable</div>', unsafe_allow_html=True)
     _normes = [
-        ("ISO 26000", "Lignes directrices RSE — référentiel international non certifiable mais reconnu"),
+        ("ISO 26000", "Lignes directrices RSE  --  référentiel international non certifiable mais reconnu"),
         ("Pacte Mondial ONU", "10 principes sur les droits humains, travail, environnement et anti-corruption"),
         ("Loi Grenelle II", "Obligation de reporting extra-financier pour les entreprises françaises"),
-        ("Loi AGEC", "Economie circulaire — emballages durables, réparation, information consommateurs"),
-        ("CSRD 2025", "Corporate Sustainability Reporting Directive — reporting obligatoire ESG UE"),
-        ("RGPD", "Protection des données personnelles — conformité obligatoire depuis 2018"),
+        ("Loi AGEC", "Economie circulaire  --  emballages durables, réparation, information consommateurs"),
+        ("CSRD 2025", "Corporate Sustainability Reporting Directive  --  reporting obligatoire ESG UE"),
+        ("RGPD", "Protection des données personnelles  --  conformité obligatoire depuis 2018"),
     ]
     for _nl, _nd in _normes:
         st.markdown(f"""
@@ -5938,9 +5938,9 @@ with tabs[10]:
 
 
 # ══════════════════════════════════════════════════════════════════════════════
-# TAB 11 — STRATÉGIE+ (Porter · Ansoff · Customer Journey · Pricing)
+# TAB 11  --  STRATÉGIE+ (Porter · Ansoff · Customer Journey · Pricing)
 # ══════════════════════════════════════════════════════════════════════════════
-# ═══ TAB 12 — PARCOURS CLIENT ═══
+# ═══ TAB 12  --  PARCOURS CLIENT ═══
 with tabs[11]:
     st.markdown("""
 <div style="background:linear-gradient(135deg,#0B2221,#267371);color:white;border-radius:14px;
@@ -5980,7 +5980,7 @@ with tabs[11]:
         for _key, _label in _forces_names.items():
             _force = _p5.get(_key, {})
             _details = _force.get("details", [])
-            st.markdown(f"**{_label}** — Score {_force.get('score',5)}/10")
+            st.markdown(f"**{_label}**  --  Score {_force.get('score',5)}/10")
             for _d in _details:
                 st.markdown(f"  - {_d}")
 
@@ -6016,19 +6016,19 @@ with tabs[11]:
   </div>
 </div>""", unsafe_allow_html=True)
 
-        with st.expander(f"Actions — {_alabel}"):
+        with st.expander(f"Actions  --  {_alabel}"):
             for _ac in _adata.get("actions", []):
                 st.markdown(f"- {_ac}")
 
     st.divider()
 
     # ── Customer Journey ──────────────────────────────────────────────────────
-    st.markdown('<div class="section-h">Customer Journey Map — 7 étapes</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-h">Customer Journey Map  --  7 étapes</div>', unsafe_allow_html=True)
     _journey = journey_data if journey_data else []
     for _ji, _stage in enumerate(_journey):
         _score = _stage.get("score", 5)
         _color = "#267371" if _score >= 7 else "#44C1BA" if _score >= 5 else "#B83D4B"
-        with st.expander(f"{_stage.get('emotion','')} {_stage.get('stage','')} — Score expérience {_score}/10"):
+        with st.expander(f"{_stage.get('emotion','')} {_stage.get('stage','')}  --  Score expérience {_score}/10"):
             _jc1, _jc2 = st.columns(2)
             with _jc1:
                 st.markdown("**Touchpoints**")
@@ -6060,9 +6060,9 @@ with tabs[11]:
 
 
 # ══════════════════════════════════════════════════════════════════════════════
-# TAB 12 — EMAILING (Séquences complètes)
+# TAB 12  --  EMAILING (Séquences complètes)
 # ══════════════════════════════════════════════════════════════════════════════
-# ═══ TAB 13 — PRICING ═══
+# ═══ TAB 13  --  PRICING ═══
 with tabs[12]:
     st.markdown("""
 <div style="background:linear-gradient(135deg,#267371,#44C1BA);color:white;border-radius:14px;
@@ -6097,9 +6097,9 @@ with tabs[12]:
 
 
 # ══════════════════════════════════════════════════════════════════════════════
-# TAB 13 — SOCIAL MEDIA (Stratégie par plateforme)
+# TAB 13  --  SOCIAL MEDIA (Stratégie par plateforme)
 # ══════════════════════════════════════════════════════════════════════════════
-# ═══ TAB 14 — EMAIL SÉQUENCES ═══
+# ═══ TAB 14  --  EMAIL SÉQUENCES ═══
 with tabs[13]:
     st.markdown("""
 <div style="background:linear-gradient(135deg,#393DAC,#44C1BA);color:white;border-radius:14px;
@@ -6139,7 +6139,7 @@ with tabs[13]:
     _ci = comp_intel if comp_intel else {}
     with st.expander("Axes de veille concurrentielle"):
         for _ax in _ci.get("axes_veille", []):
-            st.markdown(f"**{_ax.get('axe','')}** — {_ax.get('methode','')} · Outils : {', '.join(_ax.get('outils',[]))}")
+            st.markdown(f"**{_ax.get('axe','')}**  --  {_ax.get('methode','')} · Outils : {', '.join(_ax.get('outils',[]))}")
     st.markdown("**Signaux d'opportunité à surveiller :**")
     for _sig in _ci.get("signaux_opportunite", []):
         st.markdown(f"- {_sig}")
@@ -6172,7 +6172,7 @@ with tabs[13]:
 
 
 # ══════════════════════════════════════════════════════════════════════════════
-# TAB 12 — PARCOURS CLIENT
+# TAB 12  --  PARCOURS CLIENT
 # ══════════════════════════════════════════════════════════════════════════════
 with tabs[11]:
     st.markdown('''
@@ -6247,7 +6247,7 @@ with tabs[11]:
 
 
 # ══════════════════════════════════════════════════════════════════════════════
-# TAB 13 — PRICING STRATEGY
+# TAB 13  --  PRICING STRATEGY
 # ══════════════════════════════════════════════════════════════════════════════
 with tabs[12]:
     st.markdown('''
@@ -6341,7 +6341,7 @@ with tabs[12]:
 
 
 # ══════════════════════════════════════════════════════════════════════════════
-# TAB 14 — EMAIL SÉQUENCES
+# TAB 14  --  EMAIL SÉQUENCES
 # ══════════════════════════════════════════════════════════════════════════════
 with tabs[13]:
     st.markdown('''
@@ -6376,7 +6376,7 @@ with tabs[13]:
 ''', unsafe_allow_html=True)
 
     # Growth Hacking tactics
-    st.markdown('<div class="section-h" style="margin-top:24px">Growth Hacking — Tactiques ROI maximal</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-h" style="margin-top:24px">Growth Hacking  --  Tactiques ROI maximal</div>', unsafe_allow_html=True)
     for _gt in _gh_tactics:
         if len(_gt) >= 4:
             _gt_name, _gt_desc, _gt_cost, _gt_roi = _gt
@@ -6397,7 +6397,7 @@ with tabs[13]:
 
 
 # ══════════════════════════════════════════════════════════════════════════════
-# TAB 15 — NOUVEAU PROJET (wizard indépendant)
+# TAB 15  --  NOUVEAU PROJET (wizard indépendant)
 # ══════════════════════════════════════════════════════════════════════════════
 with tabs[15]:
     if _HAS_PROJECT_TAB:
@@ -6420,7 +6420,7 @@ Ce module vous guide étape par étape pour :
 """)
 
 # ══════════════════════════════════════════════════════════════════════════════
-# TAB 16 — RESSOURCES (blog + Top 10)
+# TAB 16  --  RESSOURCES (blog + Top 10)
 # ══════════════════════════════════════════════════════════════════════════════
 with tabs[16]:
     if _HAS_RESOURCES:
@@ -6443,7 +6443,7 @@ with tabs[16]:
 
 
 # ══════════════════════════════════════════════════════════════════════════════
-# TAB 14 — TARIFS & PLANS (Neuromarketing + RGPD)
+# TAB 14  --  TARIFS & PLANS (Neuromarketing + RGPD)
 # ══════════════════════════════════════════════════════════════════════════════
 with tabs[14]:
     st.markdown("""
@@ -6531,7 +6531,7 @@ with tabs[14]:
 
     # ── Ocean Bleu ────────────────────────────────────────────────────────────
     with _strat_tabs[5]:
-        st.markdown('<div class="section-h">Canevas Stratégique — Ocean Bleu</div>', unsafe_allow_html=True)
+        st.markdown('<div class="section-h">Canevas Stratégique  --  Ocean Bleu</div>', unsafe_allow_html=True)
         bo = blue_ocean if blue_ocean else {}
         boc1, boc2 = st.columns(2)
         with boc1:
@@ -6548,7 +6548,7 @@ with tabs[14]:
 
     # ── Lean Canvas ───────────────────────────────────────────────────────────
     with _strat_tabs[6]:
-        st.markdown('<div class="section-h">Lean Canvas — 9 blocs</div>', unsafe_allow_html=True)
+        st.markdown('<div class="section-h">Lean Canvas  --  9 blocs</div>', unsafe_allow_html=True)
         lc = lean_canvas if lean_canvas else {}
         lcc1, lcc2 = st.columns(2)
         with lcc1:
@@ -6577,9 +6577,9 @@ with tabs[14]:
 
     # ── Scenarios ─────────────────────────────────────────────────────────────
     with _strat_tabs[7]:
-        st.markdown('<div class="section-h">Planification par scenarios — 18 mois</div>', unsafe_allow_html=True)
+        st.markdown('<div class="section-h">Planification par scenarios  --  18 mois</div>', unsafe_allow_html=True)
         for sc in (scenarios or []):
-            with st.expander(f"{sc.get('nom','Scenario')} — Probabilite {sc.get('probabilite','N/A')}"):
+            with st.expander(f"{sc.get('nom','Scenario')}  --  Probabilite {sc.get('probabilite','N/A')}"):
                 scc1, scc2 = st.columns(2)
                 with scc1:
                     st.markdown("**Conditions**")
@@ -6594,10 +6594,10 @@ with tabs[14]:
 
     # ── Plan 180 jours ────────────────────────────────────────────────────────
     with _strat_tabs[8]:
-        st.markdown('<div class="section-h">Plan d'action 180 jours — 6 sprints</div>', unsafe_allow_html=True)
+        st.markdown('<div class="section-h">Plan d'action 180 jours  --  6 sprints</div>', unsafe_allow_html=True)
         for sprint in (plan_180j or []):
             _color = ["#44C1BA","#267371","#393DAC","#0B2221","#B83D4B","#339999"][sprint.get("sprint",1)-1]
-            with st.expander(f"Sprint {sprint.get('sprint','?')} — {sprint.get('theme','')}", expanded=(sprint.get("sprint")==1)):
+            with st.expander(f"Sprint {sprint.get('sprint','?')}  --  {sprint.get('theme','')}", expanded=(sprint.get("sprint")==1)):
                 st.markdown(f"**Objectif** : {sprint.get('objectif','')}")
                 pc1, pc2 = st.columns(2)
                 with pc1:
@@ -6609,7 +6609,7 @@ with tabs[14]:
 
     # ── Analytics Dashboard ───────────────────────────────────────────────────
     with _strat_tabs[9]:
-        st.markdown('<div class="section-h">Dashboard Analytics — Benchmarks et objectifs</div>', unsafe_allow_html=True)
+        st.markdown('<div class="section-h">Dashboard Analytics  --  Benchmarks et objectifs</div>', unsafe_allow_html=True)
         ad = analytics_data if analytics_data else {}
         bench = ad.get("benchmarks",{})
         obj = ad.get("objectifs_90j",{})
