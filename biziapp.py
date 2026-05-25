@@ -3954,6 +3954,173 @@ def gen_action_plan_180j(activity: str, goal: str, maturity: str, monthly_budget
 
 
 # ─── SCRIPTS VENTE AVANCÉS ───────────────────────────────────────────────────
+@st.cache_data(ttl=3600, show_spinner=False)
+def gen_financial_projection(activity, goal, maturity, monthly_budget):
+    """Projection financiere 12 mois avec P&L simplifie."""
+    _AVG = {"ecommerce":62,"saas":89,"service":1200,"consulting":1800,"content":60,"other":200}
+    _MARGIN = {"ecommerce":.42,"saas":.71,"service":.58,"consulting":.65,"content":.78,"other":.45}
+    avg_rev = _AVG.get(activity, 200)
+    margin = _MARGIN.get(activity, .5)
+    growth_monthly = {"idea":.08,"inprogress":.12,"launched":.06}.get(maturity,.08)
+    rows = []
+    cumul_rev = 0.0
+    for m in range(1, 13):
+        gf = (1 + growth_monthly) ** (m-1)
+        rev = monthly_budget * gf * (avg_rev / 100)
+        cogs = rev * (1 - margin)
+        gross = rev - cogs
+        opex = monthly_budget + (rev * .15)
+        ebitda = gross - opex
+        cumul_rev += rev
+        rows.append({
+            "mois": f"M{m}",
+            "ca": round(rev),
+            "cogs": round(cogs),
+            "marge_brute": round(gross),
+            "opex": round(opex),
+            "ebitda": round(ebitda),
+            "cumul_ca": round(cumul_rev),
+        })
+    breakeven = next((r["mois"] for r in rows if r["ebitda"] >= 0), "Non atteint sur 12 mois")
+    return {"rows": rows, "breakeven": breakeven, "ca_annuel": round(cumul_rev),
+            "marge_moy": f"{margin*100:.0f}%", "ebitda_m12": rows[-1]["ebitda"]}
+
+
+@st.cache_data(ttl=3600, show_spinner=False)
+def gen_gtm_strategy(activity, goal, maturity, monthly_budget):
+    """Go-To-Market strategy -- plan de lancement complet."""
+    _CHANNELS = {
+        "ecommerce": {"primary":"Google Shopping + Instagram Ads","secondary":"SEO + Email marketing","organic":"Blog + Pinterest","paid_split":"60% paid / 40% organique"},
+        "saas": {"primary":"Product Hunt + LinkedIn Content","secondary":"SEO technique + Cold outreach","organic":"Content marketing + Podcast","paid_split":"30% paid / 70% organique"},
+        "service": {"primary":"LinkedIn + Bouche-a-oreille","secondary":"Google My Business + SEO local","organic":"Reseau professionnel + referrals","paid_split":"20% paid / 80% organique"},
+        "consulting": {"primary":"Personal branding LinkedIn","secondary":"Conferences + Publications","organic":"Newsletter + Reseau alumni","paid_split":"10% paid / 90% organique"},
+        "content": {"primary":"TikTok + Instagram Reels","secondary":"YouTube + Newsletter","organic":"SEO + Collaboration createurs","paid_split":"15% paid / 85% organique"},
+        "other": {"primary":"Google Ads + LinkedIn","secondary":"SEO + Email","organic":"Content + Partenariats","paid_split":"40% paid / 60% organique"},
+    }
+    ch = _CHANNELS.get(activity, _CHANNELS["other"])
+    phases = [
+        {"phase":"Phase 1 (M1-M2)","focus":"Validation","budget_pct":"20%","actions":["Definir ICP precis","Creer landing page MVP","Lancer 10 interviews clients","Choisir 1 canal acquisition"]},
+        {"phase":"Phase 2 (M3-M4)","focus":"Acquisition","budget_pct":"40%","actions":[f"Activer {ch['primary']}","Publier 8 contenus experts","Tester 3 messages differents","Mettre tracking en place"]},
+        {"phase":"Phase 3 (M5-M6)","focus":"Conversion","budget_pct":"30%","actions":["Optimiser funnel","A/B tester landing","Social proof renforce","Automatiser nurturing"]},
+        {"phase":"Phase 4 (M7+)","focus":"Scale","budget_pct":"10%","actions":["Doubler budget Ads","Programme referral","Partenariats strategiques","Expansion segments"]},
+    ]
+    return {**ch, "phases": phases, "budget_total": f"{monthly_budget * 6:,.0f} EUR (6 mois)",
+            "kpi_primaire": "CAC < " + str(round(monthly_budget * .3)) + " EUR",
+            "kpi_secondaire": "LTV/CAC > 3x dans 12 mois"}
+
+
+@st.cache_data(ttl=3600, show_spinner=False)
+def gen_seo_strategy(activity, goal, monthly_budget):
+    """Strategie SEO complete -- mots-cles, contenu, technique, backlinks."""
+    _KW = {
+        "ecommerce": {"piliers":["meilleur [produit] pas cher","acheter [produit] en ligne","[produit] livraison rapide","avis [produit]"],"longue_traine":["comment choisir [produit]","[produit] vs [produit] comparatif","[produit] pour [usage]"],"locaux":["[produit] paris","[produit] lyon","livraison france"]},
+        "saas": {"piliers":["logiciel [fonctionnalite] gratuit","outil [fonctionnalite] en ligne","alternative [concurrent]","[fonctionnalite] software"],"longue_traine":["comment [fonctionnalite] avec [outil]","meilleur outil [fonctionnalite] 2025","[fonctionnalite] pour PME"],"locaux":["logiciel [fonctionnalite] france","outil [fonctionnalite] francais"]},
+        "consulting": {"piliers":["consultant [specialite]","cabinet conseil [specialite]","expert [specialite]"],"longue_traine":["comment choisir consultant [specialite]","tarif consultant [specialite]","consultant [specialite] TPE PME"],"locaux":["consultant [specialite] paris","consultant [specialite] lyon"]},
+        "service": {"piliers":["[service] professionnel","prestataire [service]","[service] entreprise"],"longue_traine":["devis [service] gratuit","combien coute [service]","[service] pas cher qualite"],"locaux":["[service] paris","[service] france","[service] pres de chez moi"]},
+        "content": {"piliers":["createur contenu [niche]","influenceur [niche]","blog [niche]"],"longue_traine":["comment devenir createur [niche]","monetiser blog [niche]","reseaux sociaux [niche]"],"locaux":["influenceur [niche] france","createur francais [niche]"]},
+        "other": {"piliers":["[activite] professionnel","[activite] en ligne","[activite] gratuit"],"longue_traine":["comment [activite]","meilleur [activite] 2025","[activite] pour debutant"],"locaux":["[activite] france","[activite] paris"]},
+    }
+    kw = _KW.get(activity, _KW["other"])
+    budget_seo = round(monthly_budget * .25)
+    return {
+        "mots_cles": kw,
+        "strategie_contenu": {"frequence":"2 articles/semaine","longueur_cible":"1800+ mots","formats":["Guide complet","Comparatif","Tutoriel","Etude de cas","FAQ"],"outils_gratuits":["Google Search Console","Ubersuggest (3/j)","Answer The Public","Google Trends"]},
+        "seo_technique": ["Vitesse < 2.5s (Core Web Vitals)","Mobile-first mandatory","Schema.org implementer","Sitemap XML + robots.txt","HTTPS + redirects 301","URLs courtes et descriptives"],
+        "link_building": {"sources_gratuites":["HARO (Help A Reporter Out)","Guest posting blogs secteur","Annuaires professionnels","Pages ressources Wikipedia","Partenariats non concurrents"],"objectif":"5 backlinks DA 30+ par mois"},
+        "budget_mensuel": f"{budget_seo} EUR/mois",
+        "roi_attendu": "Trafic organique x3 en 6 mois, x8 en 12 mois",
+        "quick_wins": ["Optimiser meta titles + descriptions existants","Creer pages FAQ (rich snippets)","Google Business Profile si local","Republier contenu evergreen"],
+    }
+
+
+@st.cache_data(ttl=3600, show_spinner=False)
+def gen_crm_pipeline(activity, goal, monthly_budget):
+    """Pipeline CRM et gestion leads -- etapes, actions, outils."""
+    _STAGES = {
+        "ecommerce": [
+            {"etape":"Visiteur","taux_conversion":"3%","actions":["SEO/Ads","Popup email"],"outils":["Google Analytics","Hotjar"]},
+            {"etape":"Lead (email capture)","taux_conversion":"25%","actions":["Welcome email","Offre bienvenue -10%"],"outils":["Klaviyo free","Mailchimp"]},
+            {"etape":"Prospect (panier)","taux_conversion":"15%","actions":["Relance panier","Social proof","Urgence"],"outils":["Email automation","SMS"]},
+            {"etape":"Client","taux_conversion":"100%","actions":["Confirmation","Tracking livraison","Upsell J+7"],"outils":["Shopify","WooCommerce"]},
+            {"etape":"Client fidele","taux_conversion":"35%","actions":["Programme fidelite","Referral","VIP"],"outils":["LoyaltyLion free","Referral Hero"]},
+        ],
+        "saas": [
+            {"etape":"Awareness","taux_conversion":"5%","actions":["Content SEO","Product Hunt","LinkedIn"],"outils":["Plausible free","PostHog"]},
+            {"etape":"Lead (signup)","taux_conversion":"40%","actions":["Onboarding email J0","Tutorial in-app","Checklist"],"outils":["Intercom free","Crisp"]},
+            {"etape":"Trial actif","taux_conversion":"20%","actions":["Email J+3 valeur","Webinaire","Support proactif"],"outils":["Loom","Calendly free"]},
+            {"etape":"Converti (paye)","taux_conversion":"100%","actions":["Success plan","QBR","Upsell"],"outils":["HubSpot free CRM","Notion"]},
+            {"etape":"Champion","taux_conversion":"25%","actions":["Case study","Referral","Advisory board"],"outils":["Testimonial.to","G2"]},
+        ],
+        "service": [
+            {"etape":"Contact entrant","taux_conversion":"60%","actions":["Reponse < 2h","Qualification BANT","Devis rapide"],"outils":["HubSpot free","Pipedrive trial"]},
+            {"etape":"Proposition","taux_conversion":"30%","actions":["Devis personnalise","Etude de cas","Reference client"],"outils":["PandaDoc free","Proposify"]},
+            {"etape":"Negociation","taux_conversion":"70%","actions":["Concession limitee","Closing technique","Urgence"],"outils":["DocuSign free","SignNow"]},
+            {"etape":"Client","taux_conversion":"100%","actions":["Onboarding pro","Rapport mensuel","Upsell naturel"],"outils":["Trello","Notion"]},
+            {"etape":"Ambassadeur","taux_conversion":"20%","actions":["Temoignage video","Referral programme","Co-marketing"],"outils":["Loom","LinkedIn"]},
+        ],
+    }
+    stages = _STAGES.get(activity, _STAGES.get("service", []))
+    _outils_gratuits = {"CRM":"HubSpot Free / Notion CRM / Airtable","Email":"Brevo (300/j gratuit) / Mailchimp 500","Pipeline":"Trello / Linear / Monday free","Analytics":"GA4 / Plausible / Umami"}
+    return {"pipeline": stages, "outils_gratuits_recommandes": _outils_gratuits,
+            "kpi_pipeline": {"leads_objectif": max(10, int(monthly_budget/15)), "closing_rate_cible": "25-35%", "cycle_vente_cible": "14-21 jours", "mrr_objectif": f"{int(monthly_budget*3):,} EUR/mois en 6 mois"}}
+
+
+@st.cache_data(ttl=3600, show_spinner=False)
+def gen_brand_strategy(activity, goal, maturity):
+    """Strategie de marque -- identite, positionnement, communication."""
+    _ARCHETYPES = {
+        "ecommerce": {"archetype":"Le Heros","valeurs":["Performance","Qualite","Rapidite"],"ton":"Dynamique, rassurant, ambitieux","promesse":"Les meilleurs produits, livres le plus vite"},
+        "saas": {"archetype":"Le Magicien","valeurs":["Innovation","Simplicite","Efficacite"],"ton":"Expert, accessible, optimiste","promesse":"La technologie qui transforme votre facon de travailler"},
+        "consulting": {"archetype":"Le Sage","valeurs":["Expertise","Integrite","Resultats"],"ton":"Serieux, confidentiel, stratégique","promesse":"L'expertise qui cree des resultats mesurables"},
+        "service": {"archetype":"Le Soignant","valeurs":["Fiabilite","Service","Proximite"],"ton":"Chaleureux, professionnel, attentionne","promesse":"Votre reussite est notre priorite absolue"},
+        "content": {"archetype":"Le Createur","valeurs":["Authenticite","Creativite","Inspiration"],"ton":"Humain, enthousiaste, unique","promesse":"Du contenu qui vous ressemble et qui marque"},
+        "other": {"archetype":"L'Explorateur","valeurs":["Innovation","Liberte","Independance"],"ton":"Aventurier, authentique, direct","promesse":"Une approche unique pour des resultats inedits"},
+    }
+    arch = _ARCHETYPES.get(activity, _ARCHETYPES["other"])
+    charte_visuelle = {
+        "couleurs": {"primaire":"#44C1BA (Teal confiance)","secondaire":"#0B2221 (Vert profond)","accent":"#44C1BA","neutre":"#F7FBF4"},
+        "typographie": {"titre":"Font bold, lettrage serre (-0.03em)","corps":"Font regular, 1.6 line-height","accent":"Couleur primaire pour les chiffres cles"},
+        "logo": "Typographique + symbole minimaliste representant la croissance/strategie",
+        "photography": "Vraies personnes, espaces de travail modernes, palette claire",
+    }
+    plateforme = {
+        "claim": f"Expert {activity} qui transforme votre {goal} en resultats concrets",
+        "elevator_pitch": f"Nous aidons les {activity} a atteindre {goal} plus vite et moins cher qu un cabinet conseil",
+        "differenciateurs": ["Personnalise a votre secteur","Resultats en 10 minutes","100% gratuit","Base sur des donnees reelles"],
+    }
+    return {**arch, "charte_visuelle": charte_visuelle, "plateforme_de_marque": plateforme,
+            "etapes_construction": ["Definir l'archetype et les valeurs","Creer l'identite visuelle (Canva free)","Formaliser le ton of voice","Appliquer sur tous les supports","Mesurer coherence et recall trimestriel"]}
+
+
+@st.cache_data(ttl=3600, show_spinner=False)
+def gen_automation_stack(activity, monthly_budget):
+    """Stack d'outils gratuits pour automatiser le business -- 0 EUR."""
+    _BASE_STACK = {
+        "CRM": ["HubSpot Free (contacts illimites)","Notion CRM template","Airtable CRM (free tier)"],
+        "Email marketing": ["Brevo (300 emails/j gratuit)","Mailchimp (500 contacts free)","Sendgrid (100/j free)"],
+        "Reseaux sociaux": ["Buffer (3 canaux free)","Hootsuite (2 comptes free)","Later (free tier)"],
+        "SEO": ["Google Search Console","Google Analytics 4","Ubersuggest (3 recherches/j)","Answer The Public"],
+        "Design": ["Canva Free","Figma Free (3 projets)","Adobe Express Free"],
+        "Video": ["CapCut Web (gratuit)","DaVinci Resolve","Loom Free (5 min)"],
+        "Productivity": ["Notion Free","Trello Free","Linear Free","Google Workspace (basic)"],
+        "Automation": ["Make.com (1000 ops/mois free)","Zapier Free (100 taches/mois)","n8n self-hosted"],
+        "Analytics": ["Plausible demo","PostHog Free","Hotjar Free (35 sessions)","Microsoft Clarity"],
+        "Facturation": ["Sumeria Free","Zervant Free","Wave Free (USA/CA)"],
+    }
+    _SECTOR_EXTRA = {
+        "ecommerce": {"E-commerce":["Shopify (trial 3 mois)","WooCommerce (open source)","PrestaShop (free)"]},
+        "saas": {"Dev":["Vercel Free","Supabase Free","Railway free tier"]},
+        "consulting": {"Proposals":["PandaDoc Free (3 docs)","Proposify trial","Better Proposals trial"]},
+        "service": {"Booking":["Calendly Free (1 type)","Cal.com (open source)","YouCanBook.me free"]},
+    }
+    stack = dict(_BASE_STACK)
+    stack.update(_SECTOR_EXTRA.get(activity, {}).values() and list(_SECTOR_EXTRA.get(activity, {}).items()) or [])
+    saving = round(monthly_budget * 0.6)
+    return {"stack": stack, "economie_mensuelle_estimee": f"{saving} EUR/mois vs outils payants",
+            "stack_core": ["HubSpot Free + Brevo + Canva + Buffer + GSC + GA4 + Notion"],
+            "conseil": "Commencer par le stack core (0 EUR) -- ajouter des outils payants seulement si ROI demontrable"}
+
+
 _CLOSING_TECHNIQUES = [
     {"name":"Alternative","desc":"Proposez deux options favorables  --  évitez le oui/non binaire.","ex":"Vous préférez commencer lundi ou mercredi ?"},
     {"name":"Urgence authentique","desc":"Créez une raison valide de décider maintenant.","ex":"Notre tarif de lancement se termine vendredi. Je vous réserve une place ?"},
