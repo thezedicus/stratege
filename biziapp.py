@@ -623,6 +623,10 @@ body,html {overflow-x:hidden!important}
 </style>
 """, unsafe_allow_html=True)
 
+
+st.markdown('''<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">''',
+            unsafe_allow_html=True)
+
 # ── JS animations on load ────────────────────────────────────────────────────
 st.markdown('''
 <script>
@@ -3808,7 +3812,12 @@ with st.sidebar:
         st.cache_data.clear()
         st.session_state["_last_data_refresh"] = _now_ts
 
-    st.caption("Analyse personnalisée · Données live · Cache intelligent")
+    _pers_pct = st.session_state.get("_pers_score", 40)
+    st.markdown(f"""
+<div style="background:rgba(68,193,186,.06);border-radius:8px;padding:7px 10px;
+  border:1px solid rgba(68,193,186,.15);font-size:.68rem;color:#339999;text-align:center">
+  Personnalisation <b style="color:#44C1BA">{_pers_pct}%</b> · Données live · Cache intelligent
+</div>""", unsafe_allow_html=True)
     if _HAS_BS4 and website_url:
         st.caption("Lecture du site activée")
 
@@ -5030,7 +5039,50 @@ with tabs[5]:
         st.markdown(f'<div style="overflow-x:auto">'+ roi_html +'</div>', unsafe_allow_html=True)
     
     # PageSpeed
+    # ── Wikipedia contexte sectoriel ─────────────────────────────────────────
+    if _HAS_ENRICHMENT and website_url:
+        _wiki_topic = {
+            "ecommerce":"commerce électronique","saas":"logiciel en tant que service",
+            "service":"prestation de services","consulting":"conseil en management",
+            "content":"création de contenu numérique","other":"entrepreneuriat"
+        }.get(activity,"entrepreneuriat")
+        _wiki = _wiki_summary(_wiki_topic, lang="fr")
+        if _wiki and _wiki.get("extract"):
+            with st.expander(f"Contexte Wikipedia — {_wiki.get('title','')}"):
+                st.markdown(_wiki["extract"])
+                if _wiki.get("url"):
+                    st.markdown(f"[Lire l'article complet]({_wiki['url']})")
+
     # ── Benchmarks sectoriels (données ouvertes France) ───────────────────────
+    # ── Données macro France live ─────────────────────────────────────────────
+    if _HAS_ENRICHMENT:
+        _macro = _get_macro()
+        _forex = _get_forex()
+        _survie = _get_survie(activity)
+        if _macro:
+            st.markdown('<div class="section-h">Contexte macroéconomique France 2024</div>', unsafe_allow_html=True)
+            _mc = st.columns(4)
+            _macro_items = [("PIB 2024", _macro.get("PIB_2024_growth","N/A")),
+                            ("Inflation", _macro.get("Inflation_2024","N/A")),
+                            ("Chômage", _macro.get("Chomage_2024","N/A")),
+                            ("Créations entr.", _macro.get("Creation_entreprises_2024","N/A"))]
+            for col, (lbl, val) in zip(_mc, _macro_items):
+                col.metric(lbl, val)
+            st.caption(f"Source : {_macro.get('source','INSEE 2024')}")
+
+        if _forex:
+            with st.expander("Taux de change EUR — Banque Centrale Européenne"):
+                _fc = st.columns(len(_forex))
+                for col, (cur, rate) in zip(_fc, _forex.items()):
+                    col.metric(f"EUR/{cur}", str(rate))
+
+        if _survie:
+            st.markdown('<div class="section-h">Taux de survie — votre secteur</div>', unsafe_allow_html=True)
+            _sc = st.columns(3)
+            _sc[0].metric("Survie 1 an", f"{_survie.get('1an',0)}%")
+            _sc[1].metric("Survie 3 ans", f"{_survie.get('3ans',0)}%")
+            _sc[2].metric("Survie 5 ans", f"{_survie.get('5ans',0)}%", delta=f"Tendance: {_survie.get('tendance','stable')}")
+
     if _sector_live and _sector_bench:
         st.markdown('<div class="section-h">Benchmarks sectoriels — Données marché France 2024</div>', unsafe_allow_html=True)
         _bench_cols = st.columns(min(4, len(_sector_bench)))
@@ -5310,6 +5362,27 @@ with tabs[9]:
     if not _news_queries:
         _news_queries = [("Secteur", _main_q)]
 
+    # ── Google Trends + Product Hunt (enrichment_apis) ─────────────────────────
+    if _HAS_ENRICHMENT:
+        _trends = _fetch_trends("FR")
+        _ph_items = _fetch_ph()
+        _startups = _fetch_startups(activity)
+
+        if _trends:
+            with st.expander("Tendances Google France du moment"):
+                for t in _trends[:8]:
+                    st.markdown(f"- **{t}**")
+
+        if _ph_items:
+            with st.expander("Nouveautés Product Hunt"):
+                for p in _ph_items[:5]:
+                    st.markdown(f"- [{p['title']}]({p['link']}) — {p.get('desc','')[:80]}")
+
+        if _startups:
+            with st.expander(f"Startups françaises — {_sector_label}"):
+                for s in _startups[:6]:
+                    st.markdown(f"- **{s['name']}** ({s['country']})")
+
     # ── Sources additionnelles HackerNews + DEV.to + GitHub ───────────────────
     _hn_items, _devto_items, _gh_items = [], [], []
     if _HAS_API_LAYER:
@@ -5380,8 +5453,8 @@ with tabs[9]:
                 for _gh in _gh_items[:4]:
                     st.markdown(f"- [{_gh['title']}]({_gh['link']})")
 
-    # ── Analyse URL live ──────────────────────────────────────────────────────
-    st.markdown('<div class="section-h">Analyse URL en temps réel (multi-proxy)</div>', unsafe_allow_html=True)
+    # ── Analyse URL avancée ──────────────────────────────────────────────────────
+    st.markdown('<div class="section-h">Analyse URL complète — SEO · Contenu · Performance</div>', unsafe_allow_html=True)
     _lcol, _rcol = st.columns([4, 1])
     with _lcol:
         _live_url = st.text_input("URL à analyser", placeholder="https://monsite.fr ou https://concurrent.fr/page", label_visibility="collapsed", key="v_liveurl")
