@@ -4191,6 +4191,52 @@ else:
     pricing_strat= _a.get("pricing_strat",gen_pricing_strategy(activity, monthly_budget, maturity))
     comp_intel   = _a.get("comp_intel",   gen_competitive_intelligence(activity, goal))
 
+# ── SPIN Selling data ─────────────────────────────────────────────────────────
+_SPIN = {
+    "ecommerce": {
+        "situation":    ["Quelle est votre fréquence d'achat habituelle en ligne ?","Quels sites e-commerce utilisez-vous actuellement ?","Quel est votre panier moyen ?"],
+        "probleme":     ["Avez-vous déjà eu des problèmes de livraison avec vos fournisseurs ?","Les retours produits sont-ils une source de frustration ?","Perdez-vous du temps à gérer les réclamations clients ?"],
+        "implication":  ["Si ce problème persiste, quel impact sur votre taux de fidélisation ?","Un taux de retour élevé réduit-il votre marge brute ?","Combien coûte chaque client perdu à cause d'une mauvaise expérience ?"],
+        "besoin":       ["Une solution qui réduit les retours de 30% vous intéresserait-elle ?","Souhaitez-vous automatiser le suivi post-achat ?","Un système de recommandation personnalisé augmenterait-il votre panier moyen ?"],
+    },
+    "saas": {
+        "situation":    ["Quels outils utilisez-vous actuellement pour ce besoin ?","Combien de personnes utilisent cette solution dans votre équipe ?","Quel est votre budget actuel pour ce type de logiciel ?"],
+        "probleme":     ["Quelles limitations rencontrez-vous avec votre solution actuelle ?","Perdez-vous du temps sur des tâches manuelles que l'outil ne couvre pas ?","Votre équipe est-elle frustrée par les bugs ou la lenteur ?"],
+        "implication":  ["Ces limitations coûtent-elles du temps productif à votre équipe ?","Si l'inefficacité persiste, quel impact sur votre croissance ?","Un outil inadapté peut-il freiner l'onboarding de nouveaux clients ?"],
+        "besoin":       ["Une solution qui automatise ces tâches libérerait combien d'heures par semaine ?","Un essai gratuit 14j vous permettrait-il de valider la valeur ?","Une intégration native avec vos outils existants simplifierait votre stack ?"],
+    },
+    "service": {
+        "situation":    ["Comment trouvez-vous actuellement vos nouveaux clients ?","Quel est votre délai moyen de closing d'un dossier ?","Combien de devis envoyez-vous pour signer un contrat ?"],
+        "probleme":     ["Avez-vous du mal à vous différencier de la concurrence sur le prix ?","Le démarchage à froid prend-il trop de temps pour peu de résultats ?","Vos clients actuels vous recommandent-ils spontanément ?"],
+        "implication":  ["Un pipeline irrégulier crée-t-il des problèmes de trésorerie ?","Si votre taux de closing n'augmente pas, où en serez-vous dans 12 mois ?","Chaque client non signé, c'est combien de CA perdu ?"],
+        "besoin":       ["Un système de recommandation structuré doublerait-il vos leads entrants ?","Une proposition commerciale plus percutante améliorerait votre taux de closing ?","Un positionnement premium vous permettrait-il de sortir de la guerre des prix ?"],
+    },
+    "consulting": {
+        "situation":    ["Quels types de missions traitez-vous principalement ?","Comment vos clients vous trouvent-ils actuellement ?","Quel est votre TJM actuel et votre taux d'occupation ?"],
+        "probleme":     ["Avez-vous du mal à valoriser votre expertise face à de grands cabinets ?","La saisonnalité crée-t-elle des mois creux difficiles à gérer ?","Vos clients comprennent-ils immédiatement la valeur que vous apportez ?"],
+        "implication":  ["Un taux d'occupation insuffisant, quel impact sur votre revenu annuel ?","Sans personal branding fort, combien de missions perdez-vous ?","Des clients mal qualifiés consomment combien d'énergie inutilement ?"],
+        "besoin":       ["Un contenu régulier sur LinkedIn générerait des leads entrants qualifiés ?","Un positionnement niche premium justifierait un TJM plus élevé ?","Un système de rétainer mensuel sécuriserait votre CA récurrent ?"],
+    },
+    "content": {
+        "situation":    ["Sur quelles plateformes publiez-vous actuellement ?","Quel est votre rythme de publication hebdomadaire ?","Comment monétisez-vous votre audience aujourd'hui ?"],
+        "probleme":     ["Votre croissance d'audience stagne-t-elle malgré vos efforts ?","La monétisation est-elle insuffisante par rapport au temps investi ?","Les algorithmes des plateformes impactent-ils négativement votre portée ?"],
+        "implication":  ["Une audience stagnante réduit-elle vos opportunités de partenariat ?","Sans diversification des revenus, votre activité est-elle vulnérable ?","Dépendre d'une seule plateforme, quel risque si l'algorithme change ?"],
+        "besoin":       ["Une stratégie multi-plateforme réduirait-elle votre dépendance algorithmique ?","Une offre de formation ou newsletter premium diversifierait vos revenus ?","Un calendrier éditorial optimisé augmenterait votre régularité et engagement ?"],
+    },
+    "other": {
+        "situation":    ["Décrivez votre activité principale et votre marché cible.","Comment générez-vous vos revenus actuellement ?","Quels sont vos 3 principaux canaux d'acquisition ?"],
+        "probleme":     ["Quels sont vos principaux obstacles à la croissance ?","Où perdez-vous le plus de temps ou d'argent ?","Quelle frustration revient le plus souvent dans votre activité ?"],
+        "implication":  ["Si ces obstacles persistent, où en serez-vous dans 18 mois ?","Combien ces problèmes vous coûtent-ils mensuellement (temps + argent) ?","Votre concurrent résout-il mieux ces problèmes que vous ?"],
+        "besoin":       ["Quelle solution éliminerait le principal frein à votre croissance ?","Un plan d'action sur 90 jours vous aiderait-il à prioriser ?","Quelle ressource manquante bloquerait moins votre développement ?"],
+    },
+    "default": {
+        "situation":    ["Décrivez votre contexte actuel.","Quels outils / méthodes utilisez-vous ?","Quel est votre objectif prioritaire ?"],
+        "probleme":     ["Quels obstacles rencontrez-vous ?","Qu'est-ce qui ne fonctionne pas comme prévu ?","Où perdez-vous du temps ou de l'argent ?"],
+        "implication":  ["Quel est l'impact si ce problème n'est pas résolu ?","Combien cela vous coûte-t-il (temps, CA, clients) ?","Où en serez-vous dans 12 mois sans changement ?"],
+        "besoin":       ["Quelle solution idéale résoudrait ce problème ?","Quel résultat concret attendez-vous ?","Quand avez-vous besoin d'une solution opérationnelle ?"],
+    },
+}
+
 spin_data = _SPIN.get(activity, _SPIN["default"])
 
 # ── Données sectorielles — toujours définies, préservées depuis cache ─────────
