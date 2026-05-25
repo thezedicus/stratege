@@ -4404,6 +4404,12 @@ if _needs_regen:
         sector_data = _SECTOR_ST.get(activity, _SECTOR_ST["other"])
     # ── Nouvelles analyses avancées ─────────────────────────────────────────
     porter_data    = gen_porter_forces(activity)
+    ikigai_data    = gen_ikigai(activity, goal)
+    blue_ocean     = gen_blue_ocean(activity, goal)
+    lean_canvas    = gen_lean_canvas(activity, goal, maturity)
+    scenarios      = gen_scenario_planning(activity, goal)
+    analytics_data = gen_data_analytics(activity, goal, monthly_budget)
+    plan_180j      = gen_action_plan_180j(activity, goal, maturity, monthly_budget)
     ansoff_data    = gen_ansoff_matrix(activity, goal, maturity)
     journey_data   = gen_customer_journey(activity, goal)
     content_strat  = gen_content_strategy(activity, goal, monthly_budget)
@@ -4423,6 +4429,9 @@ if _needs_regen:
         "ads_data": ads_data, "roi_data": roi_data,
         "sector_data": sector_data,
         "porter_data": porter_data, "ansoff_data": ansoff_data,
+        "ikigai_data": ikigai_data, "blue_ocean": blue_ocean,
+        "lean_canvas": lean_canvas, "scenarios": scenarios,
+        "analytics_data": analytics_data, "plan_180j": plan_180j,
         "journey_data": journey_data, "content_strat": content_strat,
         "email_seq": email_seq, "social_strat": social_strat,
         "pricing_strat": pricing_strat, "comp_intel": comp_intel,
@@ -4457,6 +4466,12 @@ else:
         except Exception:
             pass
     porter_data  = _a.get("porter_data",  gen_porter_forces(activity))
+    ikigai_data  = _a.get("ikigai_data",  gen_ikigai(activity, goal))
+    blue_ocean   = _a.get("blue_ocean",   gen_blue_ocean(activity, goal))
+    lean_canvas  = _a.get("lean_canvas",  gen_lean_canvas(activity, goal, maturity))
+    scenarios    = _a.get("scenarios",    gen_scenario_planning(activity, goal))
+    analytics_data = _a.get("analytics_data", gen_data_analytics(activity, goal, monthly_budget))
+    plan_180j    = _a.get("plan_180j",    gen_action_plan_180j(activity, goal, maturity, monthly_budget))
     ansoff_data  = _a.get("ansoff_data",  gen_ansoff_matrix(activity, goal, maturity))
     journey_data = _a.get("journey_data", gen_customer_journey(activity, goal))
     content_strat= _a.get("content_strat",gen_content_strategy(activity, goal, monthly_budget))
@@ -5935,8 +5950,10 @@ with tabs[11]:
 </div>
 """, unsafe_allow_html=True)
 
-    # ── Porter 5 Forces ──────────────────────────────────────────────────────
-    st.markdown('<div class="section-h">5 Forces de Porter</div>', unsafe_allow_html=True)
+    # ── Sous-onglets Stratégie+ ──────────────────────────────────────────────
+    _strat_tabs = st.tabs(["Porter 5 Forces","Ansoff","Customer Journey","Pricing","Ikigai","Ocean Bleu","Lean Canvas","Scenarios","Plan 180j","Analytics"])
+    with _strat_tabs[0]:
+     st.markdown('<div class="section-h">5 Forces de Porter</div>', unsafe_allow_html=True)
     _p5 = porter_data if porter_data else {}
     _forces_names = {
         "menace_nouveaux": "Nouveau: Menace nouveaux entrants",
@@ -6491,6 +6508,132 @@ with tabs[14]:
         if st.button("Confirmer l'abonnement", type="primary", key="confirm_checkout"):
             st.success(f"Abonnement {plan_info.get('name','')} active ! Bienvenue dans BiziApp.")
             st.session_state.pop("show_checkout", None)
+
+
+
+    # ── Ikigai ────────────────────────────────────────────────────────────────
+    with _strat_tabs[4]:
+        st.markdown('<div class="section-h">Ikigai professionnel</div>', unsafe_allow_html=True)
+        ik = ikigai_data if ikigai_data else {}
+        ic1, ic2 = st.columns(2)
+        with ic1:
+            st.markdown("**Ce que vous aimez (Passion)**")
+            for p in ik.get("passion",[]): st.markdown(f"- {p}")
+            st.markdown("**Ce pour quoi vous etes fait (Vocation)**")
+            for v in ik.get("vocation",[]): st.markdown(f"- {v}")
+        with ic2:
+            st.markdown("**Ce dont le monde a besoin (Mission)**")
+            for m in ik.get("mission",[]): st.markdown(f"- {m}")
+            st.markdown("**Votre profession**")
+            for pr in ik.get("profession",[]): st.markdown(f"- {pr}")
+        st.info(f"**Votre Ikigai** : {ik.get('intersection','')}")
+        st.success(f"**Raison d'etre** : {ik.get('raison_etre','')}")
+
+    # ── Ocean Bleu ────────────────────────────────────────────────────────────
+    with _strat_tabs[5]:
+        st.markdown('<div class="section-h">Canevas Stratégique — Ocean Bleu</div>', unsafe_allow_html=True)
+        bo = blue_ocean if blue_ocean else {}
+        boc1, boc2 = st.columns(2)
+        with boc1:
+            st.markdown('<div style="background:#F7EEF0;border-radius:10px;padding:12px;margin-bottom:10px"><b style="color:#B83D4B">Eliminer</b></div>', unsafe_allow_html=True)
+            for x in bo.get("eliminer",[]): st.markdown(f"- {x}")
+            st.markdown('<div style="background:#FEF3C7;border-radius:10px;padding:12px;margin-top:10px"><b style="color:#B45309">Reduire</b></div>', unsafe_allow_html=True)
+            for x in bo.get("reduire",[]): st.markdown(f"- {x}")
+        with boc2:
+            st.markdown('<div style="background:#C6ECD9;border-radius:10px;padding:12px;margin-bottom:10px"><b style="color:#267371">Augmenter</b></div>', unsafe_allow_html=True)
+            for x in bo.get("augmenter",[]): st.markdown(f"- {x}")
+            st.markdown('<div style="background:#E4E9F6;border-radius:10px;padding:12px;margin-top:10px"><b style="color:#393DAC">Creer</b></div>', unsafe_allow_html=True)
+            for x in bo.get("creer",[]): st.markdown(f"- {x}")
+        st.success(f"**Espace non conteste** : {bo.get('espace_non_conteste','')}")
+
+    # ── Lean Canvas ───────────────────────────────────────────────────────────
+    with _strat_tabs[6]:
+        st.markdown('<div class="section-h">Lean Canvas — 9 blocs</div>', unsafe_allow_html=True)
+        lc = lean_canvas if lean_canvas else {}
+        lcc1, lcc2 = st.columns(2)
+        with lcc1:
+            st.markdown("**Probleme**")
+            for p in lc.get("probleme",{}).get("contenu",[]): st.markdown(f"- {p}")
+            st.caption(f"Alternatives actuelles : {lc.get('probleme',{}).get('alternatives','')}")
+            st.markdown("**Solution**")
+            for s in lc.get("solution",{}).get("contenu",[]): st.markdown(f"- {s}")
+            st.markdown("**Canaux**")
+            for c in lc.get("canaux",[]): st.markdown(f"- {c}")
+            st.markdown("**Revenus**")
+            st.info(lc.get("revenus",""))
+        with lcc2:
+            st.markdown("**Proposition de valeur**")
+            st.success(lc.get("proposition_valeur",""))
+            st.markdown("**Avantage concurrentiel**")
+            st.info(lc.get("avantage_competitif",""))
+            st.markdown("**Segments clients**")
+            segs = lc.get("segments",{})
+            st.markdown(f"- Early adopters : {segs.get('early_adopters','')}")
+            st.markdown(f"- Marche total : {segs.get('marche_total','')}")
+            st.markdown("**Metriques cles**")
+            for m in lc.get("metriques",[]): st.markdown(f"- {m}")
+            st.markdown("**Couts**")
+            st.caption(lc.get("couts",""))
+
+    # ── Scenarios ─────────────────────────────────────────────────────────────
+    with _strat_tabs[7]:
+        st.markdown('<div class="section-h">Planification par scenarios — 18 mois</div>', unsafe_allow_html=True)
+        for sc in (scenarios or []):
+            with st.expander(f"{sc.get('nom','Scenario')} — Probabilite {sc.get('probabilite','N/A')}"):
+                scc1, scc2 = st.columns(2)
+                with scc1:
+                    st.markdown("**Conditions**")
+                    for c in sc.get("conditions",[]): st.markdown(f"- {c}")
+                    st.markdown("**Actions cles**")
+                    for a in sc.get("actions",[]): st.markdown(f"- {a}")
+                with scc2:
+                    kpis = sc.get("kpis",{})
+                    st.metric("Croissance CA", kpis.get("ca_growth","N/A"))
+                    st.metric("Clients nets", kpis.get("clients_nets","N/A"))
+                    st.metric("NPS cible", kpis.get("nps","N/A"))
+
+    # ── Plan 180 jours ────────────────────────────────────────────────────────
+    with _strat_tabs[8]:
+        st.markdown('<div class="section-h">Plan d'action 180 jours — 6 sprints</div>', unsafe_allow_html=True)
+        for sprint in (plan_180j or []):
+            _color = ["#44C1BA","#267371","#393DAC","#0B2221","#B83D4B","#339999"][sprint.get("sprint",1)-1]
+            with st.expander(f"Sprint {sprint.get('sprint','?')} — {sprint.get('theme','')}", expanded=(sprint.get("sprint")==1)):
+                st.markdown(f"**Objectif** : {sprint.get('objectif','')}")
+                pc1, pc2 = st.columns(2)
+                with pc1:
+                    st.markdown("**Actions**")
+                    for a in sprint.get("actions",[]): st.markdown(f"- {a}")
+                with pc2:
+                    st.markdown("**KPI de succes**")
+                    st.success(sprint.get("kpi",""))
+
+    # ── Analytics Dashboard ───────────────────────────────────────────────────
+    with _strat_tabs[9]:
+        st.markdown('<div class="section-h">Dashboard Analytics — Benchmarks et objectifs</div>', unsafe_allow_html=True)
+        ad = analytics_data if analytics_data else {}
+        bench = ad.get("benchmarks",{})
+        obj = ad.get("objectifs_90j",{})
+        # KPIs cibles
+        adc1, adc2, adc3, adc4 = st.columns(4)
+        adc1.metric("Leads / mois cible", obj.get("leads_mensuel","N/A"))
+        adc2.metric("Nouveaux clients (90j)", obj.get("clients_nouveaux","N/A"))
+        adc3.metric("CA additionnel", obj.get("ca_additionnel","N/A"))
+        adc4.metric("ROI cible", obj.get("roi_cible","N/A"))
+        st.divider()
+        # Benchmarks sectoriels
+        st.markdown("**Benchmarks sectoriels**")
+        if bench:
+            bench_cols = st.columns(len(bench))
+            for col, (kpi, val) in zip(bench_cols, bench.items()):
+                col.metric(kpi.replace("_"," ").title(), str(val))
+        # Alertes
+        st.markdown("**Alertes et points de vigilance**")
+        for alerte in ad.get("alertes",[]):
+            st.warning(alerte)
+        # Formules KPIs
+        st.markdown("**Formules KPIs essentiels**")
+        for kpi_item in ad.get("kpis_dashboard",[]):
+            st.markdown(f"- **{kpi_item.get('kpi','')}** : {kpi_item.get('calcul','')}")
 
 
 # ─────────────────────────────────────────────────────────────────────────────
