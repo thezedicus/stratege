@@ -4094,7 +4094,7 @@ def gen_brand_strategy(activity, goal, maturity):
 
 @st.cache_data(ttl=3600, show_spinner=False)
 def gen_automation_stack(activity, monthly_budget):
-    """Stack d'outils gratuits pour automatiser le business -- 0 EUR."""
+    """Stack outils gratuits pour automatiser le business -- 0 EUR."""
     _BASE_STACK = {
         "CRM": ["HubSpot Free (contacts illimites)","Notion CRM template","Airtable CRM (free tier)"],
         "Email marketing": ["Brevo (300 emails/j gratuit)","Mailchimp (500 contacts free)","Sendgrid (100/j free)"],
@@ -7062,7 +7062,7 @@ with tabs[14]:
                     st.info(f"**Claim** : {pm.get('claim','')}")
                     st.info(f"**Elevator pitch** : {pm.get('elevator_pitch','')}")
         with as_tab:
-            st.markdown('<div class="section-h">Stack d'automatisation -- Outils 100% gratuits</div>', unsafe_allow_html=True)
+            st.markdown("<div class=\"section-h\">Stack automatisation -- Outils 100 pct gratuits</div>", unsafe_allow_html=True)
             if ast_data:
                 stack = ast_data.get("stack",{})
                 st.success(f"**Economie estimee** : {ast_data.get('economie_mensuelle_estimee','')}")
