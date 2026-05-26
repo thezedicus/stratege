@@ -24,7 +24,7 @@ SVG_CHART = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x
 PLANS = {
     "demo": {
         "name": "Demo",
-        "subtitle": "Découvrez BiziApp sans engagement",
+        "subtitle": "Testez tous les outils, sans carte bancaire",
         "monthly": 0,
         "annual": 0,
         "color": "#339999",
@@ -49,7 +49,7 @@ PLANS = {
     },
     "starter": {
         "name": "Starter",
-        "subtitle": "Pour freelances et TPE qui démarrent",
+        "subtitle": "Pour les dirigeants qui veulent aller vite et bien",
         "monthly": 39,
         "annual": 27,  # 30% de réduction
         "color": "#44C1BA",
@@ -75,7 +75,7 @@ PLANS = {
     },
     "pro": {
         "name": "Pro",
-        "subtitle": "Pour consultants et PME ambitieuses",
+        "subtitle": "Pour les dirigeants qui pilotent vraiment leur croissance",
         "monthly": 89,
         "annual": 62,  # 30% de réduction
         "color": "#0B2221",
@@ -287,14 +287,14 @@ def render_pricing_page(billing="monthly", on_plan_select=None):
     <div style="background:white;border-radius:12px;padding:14px;border:1px solid #C6ECD9">
       <div style="display:flex;gap:4px;margin-bottom:6px">{SVG_STAR*5}</div>
       <div style="font-size:.76rem;color:#0B2221;line-height:1.5;font-style:italic">
-        "Mon cabinet me facturait 4 000€ par diagnostic. BiziApp me donne mieux en 10 minutes."
+        "Je gerai 11 salaries et je n'avais pas de strategie claire. BiziApp m'en a fait une en 10 minutes. Maintenant j'ai un cap."
       </div>
       <div style="font-size:.68rem;color:#339999;margin-top:8px;font-weight:600">Thomas D. — Dirigeant, Lyon</div>
     </div>
     <div style="background:white;border-radius:12px;padding:14px;border:1px solid #C6ECD9">
       <div style="display:flex;gap:4px;margin-bottom:6px">{SVG_STAR*5}</div>
       <div style="font-size:.76rem;color:#0B2221;line-height:1.5;font-style:italic">
-        "Le plan marketing genere est exactement ce dont j'avais besoin. Mes ventes ont augmente de 40%."
+        "J'ai montre le plan BiziApp a ma banque pour mon financement. Ils ont trouve ca tres professionnel. Le pret a ete accepte."
       </div>
       <div style="font-size:.68rem;color:#339999;margin-top:8px;font-weight:600">Sarah M. — Freelance, Paris</div>
     </div>
