@@ -26,7 +26,7 @@ st.set_page_config(
         "Get Help": None,
         "Report a bug": None,
         "About": (
-            "## BiziApp v5.0\n"
+            "## BiziApp v5.3\n"
             "Votre expert virtuel en stratégie commerciale.\n\n"
             "Générez votre plan 360° en 10 minutes : SWOT · Personas · SEO · Marketing · KPIs\n\n"
             "**100% gratuit · Sans inscription · Données sécurisées**"
@@ -3947,7 +3947,24 @@ LABELS = {
     "content":"Créateur de contenu","other":"Autre",
     "awareness":"Notoriété","sales":"Ventes","leads":"Leads","traffic":"Trafic",
     "idea":"Idée","inprogress":"En cours","launched":"Lancé",
-}
+
+    "ecommerce":    "Vente en ligne",
+    "saas":    "Tech / Appli / Logiciel",
+    "service":    "Services / Prestations",
+    "consulting":    "Conseil / Expertise",
+    "content":    "Creation / Contenu",
+    "other":    "Autre activite",
+    "leads":    "Trouver des clients",
+    "awareness":    "Etre plus connu",
+    "sales":    "Vendre plus",
+    "growth":    "Augmenter mon chiffre",
+    "retention":    "Fideliser mes clients",
+    "launch":    "Lancer mon produit",
+    "traffic":    "Avoir plus de visiteurs",
+    "idea":    "J'ai une idee",
+    "inprogress":    "Je me lance",
+    "launched":    "Je suis lance",
+    "growing":    "En croissance",}
 
 def _sanitize_url(url: str, max_len: int = 500) -> str:
     """Valide et nettoie une URL avant utilisation. Retourne '' si invalide."""
@@ -6935,7 +6952,7 @@ with tabs[14]:
 st.divider()
 st.markdown("""
 <div style="text-align:center;color:#339999;font-size:.78rem;padding:12px 0">
-  <b style="color:#0B2221">BiziApp v5.0</b> — Stratégie 360° · SWOT · QQOQCCP · PESTEL · SONCAS · AIDA · SPIN · Challenger · GEO 2025 · SEA IA · KPIs · OKR · Veille Live · RSE · RFM · BATNA · Prix psychologiques<br>
+  <b style="color:#0B2221">BiziApp v5.3</b> — Votre outil de lancement et de developpement d'activite · SPIN · Challenger · GEO 2025 · SEA IA · KPIs · OKR · Veille Live · RSE · RFM · BATNA · Prix psychologiques<br>
   <span style="color:#44C1BA">Analyse personnalisée · Données live · Cache intelligent · Lecture URL en direct · Veille concurrentielle · Actualités Google News · Wikipedia · DuckDuckGo</span><br>
   Données live : Google News · Bing News · Reddit · HN · DEV.to · Recherche-Entreprises · OSM · Wikidata · Wikipedia · AllOrigins · corsproxy.io · Analyse heuristique · Inputs validés &amp; sécurisés (XSS, SSRF, rate-limiting)
 </div>
