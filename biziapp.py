@@ -173,7 +173,7 @@ st.markdown("""
   "@type": "SoftwareApplication",
   "name": "BiziApp",
   "description": "BiziApp genere votre strategie commerciale complete en 10 minutes : SWOT, business plan, plan marketing, personas et KPIs. Gratuit pour les dirigeants de TPE et PME de moins de 50 salaries.",
-  "url": "https://thezedicus-stratege-biziapp.streamlit.app",
+  "url": "https://biziapp.streamlit.app",
   "applicationCategory": "BusinessApplication",
   "operatingSystem": "Web",
   "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"},
