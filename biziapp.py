@@ -19,7 +19,7 @@ import unicodedata
 import time
 st.set_page_config(
     page_title="BiziApp — Lancez votre activite avec un plan clair en 10 minutes | Gratuit",
-    page_icon="<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3DBDB6" stroke-width="2"><polyline points="22,7 13.5,15.5 8.5,10.5 2,17"/><polyline points="16,7 22,7 22,13"/></svg>",
+    page_icon="📈",
     layout="wide",
     initial_sidebar_state="expanded",
     menu_items={
@@ -881,7 +881,7 @@ def _show_auth_page():
   <div style="position:absolute;top:-30%;right:-10%;width:300px;height:300px;border-radius:50%;
     background:rgba(68,193,186,.08);animation:floatY 6s ease-in-out infinite"></div>
   <div style="font-size:2.4rem;font-weight:900;letter-spacing:-2px;margin-bottom:6px;position:relative;z-index:1">
-    <span style="color:white">BIZI</span><span style="color:#44C1BA">APP</span>
+    BIZIAPP
   </div>
   <div style="font-size:.84rem;color:rgba(255,255,255,.95);text-transform:uppercase;
     letter-spacing:.1em;margin-bottom:20px">Expert virtuel en stratégie commerciale</div>
@@ -996,10 +996,10 @@ def _show_login_form():
 <div style="margin-top:20px;padding:12px;background:#F7FBF4;border-radius:10px;border:1px solid #C6ECD9">
   <div style="font-size:.82rem;color:#339999;font-weight:600;margin-bottom:8px">Ils ont déjà rejoint BiziApp :</div>
   <div style="display:flex;gap:8px;flex-wrap:wrap">
-    <span style="background:white;border:1px solid #C6ECD9;border-radius:50px;padding:3px 10px;font-size:.80rem;color:#267371;font-weight:600">👔 Thomas D. — Dirigeant TPE</span>
-    <span style="background:white;border:1px solid #C6ECD9;border-radius:50px;padding:3px 10px;font-size:.80rem;color:#267371;font-weight:600">💻 Sarah M. — Freelance</span>
-    <span style="background:white;border:1px solid #C6ECD9;border-radius:50px;padding:3px 10px;font-size:.80rem;color:#267371;font-weight:600">Lucas R. — Startup</span>
-    <span style="background:white;border:1px solid #C6ECD9;border-radius:50px;padding:3px 10px;font-size:.80rem;color:#267371;font-weight:600">🧠 Marie C. — Consultante</span>
+    👔 Thomas D. — Dirigeant TPE
+    💻 Sarah M. — Freelance
+    Lucas R. — Startup
+    🧠 Marie C. — Consultante
   </div>
 </div>
 """, unsafe_allow_html=True)
@@ -1013,7 +1013,7 @@ def _show_register_form():
 <div style="background:linear-gradient(135deg,#0B2221,#267371);border-radius:12px;
   padding:16px 18px;margin-bottom:20px;color:white">
   <div style="font-size:.86rem;font-weight:800;margin-bottom:6px">
-    <span style="color:#1D6060;font-weight:900;font-size:1rem">&#10003;</span>&nbsp; Ce que tu reçois gratuitement :
+    &#10003;&nbsp; Ce que tu reçois gratuitement :
   </div>
   <div style="font-size:.84rem;color:rgba(255,255,255,.85);line-height:1.7">
     ⚔️ 14 modules stratégiques &nbsp;·&nbsp; SWOT personnalisé<br>
@@ -1048,7 +1048,7 @@ def _show_register_form():
 """, unsafe_allow_html=True)
 
     _consent_rgpd = st.checkbox(
-        "<span style="color:#1D6060;font-weight:900;font-size:1rem">&#10003;</span>&nbsp; J'accepte les CGU et la politique de confidentialité (obligatoire)",
+        "&#10003;&nbsp; J'accepte les CGU et la politique de confidentialité (obligatoire)",
         key="reg_consent_rgpd"
     )
     _consent_mkt  = st.checkbox(
@@ -1094,9 +1094,9 @@ def _show_register_form():
     # Micro-garanties (neuromarketing : réduction du risque perçu)
     st.markdown("""
 <div style="display:flex;justify-content:center;gap:16px;margin-top:12px;flex-wrap:wrap">
-  <span style="font-size:.80rem;color:#339999;font-weight:600">🔒 Sans carte bancaire</span>
-  <span style="font-size:.80rem;color:#339999;font-weight:600"><span style="color:#1D6060;font-weight:900;font-size:1rem">&#10003;</span>&nbsp; Résiliation en 1 clic</span>
-  <span style="font-size:.80rem;color:#339999;font-weight:600">🇫🇷 Données en France</span>
+  🔒 Sans carte bancaire
+  <span style="font-size:.80rem;color:#339999;font-weight:600">&#10003;&nbsp; Résiliation en 1 clic</span>
+  🇫🇷 Données en France
 </div>
 """, unsafe_allow_html=True)
 
@@ -1208,7 +1208,7 @@ if _is_demo:
   padding:10px 20px;border-radius:0;text-align:center;font-size:.82rem;font-weight:600;
   display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap">
   <span>Mode demo — Fonctionnalites limitees</span>
-  <span style="color:#44C1BA">|</span>
+  |
   <span>Creez un compte gratuit pour acceder a toutes les analyses</span>
 </div>
 """, unsafe_allow_html=True)
@@ -2423,7 +2423,7 @@ def gen_growth_hacking(activity: str, monthly_budget: float) -> list:
             (" Abandon panier email", "Séquence 3 emails (1h/24h/72h) &#8594; récupère 15% des abandons", "Gratuit", "ROI: 10x"),
             ("Insta UGC Marketing", "Encourage photos clients &#8594; +32% conversion vs photos studio", "Gratuit", "ROI: 8x"),
             (" Parrainage client", "Offre 10€ parrain + 10€ filleul &#8594; acquisition à coût fixe", "Produit", "ROI: 6x"),
-            ("<span style="color:#B45309">&#9733;</span> Review automation", "Email J+14 demande avis &#8594; +4.6/5 trust signal", "Gratuit", "ROI: 12x"),
+            ("&#9733; Review automation", "Email J+14 demande avis &#8594; +4.6/5 trust signal", "Gratuit", "ROI: 12x"),
             (" Packaging viral", "Unboxing mémorable &#8594; partage réseaux &#8594; earned media", "Faible", "ROI: 5x"),
         ],
         "saas_bootstrap": [
@@ -4133,7 +4133,7 @@ with st.sidebar:
     st.markdown("""
     <div style="text-align:center;padding:8px 0 12px">
       
-      <div style="font-size:1.25rem;font-weight:800;letter-spacing:-.5px;line-height:1"><span style="color:#0B2221">BIZI</span><span style="color:#44C1BA">APP</span></div>
+      <div style="font-size:1.25rem;font-weight:800;letter-spacing:-.5px;line-height:1">BIZIAPP</div>
       <div style="font-size:.80rem;color:#339999;font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-top:3px">Stratégie 360° instantanée</div>
     </div>
     """, unsafe_allow_html=True)
@@ -4321,7 +4321,7 @@ st.markdown('''
     </div>
     <div>
       <div style="font-size:1.6rem;font-weight:900;letter-spacing:-1.5px;line-height:1">
-        <span style="color:#0B2221">BIZI</span><span class="shimmer-txt">APP</span>
+        BIZI<span class="shimmer-txt">APP</span>
       </div>
       <div style="font-size:.84rem;color:#339999;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-top:2px">
         Expert virtuel en stratégie commerciale
@@ -4329,11 +4329,11 @@ st.markdown('''
     </div>
   </div>
   <div style="display:flex;gap:8px;flex-wrap:wrap">
-    <span style="background:#C6ECD9;color:#267371;border-radius:50px;padding:4px 12px;font-size:.80rem;font-weight:700">SWOT</span>
-    <span style="background:#E4E9F6;color:#393DAC;border-radius:50px;padding:4px 12px;font-size:.80rem;font-weight:700">SEO</span>
-    <span style="background:#C6ECD9;color:#267371;border-radius:50px;padding:4px 12px;font-size:.80rem;font-weight:700">Personas</span>
-    <span style="background:#F7EEF0;color:#B83D4B;border-radius:50px;padding:4px 12px;font-size:.80rem;font-weight:700">ROI</span>
-    <span style="background:#C6ECD9;color:#267371;border-radius:50px;padding:4px 12px;font-size:.80rem;font-weight:700">KPIs</span>
+    SWOT
+    SEO
+    Personas
+    ROI
+    KPIs
   </div>
 </div>
 ''', unsafe_allow_html=True)
@@ -4453,7 +4453,7 @@ if not st.session_state.get("_run", False):
     for i, (icon, title, text) in enumerate(_probs):
         st.markdown(
             '<div class="prob-row lp-problems" style="animation-delay:' + str(i * 0.1) + 's">'
-            '<span style="font-size:1.4rem;flex-shrink:0">' + icon + '</span>'
+            '' + icon + ''
             '<span style="font-size:.88rem;color:#0B2221;line-height:1.5"><b>' + title + '</b>  --  ' + text + '</span>'
             '</div>',
             unsafe_allow_html=True
@@ -4497,8 +4497,8 @@ if not st.session_state.get("_run", False):
       <div style="background:rgba(255,255,255,.08);border-radius:10px;padding:12px;border:1px solid rgba(68,193,186,.3)">
         <div style="font-size:.80rem;color:#44C1BA;font-weight:700;text-transform:uppercase;margin-bottom:6px">SWOT Généré</div>
         <div style="font-size:.84rem;color:rgba(255,255,255,.85);line-height:1.6">
-          <span style="color:#1D6060;font-weight:900;font-size:1rem">&#10003;</span>&nbsp; Vente 24h/24 sans contrainte géo<br>
-          <span style="color:#1D6060;font-weight:900;font-size:1rem">&#10003;</span>&nbsp; Marges optimisées sans intermédiaire<br>
+          &#10003;&nbsp; Vente 24h/24 sans contrainte géo<br>
+          &#10003;&nbsp; Marges optimisées sans intermédiaire<br>
           ⚠️ CAC élevé  --  optimiser Google Ads<br>
           TikTok Shop  --  croissance +340%
         </div>
@@ -4549,9 +4549,9 @@ if not st.session_state.get("_run", False):
     Configure ton activité dans la barre latérale &larr; puis clique sur <b>Generer mon plan strategique</b>
   </div>
   <div style="display:flex;align-items:center;justify-content:center;gap:20px;flex-wrap:wrap;margin-bottom:16px">
-    <div style="font-size:.82rem;color:#267371;font-weight:700"><span style="color:#1D6060;font-weight:900;font-size:1rem">&#10003;</span>&nbsp; Gratuit · sans inscription</div>
-    <div style="font-size:.82rem;color:#267371;font-weight:700"><span style="color:#1D6060;font-weight:900;font-size:1rem">&#10003;</span>&nbsp; Résultat en &lt; 10 min</div>
-    <div style="font-size:.82rem;color:#267371;font-weight:700"><span style="color:#1D6060;font-weight:900;font-size:1rem">&#10003;</span>&nbsp; Aucune carte bancaire</div>
+    <div style="font-size:.82rem;color:#267371;font-weight:700">&#10003;&nbsp; Gratuit · sans inscription</div>
+    <div style="font-size:.82rem;color:#267371;font-weight:700">&#10003;&nbsp; Résultat en &lt; 10 min</div>
+    <div style="font-size:.82rem;color:#267371;font-weight:700">&#10003;&nbsp; Aucune carte bancaire</div>
   </div>
   <div style="font-size:2rem;animation:floatY 2s ease-in-out infinite;display:inline-block">👈</div>
   <div style="font-size:.8rem;color:#339999;margin-top:6px;font-weight:600">Commence par choisir ton type d'activité dans la barre de gauche</div>
@@ -5484,10 +5484,10 @@ with tabs[5]:
     st.markdown('''
     <div style="background:linear-gradient(135deg,#44C1BA,#44C1BA);color:white;border-radius:14px;
       padding:18px 24px;margin-bottom:20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
-      <span style="font-size:2rem"></span>
+      
       <div>
         <b style="font-size:1rem">Plan média personnalisé — {budget} €/mois</b><br>
-        <span style="opacity:.9;font-size:.85rem">Répartition optimale Facebook · Google Ads · Email · SEO organique</span>
+        Répartition optimale Facebook · Google Ads · Email · SEO organique
       </div>
     </div>
     '''.format(budget=monthly_budget), unsafe_allow_html=True)
@@ -5643,10 +5643,10 @@ with tabs[6]:
     st.markdown("""
     <div style="background:linear-gradient(135deg,#0B2221,#267371);color:white;border-radius:14px;
       padding:18px 24px;margin-bottom:20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
-      <span style="font-size:2rem"></span>
+      
       <div>
         <b style="font-size:1rem">GEO 2025 — Generative Engine Optimization</b><br>
-        <span style="opacity:.85;font-size:.85rem">39% des Français utilisent l'IA conversationnelle (2025) — optimisez maintenant pour les moteurs IA</span>
+        39% des Français utilisent l'IA conversationnelle (2025) — optimisez maintenant pour les moteurs IA
       </div>
     </div>
     """, unsafe_allow_html=True)
@@ -5752,7 +5752,7 @@ with tabs[7]:
                 st.markdown(f"""
                 <div style="display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid #F2ECD9">
                   <div style="min-width:20px;height:20px;border-radius:50%;border:2px solid #44C1BA"></div>
-                  <span style="font-size:.88rem">{kr}</span>
+                  {kr}
                 </div>
                 """, unsafe_allow_html=True)
 
@@ -5771,7 +5771,7 @@ with tabs[8]:
         st.markdown(f"""
         <div style="text-align:center;padding:20px 10px">
           <div class="score-ring" style="--pct:{score * 3.6:.0f}deg;background:conic-gradient({score_color} {score * 3.6:.0f}deg,#F2ECD9 0)">
-            <span style="font-size:1.4rem;font-weight:800;color:#0B2221">{score}/100</span>
+            {score}/100
           </div>
           <p style='font-size:.82rem;color:#339999;margin-top:8px'>Score stratégique global</p>
           <span class="badge {'badge-jade'if score>=70 else 'badge-teal'if score>=50 else 'badge-red'}">
@@ -6056,7 +6056,7 @@ with tabs[9]:
                 if _herr:
                     st.markdown(f'<div style="background:#F7FBF4;border:1px solid #C6ECD9;border-radius:10px;padding:14px;font-size:.82rem"><b style="color:#B83D4B">{_html.escape(_dom)}</b><br><span style="color:#B83D4B">{_html.escape(str(_cd.get("error","Erreur"))[:80])}</span></div>', unsafe_allow_html=True)
                 else:
-                    _ckws = "".join(f'<span style="background:#C6ECD9;color:#267371;border-radius:3px;padding:1px 6px;font-size:.80rem;font-weight:600;margin:1px;display:inline-block">{_html.escape(str(k)[:30])}</span>' for k in _cd.get("keywords",[])[:6])
+                    _ckws = "".join(f'{_html.escape(str(k)[:30])}' for k in _cd.get("keywords",[])[:6])
                     st.markdown(f"""
                     <div class="card">
                       <div style="font-size:.80rem;color:var(--muted);font-family:monospace">{_html.escape(_dom)}</div>
@@ -6103,7 +6103,7 @@ with tabs[9]:
                 _ns = _html.escape(str(_ni.get("source",""))[:45])
                 _np = _ni.get("pub","")
                 _nl = _ni.get("link","")
-                _src_h = f'<span style="background:#C6ECD9;color:#267371;padding:2px 7px;border-radius:4px;font-size:.80rem;font-weight:600;margin-right:6px">{_ns}</span>' if _ns else ""
+                _src_h = f'{_ns}' if _ns else ""
                 _link_h = f' <a href="{_html.escape(_nl)}" target="_blank" rel="noopener noreferrer" style="font-size:.80rem;color:#44C1BA;text-decoration:none">Lire &rarr;</a>' if _nl else ""
                 st.markdown(f'<div style="border-left:3px solid var(--teal);padding:9px 13px;margin-bottom:8px;background:white;border-radius:0 8px 8px 0"><div style="font-weight:600;font-size:.87rem;color:#0B2221;margin-bottom:3px">{_nt}{_link_h}</div><div style="font-size:.80rem;color:#339999">{_src_h}{_np}</div></div>', unsafe_allow_html=True)
 
@@ -6165,7 +6165,7 @@ with tabs[10]:
       padding:18px 24px;margin-bottom:20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
       <div>
         <b style="font-size:1rem">RSE & ISO 26000 — Responsabilite Societale des Entreprises</b><br>
-        <span style="opacity:.85;font-size:.85rem">7 domaines d'action · Normes ISO 26000 · Pacte Mondial ONU · Loi AGEC · CSRD 2025</span>
+        7 domaines d'action · Normes ISO 26000 · Pacte Mondial ONU · Loi AGEC · CSRD 2025
       </div>
     </div>
     """, unsafe_allow_html=True)
@@ -6216,7 +6216,7 @@ with tabs[10]:
         st.markdown(f"""
         <div style="display:flex;gap:12px;padding:8px 0;border-bottom:1px solid #F2ECD9;align-items:flex-start">
           <span class="badge badge-forest" style="flex-shrink:0">{_html.escape(_nl)}</span>
-          <span style="font-size:.84rem;color:#267371">{_html.escape(_nd)}</span>
+          {_html.escape(_nd)}
         </div>
         """, unsafe_allow_html=True)
 
@@ -6247,7 +6247,7 @@ with tabs[11]:
 <div style="background:linear-gradient(135deg,#0B2221,#267371);color:white;border-radius:14px;
   padding:18px 24px;margin-bottom:20px">
   <b style="font-size:1.05rem">⚔️ Stratégie avancée — Porter · Ansoff · Customer Journey · Pricing</b><br>
-  <span style="opacity:.85;font-size:.85rem">Frameworks stratégiques complets personnalisés pour votre secteur</span>
+  Frameworks stratégiques complets personnalisés pour votre secteur
 </div>
 """, unsafe_allow_html=True)
 
@@ -6309,7 +6309,7 @@ with tabs[11]:
 <div class="ben-card" style="border-left:4px solid {_acolor}{'!important;background:#F7FBF4' if _is_reco else ''}">
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
     <div style="font-weight:800;font-size:.92rem;color:#0B2221">{_alabel}</div>
-    {"<span style='background:#44C1BA;color:white;border-radius:50px;padding:2px 10px;font-size:.80rem;font-weight:700'><span style="color:#1D6060;font-weight:900;font-size:1rem">&#10003;</span>&nbsp; RECOMMANDÉ</span>" if _is_reco else ""}
+    {"<span style='background:#44C1BA;color:white;border-radius:50px;padding:2px 10px;font-size:.80rem;font-weight:700'>&#10003;&nbsp; RECOMMANDÉ</span>" if _is_reco else ""}
   </div>
   <div style="font-size:.82rem;color:#339999;margin-bottom:10px">{_adesc} · Risque : {_arisk}</div>
   <div class="gauge-wrap">
@@ -6370,7 +6370,7 @@ with tabs[12]:
 <div style="background:linear-gradient(135deg,#267371,#44C1BA);color:white;border-radius:14px;
   padding:18px 24px;margin-bottom:20px">
   <b style="font-size:1.05rem">📧 Stratégie Email Marketing — 5 séquences complètes</b><br>
-  <span style="opacity:.9;font-size:.85rem">Séquences prêtes à l'emploi · Objets testés · KPIs cibles</span>
+  Séquences prêtes à l'emploi · Objets testés · KPIs cibles
 </div>
 """, unsafe_allow_html=True)
 
@@ -6408,7 +6408,7 @@ with tabs[13]:
 <div style="background:linear-gradient(135deg,#393DAC,#44C1BA);color:white;border-radius:14px;
   padding:18px 24px;margin-bottom:20px">
   <b style="font-size:1.05rem"> Stratégie Social Media — Plan par plateforme</b><br>
-  <span style="opacity:.9;font-size:.85rem">Priorités · Formats · Budgets · KPIs · Fréquences</span>
+  Priorités · Formats · Budgets · KPIs · Fréquences
 </div>
 """, unsafe_allow_html=True)
 
@@ -6425,7 +6425,7 @@ with tabs[13]:
 <div class="ben-card" style="margin-bottom:12px">
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
     <div style="font-size:1.1rem;font-weight:800;color:#0B2221">{_icon} {_pname}</div>
-    <span style="background:{_prio_color};color:white;border-radius:50px;padding:3px 12px;font-size:.80rem;font-weight:700">Priorité {_prio}</span>
+    Priorité {_prio}
   </div>
   <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px">
     <div style="background:#F7FBF4;border-radius:8px;padding:8px"><div style="font-size:.80rem;color:#339999;font-weight:600">OBJECTIF</div><div style="font-size:.78rem;color:#0B2221;font-weight:600;margin-top:2px">{_pdata.get('objectif','')}</div></div>
@@ -6529,7 +6529,7 @@ with tabs[14]:
     Finaliser votre abonnement {plan_info.get("name","Pro")}
   </div>
   <div style="font-size:2rem;font-weight:900;color:#44C1BA;margin-bottom:8px">
-    {price}€<span style="font-size:1rem;color:#339999;font-weight:500">/mois</span>
+    {price}€/mois
   </div>
   <div style="font-size:.78rem;color:#267371;margin-bottom:16px">
     Essai 7 jours gratuit · Aucun debit pendant l'essai · Résiliation libre
@@ -6811,7 +6811,7 @@ with tabs[15]:
 <div style="background:rgba(68,193,186,.06);border-radius:12px;padding:24px;text-align:center;border:1.5px dashed rgba(68,193,186,.3)">
 <div style="font-size:1.4rem;margin-bottom:10px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3DBDB6" stroke-width="2"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2z"/><path d="M12 8v4l3 3" stroke-linecap="round"/></svg></div>
 <b style="color:#0B2221">Nouveau projet</b><br>
-<span style="color:#339999;font-size:.84rem">Ce module est en cours de chargement. Rafraichissez la page si necessaire.</span>
+Ce module est en cours de chargement. Rafraichissez la page si necessaire.
 </div>""", unsafe_allow_html=True)
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -6829,7 +6829,7 @@ with tabs[16]:
 <div style="background:rgba(68,193,186,.06);border-radius:12px;padding:24px;text-align:center;border:1.5px dashed rgba(68,193,186,.3)">
 <div style="font-size:1.4rem;margin-bottom:10px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3DBDB6" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg></div>
 <b style="color:#0B2221">Ressources</b><br>
-<span style="color:#339999;font-size:.84rem">Guides, templates et outils pour aller plus loin.</span>
+Guides, templates et outils pour aller plus loin.
 </div>""", unsafe_allow_html=True)
 
 
@@ -6839,7 +6839,7 @@ st.divider()
 st.markdown("""
 <div style="text-align:center;color:#339999;font-size:.78rem;padding:12px 0">
   <b style="color:#0B2221">BiziApp v5.3</b> — Votre outil de lancement et de developpement d'activite · SPIN · Challenger · GEO 2025 · SEA IA · KPIs · OKR · Veille Live · RSE · RFM · BATNA · Prix psychologiques<br>
-  <span style="color:#44C1BA">Analyse personnalisée · Données live · Cache intelligent · Lecture URL en direct · Veille concurrentielle · Actualités Google News · Wikipedia · DuckDuckGo</span><br>
+  Analyse personnalisée · Données live · Cache intelligent · Lecture URL en direct · Veille concurrentielle · Actualités Google News · Wikipedia · DuckDuckGo<br>
   Données live : Google News · Bing News · Reddit · HN · DEV.to · Recherche-Entreprises · OSM · Wikidata · Wikipedia · AllOrigins · corsproxy.io · Analyse heuristique · Inputs validés &amp; sécurisés (XSS, SSRF, rate-limiting)
 </div>
 """, unsafe_allow_html=True)
