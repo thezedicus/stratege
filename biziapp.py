@@ -4220,7 +4220,7 @@ st.markdown('''
 if not st.session_state.get("_run", False):
 
     # ── Live ticker INSEE/data.gouv ────────────────────────────────────────────
-    # _get_ticker_data supprimée (API externe remplacée par données statiques)
+    # ticker: données statiques uniquement pour performance demarrage
 
     _ticker_base = [
         "847 000 entreprises creees en France en 2024 -- BiziApp aide les dirigeants a se structurer des le 1er jour",
@@ -4473,6 +4473,10 @@ _cache_key = f"{activity}|{goal}|{maturity}|{monthly_budget}"
 
 # ── Valeurs par défaut COMPLÈTES  --  aucun NameError possible ─────────────────
 ads_data      = {}
+    site_data     = {}
+    site_ins      = {}
+    site_meta     = {}
+    pagespeed_data = {}
 roi_data      = []
 porter_data   = {}
 ansoff_data   = {}
