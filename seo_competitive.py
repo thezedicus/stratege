@@ -7,7 +7,7 @@ Toutes techniques légales : meta tags, schema.org, sitemap, performance
 # ─── META TAGS SEO OPTIMAUX (inspiré Upmetrics + LivePlan) ──────────────────
 SEO_META = {
     "title": "BiziApp — Strategie commerciale gratuite pour dirigeants TPE PME | Plan en 10 minutes",
-    "description": "BiziApp genere votre strategie commerciale complete en 10 minutes : SWOT, plan marketing, personas, KPIs et roadmap 180 jours. Gratuit pour les dirigeants TPE PME. Alternative aux cabinets conseil a 5 000 EUR.",
+    "description": "BiziApp vous aide a lancer ou developper votre activite en 10 minutes : SWOT, plan marketing, personas, KPIs et roadmap 180 jours. Gratuit pour les dirigeants TPE PME. Alternative aux cabinets conseil a 5 000 EUR.",
     "keywords": [
         "strategie commerciale TPE", "business plan gratuit PME", "analyse SWOT gratuit dirigeant", "stratégie commerciale",
         "plan marketing gratuit", "diagnostic entreprise", "plan stratégique",
