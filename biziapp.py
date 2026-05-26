@@ -264,7 +264,7 @@ img,video{max-width:100%;height:auto}
   color:var(--forest)!important;line-height:1.1!important;
 }
 [data-testid="stMetricLabel"]{
-  font-size:.7rem!important;font-weight:700!important;color:var(--muted)!important;
+  font-size:.80rem!important;font-weight:700!important;color:var(--muted)!important;
   text-transform:uppercase!important;letter-spacing:.06em!important;
 }
 [data-testid="metric-container"]{
@@ -460,7 +460,7 @@ hr{border:none!important;height:1.5px!important;
 .auth-error{background:#F7EEF0;border:1.5px solid var(--rouge);border-radius:var(--r-sm);padding:9px 13px;font-size:.78rem;color:var(--rouge);margin-bottom:12px;font-weight:600}
 .oauth-btn{width:100%;padding:10px 14px;border-radius:var(--r-sm);font-weight:700;font-size:.84rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:9px;border:1.5px solid var(--mint);background:white;margin-bottom:8px;transition:all .2s var(--ease);color:var(--forest)}
 .oauth-btn:hover{border-color:var(--teal);background:rgba(68,193,186,.05);transform:translateY(-1px);box-shadow:var(--sh-sm)}
-.rgpd-box{background:rgba(247,251,244,.8);border:1.5px solid var(--mint);border-radius:var(--r-sm);padding:11px 13px;font-size:.7rem;color:var(--jade);line-height:1.6;margin-bottom:11px}
+.rgpd-box{background:rgba(247,251,244,.8);border:1.5px solid var(--mint);border-radius:var(--r-sm);padding:11px 13px;font-size:.80rem;color:var(--jade);line-height:1.6;margin-bottom:11px}
 .neuro-urgency{background:linear-gradient(135deg,#FDF0F2,#F7EEF0);border:1px solid var(--rouge);border-radius:var(--r-sm);padding:8px 13px;font-size:.82rem;color:var(--rouge);font-weight:600;text-align:center;margin-bottom:12px;animation:pulseRing 2.5s ease-in-out infinite}
 
 /* ─── Pricing ─────────────────────────────────────────────────────────────── */
@@ -470,12 +470,12 @@ hr{border:none!important;height:1.5px!important;
 .pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:20px 0}
 
 /* ─── Utility classes ─────────────────────────────────────────────────────── */
-.badge-teal{background:rgba(68,193,186,.12);color:var(--jade);border-radius:50px;padding:3px 10px;font-size:.7rem;font-weight:700}
-.badge-red{background:#F7EEF0;color:var(--rouge);border-radius:50px;padding:3px 10px;font-size:.7rem;font-weight:700}
-.badge-forest{background:rgba(11,34,33,.08);color:var(--forest);border-radius:50px;padding:3px 10px;font-size:.7rem;font-weight:700}
-.badge-indigo{background:#E4E9F6;color:var(--indigo);border-radius:50px;padding:3px 10px;font-size:.7rem;font-weight:700}
-.badge-gray{background:#F2ECD9;color:var(--muted);border-radius:50px;padding:3px 10px;font-size:.7rem;font-weight:700}
-.badge-orange{background:#FEF3C7;color:#B45309;border-radius:50px;padding:3px 10px;font-size:.7rem;font-weight:700}
+.badge-teal{background:rgba(68,193,186,.12);color:var(--jade);border-radius:50px;padding:3px 10px;font-size:.80rem;font-weight:700}
+.badge-red{background:#F7EEF0;color:var(--rouge);border-radius:50px;padding:3px 10px;font-size:.80rem;font-weight:700}
+.badge-forest{background:rgba(11,34,33,.08);color:var(--forest);border-radius:50px;padding:3px 10px;font-size:.80rem;font-weight:700}
+.badge-indigo{background:#E4E9F6;color:var(--indigo);border-radius:50px;padding:3px 10px;font-size:.80rem;font-weight:700}
+.badge-gray{background:#F2ECD9;color:var(--muted);border-radius:50px;padding:3px 10px;font-size:.80rem;font-weight:700}
+.badge-orange{background:#FEF3C7;color:#B45309;border-radius:50px;padding:3px 10px;font-size:.80rem;font-weight:700}
 .swot-strength{border-top:3px solid #267371}
 .swot-weakness{border-top:3px solid #B83D4B}
 .swot-oppty{border-top:3px solid #44C1BA}
@@ -483,7 +483,7 @@ hr{border:none!important;height:1.5px!important;
 .card-title{font-weight:800;font-size:.9rem;margin-bottom:10px;color:var(--forest);display:flex;align-items:center;gap:6px}
 .feature-card{background:white;border-radius:var(--r-md);padding:16px;border:1.5px solid var(--mint);transition:all .2s var(--spring)}
 .feature-card:hover{transform:translateY(-3px);box-shadow:var(--sh-md);border-color:var(--teal)}
-.url-kw{display:inline-block;background:var(--mint);color:var(--jade);border-radius:4px;padding:2px 7px;font-size:.7rem;font-weight:600;margin:2px}
+.url-kw{display:inline-block;background:var(--mint);color:var(--jade);border-radius:4px;padding:2px 7px;font-size:.80rem;font-weight:600;margin:2px}
 .url-panel{background:rgba(247,251,244,.8);border:1.5px solid var(--mint);border-radius:var(--r-md);padding:16px 20px;margin-bottom:14px}
 .user-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(68,193,186,.1);border-radius:50px;padding:5px 14px 5px 6px;font-size:.78rem;font-weight:600;color:var(--jade);border:1.5px solid rgba(68,193,186,.25)}
 .user-avatar{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--teal),var(--jade));display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:.8rem}
@@ -759,7 +759,7 @@ _AUTH_CSS = """
 .oauth-btn:hover{border-color:#44C1BA;background:#F7FBF4;transform:translateY(-1px)}
 .auth-divider{display:flex;align-items:center;gap:12px;margin:16px 0;color:#339999;font-size:.84rem;font-weight:600}
 .auth-divider::before,.auth-divider::after{content:'';flex:1;height:1px;background:#C6ECD9}
-.auth-footer{font-size:.7rem;color:#339999;text-align:center;margin-top:14px;line-height:1.6}
+.auth-footer{font-size:.80rem;color:#339999;text-align:center;margin-top:14px;line-height:1.6}
 .auth-footer a{color:#44C1BA;text-decoration:none;font-weight:600}
 .auth-error{background:#F7EEF0;border:1.5px solid #B83D4B;border-radius:8px;padding:10px 14px;
   font-size:.8rem;color:#B83D4B;margin-bottom:14px;font-weight:600}
@@ -4282,11 +4282,11 @@ st.markdown('''
     </div>
   </div>
   <div style="display:flex;gap:8px;flex-wrap:wrap">
-    <span style="background:#C6ECD9;color:#267371;border-radius:50px;padding:4px 12px;font-size:.7rem;font-weight:700">SWOT</span>
-    <span style="background:#E4E9F6;color:#393DAC;border-radius:50px;padding:4px 12px;font-size:.7rem;font-weight:700">SEO</span>
-    <span style="background:#C6ECD9;color:#267371;border-radius:50px;padding:4px 12px;font-size:.7rem;font-weight:700">Personas</span>
-    <span style="background:#F7EEF0;color:#B83D4B;border-radius:50px;padding:4px 12px;font-size:.7rem;font-weight:700">ROI</span>
-    <span style="background:#C6ECD9;color:#267371;border-radius:50px;padding:4px 12px;font-size:.7rem;font-weight:700">KPIs</span>
+    <span style="background:#C6ECD9;color:#267371;border-radius:50px;padding:4px 12px;font-size:.80rem;font-weight:700">SWOT</span>
+    <span style="background:#E4E9F6;color:#393DAC;border-radius:50px;padding:4px 12px;font-size:.80rem;font-weight:700">SEO</span>
+    <span style="background:#C6ECD9;color:#267371;border-radius:50px;padding:4px 12px;font-size:.80rem;font-weight:700">Personas</span>
+    <span style="background:#F7EEF0;color:#B83D4B;border-radius:50px;padding:4px 12px;font-size:.80rem;font-weight:700">ROI</span>
+    <span style="background:#C6ECD9;color:#267371;border-radius:50px;padding:4px 12px;font-size:.80rem;font-weight:700">KPIs</span>
   </div>
 </div>
 ''', unsafe_allow_html=True)
@@ -5138,7 +5138,7 @@ with tabs[1]:
                 <p style="text-align:center;font-style:italic;font-size:.78rem;color:#339999;margin-top:6px">"{p['quote']}"</p>
                 """, unsafe_allow_html=True)
                 if p.get("framework_match"):
-                    st.markdown(f"<small style='color:#44C1BA;font-size:.7rem'>↳ {p['framework_match']}</small>", unsafe_allow_html=True)
+                    st.markdown(f"<small style='color:#44C1BA;font-size:.80rem'>↳ {p['framework_match']}</small>", unsafe_allow_html=True)
             with c2:
                 st.markdown("**Objectifs**")
                 for g in p["goals"]: st.markdown(f"{g}")
@@ -5671,8 +5671,8 @@ def _render_kpi_section(kpi_list: list) -> None:
             <div class="kpi-tile" style="background:{bg};border-left:3px solid {tc}">
               <div style="font-size:.80rem;text-transform:uppercase;letter-spacing:.1em;color:#339999">{_html.escape(label)}</div>
               <div style="font-size:1.6rem;font-weight:800;color:{tc};margin:4px 0">{_html.escape(value)}</div>
-              <div style="font-size:.7rem;color:#339999">{_html.escape(hint)}</div>
-              <div style="font-size:.7rem;color:{tc};margin-top:4px;font-weight:600"> Objectif : {_html.escape(target)}</div>
+              <div style="font-size:.80rem;color:#339999">{_html.escape(hint)}</div>
+              <div style="font-size:.80rem;color:{tc};margin-top:4px;font-weight:600"> Objectif : {_html.escape(target)}</div>
             </div>
             """, unsafe_allow_html=True)
 
@@ -6058,7 +6058,7 @@ with tabs[9]:
                 _nl = _ni.get("link","")
                 _src_h = f'<span style="background:#C6ECD9;color:#267371;padding:2px 7px;border-radius:4px;font-size:.80rem;font-weight:600;margin-right:6px">{_ns}</span>' if _ns else ""
                 _link_h = f' <a href="{_html.escape(_nl)}" target="_blank" rel="noopener noreferrer" style="font-size:.80rem;color:#44C1BA;text-decoration:none">Lire &rarr;</a>' if _nl else ""
-                st.markdown(f'<div style="border-left:3px solid var(--teal);padding:9px 13px;margin-bottom:8px;background:white;border-radius:0 8px 8px 0"><div style="font-weight:600;font-size:.87rem;color:#0B2221;margin-bottom:3px">{_nt}{_link_h}</div><div style="font-size:.7rem;color:#339999">{_src_h}{_np}</div></div>', unsafe_allow_html=True)
+                st.markdown(f'<div style="border-left:3px solid var(--teal);padding:9px 13px;margin-bottom:8px;background:white;border-radius:0 8px 8px 0"><div style="font-weight:600;font-size:.87rem;color:#0B2221;margin-bottom:3px">{_nt}{_link_h}</div><div style="font-size:.80rem;color:#339999">{_src_h}{_np}</div></div>', unsafe_allow_html=True)
 
     # ── Signaux stratégiques ──────────────────────────────────────────────────
     st.markdown('<div class="section-h">Signaux stratégiques</div>', unsafe_allow_html=True)
@@ -6154,7 +6154,7 @@ with tabs[10]:
             with _dc2:
                 st.markdown("**Risque si inaction :**")
                 st.warning(_html.escape(_ddata["risques"]))
-                st.markdown(f'<div style="margin-top:10px"><div class="progress-bar"><div class="progress-fill" style="width:{_niveau*20}%;background:{_ncolor}"></div></div><div style="font-size:.7rem;color:#339999;margin-top:3px">Maturité : {_niveau}/5</div></div>', unsafe_allow_html=True)
+                st.markdown(f'<div style="margin-top:10px"><div class="progress-bar"><div class="progress-fill" style="width:{_niveau*20}%;background:{_ncolor}"></div></div><div style="font-size:.80rem;color:#339999;margin-top:3px">Maturité : {_niveau}/5</div></div>', unsafe_allow_html=True)
 
     st.markdown('<div class="section-h">Cadre légal et normatif applicable</div>', unsafe_allow_html=True)
     _normes = [
@@ -6226,7 +6226,7 @@ with tabs[11]:
         with _col:
             st.markdown(f"""
 <div class="stat-box" style="border-top:3px solid {_color}">
-  <div style="font-size:.7rem;font-weight:700;color:{_color};margin-bottom:6px">{_label[:20]}</div>
+  <div style="font-size:.80rem;font-weight:700;color:{_color};margin-bottom:6px">{_label[:20]}</div>
   <div style="font-size:1.8rem;font-weight:900;color:{_color}">{_score}/10</div>
   <div style="font-size:.80rem;color:#339999;font-weight:600;margin-top:3px">{_lbl}</div>
 </div>""", unsafe_allow_html=True)
@@ -6343,7 +6343,7 @@ with tabs[12]:
             for _em in _seq_data.get("emails", []):
                 st.markdown(f"""
 <div class="card" style="margin-bottom:8px;display:flex;align-items:flex-start;gap:12px">
-  <div style="background:#C6ECD9;border-radius:8px;padding:4px 10px;font-size:.7rem;font-weight:800;color:#267371;flex-shrink:0">{_em.get('j','')}</div>
+  <div style="background:#C6ECD9;border-radius:8px;padding:4px 10px;font-size:.80rem;font-weight:800;color:#267371;flex-shrink:0">{_em.get('j','')}</div>
   <div>
     <div style="font-weight:700;font-size:.88rem;color:#0B2221">"{_em.get('objet','')}"</div>
     <div style="font-size:.84rem;color:#339999;margin-top:2px">{_em.get('objectif','')}</div>
@@ -6378,7 +6378,7 @@ with tabs[13]:
 <div class="ben-card" style="margin-bottom:12px">
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
     <div style="font-size:1.1rem;font-weight:800;color:#0B2221">{_icon} {_pname}</div>
-    <span style="background:{_prio_color};color:white;border-radius:50px;padding:3px 12px;font-size:.7rem;font-weight:700">Priorité {_prio}</span>
+    <span style="background:{_prio_color};color:white;border-radius:50px;padding:3px 12px;font-size:.80rem;font-weight:700">Priorité {_prio}</span>
   </div>
   <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px">
     <div style="background:#F7FBF4;border-radius:8px;padding:8px"><div style="font-size:.80rem;color:#339999;font-weight:600">OBJECTIF</div><div style="font-size:.78rem;color:#0B2221;font-weight:600;margin-top:2px">{_pdata.get('objectif','')}</div></div>
