@@ -4551,6 +4551,14 @@ if _needs_regen:
     pricing_strat  = gen_pricing_strategy(activity, monthly_budget, maturity)
     comp_intel     = gen_competitive_intelligence(activity, goal)
     # Stocker dans session_state pour réutilisation
+    # ── 6 nouvelles analyses (doivent être calculées avant le dict store) ──────
+    financial_proj = gen_financial_projection(activity, goal, maturity, monthly_budget)
+    gtm_strategy   = gen_gtm_strategy(activity, goal, maturity, monthly_budget)
+    seo_strategy   = gen_seo_strategy(activity, goal, monthly_budget)
+    crm_pipeline   = gen_crm_pipeline(activity, goal, monthly_budget)
+    brand_strategy = gen_brand_strategy(activity, goal, maturity)
+    auto_stack     = gen_automation_stack(activity, monthly_budget)
+
     st.session_state["_analysis"] = {
         "swot": swot, "qqoqccp": qqoqccp, "pestel": pestel,
         "micro_env": micro_env, "competitive": competitive,
