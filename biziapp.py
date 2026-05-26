@@ -15,6 +15,7 @@ import xml.etree.ElementTree as _ET
 import re as _re
 import streamlit as st
 import math
+import unicodedata
 import time
 
 st.set_page_config(
@@ -165,7 +166,8 @@ st.markdown("""
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="BiziApp - Strategie commerciale pour dirigeants TPE/PME">
 <meta name="twitter:description" content="Votre expert strategie virtuel : plan commercial complet en 10 minutes, sans cabinet de conseil.">
-<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large"> name="author" content="BiziApp">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+<meta name="author" content="BiziApp">
 <link rel="canonical" href="https://biziapp.streamlit.app">
 <script type="application/ld+json">
 {
@@ -742,7 +744,7 @@ def _render_auth_wall():
   <div class="auth-card">
     <div class="auth-header">
       <div class="auth-logo"><span class="bizi">BIZI</span><span class="app">APP</span></div>
-      <div class="auth-tagline">Expert virtuel en stratégie commerciale</div>
+      <div class="auth-tagline">Votre plan d'action en 10 minutes</div>
       <div class="auth-proof">
         <div class="auth-proof-item">
           <div class="auth-proof-num">{_active}</div>
@@ -4175,8 +4177,7 @@ with st.sidebar:
     _now_ts = int(__import__("time").time())
     _last_refresh = st.session_state.get("_last_data_refresh", 0)
     if run and (_now_ts - _last_refresh) > 1800:
-        # Invalider le cache des données live (news, ticker)
-        st.cache_data.clear()
+        # Mise à jour silencieuse — pas de clear total (trop lent)
         st.session_state["_last_data_refresh"] = _now_ts
 
     _pers_pct = st.session_state.get("_pers_score", 40)
@@ -4212,8 +4213,12 @@ st.markdown('''
 <div class="bizi-header" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;padding:0 0 16px;border-bottom:1px solid #C6ECD9;margin-bottom:18px">
   <div style="display:flex;align-items:center;gap:14px">
     <div style="width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#44C1BA,#267371);
-      display:flex;align-items:center;justify-content:center;font-size:1.3rem;
-      box-shadow:0 4px 16px rgba(68,193,186,.3)"></div>
+      display:flex;align-items:center;justify-content:center;font-size:1.4rem;
+      box-shadow:0 4px 16px rgba(68,193,186,.3)">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M3 3h7v7H3V3zm11 0h7v7h-7V3zM3 14h7v7H3v-7zm14 3.5a3.5 3.5 0 100-7 3.5 3.5 0 000 7z" fill="white"/>
+      </svg>
+    </div>
     <div>
       <div style="font-size:1.6rem;font-weight:900;letter-spacing:-1.5px;line-height:1">
         <span style="color:#0B2221">BIZI</span><span class="shimmer-txt">APP</span>
