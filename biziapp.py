@@ -119,6 +119,7 @@ try:
 except ImportError:
     _HAS_API_LAYER = False
     # ── Stubs no-op  --  évite tout NameError si api_layer absent ───────────────
+@st.cache_data(ttl=300, show_spinner=False)
     def _read_url_live(url, **kw): return {}
     def _fetch_news_full(q, lang="fr", max_items=12): return []
     def _fetch_hn(q, max_items=6): return []
@@ -2675,7 +2676,7 @@ def _scrape_site_original(url: str) -> dict:
     # ── AllOrigins CORS Proxy (priorité) ─────────────────────────────────────
     try:
         import requests as req
-        r = req.get(f"https://api.allorigins.win/get?url={_urlparse.quote(url)}", timeout=8,
+        r = req.get(f"https://api.allorigins.win/get?url={_urlparse.quote(url)}", timeout=4,
                     headers={"Accept": "application/json", "User-Agent": "BiziApp/3.0"})
         if r.status_code == 200:
             try:
@@ -2701,9 +2702,10 @@ def _scrape_site_original(url: str) -> dict:
     # ── Fallback BeautifulSoup ────────────────────────────────────────────────
     if not result.get("title") and _HAS_BS4:
         try:
-            import requests as req
-            r = req.get(url, timeout=8, headers={"User-Agent":"Mozilla/5.0"})
-            soup = BeautifulSoup(r.text, "html.parser")
+            import requests as _req_module
+            from bs4 import BeautifulSoup as _BS4local
+            r = _req_module.get(url, timeout=5, headers={"User-Agent":"Mozilla/5.0"})
+            soup = _BS4local(r.text, "html.parser")
             t = soup.find("title")
             result["title"]  = t.get_text(strip=True) if t else ""
             md = soup.find("meta", attrs={"name":"description"})
@@ -2818,7 +2820,7 @@ def fetch_ddg(query: str) -> dict:
         encoded = _urlparse.quote(query)
         text = _veille_get(
             f"https://api.duckduckgo.com/?q={encoded}&format=json&no_html=1&skip_disambig=1",
-            timeout=8,
+            timeout=4,
         )
         d = json.loads(text)
         return {
@@ -2841,7 +2843,7 @@ def fetch_wiki(topic: str, lang: str = "fr") -> dict:
         encoded = _urlparse.quote(topic)
         text = _veille_get(
             f"https://{lang}.wikipedia.org/api/rest_v1/page/summary/{encoded}",
-            timeout=8,
+            timeout=4,
         )
         d = json.loads(text)
         return {
