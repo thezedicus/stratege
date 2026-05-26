@@ -156,17 +156,16 @@ except ImportError:
 # ── SEO: Injection méta-tags Open Graph et structured data ──────────────────
 st.markdown("""
 <head>
-<meta name="description" content="BiziApp génère votre stratégie commerciale complète en 10 minutes : SWOT, personas, plan SEO, marketing digital, KPIs. Gratuit, sans inscription. Expert virtuel pour TPE, freelances et consultants.">
-<meta name="keywords" content="stratégie commerciale, plan marketing, SWOT automatique, personas client, SEO, marketing digital, TPE, freelance, consultant, BiziApp">
-<meta property="og:title" content="BiziApp — Plan Stratégique Complet en 10 Minutes">
-<meta property="og:description" content="Votre expert virtuel en stratégie commerciale. SWOT, Personas, SEO, Marketing, KPIs générés instantanément.">
+<meta name="description" content="BiziApp genere votre strategie commerciale complete en 10 minutes : analyse SWOT, business plan, plan marketing, personas et KPIs. Gratuit pour les dirigeants de TPE et PME. Alternative aux cabinets de conseil a 5 000 euros.">
+<meta name="keywords" content="strategie commerciale TPE, business plan gratuit PME, analyse SWOT gratuit, plan marketing dirigeant, outil strategie petite entreprise, diagnostic commercial gratuit, plan action commerciale, PESTEL gratuit, personas marketing PME, KPI tableau de bord TPE">
+<meta property="og:title" content="BiziApp - Votre strategie commerciale complete en 10 minutes | Gratuit">
+<meta property="og:description" content="78% des dirigeants de TPE perdent des clients faute de strategie claire. BiziApp genere la votre en 10 minutes - SWOT, plan marketing, personas, KPIs. Gratuit et sans inscription.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://thezedicus-stratege-biziapp.streamlit.app">
+<meta property="og:url" content="https://biziapp.streamlit.app">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="BiziApp — Stratégie commerciale en 10 minutes">
-<meta name="twitter:description" content="Expert virtuel gratuit pour TPE, freelances et consultants. Plan complet en 10 minutes.">
-<meta name="robots" content="index, follow">
-<meta name="author" content="BiziApp">
+<meta name="twitter:title" content="BiziApp - Strategie commerciale pour dirigeants TPE/PME">
+<meta name="twitter:description" content="Votre expert strategie virtuel : plan commercial complet en 10 minutes, sans cabinet de conseil.">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large"> name="author" content="BiziApp">
 <link rel="canonical" href="https://thezedicus-stratege-biziapp.streamlit.app">
 <script type="application/ld+json">
 {
