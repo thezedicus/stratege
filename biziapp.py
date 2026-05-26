@@ -931,7 +931,7 @@ def _show_register_form():
     _pwd     = st.text_input("Mot de passe (8 car. min.)", type="password", placeholder="••••••••", key="reg_pwd")
     _pwd2    = st.text_input("Confirmer le mot de passe", type="password", placeholder="••••••••", key="reg_pwd2")
 
-    _activity_opts = ["-- Votre type d'activité --","E-commerce","SaaS / Tech","Services","Conseil / Consulting","Création de contenu","Autre"]
+    _activity_opts = ["-- Votre type d'activité --","E-commerce","SaaS / Tech","Services","Conseil / Expertise","Création de contenu","Autre"]
     _activity = st.selectbox("Type d'activité", _activity_opts, key="reg_activity")
     _company  = st.text_input("Entreprise (optionnel)", placeholder="Mon Entreprise SAS", key="reg_company")
 
@@ -969,7 +969,7 @@ def _show_register_form():
             st.markdown('<div class="auth-error">❌ Prénom, nom et email sont obligatoires.</div>', unsafe_allow_html=True)
         elif _HAS_AUTH:
             _act_map = {"E-commerce":"ecommerce","SaaS / Tech":"saas","Services":"service",
-                       "Conseil / Consulting":"consulting","Création de contenu":"content","Autre":"other"}
+                       "Conseil / Expertise":"consulting","Création de contenu":"content","Autre":"other"}
             result = _create_user(_email, _pwd, _name, {
                 "consent_rgpd": _consent_rgpd,
                 "consent_marketing": _consent_mkt,
@@ -2306,7 +2306,7 @@ def gen_business_model_canvas(activity: str, goal: str) -> dict:
             "ressources": ["Code propriétaire","Data models","Équipe tech","Brand"],
             "activites": ["Dev produit","Support client","Ventes B2B","Intégrations API"],
             "partenaires": ["Cloud providers","Intégrateurs","Investors","Tech partners"],
-            "couts": ["Salaires tech","Infrastructure cloud","Acquisition clients","Support"],
+            "couts": ["Salaires tech","Infrastructure cloud","Trouver des clients","Support"],
         },
     }
     return _bmc.get(activity, _bmc["saas"])
@@ -4093,7 +4093,7 @@ with st.sidebar:
 
     st.divider()
     st.markdown('<div class="step-label"><span class="step-num">4</span>Budget mensuel</div>', unsafe_allow_html=True)
-    st.caption("De 10€ (micro-test) à 1 000€+ (PME)")
+    st.caption("De 0€ (je teste) a 2 000€ (j'investis)")
     monthly_budget = st.slider("Budget mensuel", min_value=10, max_value=1000, value=200, step=10, label_visibility="collapsed")
     st.markdown(f"<div style='text-align:center;font-size:1.1rem;font-weight:700;color:#44C1BA'>{monthly_budget} €/mois</div>", unsafe_allow_html=True)
 
@@ -4971,7 +4971,7 @@ with tabs[0]:
                 st.success(item["a"])
 
     # PESTEL
-    st.markdown('<div class="section-h">Analyse PESTEL</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-h">Votre environnement</div>', unsafe_allow_html=True)
     st.caption("6 dimensions macro-environnementales que vous ne contrôlez pas mais devez impérativement anticiper")
     impact_cls = {"positif":"dot-pos","négatif":"dot-neg","neutre":"dot-neu"}
     for dim, items in pestel.items():
@@ -6757,7 +6757,7 @@ with tabs[14]:
                     for a in sc.get("actions",[]): st.markdown(f"- {a}")
                 with scc2:
                     kpis = sc.get("kpis",{})
-                    st.metric("Croissance CA", kpis.get("ca_growth","N/A"))
+                    st.metric("Augmenter mon chiffre", kpis.get("ca_growth","N/A"))
                     st.metric("Clients nets", kpis.get("clients_nets","N/A"))
                     st.metric("NPS cible", kpis.get("nps","N/A"))
 
