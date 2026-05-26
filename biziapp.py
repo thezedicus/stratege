@@ -3585,6 +3585,24 @@ def _site_insights(site_data: dict) -> dict:
         "summary": main[:400] if main else desc[:300],
     }
 
+
+# ── PREFETCH: préchauffer le cache pour le secteur le plus commun ──────────
+# Exécuté une seule fois au démarrage (résultat mis en cache 24h)
+@st.cache_data(ttl=86400, show_spinner=False)
+def _warmup_cache():
+    """Préchauffer le cache des gen_ les plus fréquentes."""
+    _act, _goal, _mat, _bgt = "service", "leads", "inprogress", 100.0
+    gen_swot(_act, _goal, _mat)
+    gen_personas(_act, _goal)
+    gen_synthesis(_act, _goal, _mat, _bgt)
+    return True
+
+# Déclenchement silencieux (pas de spinner)
+try:
+    _warmup_cache()
+except Exception:
+    pass
+
 with st.sidebar:
     st.markdown("""
     <div style="text-align:center;padding:8px 0 12px">
