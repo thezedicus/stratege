@@ -166,7 +166,7 @@ st.markdown("""
 <meta name="twitter:title" content="BiziApp - Strategie commerciale pour dirigeants TPE/PME">
 <meta name="twitter:description" content="Votre expert strategie virtuel : plan commercial complet en 10 minutes, sans cabinet de conseil.">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large"> name="author" content="BiziApp">
-<link rel="canonical" href="https://thezedicus-stratege-biziapp.streamlit.app">
+<link rel="canonical" href="https://biziapp.streamlit.app">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -2895,7 +2895,7 @@ def gen_customer_journey(activity: str, goal: str) -> list:
             {"stage": "Awareness", "emotion": "Neutre", "score": 3, "touchpoints": ["Search Google", "Product Hunt", "LinkedIn"], "pain": "Saturé d'outils SaaS", "opportunity": "Contenu SEO + démo produit vidéo"},
             {"stage": "Évaluation", "emotion": "Sceptique", "score": 4, "touchpoints": ["Site web", "G2/Capterra", "Webinaire"], "pain": "Difficulté à comparer", "opportunity": "Comparatif direct concurrents + ROI calculator"},
             {"stage": "Trial", "emotion": " Curieux", "score": 6, "touchpoints": ["Onboarding", "Email séquence", "Checklist"], "pain": "Time-to-value trop long", "opportunity": "1er résultat en < 5 minutes"},
-            {"stage": "Activation", "emotion": "Convaincu", "score": 8, "touchpoints": ["Dashboard", "1ère feature utilisée", "Support chat"], "pain": "Fonctionnalités trop nombreuses", "opportunity": "Progressive disclosure + milestone rewards"},
+            {"stage": "Activation", "emotion": "Convaincu", "score": 8, "touchpoints": ["Tableau de bord", "1ère feature utilisée", "Support chat"], "pain": "Fonctionnalités trop nombreuses", "opportunity": "Progressive disclosure + milestone rewards"},
             {"stage": "Conversion", "emotion": "Decide", "score": 7, "touchpoints": ["Pricing page", "Commercial", "Contrat"], "pain": "Friction tarification", "opportunity": "Annuel avec remise + transparence complète"},
             {"stage": "Expansion", "emotion": "Engage", "score": 9, "touchpoints": ["Usage régulier", "Équipe invitée", "Intégrations"], "pain": "Silos entre équipes", "opportunity": "Templates collaboration + formation in-app"},
             {"stage": "Advocacy", "emotion": "Ambassadeur", "score": 9, "touchpoints": ["Témoignage", "Parrainage", "Case study"], "pain": "Pas de programme structuré", "opportunity": "Referral programme + co-marketing"},
@@ -4180,11 +4180,11 @@ if _current_user and _current_user.get("name"):
     _fn = _current_user["name"].split()[0]
     _cnt = _current_user.get("analyses_count", 0)
     if _cnt == 0:
-        _welcome_msg = f"Bienvenue {_fn} ! Ton premier plan stratégique est à 10 minutes."
+        _welcome_msg = f"Bienvenue {_fn} ! Votre plan est prêt en 10 minutes."
     elif _cnt == 1:
-        _welcome_msg = f"Content de te revoir {_fn} ! Prêt pour une nouvelle analyse ?"
+        _welcome_msg = f"Ravi de vous revoir, {_fn} ! Prêt pour une nouvelle analyse ?"
     else:
-        _welcome_msg = f"Re-bonjour {_fn}  --  {_cnt} analyses générées. Continue sur ta lancée !"
+        _welcome_msg = f"Bonjour {_fn} — {_cnt} analyse(s) générée(s). Continuez sur votre lancée !"
 
 if _welcome_msg:
     st.markdown(f'<div style="background:linear-gradient(90deg,#C6ECD9,#E4E9F6);border-radius:10px;'
@@ -4801,16 +4801,16 @@ if comp_results:
         swot["threats"].insert(0, f"Concurrents identifiés : {' · '.join(_comp_names[:3])}")
         swot["opportunities"].insert(0, "Analyse concurrentielle disponible  --  exploitez les angles manquants")
 # ads_data and roi_data are now managed in the session-state cache above
-pagespeed_data = get_pagespeed(website_url) if website_url else {}
+pagespeed_data = {}  # API PageSpeed désactivée
 closing_tech = _CLOSING_TECHNIQUES
 msg_templates = _MESSAGE_TEMPLATES
 
 # Context badges
 c1, c2, c3, c4 = st.columns(4)
 c1.markdown(f'<span class="badge badge-graphite">{LABELS.get(activity, activity)}</span>', unsafe_allow_html=True)
-c2.markdown(f'<span class="badge badge-jade">{LABELS.get(goal, goal)}</span>', unsafe_allow_html=True)
+c2.markdown(f'<span class="badge badge-forest">{LABELS.get(goal, goal)}</span>', unsafe_allow_html=True)
 c3.markdown(f'<span class="badge badge-teal">{LABELS.get(maturity, maturity)}</span>', unsafe_allow_html=True)
-c4.markdown(f'<span class="badge badge-blue">{monthly_budget:,} €/mois</span>', unsafe_allow_html=True)
+c4.markdown(f'<span class="badge badge-teal">{monthly_budget:,} €/mois</span>', unsafe_allow_html=True)
 
 if site_data and isinstance(site_data, dict) and site_data.get("title"):
     st.caption(f"Site analysé : **{site_data.get('title','')}**  --  {site_data.get('description','')[:120]}")
@@ -4821,22 +4821,22 @@ st.markdown("<br>", unsafe_allow_html=True)
 # TABS
 # ─────────────────────────────────────────────────────────────────────────────
 tabs = st.tabs([
-    "Diagnostic",
-    "Personas",
-    "Copywriting",
-    "Vente",
-    "Marketing",
-    "Campagnes",
-    "SEO / GEO",
-    "KPIs",
+    "Mon diagnostic",
+    "Mes clients",
+    "Mon message",
+    "Vente & closing",
+    "Mon marketing",
+    "Mes campagnes",
+    "SEO & visibilite",
+    "Mes chiffres",
     "Synthese",
-    "Veille",
+    "Veille marche",
     "RSE",
-    "Strategie+",
-    "Emailing",
-    "Social Media",
-    "Tarifs & Plans",
-    "Nouveau Projet",
+    "Outils avances",
+    "Emails",
+    "Reseaux sociaux",
+    "Tarifs & offres",
+    "Nouveau projet",
     "Ressources",
 ])
 # Note: onglets dans l'ordre logique du parcours strategique
@@ -4846,6 +4846,18 @@ tabs = st.tabs([
 # TAB 1  --  DIAGNOSTIC
 # ══════════════════════════════════════════════════════════════════════════════
 with tabs[0]:
+    if run:
+        st.markdown("""
+<div style="background:linear-gradient(135deg,rgba(68,193,186,.06),rgba(38,115,113,.03));
+  border-radius:12px;padding:14px 18px;margin-bottom:20px;border-left:3px solid #44C1BA">
+  <div style="font-size:.88rem;font-weight:600;color:#0B2221;margin-bottom:3px">
+    Votre diagnostic complet
+  </div>
+  <div style="font-size:.8rem;color:#339999;line-height:1.6">
+    Analyse de votre situation, vos forces, vos faiblesses et les opportunites de votre secteur.
+    Utilisez ces informations pour prendre les bonnes decisions des maintenant.
+  </div>
+</div>""", unsafe_allow_html=True)
     # ── ANALYSE DU SITE (si URL fournie) ───────────────────────────────────────
     if site_data and not site_data.get("error"):
         _sd_title = site_data.get("title","")
@@ -5058,10 +5070,10 @@ with tabs[1]:
                 for pa in p["pains"]: st.markdown(f"{pa}")
                 if p.get("motivations"):
                     st.markdown("**Motivations**")
-                    st.markdown(" ".join(f'<span class="badge badge-jade">{m}</span>'for m in p["motivations"]), unsafe_allow_html=True)
+                    st.markdown(" ".join(f'<span class="badge badge-forest">{m}</span>'for m in p["motivations"]), unsafe_allow_html=True)
             with c3:
                 st.markdown("**Canaux favoris**")
-                st.markdown(" ".join(f'<span class="badge badge-blue">{c}</span>'for c in p["channels"]), unsafe_allow_html=True)
+                st.markdown(" ".join(f'<span class="badge badge-teal">{c}</span>'for c in p["channels"]), unsafe_allow_html=True)
                 st.markdown("<br>**Déclencheurs d'achat**", unsafe_allow_html=True)
                 for t in p["triggers"]: st.markdown(f"→ {t}")
                 if p.get("habits"):
@@ -5378,7 +5390,7 @@ with tabs[5]:
                     st.markdown(f"""
                     <div class="card" style="margin-bottom:8px">
                       <div style="display:flex;justify-content:space-between;align-items:center">
-                        <span class="badge badge-blue">{cr['format']}</span>
+                        <span class="badge badge-teal">{cr['format']}</span>
                         <span class="badge badge-gray">{cr.get('audience','')}</span>
                       </div>
                       <p style="font-weight:600;margin:8px 0 4px">{cr['headline']}</p>
@@ -6071,7 +6083,7 @@ with tabs[10]:
     for _nl, _nd in _normes:
         st.markdown(f"""
         <div style="display:flex;gap:12px;padding:8px 0;border-bottom:1px solid #F2ECD9;align-items:flex-start">
-          <span class="badge badge-jade" style="flex-shrink:0">{_html.escape(_nl)}</span>
+          <span class="badge badge-forest" style="flex-shrink:0">{_html.escape(_nl)}</span>
           <span style="font-size:.84rem;color:#267371">{_html.escape(_nd)}</span>
         </div>
         """, unsafe_allow_html=True)
