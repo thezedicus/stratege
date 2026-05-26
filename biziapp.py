@@ -537,6 +537,7 @@ hr{border:none!important;height:1.5px!important;
   [data-testid="stTabs"] [role="tablist"]{-webkit-overflow-scrolling:touch!important}
   .card:hover,.ben-card:hover{transform:none!important}
 }
+.bizi-prompt{transition:opacity .3s ease}
 </style>
 """, unsafe_allow_html=True)
 
@@ -5064,6 +5065,7 @@ with tabs[0]:
 # ══════════════════════════════════════════════════════════════════════════════
 with tabs[1]:
     # PERSONAS
+    if not run: st.markdown('<div class="bizi-prompt" style="background:rgba(68,193,186,.06);border-radius:10px;padding:16px;text-align:center;border:1.5px dashed rgba(68,193,186,.3);color:#267371"><b>Lancez votre analyse</b> pour voir <b>Mes clients</b>.</div>', unsafe_allow_html=True)
     st.markdown('<div class="section-h">Personas clients enrichis</div>', unsafe_allow_html=True)
     st.caption("Profils semi-fictifs construits à partir de données comportementales, sectorielles et psychographiques")
     for i, p in enumerate(personas):
@@ -5163,6 +5165,7 @@ with tabs[1]:
 # ══════════════════════════════════════════════════════════════════════════════
 with tabs[2]:
     st.markdown('<div class="section-h">Structure AIDA  --  Copywriting persuasif</div>', unsafe_allow_html=True)
+    if not run: st.markdown('<div class="bizi-prompt" style="background:rgba(68,193,186,.06);border-radius:10px;padding:16px;text-align:center;border:1.5px dashed rgba(68,193,186,.3);color:#267371"><b>Lancez votre analyse</b> pour voir <b>Mon message</b>.</div>', unsafe_allow_html=True)
     st.caption("Le copywriting fusionne sciences comportementales et rédaction persuasive pour déclencher l'action")
     aida_meta = {
         "attention": ("","ATTENTION","aida-attention"),
@@ -5231,6 +5234,7 @@ with tabs[3]:
                 for kp in script["keyPoints"]: st.markdown(f"• {kp}")
 
     # SPIN
+    if not run: st.markdown('<div class="bizi-prompt" style="background:rgba(68,193,186,.06);border-radius:10px;padding:16px;text-align:center;border:1.5px dashed rgba(68,193,186,.3);color:#267371"><b>Lancez votre analyse</b> pour voir <b>Vente & closing</b>.</div>', unsafe_allow_html=True)
     st.markdown('<div class="section-h">SPIN Selling  --  Questions stratégiques</div>', unsafe_allow_html=True)
     st.caption("Méthodologie SPIN : Situation → Problème → Implication → Need-payoff. La plus efficace en B2B complexe.")
     spin_tabs = st.tabs(["Situation","Problème","Implication","Need-payoff"])
@@ -5332,6 +5336,7 @@ with tabs[4]:
             </div>""", unsafe_allow_html=True)
 
     # Budget adaptatif
+    if not run: st.markdown('<div class="bizi-prompt" style="background:rgba(68,193,186,.06);border-radius:10px;padding:16px;text-align:center;border:1.5px dashed rgba(68,193,186,.3);color:#267371"><b>Lancez votre analyse</b> pour voir <b>Mon marketing</b>.</div>', unsafe_allow_html=True)
     st.markdown(f'<div class="section-h">Répartition budgétaire  --  {monthly_budget:,} €/mois</div>', unsafe_allow_html=True)
     bar_colors = ["#0B2221","#44C1BA","#267371","#393DAC"]
     for i, (cat, pct, amt) in enumerate(budget_alloc):
@@ -5389,6 +5394,7 @@ with tabs[5]:
     '''.format(budget=monthly_budget), unsafe_allow_html=True)
 
     # Media Plan Table
+    if not run: st.markdown('<div class="bizi-prompt" style="background:rgba(68,193,186,.06);border-radius:10px;padding:16px;text-align:center;border:1.5px dashed rgba(68,193,186,.3);color:#267371"><b>Lancez votre analyse</b> pour voir <b>Mes campagnes</b>.</div>', unsafe_allow_html=True)
     st.markdown('<div class="section-h">Plan Média Global</div>', unsafe_allow_html=True)
     mp_html = '<table class="bizi-table"><thead><tr><th>Canal</th><th>Budget</th><th>Portée estimée</th><th>CTR cible</th><th>ROI estimé</th></tr></thead><tbody>'
     for row in ads_data["mediaplan"]:
@@ -5547,6 +5553,7 @@ with tabs[6]:
     """, unsafe_allow_html=True)
 
     # Keywords
+    if not run: st.markdown('<div class="bizi-prompt" style="background:rgba(68,193,186,.06);border-radius:10px;padding:16px;text-align:center;border:1.5px dashed rgba(68,193,186,.3);color:#267371"><b>Lancez votre analyse</b> pour voir <b>SEO & visibilite</b>.</div>', unsafe_allow_html=True)
     st.markdown('<div class="section-h">Mots-clés prioritaires</div>', unsafe_allow_html=True)
     diff_badge = {"Facile":"badge-jade","Moyen":"badge-teal","Élevé":"badge-red"}
     intent_badge = {"Transactionnel":"badge-blue","Commercial":"badge-purple","Informationnel":"badge-gray"}
@@ -5622,6 +5629,7 @@ def _render_kpi_section(kpi_list: list) -> None:
 # ══════════════════════════════════════════════════════════════════════════════
 with tabs[7]:
     st.markdown('<div class="section-h">Dashboard KPI  --  Benchmarks 2025</div>', unsafe_allow_html=True)
+    if not run: st.markdown('<div class="bizi-prompt" style="background:rgba(68,193,186,.06);border-radius:10px;padding:16px;text-align:center;border:1.5px dashed rgba(68,193,186,.3);color:#267371"><b>Lancez votre analyse</b> pour voir <b>Mes chiffres</b>.</div>', unsafe_allow_html=True)
     st.caption("Tous les indicateurs clés de performance avec leurs benchmarks sectoriels. Survolez les titres pour les définitions.")
 
     # Email KPIs
@@ -5656,6 +5664,7 @@ with tabs[8]:
     score = synthesis["score"]
 
     # Score ring
+    if not run: st.markdown('<div class="bizi-prompt" style="background:rgba(68,193,186,.06);border-radius:10px;padding:16px;text-align:center;border:1.5px dashed rgba(68,193,186,.3);color:#267371"><b>Lancez votre analyse</b> pour voir <b>Synthese</b>.</div>', unsafe_allow_html=True)
     st.markdown('<div class="section-h">Score de maturité stratégique</div>', unsafe_allow_html=True)
     c_score, c_kpis = st.columns([1, 3])
     with c_score:
@@ -5874,6 +5883,7 @@ with tabs[9]:
                     st.markdown(f"- [{_gh['title']}]({_gh['link']})")
 
     # ── Analyse URL avancée ──────────────────────────────────────────────────────
+    if not run: st.markdown('<div class="bizi-prompt" style="background:rgba(68,193,186,.06);border-radius:10px;padding:16px;text-align:center;border:1.5px dashed rgba(68,193,186,.3);color:#267371"><b>Lancez votre analyse</b> pour voir <b>Veille marche</b>.</div>', unsafe_allow_html=True)
     st.markdown('<div class="section-h">Analyse URL complète  --  SEO · Contenu · Performance</div>', unsafe_allow_html=True)
     _lcol, _rcol = st.columns([4, 1])
     with _lcol:
@@ -6072,6 +6082,7 @@ with tabs[10]:
     _rse_label = "Leader RSE" if _rse_score_pct >= 70 else "En transition" if _rse_score_pct >= 50 else "Rattrapage nécessaire"
     _rs3.markdown(f'<div class="metric-box"><div class="val" style="font-size:1rem;color:#44C1BA">{_rse_label}</div><div class="lbl">Niveau de maturité</div></div>', unsafe_allow_html=True)
 
+    if not run: st.markdown('<div class="bizi-prompt" style="background:rgba(68,193,186,.06);border-radius:10px;padding:16px;text-align:center;border:1.5px dashed rgba(68,193,186,.3);color:#267371"><b>Lancez votre analyse</b> pour voir <b>RSE</b>.</div>', unsafe_allow_html=True)
     st.markdown('<div class="section-h">Les 7 domaines ISO 26000</div>', unsafe_allow_html=True)
     for _dom, _ddata in _rse_data.items():
         _niveau = _ddata["niveau"]
@@ -6143,6 +6154,7 @@ with tabs[11]:
 
     # ── Sous-onglets Stratégie+ ──────────────────────────────────────────────
     _strat_tabs = st.tabs(["Porter 5 Forces","Ansoff","Customer Journey","Pricing","Ikigai","Ocean Bleu","Lean Canvas","Scenarios","Plan 180j","Analytics","Projection Fin.","GTM","CRM Pipeline","Brand & Stack"])
+    if not run: st.markdown('<div class="bizi-prompt" style="background:rgba(68,193,186,.06);border-radius:10px;padding:16px;text-align:center;border:1.5px dashed rgba(68,193,186,.3);color:#267371"><b>Lancez votre analyse</b> pour voir <b>Outils avances</b>.</div>', unsafe_allow_html=True)
     with _strat_tabs[0]:
      st.markdown('<div class="section-h">5 Forces de Porter</div>', unsafe_allow_html=True)
     _p5 = porter_data if porter_data else {}
@@ -6292,6 +6304,7 @@ with tabs[12]:
 # ══════════════════════════════════════════════════════════════════════════════
 # ═══ TAB 14  --  EMAIL SÉQUENCES ═══
 with tabs[13]:
+    if not run: st.markdown('<div class="bizi-prompt" style="background:rgba(68,193,186,.06);border-radius:10px;padding:16px;text-align:center;border:1.5px dashed rgba(68,193,186,.3);color:#267371"><b>Lancez votre analyse</b> pour voir <b>Emails</b>.</div>', unsafe_allow_html=True)
     st.markdown("""
 <div style="background:linear-gradient(135deg,#393DAC,#44C1BA);color:white;border-radius:14px;
   padding:18px 24px;margin-bottom:20px">
