@@ -4737,7 +4737,7 @@ if website_url:
             site_data = {}
     elif not site_data:
         try:
-            site_data = scrape_site(website_url)
+            site_data = _read_url_live(website_url) if _HAS_API_LAYER else {}
             st.session_state["_site_data_cache"] = site_data
         except Exception:
             site_data = {}
