@@ -4145,7 +4145,16 @@ with st.sidebar:
             st.rerun()
     run = st.session_state.get("_run", False)
     _proj_name = st.session_state.get("_proj_name", "")
-    _ca_cible = st.session_state.get("_ca_cible", 50_000)
+    _ca_cible  = st.session_state.get("_ca_cible", 50_000)
+
+    # ── Valeurs par defaut securisees (evite NameError si run=False) ──────────
+    _sector_label  = st.session_state.get("_sector_label", activity if "activity" in dir() else "Votre secteur")
+    _sector_growth = st.session_state.get("_sector_growth", "N/A")
+    _sector_market = st.session_state.get("_sector_market", "N/A")
+    _sector_bench  = st.session_state.get("_sector_bench", {})
+    _sector_live   = st.session_state.get("_sector_live", {})
+    comp_results   = st.session_state.get("_comp_results", [])
+    spin_data      = st.session_state.get("_spin_data", {})
 
 
     # ── Auto-refresh données live toutes les 30 min ───────────────────────────
@@ -4677,6 +4686,7 @@ _SPIN = {
 }
 
 spin_data = _SPIN.get(activity, _SPIN["default"])
+    st.session_state["_spin_data"] = spin_data
 
 # ── Données sectorielles  --  toujours définies, préservées depuis cache ─────────
 # sector_data vient du cache session ou est initialisé vide
