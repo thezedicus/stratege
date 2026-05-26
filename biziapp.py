@@ -4129,7 +4129,7 @@ with st.sidebar:
     st.divider()
     _col_a, _col_b = st.columns([3, 1])
     with _col_a:
-        if st.button("Generer mon plan strategique", type="primary", use_container_width=True):
+        if st.button("Generer mon plan", type="primary", use_container_width=True):
             st.session_state["_run"] = True
             st.session_state["_cache_key"] = ""  # force regen
             # Incrémenter le compteur utilisateur
@@ -4854,7 +4854,7 @@ with tabs[0]:
     Votre diagnostic complet
   </div>
   <div style="font-size:.8rem;color:#339999;line-height:1.6">
-    Analyse de votre situation, vos forces, vos faiblesses et les opportunites de votre secteur.
+    Mots-cles, structure et conseils pour apparaitre quand vos clients vous cherchent.
     Utilisez ces informations pour prendre les bonnes decisions des maintenant.
   </div>
 </div>""", unsafe_allow_html=True)
@@ -5669,7 +5669,7 @@ with tabs[8]:
         </div>""", unsafe_allow_html=True)
 
     # Roadmap
-    st.markdown('<div class="section-h">Roadmap 180 jours</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-h">Votre plan sur 6 mois</div>', unsafe_allow_html=True)
     rm_cols = st.columns(4)
     rm_colors = ["#0B2221","#267371","#44C1BA","#393DAC"]
     for i, (period, phase, actions) in enumerate(synthesis["roadmap"]):
