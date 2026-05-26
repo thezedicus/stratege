@@ -119,7 +119,7 @@ try:
 except ImportError:
     _HAS_API_LAYER = False
     # ── Stubs no-op  --  évite tout NameError si api_layer absent ───────────────
-@st.cache_data(ttl=300, show_spinner=False)
+
     def _read_url_live(url, **kw): return {}
     def _fetch_news_full(q, lang="fr", max_items=12): return []
     def _fetch_hn(q, max_items=6): return []
