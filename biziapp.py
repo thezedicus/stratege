@@ -6697,6 +6697,43 @@ with tabs[14]:
 
 
 # ─────────────────────────────────────────────────────────────────────────────
+# ══════════════════════════════════════════════════════════════════════════════
+# TAB 16  --  NOUVEAU PROJET
+# ══════════════════════════════════════════════════════════════════════════════
+with tabs[15]:
+    if _HAS_PROJECT_TAB:
+        try:
+            _render_new_project_tab()
+        except Exception as _e_proj:
+            st.error(f"Erreur module Nouveau Projet : {_e_proj}")
+            st.info("Le module Nouveau Projet n'a pas pu se charger. Verifiez new_project_tab.py")
+    else:
+        st.markdown("""
+<div style="background:rgba(68,193,186,.06);border-radius:12px;padding:24px;text-align:center;border:1.5px dashed rgba(68,193,186,.3)">
+<div style="font-size:1.4rem;margin-bottom:10px">🚀</div>
+<b style="color:#0B2221">Nouveau projet</b><br>
+<span style="color:#339999;font-size:.84rem">Ce module est en cours de chargement. Rafraichissez la page si necessaire.</span>
+</div>""", unsafe_allow_html=True)
+
+# ══════════════════════════════════════════════════════════════════════════════
+# TAB 17  --  RESSOURCES
+# ══════════════════════════════════════════════════════════════════════════════
+with tabs[16]:
+    if _HAS_RESOURCES:
+        try:
+            _render_resources_page()
+        except Exception as _e_res:
+            st.error(f"Erreur module Ressources : {_e_res}")
+            st.info("Le module Ressources n'a pas pu se charger. Verifiez resources_module.py")
+    else:
+        st.markdown("""
+<div style="background:rgba(68,193,186,.06);border-radius:12px;padding:24px;text-align:center;border:1.5px dashed rgba(68,193,186,.3)">
+<div style="font-size:1.4rem;margin-bottom:10px">📚</div>
+<b style="color:#0B2221">Ressources</b><br>
+<span style="color:#339999;font-size:.84rem">Guides, templates et outils pour aller plus loin.</span>
+</div>""", unsafe_allow_html=True)
+
+
 # FOOTER
 # ─────────────────────────────────────────────────────────────────────────────
 st.divider()
