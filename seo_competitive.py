@@ -6,8 +6,8 @@ Toutes techniques légales : meta tags, schema.org, sitemap, performance
 
 # ─── META TAGS SEO OPTIMAUX (inspiré Upmetrics + LivePlan) ──────────────────
 SEO_META = {
-    "title": "BiziApp — Plan Stratégique Gratuit en 10 Minutes | SWOT · Business Plan · Marketing",
-    "description": "Générez votre business plan, analyse SWOT, stratégie marketing et plan commercial complet en 10 minutes. Gratuit, sans inscription. Alternative aux cabinets à 5 000€.",
+    "title": "BiziApp — Strategie commerciale gratuite pour dirigeants TPE PME | Plan en 10 minutes",
+    "description": "BiziApp genere votre strategie commerciale complete en 10 minutes : SWOT, plan marketing, personas, KPIs et roadmap 180 jours. Gratuit pour les dirigeants TPE PME. Alternative aux cabinets conseil a 5 000 EUR.",
     "keywords": [
         "business plan gratuit", "analyse SWOT gratuit", "stratégie commerciale",
         "plan marketing gratuit", "diagnostic entreprise", "plan stratégique",
@@ -72,9 +72,9 @@ SCHEMA_FAQ = {
     "@type": "FAQPage",
     "mainEntity": [
         {"@type": "Question",
-         "name": "BiziApp est-il vraiment gratuit ?",
+         "name": "BiziApp est-il vraiment gratuit pour les dirigeants TPE et PME ?",
          "acceptedAnswer": {"@type": "Answer",
-                           "text": "Oui, BiziApp propose un accès gratuit complet sans carte bancaire. L'inscription est optionnelle."}},
+                           "text": "Oui, BiziApp est entierement gratuit pour les dirigeants de TPE et PME. Aucune carte bancaire, aucune inscription obligatoire. Vous obtenez votre plan strategique complet en 10 minutes sans payer."}},
         {"@type": "Question",
          "name": "Combien de temps faut-il pour générer un business plan ?",
          "acceptedAnswer": {"@type": "Answer",
