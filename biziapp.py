@@ -172,7 +172,7 @@ st.markdown("""
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
   "name": "BiziApp",
-  "description": "Expert virtuel en stratégie commerciale  --  plan complet en 10 minutes",
+  "description": "BiziApp genere votre strategie commerciale complete en 10 minutes : SWOT, business plan, plan marketing, personas et KPIs. Gratuit pour les dirigeants de TPE et PME de moins de 50 salaries.",
   "url": "https://thezedicus-stratege-biziapp.streamlit.app",
   "applicationCategory": "BusinessApplication",
   "operatingSystem": "Web",
@@ -807,7 +807,7 @@ def _show_auth_page():
 </div>
 """, unsafe_allow_html=True)
 
-    # Onglets Connexion / Inscription
+    # Onglets Creer mon compte gratuit
     _tab_choice = st.radio(
         "", ["Connexion", "Inscription"],
         horizontal=True, label_visibility="collapsed"
@@ -4026,7 +4026,7 @@ with st.sidebar:
   border-radius:10px;padding:8px 12px;margin-bottom:8px;text-align:center;font-size:.72rem;color:#339999'>
   Mode visiteur  --  fonctions limitees
 </div>""", unsafe_allow_html=True)
-        if st.button("Connexion / Inscription", type="primary",
+        if st.button("Creer mon compte gratuit", type="primary",
                      use_container_width=True, key="btn_auth_sb"):
             st.session_state["_show_auth"] = True
             st.rerun()
@@ -4129,7 +4129,7 @@ with st.sidebar:
     st.divider()
     _col_a, _col_b = st.columns([3, 1])
     with _col_a:
-        if st.button("Lancer l'analyse", type="primary", use_container_width=True):
+        if st.button("Generer mon plan strategique", type="primary", use_container_width=True):
             st.session_state["_run"] = True
             st.session_state["_cache_key"] = ""  # force regen
             # Incrémenter le compteur utilisateur
@@ -4234,16 +4234,16 @@ if not st.session_state.get("_run", False):
             return []
 
     _ticker_base = [
-        "+847 000 entreprises créées en France en 2024  --  BiziApp les aide à se structurer",
-        "73% des TPE manquent d'une stratégie commerciale  --  BiziApp la génère en 10 min",
-        "Alternative gratuite à un cabinet conseil à 5 000€  --  résultat identique, immédiat",
-        "Freelances & consultants : plan commercial professionnel en 10 minutes",
-        "Alternative à LivePlan, Stratego, BizPlan : BiziApp est 100% gratuit",
-        "SWOT · PESTEL · Porter · Ansoff · Personas · AIDA · SONCAS · OKR  --  tout en un",
-        "87% des dirigeants de TPE n'ont pas de plan marketing formalisé  --  changez ça",
-        "BiziApp : le diagnostic stratégique que votre concurrent n'a pas encore fait",
-        "Mieux que Canva Business, LivePlan, Stratego  --  entièrement gratuit sans inscription",
-        "Votre plan commercial complet : SWOT · Marketing · SEO · KPIs · Roadmap 180j",
+        "847 000 entreprises creees en France en 2024 -- BiziApp aide les dirigeants a se structurer des le 1er jour",
+        "73% des TPE n'ont pas de strategie commerciale ecrite -- la votre est prete en 10 minutes",
+        "Un diagnostic cabinet de conseil : 5 000 EUR -- BiziApp : gratuit, meme resultat, en 10 minutes",
+        "Acquisition clients, fidelisation, differentiation -- les 3 enjeux numero 1 des dirigeants TPE en 2025",
+        "78% des dirigeants PME voient le numerique comme un levier de croissance (France Num 2025)",
+        "Votre plan SWOT, marketing, SEO et roadmap 180 jours -- tout genere automatiquement",
+        "Concurrent 1 utilise BiziApp. Pas vous encore. Changez ca maintenant.",
+        "Plan commercial complet : SWOT - Personas - Marketing - SEO - KPIs - Roadmap. Gratuit.",
+        "Alternative a BPI France Coach, LivePlan, Enloop -- en francais, gratuit, sans inscription",
+        "Chaque semaine sans strategie claire = des clients perdus. Agissez maintenant.",
     ]
     _ticker_live = _get_ticker_data()
     _all_tickers = (_ticker_base + ["Nouveau: " + t for t in _ticker_live]) * 2
@@ -4435,7 +4435,7 @@ if not st.session_state.get("_run", False):
     Prêt à avoir ta stratégie en 10 minutes ?
   </div>
   <div style="font-size:.95rem;color:#339999;margin-bottom:20px;font-weight:500">
-    Configure ton activité dans la barre latérale &larr; puis clique sur <b>Lancer l'analyse</b>
+    Configure ton activité dans la barre latérale &larr; puis clique sur <b>Generer mon plan strategique</b>
   </div>
   <div style="display:flex;align-items:center;justify-content:center;gap:20px;flex-wrap:wrap;margin-bottom:16px">
     <div style="font-size:.82rem;color:#267371;font-weight:700">✅ Gratuit · sans inscription</div>
