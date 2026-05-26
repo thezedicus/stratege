@@ -174,8 +174,8 @@ if current_step >= 2:
                 st.rerun()
         with c_next2:
             if st.button("Continuer →", type="primary", use_container_width=True):
-                kws = [k.strip() for k in re.split(r"[,
-;]+", kw_input) if k.strip() and len(k.strip()) >= 2]
+                _sep_pat = re.compile(r"[,;\s]+")
+                kws = [k.strip() for k in _sep_pat.split(kw_input) if k.strip() and len(k.strip()) >= 2]
                 if len(kws) >= 1:
                     st.session_state["wiz_keywords"] = kws[:20]
                     st.session_state["wiz_step"] = 3
