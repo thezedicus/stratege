@@ -4473,10 +4473,10 @@ _cache_key = f"{activity}|{goal}|{maturity}|{monthly_budget}"
 
 # ── Valeurs par défaut COMPLÈTES  --  aucun NameError possible ─────────────────
 ads_data      = {}
-    site_data     = {}
-    site_ins      = {}
-    site_meta     = {}
-    pagespeed_data = {}
+site_data     = {}
+site_ins      = {}
+site_meta     = {}
+pagespeed_data = {}
 roi_data      = []
 porter_data   = {}
 ansoff_data   = {}
