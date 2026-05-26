@@ -4686,7 +4686,7 @@ _SPIN = {
 }
 
 spin_data = _SPIN.get(activity, _SPIN["default"])
-    st.session_state["_spin_data"] = spin_data
+st.session_state["_spin_data"] = spin_data
 
 # ── Données sectorielles  --  toujours définies, préservées depuis cache ─────────
 # sector_data vient du cache session ou est initialisé vide
