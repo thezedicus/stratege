@@ -220,8 +220,8 @@ img,video{max-width:100%;height:auto}
   box-shadow:2px 0 24px rgba(68,193,186,.07)!important;
 }
 [data-testid="stSidebar"] label{
-  font-size:.82rem!important;font-weight:700!important;
-  color:var(--jade)!important;letter-spacing:.04em!important;text-transform:uppercase!important;
+  font-size:.84rem!important;font-weight:700!important;
+  color:var(--jade)!important;letter-spacing:.03em!important;text-transform:none!important;
 }
 [data-testid="stSidebar"] [data-testid="stSelectbox"]>div>div{
   border-radius:var(--r-sm)!important;border:1.5px solid var(--mint)!important;
@@ -490,10 +490,11 @@ hr{border:none!important;height:1.5px!important;
 .lp-stitle{font-size:1.2rem;font-weight:800;color:var(--forest);margin:28px 0 16px;display:flex;align-items:center;gap:10px}
 .lp-stitle::before{content:'';display:inline-block;width:4px;height:22px;border-radius:3px;background:linear-gradient(180deg,var(--teal),var(--jade))}
 .step-label{display:flex;align-items:center;gap:8px;font-size:.84rem;font-weight:700;color:var(--jade);margin:12px 0 4px;text-transform:uppercase;letter-spacing:.04em}
-.step-num{width:20px;height:20px;border-radius:50%;background:var(--teal);color:white;display:flex;align-items:center;justify-content:center;font-size:.80rem;font-weight:800;flex-shrink:0}
+.step-num{width:22px;height:22px;border-radius:50%;background:var(--teal);color:white;display:flex;align-items:center;justify-content:center;font-size:.82rem;font-weight:800;flex-shrink:0}
 .progress-bar{height:6px;background:var(--mint);border-radius:99px;overflow:hidden}
 .progress-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--teal),var(--jade));transition:width .5s var(--ease)}
 
+[data-testid="stTabs"] [data-testid="stTabsContent"]{padding-top:16px!important}
 /* ── LISIBILITÉ GLOBALE — tailles minimales garanties ──────────────── */
 body, .stApp, [data-testid="stMarkdown"] p,
 [data-testid="stMarkdownContainer"] p {
@@ -737,7 +738,7 @@ _AUTH_CSS = """
 .auth-proof{display:flex;justify-content:center;gap:20px;margin-top:16px;flex-wrap:wrap}
 .auth-proof-item{text-align:center}
 .auth-proof-num{font-size:1.3rem;font-weight:900;color:#44C1BA}
-.auth-proof-lbl{font-size:.80rem;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.05em}
+.auth-proof-lbl{font-size:.82rem;color:rgba(255,255,255,.85);text-transform:uppercase;letter-spacing:.05em}
 .auth-body{padding:28px 36px 36px}
 .auth-tabs{display:flex;background:#F2ECD9;border-radius:50px;padding:3px;margin-bottom:24px}
 .auth-tab{flex:1;text-align:center;padding:8px 0;border-radius:50px;font-size:.82rem;font-weight:700;
