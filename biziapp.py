@@ -82,7 +82,6 @@ try:
         get_macro_france as _get_macro,
         fetch_google_trends_rss as _fetch_trends,
         fetch_product_hunt_rss as _fetch_ph,
-        analyze_url_advanced as _analyze_url_adv,
         get_wikipedia_summary as _wiki_summary,
         get_survie_stats as _get_survie,
     )
@@ -95,7 +94,6 @@ except ImportError:
     def _get_macro(): return {}
     def _fetch_trends(geo="FR"): return []
     def _fetch_ph(): return []
-    def _analyze_url_adv(u): return {}
     def _wiki_summary(t, **kw): return {}
     def _get_survie(a="other"): return {}
 
