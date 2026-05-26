@@ -220,7 +220,7 @@ img,video{max-width:100%;height:auto}
   box-shadow:2px 0 24px rgba(68,193,186,.07)!important;
 }
 [data-testid="stSidebar"] label{
-  font-size:.74rem!important;font-weight:700!important;
+  font-size:.82rem!important;font-weight:700!important;
   color:var(--jade)!important;letter-spacing:.04em!important;text-transform:uppercase!important;
 }
 [data-testid="stSidebar"] [data-testid="stSelectbox"]>div>div{
@@ -239,7 +239,7 @@ img,video{max-width:100%;height:auto}
 }
 [data-testid="stTabs"] [role="tablist"]::-webkit-scrollbar{display:none!important}
 [data-testid="stTabs"] button[role="tab"]{
-  font-size:.72rem!important;font-weight:600!important;padding:8px 13px!important;
+  font-size:.84rem!important;font-weight:600!important;padding:8px 14px!important;
   white-space:nowrap!important;border-radius:8px 8px 0 0!important;border:none!important;
   color:var(--muted)!important;background:transparent!important;
   transition:all var(--t) var(--ease)!important;min-width:max-content!important;
@@ -408,7 +408,7 @@ hr{border:none!important;height:1.5px!important;
 .tgt-pill{
   display:inline-flex;align-items:center;gap:7px;background:white;
   border:1.5px solid var(--mint);border-radius:50px;padding:9px 18px;margin:4px;
-  font-weight:600;font-size:.88rem;color:var(--forest);
+  font-weight:600;font-size:.90rem;color:var(--forest);
   transition:all .2s var(--spring);cursor:default;
 }
 .tgt-pill:hover{background:var(--teal);color:white;border-color:var(--teal);transform:scale(1.06);box-shadow:0 4px 12px rgba(68,193,186,.3)}
@@ -430,15 +430,15 @@ hr{border:none!important;height:1.5px!important;
   background:linear-gradient(135deg,var(--teal),var(--jade));
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.1;
 }
-.stat-lbl{font-size:.72rem;color:var(--muted);font-weight:600;margin-top:4px;text-transform:uppercase;letter-spacing:.05em}
+.stat-lbl{font-size:.82rem;color:var(--muted);font-weight:600;margin-top:4px;text-transform:uppercase;letter-spacing:.05em}
 
 .ticker-wrap{overflow:hidden;background:linear-gradient(90deg,var(--forest),var(--jade));border-radius:var(--r-sm);padding:9px 0;margin:14px 0}
 .ticker-inner{display:flex;white-space:nowrap;animation:ticker 22s linear infinite}
-.ticker-item{display:inline-flex;align-items:center;gap:6px;color:rgba(255,255,255,.88);font-size:.76rem;font-weight:500;padding:0 26px}
+.ticker-item{display:inline-flex;align-items:center;gap:6px;color:rgba(255,255,255,.88);font-size:.84rem;font-weight:500;padding:0 26px}
 .ticker-dot{width:4px;height:4px;border-radius:50%;background:var(--teal);flex-shrink:0}
 
 .gauge-wrap{margin:10px 0}
-.gauge-lbl{display:flex;justify-content:space-between;font-size:.74rem;font-weight:600;color:var(--jade);margin-bottom:5px}
+.gauge-lbl{display:flex;justify-content:space-between;font-size:.82rem;font-weight:600;color:var(--jade);margin-bottom:5px}
 .gauge-track{height:7px;background:var(--mint);border-radius:99px;overflow:hidden}
 .gauge-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--teal),var(--jade));animation:barFill 1.4s cubic-bezier(.4,0,.2,1) both}
 
@@ -455,13 +455,13 @@ hr{border:none!important;height:1.5px!important;
 .auth-card{background:white;border-radius:var(--r-xl);max-width:460px;width:100%;box-shadow:var(--sh-lg);overflow:hidden;animation:scaleIn .5s var(--ease) both}
 .auth-header{background:linear-gradient(135deg,var(--forest),var(--jade));padding:28px 32px 24px;text-align:center}
 .auth-body{padding:24px 30px 30px}
-.auth-divider{display:flex;align-items:center;gap:10px;margin:14px 0;color:var(--muted);font-size:.72rem;font-weight:600}
+.auth-divider{display:flex;align-items:center;gap:10px;margin:14px 0;color:var(--muted);font-size:.82rem;font-weight:600}
 .auth-divider::before,.auth-divider::after{content:'';flex:1;height:1px;background:var(--mint)}
 .auth-error{background:#F7EEF0;border:1.5px solid var(--rouge);border-radius:var(--r-sm);padding:9px 13px;font-size:.78rem;color:var(--rouge);margin-bottom:12px;font-weight:600}
 .oauth-btn{width:100%;padding:10px 14px;border-radius:var(--r-sm);font-weight:700;font-size:.84rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:9px;border:1.5px solid var(--mint);background:white;margin-bottom:8px;transition:all .2s var(--ease);color:var(--forest)}
 .oauth-btn:hover{border-color:var(--teal);background:rgba(68,193,186,.05);transform:translateY(-1px);box-shadow:var(--sh-sm)}
 .rgpd-box{background:rgba(247,251,244,.8);border:1.5px solid var(--mint);border-radius:var(--r-sm);padding:11px 13px;font-size:.7rem;color:var(--jade);line-height:1.6;margin-bottom:11px}
-.neuro-urgency{background:linear-gradient(135deg,#FDF0F2,#F7EEF0);border:1px solid var(--rouge);border-radius:var(--r-sm);padding:8px 13px;font-size:.72rem;color:var(--rouge);font-weight:600;text-align:center;margin-bottom:12px;animation:pulseRing 2.5s ease-in-out infinite}
+.neuro-urgency{background:linear-gradient(135deg,#FDF0F2,#F7EEF0);border:1px solid var(--rouge);border-radius:var(--r-sm);padding:8px 13px;font-size:.82rem;color:var(--rouge);font-weight:600;text-align:center;margin-bottom:12px;animation:pulseRing 2.5s ease-in-out infinite}
 
 /* ─── Pricing ─────────────────────────────────────────────────────────────── */
 .pricing-card{background:white;border-radius:var(--r-lg);padding:28px 24px;border:1.5px solid var(--mint);position:relative;transition:transform .25s var(--spring),box-shadow .25s ease}
@@ -489,19 +489,71 @@ hr{border:none!important;height:1.5px!important;
 .user-avatar{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--teal),var(--jade));display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:.8rem}
 .lp-stitle{font-size:1.2rem;font-weight:800;color:var(--forest);margin:28px 0 16px;display:flex;align-items:center;gap:10px}
 .lp-stitle::before{content:'';display:inline-block;width:4px;height:22px;border-radius:3px;background:linear-gradient(180deg,var(--teal),var(--jade))}
-.step-label{display:flex;align-items:center;gap:8px;font-size:.76rem;font-weight:700;color:var(--jade);margin:12px 0 4px;text-transform:uppercase;letter-spacing:.04em}
-.step-num{width:20px;height:20px;border-radius:50%;background:var(--teal);color:white;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:800;flex-shrink:0}
+.step-label{display:flex;align-items:center;gap:8px;font-size:.84rem;font-weight:700;color:var(--jade);margin:12px 0 4px;text-transform:uppercase;letter-spacing:.04em}
+.step-num{width:20px;height:20px;border-radius:50%;background:var(--teal);color:white;display:flex;align-items:center;justify-content:center;font-size:.80rem;font-weight:800;flex-shrink:0}
 .progress-bar{height:6px;background:var(--mint);border-radius:99px;overflow:hidden}
 .progress-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--teal),var(--jade));transition:width .5s var(--ease)}
+
+/* ── LISIBILITÉ GLOBALE — tailles minimales garanties ──────────────── */
+body, .stApp, [data-testid="stMarkdown"] p,
+[data-testid="stMarkdownContainer"] p {
+  font-size:0.9rem!important;
+  line-height:1.65!important;
+  color:#0B2221!important;
+}
+/* Captions Streamlit */
+[data-testid="stCaptionContainer"] p,
+[data-testid="stCaption"] {
+  font-size:0.82rem!important;
+  color:#339999!important;
+  line-height:1.6!important;
+}
+/* Labels inputs */
+[data-testid="stWidgetLabel"] p,
+[data-testid="stWidgetLabel"] label {
+  font-size:0.84rem!important;
+  font-weight:600!important;
+  color:#0B2221!important;
+}
+/* Texte dans les expanders */
+[data-testid="stExpander"] [data-testid="stMarkdownContainer"] p {
+  font-size:0.88rem!important;
+  line-height:1.65!important;
+}
+/* Tabs boutons — taille lisible sur tous supports */
+[data-testid="stTabs"] button[role="tab"] {
+  font-size:0.82rem!important;
+  min-width:max-content!important;
+}
+/* Métriques — chiffres plus grands */
+[data-testid="stMetricValue"] {
+  font-size:1.8rem!important;
+  font-weight:900!important;
+}
+[data-testid="stMetricLabel"] {
+  font-size:0.80rem!important;
+  font-weight:600!important;
+}
+/* Sidebar texte */
+[data-testid="stSidebar"] p,
+[data-testid="stSidebar"] span,
+[data-testid="stSidebar"] label {
+  font-size:0.88rem!important;
+}
+/* Alertes et info boxes */
+[data-testid="stAlert"] p {
+  font-size:0.88rem!important;
+  line-height:1.6!important;
+}
 
 /* ─── Responsive — tous supports ─────────────────────────────────────────── */
 @media(max-width:1024px){
   .pricing-grid{grid-template-columns:1fr 1fr!important}
-  [data-testid="stTabs"] button[role="tab"]{font-size:.68rem!important;padding:7px 10px!important}
+  [data-testid="stTabs"] button[role="tab"]{font-size:.80rem!important;padding:7px 11px!important}
 }
 @media(max-width:768px){
   [data-testid="stSidebar"]{min-width:280px!important}
-  [data-testid="stTabs"] button[role="tab"]{font-size:.65rem!important;padding:6px 9px!important}
+  [data-testid="stTabs"] button[role="tab"]{font-size:.80rem!important;padding:7px 10px!important}
   [data-testid="stMetricValue"]{font-size:1.5rem!important}
   .pricing-grid{grid-template-columns:1fr!important}
   .stat-num{font-size:1.8rem!important}
@@ -685,14 +737,14 @@ _AUTH_CSS = """
 .auth-proof{display:flex;justify-content:center;gap:20px;margin-top:16px;flex-wrap:wrap}
 .auth-proof-item{text-align:center}
 .auth-proof-num{font-size:1.3rem;font-weight:900;color:#44C1BA}
-.auth-proof-lbl{font-size:.62rem;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.05em}
+.auth-proof-lbl{font-size:.80rem;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.05em}
 .auth-body{padding:28px 36px 36px}
 .auth-tabs{display:flex;background:#F2ECD9;border-radius:50px;padding:3px;margin-bottom:24px}
 .auth-tab{flex:1;text-align:center;padding:8px 0;border-radius:50px;font-size:.82rem;font-weight:700;
   cursor:pointer;transition:all .25s;color:#339999}
 .auth-tab.active{background:white;color:#0B2221;box-shadow:0 2px 8px rgba(0,0,0,.1)}
 .auth-field{margin-bottom:14px}
-.auth-field label{display:block;font-size:.74rem;font-weight:700;color:#267371;margin-bottom:5px;letter-spacing:.03em}
+.auth-field label{display:block;font-size:.82rem;font-weight:700;color:#267371;margin-bottom:5px;letter-spacing:.03em}
 .auth-field input{width:100%;padding:11px 14px;border:1.5px solid #C6ECD9;border-radius:10px;
   font-size:.9rem;outline:none;transition:border-color .2s;box-sizing:border-box}
 .auth-field input:focus{border-color:#44C1BA;box-shadow:0 0 0 3px rgba(68,193,186,.15)}
@@ -704,7 +756,7 @@ _AUTH_CSS = """
   cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;
   border:1.5px solid #C6ECD9;background:white;margin-bottom:9px;transition:all .2s;color:#0B2221}
 .oauth-btn:hover{border-color:#44C1BA;background:#F7FBF4;transform:translateY(-1px)}
-.auth-divider{display:flex;align-items:center;gap:12px;margin:16px 0;color:#339999;font-size:.75rem;font-weight:600}
+.auth-divider{display:flex;align-items:center;gap:12px;margin:16px 0;color:#339999;font-size:.84rem;font-weight:600}
 .auth-divider::before,.auth-divider::after{content:'';flex:1;height:1px;background:#C6ECD9}
 .auth-footer{font-size:.7rem;color:#339999;text-align:center;margin-top:14px;line-height:1.6}
 .auth-footer a{color:#44C1BA;text-decoration:none;font-weight:600}
@@ -713,11 +765,11 @@ _AUTH_CSS = """
 .auth-success{background:#C6ECD9;border:1.5px solid #44C1BA;border-radius:8px;padding:10px 14px;
   font-size:.8rem;color:#0B2221;margin-bottom:14px;font-weight:600}
 .rgpd-box{background:#F7FBF4;border:1.5px solid #C6ECD9;border-radius:10px;padding:12px 14px;
-  font-size:.72rem;color:#267371;line-height:1.6;margin-bottom:12px}
+  font-size:.82rem;color:#267371;line-height:1.6;margin-bottom:12px}
 .social-proof-bar{background:linear-gradient(90deg,#0B2221,#267371);border-radius:8px;
-  padding:8px 14px;margin-bottom:16px;font-size:.72rem;color:rgba(255,255,255,.85);text-align:center}
+  padding:8px 14px;margin-bottom:16px;font-size:.82rem;color:rgba(255,255,255,.85);text-align:center}
 .neuro-urgency{background:linear-gradient(135deg,#FDF0F2,#F7EEF0);border:1px solid #B83D4B;
-  border-radius:8px;padding:8px 14px;font-size:.74rem;color:#B83D4B;font-weight:600;
+  border-radius:8px;padding:8px 14px;font-size:.82rem;color:#B83D4B;font-weight:600;
   text-align:center;margin-bottom:14px;animation:pulse 2s ease-in-out infinite}
 .user-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(68,193,186,.12);
   border-radius:50px;padding:5px 14px 5px 6px;font-size:.78rem;font-weight:600;color:#267371;border:1.5px solid rgba(68,193,186,.3)}
@@ -783,20 +835,20 @@ def _show_auth_page():
   <div style="font-size:2.4rem;font-weight:900;letter-spacing:-2px;margin-bottom:6px;position:relative;z-index:1">
     <span style="color:white">BIZI</span><span style="color:#44C1BA">APP</span>
   </div>
-  <div style="font-size:.75rem;color:rgba(255,255,255,.65);text-transform:uppercase;
+  <div style="font-size:.84rem;color:rgba(255,255,255,.65);text-transform:uppercase;
     letter-spacing:.1em;margin-bottom:20px">Expert virtuel en stratégie commerciale</div>
   <div style="display:flex;justify-content:center;gap:24px;flex-wrap:wrap;position:relative;z-index:1">
     <div style="text-align:center">
       <div style="font-size:1.6rem;font-weight:900;color:#44C1BA">{_active}</div>
-      <div style="font-size:.64rem;color:rgba(255,255,255,.6);text-transform:uppercase">actifs maintenant</div>
+      <div style="font-size:.80rem;color:rgba(255,255,255,.6);text-transform:uppercase">actifs maintenant</div>
     </div>
     <div style="text-align:center">
       <div style="font-size:1.6rem;font-weight:900;color:#44C1BA">10 min</div>
-      <div style="font-size:.64rem;color:rgba(255,255,255,.6);text-transform:uppercase">plan stratégique complet</div>
+      <div style="font-size:.80rem;color:rgba(255,255,255,.6);text-transform:uppercase">plan stratégique complet</div>
     </div>
     <div style="text-align:center">
       <div style="font-size:1.6rem;font-weight:900;color:#44C1BA">0 €</div>
-      <div style="font-size:.64rem;color:rgba(255,255,255,.6);text-transform:uppercase">100% gratuit</div>
+      <div style="font-size:.80rem;color:rgba(255,255,255,.6);text-transform:uppercase">100% gratuit</div>
     </div>
   </div>
 </div>
@@ -827,7 +879,7 @@ def _show_auth_page():
     # Footer RGPD
     st.markdown("""
 <div class="auth-footer" style="margin-top:24px;padding:16px;background:#F7FBF4;border-radius:12px;
-  border:1px solid #C6ECD9;font-size:.69rem;color:#339999;line-height:1.7">
+  border:1px solid #C6ECD9;font-size:.80rem;color:#339999;line-height:1.7">
    <b>Vos données sont protégées</b>  --  BiziApp respecte le RGPD.<br>
   Données minimales collectées · Chiffrement AES-256 · Droit à l'effacement sur demande.<br>
   <a href="#" style="color:#44C1BA">Politique de confidentialité</a> · 
@@ -894,12 +946,12 @@ def _show_login_form():
     # Preuve sociale (neuromarketing : social proof)
     st.markdown("""
 <div style="margin-top:20px;padding:12px;background:#F7FBF4;border-radius:10px;border:1px solid #C6ECD9">
-  <div style="font-size:.72rem;color:#339999;font-weight:600;margin-bottom:8px">Ils ont déjà rejoint BiziApp :</div>
+  <div style="font-size:.82rem;color:#339999;font-weight:600;margin-bottom:8px">Ils ont déjà rejoint BiziApp :</div>
   <div style="display:flex;gap:8px;flex-wrap:wrap">
-    <span style="background:white;border:1px solid #C6ECD9;border-radius:50px;padding:3px 10px;font-size:.68rem;color:#267371;font-weight:600">👔 Thomas D. — Dirigeant TPE</span>
-    <span style="background:white;border:1px solid #C6ECD9;border-radius:50px;padding:3px 10px;font-size:.68rem;color:#267371;font-weight:600">💻 Sarah M. — Freelance</span>
-    <span style="background:white;border:1px solid #C6ECD9;border-radius:50px;padding:3px 10px;font-size:.68rem;color:#267371;font-weight:600">Lucas R. — Startup</span>
-    <span style="background:white;border:1px solid #C6ECD9;border-radius:50px;padding:3px 10px;font-size:.68rem;color:#267371;font-weight:600">🧠 Marie C. — Consultante</span>
+    <span style="background:white;border:1px solid #C6ECD9;border-radius:50px;padding:3px 10px;font-size:.80rem;color:#267371;font-weight:600">👔 Thomas D. — Dirigeant TPE</span>
+    <span style="background:white;border:1px solid #C6ECD9;border-radius:50px;padding:3px 10px;font-size:.80rem;color:#267371;font-weight:600">💻 Sarah M. — Freelance</span>
+    <span style="background:white;border:1px solid #C6ECD9;border-radius:50px;padding:3px 10px;font-size:.80rem;color:#267371;font-weight:600">Lucas R. — Startup</span>
+    <span style="background:white;border:1px solid #C6ECD9;border-radius:50px;padding:3px 10px;font-size:.80rem;color:#267371;font-weight:600">🧠 Marie C. — Consultante</span>
   </div>
 </div>
 """, unsafe_allow_html=True)
@@ -915,7 +967,7 @@ def _show_register_form():
   <div style="font-size:.86rem;font-weight:800;margin-bottom:6px">
     ✅ Ce que tu reçois gratuitement :
   </div>
-  <div style="font-size:.76rem;color:rgba(255,255,255,.85);line-height:1.7">
+  <div style="font-size:.84rem;color:rgba(255,255,255,.85);line-height:1.7">
     ⚔️ 14 modules stratégiques &nbsp;·&nbsp; SWOT personnalisé<br>
     Personas clients &nbsp;·&nbsp; Plan marketing &nbsp;·&nbsp; SEO/GEO<br>
      Séquences email &nbsp;·&nbsp;  Stratégie pricing &nbsp;·&nbsp;  Customer Journey
@@ -994,9 +1046,9 @@ def _show_register_form():
     # Micro-garanties (neuromarketing : réduction du risque perçu)
     st.markdown("""
 <div style="display:flex;justify-content:center;gap:16px;margin-top:12px;flex-wrap:wrap">
-  <span style="font-size:.68rem;color:#339999;font-weight:600">🔒 Sans carte bancaire</span>
-  <span style="font-size:.68rem;color:#339999;font-weight:600">✅ Résiliation en 1 clic</span>
-  <span style="font-size:.68rem;color:#339999;font-weight:600">🇫🇷 Données en France</span>
+  <span style="font-size:.80rem;color:#339999;font-weight:600">🔒 Sans carte bancaire</span>
+  <span style="font-size:.80rem;color:#339999;font-weight:600">✅ Résiliation en 1 clic</span>
+  <span style="font-size:.80rem;color:#339999;font-weight:600">🇫🇷 Données en France</span>
 </div>
 """, unsafe_allow_html=True)
 
@@ -4034,7 +4086,7 @@ with st.sidebar:
     <div style="text-align:center;padding:8px 0 12px">
       
       <div style="font-size:1.25rem;font-weight:800;letter-spacing:-.5px;line-height:1"><span style="color:#0B2221">BIZI</span><span style="color:#44C1BA">APP</span></div>
-      <div style="font-size:.65rem;color:#339999;font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-top:3px">Stratégie 360° instantanée</div>
+      <div style="font-size:.80rem;color:#339999;font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-top:3px">Stratégie 360° instantanée</div>
     </div>
     """, unsafe_allow_html=True)
 
@@ -4042,7 +4094,7 @@ with st.sidebar:
     if _is_demo:
         st.markdown("""
 <div style='background:rgba(68,193,186,.08);border:1px solid rgba(68,193,186,.2);
-  border-radius:10px;padding:8px 12px;margin-bottom:8px;text-align:center;font-size:.72rem;color:#339999'>
+  border-radius:10px;padding:8px 12px;margin-bottom:8px;text-align:center;font-size:.82rem;color:#339999'>
   Mode visiteur  --  fonctions limitees
 </div>""", unsafe_allow_html=True)
         if st.button("Creer mon compte gratuit", type="primary",
@@ -4058,8 +4110,8 @@ with st.sidebar:
     {_user_initial}
   </div>
   <div>
-    <div style='font-weight:700;font-size:.76rem;color:#0B2221'>{_user_first}</div>
-    <div style='font-size:.62rem;color:#339999'>{_user_analyses} analyse(s)</div>
+    <div style='font-weight:700;font-size:.84rem;color:#0B2221'>{_user_first}</div>
+    <div style='font-size:.80rem;color:#339999'>{_user_analyses} analyse(s)</div>
   </div>
 </div>""", unsafe_allow_html=True)
         if st.button("Deconnexion", use_container_width=True, key="btn_logout_sb"):
@@ -4074,7 +4126,7 @@ with st.sidebar:
     _pct = _pct_map.get(_sidebar_step, 20)
     st.markdown(f"""
 <div style="margin-bottom:10px">
-  <div style="display:flex;justify-content:space-between;font-size:.68rem;color:#339999;margin-bottom:4px;font-weight:600">
+  <div style="display:flex;justify-content:space-between;font-size:.80rem;color:#339999;margin-bottom:4px;font-weight:600">
     <span>Etape {_sidebar_step} sur 5</span><span>{_pct}%</span>
   </div>
   <div class="progress-bar"><div class="progress-fill" style="width:{_pct}%"></div></div>
@@ -4183,7 +4235,7 @@ with st.sidebar:
     _pers_pct = st.session_state.get("_pers_score", 40)
     st.markdown(f"""
 <div style="background:rgba(68,193,186,.06);border-radius:8px;padding:7px 10px;
-  border:1px solid rgba(68,193,186,.15);font-size:.68rem;color:#339999;text-align:center">
+  border:1px solid rgba(68,193,186,.15);font-size:.80rem;color:#339999;text-align:center">
   Personnalisation <b style="color:#44C1BA">{_pers_pct}%</b> · Données live · Cache intelligent
 </div>""", unsafe_allow_html=True)
     # Analyse URL activee si website_url fourni
@@ -4223,7 +4275,7 @@ st.markdown('''
       <div style="font-size:1.6rem;font-weight:900;letter-spacing:-1.5px;line-height:1">
         <span style="color:#0B2221">BIZI</span><span class="shimmer-txt">APP</span>
       </div>
-      <div style="font-size:.62rem;color:#339999;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-top:2px">
+      <div style="font-size:.84rem;color:#339999;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-top:2px">
         Expert virtuel en stratégie commerciale
       </div>
     </div>
@@ -4326,17 +4378,17 @@ if not st.session_state.get("_run", False):
 <div class="lp-targets" style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:8px">
   <div style="background:#F7FBF4;border-radius:14px;padding:18px 16px;border:1.5px solid #C6ECD9">
     <div style="font-size:1.5rem;margin-bottom:8px">👔</div>
-    <div style="font-weight:700;font-size:.9rem;color:#0B2221;margin-bottom:5px">Dirigeant TPE / PME</div>
+    <div style="font-weight:700;font-size:.92rem;color:#0B2221;font-weight:500;margin-bottom:5px">Dirigeant TPE / PME</div>
     <div style="font-size:.8rem;color:#339999;line-height:1.5">Tu gères tout seul, tu n'as pas le temps de construire une stratégie cohérente. BiziApp le fait en 10 minutes.</div>
   </div>
   <div style="background:#F7FBF4;border-radius:14px;padding:18px 16px;border:1.5px solid #C6ECD9">
     <div style="font-size:1.5rem;margin-bottom:8px">💻</div>
-    <div style="font-weight:700;font-size:.9rem;color:#0B2221;margin-bottom:5px">Freelance &amp; consultant</div>
+    <div style="font-weight:700;font-size:.92rem;color:#0B2221;font-weight:500;margin-bottom:5px">Freelance &amp; consultant</div>
     <div style="font-size:.8rem;color:#339999;line-height:1.5">Tu veux impressionner tes clients avec un diagnostic professionnel. Génère un plan complet avant chaque RDV.</div>
   </div>
   <div style="background:#F7FBF4;border-radius:14px;padding:18px 16px;border:1.5px solid #C6ECD9">
     <div style="font-size:1.5rem;margin-bottom:8px"></div>
-    <div style="font-weight:700;font-size:.9rem;color:#0B2221;margin-bottom:5px">Créateur d'entreprise</div>
+    <div style="font-weight:700;font-size:.92rem;color:#0B2221;font-weight:500;margin-bottom:5px">Créateur d'entreprise</div>
     <div style="font-size:.8rem;color:#339999;line-height:1.5">Tu lances ton projet et tu as besoin d'un cadre stratégique solide sans payer 5 000€ un cabinet de conseil.</div>
   </div>
 </div>
@@ -4390,13 +4442,13 @@ if not st.session_state.get("_run", False):
     st.markdown("""
 <div class="lp-proof proof-card">
   <div style="position:relative;z-index:1">
-    <div style="font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#44C1BA;margin-bottom:12px">
+    <div style="font-size:.82rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#44C1BA;margin-bottom:12px">
       Exemple  --  E-commerce · Objectif Ventes · Budget 200€/mois
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
       <div style="background:rgba(255,255,255,.08);border-radius:10px;padding:12px;border:1px solid rgba(68,193,186,.3)">
-        <div style="font-size:.68rem;color:#44C1BA;font-weight:700;text-transform:uppercase;margin-bottom:6px">SWOT Généré</div>
-        <div style="font-size:.76rem;color:rgba(255,255,255,.85);line-height:1.6">
+        <div style="font-size:.80rem;color:#44C1BA;font-weight:700;text-transform:uppercase;margin-bottom:6px">SWOT Généré</div>
+        <div style="font-size:.84rem;color:rgba(255,255,255,.85);line-height:1.6">
           ✅ Vente 24h/24 sans contrainte géo<br>
           ✅ Marges optimisées sans intermédiaire<br>
           ⚠️ CAC élevé  --  optimiser Google Ads<br>
@@ -4404,8 +4456,8 @@ if not st.session_state.get("_run", False):
         </div>
       </div>
       <div style="background:rgba(255,255,255,.08);border-radius:10px;padding:12px;border:1px solid rgba(68,193,186,.3)">
-        <div style="font-size:.68rem;color:#44C1BA;font-weight:700;text-transform:uppercase;margin-bottom:6px">Roadmap 90 jours</div>
-        <div style="font-size:.76rem;color:rgba(255,255,255,.85);line-height:1.6">
+        <div style="font-size:.80rem;color:#44C1BA;font-weight:700;text-transform:uppercase;margin-bottom:6px">Roadmap 90 jours</div>
+        <div style="font-size:.84rem;color:rgba(255,255,255,.85);line-height:1.6">
            J1–J30 : SEO technique + 3 personas<br>
            J31–J60 : Campagne Meta 80€/mois<br>
            J61–J90 : Email auto + retargeting<br>
@@ -4416,19 +4468,19 @@ if not st.session_state.get("_run", False):
     <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px">
       <div style="background:rgba(255,255,255,.07);border-radius:8px;padding:9px;text-align:center">
         <div style="font-size:1.1rem;font-weight:900;color:#44C1BA">11</div>
-        <div style="font-size:.62rem;color:rgba(255,255,255,.55)">modules</div>
+        <div style="font-size:.80rem;color:rgba(255,255,255,.55)">modules</div>
       </div>
       <div style="background:rgba(255,255,255,.07);border-radius:8px;padding:9px;text-align:center">
         <div style="font-size:1.1rem;font-weight:900;color:#44C1BA">5</div>
-        <div style="font-size:.62rem;color:rgba(255,255,255,.55)">personas</div>
+        <div style="font-size:.80rem;color:rgba(255,255,255,.55)">personas</div>
       </div>
       <div style="background:rgba(255,255,255,.07);border-radius:8px;padding:9px;text-align:center">
         <div style="font-size:1.1rem;font-weight:900;color:#44C1BA">180j</div>
-        <div style="font-size:.62rem;color:rgba(255,255,255,.55)">roadmap</div>
+        <div style="font-size:.80rem;color:rgba(255,255,255,.55)">roadmap</div>
       </div>
       <div style="background:rgba(255,255,255,.07);border-radius:8px;padding:9px;text-align:center">
         <div style="font-size:1.1rem;font-weight:900;color:#44C1BA">JSON</div>
-        <div style="font-size:.62rem;color:rgba(255,255,255,.55)">export</div>
+        <div style="font-size:.80rem;color:rgba(255,255,255,.55)">export</div>
       </div>
     </div>
   </div>
@@ -4464,22 +4516,22 @@ if not st.session_state.get("_run", False):
   <div class="ben-card" style="padding:14px 12px">
     <div style="font-size:1.2rem;margin-bottom:5px">🔍</div>
     <div style="font-weight:700;font-size:.8rem;color:#0B2221;margin-bottom:3px">Diagnostic 360°</div>
-    <div style="font-size:.72rem;color:#339999">SWOT · PESTEL · Concurrence</div>
+    <div style="font-size:.82rem;color:#339999">SWOT · PESTEL · Concurrence</div>
   </div>
   <div class="ben-card" style="padding:14px 12px">
     <div style="font-size:1.2rem;margin-bottom:5px">🧠</div>
     <div style="font-weight:700;font-size:.8rem;color:#0B2221;margin-bottom:3px">Psychologie vente</div>
-    <div style="font-size:.72rem;color:#339999">SONCAS · Personas · AIDA</div>
+    <div style="font-size:.82rem;color:#339999">SONCAS · Personas · AIDA</div>
   </div>
   <div class="ben-card" style="padding:14px 12px">
     <div style="font-size:1.2rem;margin-bottom:5px">📈</div>
     <div style="font-weight:700;font-size:.8rem;color:#0B2221;margin-bottom:3px">Marketing digital</div>
-    <div style="font-size:.72rem;color:#339999">SEO · GEO 2025 · Ads</div>
+    <div style="font-size:.82rem;color:#339999">SEO · GEO 2025 · Ads</div>
   </div>
   <div class="ben-card" style="padding:14px 12px">
     <div style="font-size:1.2rem;margin-bottom:5px"></div>
     <div style="font-weight:700;font-size:.8rem;color:#0B2221;margin-bottom:3px">Plan d'action</div>
-    <div style="font-size:.72rem;color:#339999">KPIs · OKR · Roadmap 180j</div>
+    <div style="font-size:.82rem;color:#339999">KPIs · OKR · Roadmap 180j</div>
   </div>
 </div>
 """, unsafe_allow_html=True)
@@ -4875,7 +4927,7 @@ with tabs[0]:
   <div style="font-size:.88rem;font-weight:600;color:#0B2221;margin-bottom:3px">
     Votre diagnostic complet
   </div>
-  <div style="font-size:.8rem;color:#339999;line-height:1.6">
+  <div style="font-size:.86rem;color:#267371;line-height:1.65">
     Mots-cles, structure et conseils pour apparaitre quand vos clients vous cherchent.
     Utilisez ces informations pour prendre les bonnes decisions des maintenant.
   </div>
@@ -4953,7 +5005,7 @@ with tabs[0]:
     if _pers_score > 40:
         st.markdown(f'''
 <div style="display:inline-flex;align-items:center;gap:8px;background:#C6ECD9;
-  border-radius:50px;padding:5px 14px;margin-bottom:12px;font-size:.75rem;font-weight:700;color:#267371">
+  border-radius:50px;padding:5px 14px;margin-bottom:12px;font-size:.84rem;font-weight:700;color:#267371">
   <span></span> Analyse personnalisée à {_pers_score}% — basée sur données réelles
   {"| Site analysé: " + site_data.get("title","")[:30] if site_data and site_data.get("title") else ""}
 </div>
@@ -5048,12 +5100,12 @@ with tabs[0]:
     _pv = gen_proposition_valeur(activity, site_ins.get("name", "") if site_ins else "")
     _pv_colors = {"fonctionnelle":"#393DAC","economique":"#267371","emotionnelle":"#44C1BA","symbolique":"#393DAC"}
     _pv_labels = {"fonctionnelle":"Fonctionnelle","economique":"Economique","emotionnelle":"Emotionnelle","symbolique":"Symbolique"}
-    st.markdown(f'<div class="card card-dark" style="margin-bottom:16px"><div style="font-size:.75rem;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.5);margin-bottom:6px">Slogan</div><div style="font-size:1.15rem;font-weight:700;color:white">{_html.escape(_pv["slogan"])}</div></div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="card card-dark" style="margin-bottom:16px"><div style="font-size:.84rem;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.5);margin-bottom:6px">Slogan</div><div style="font-size:1.15rem;font-weight:700;color:white">{_html.escape(_pv["slogan"])}</div></div>', unsafe_allow_html=True)
     _pv_cols = st.columns(4)
     for _pi, (_pk, _pv_label) in enumerate(_pv_labels.items()):
         with _pv_cols[_pi]:
             _c = _pv_colors[_pk]
-            st.markdown(f'<div class="pv-card" style="background:{_c}"><div style="font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;opacity:.7;margin-bottom:5px">{_pv_label}</div><div style="font-size:.85rem;line-height:1.5">{_html.escape(_pv[_pk])}</div></div>', unsafe_allow_html=True)
+            st.markdown(f'<div class="pv-card" style="background:{_c}"><div style="font-size:.80rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;opacity:.7;margin-bottom:5px">{_pv_label}</div><div style="font-size:.85rem;line-height:1.5">{_html.escape(_pv[_pk])}</div></div>', unsafe_allow_html=True)
     if _pv.get("differenciateurs"):
         st.markdown("**Points de différenciation :**")
         for _d in _pv["differenciateurs"]:
@@ -5148,10 +5200,10 @@ with tabs[1]:
             _rcolor = _rfm_colors[_ri]
             st.markdown(f"""
             <div class="rfm-card" style="border-top:3px solid {_rcolor}">
-              <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.08em;color:#339999;margin-bottom:3px">{_rseg['pourcentage']}% des clients</div>
+              <div style="font-size:.80rem;text-transform:uppercase;letter-spacing:.08em;color:#339999;margin-bottom:3px">{_rseg['pourcentage']}% des clients</div>
               <div style="font-weight:800;font-size:.95rem;color:{_rcolor};margin-bottom:4px">{_html.escape(_rseg['nom'])}</div>
-              <div style="font-size:.76rem;color:#267371;margin-bottom:8px;line-height:1.4">{_html.escape(_rseg['description'])}</div>
-              <div style="font-size:.72rem;font-weight:700;color:#0B2221">CLV estimée : {_rseg['clv']:,} €</div>
+              <div style="font-size:.84rem;color:#267371;margin-bottom:8px;line-height:1.4">{_html.escape(_rseg['description'])}</div>
+              <div style="font-size:.82rem;font-weight:700;color:#0B2221">CLV estimée : {_rseg['clv']:,} €</div>
             </div>
             """, unsafe_allow_html=True)
     for _rseg in _rfm_segments:
@@ -5180,7 +5232,7 @@ with tabs[2]:
             st.markdown(f"""
             <div class="card {css}">
               <div class="card-title">{label}</div>
-              <p style='font-weight:600;font-size:.9rem;color:#0B2221'>{content['p']}</p>
+              <p style='font-weight:600;font-size:.92rem;color:#0B2221;font-weight:500'>{content['p']}</p>
               <div style='background:rgba(255,255,255,.7);border-radius:10px;padding:10px;margin:10px 0'>
                 <small style='color:#339999;font-weight:600'>EXEMPLE :</small>
                 <p style='font-style:italic;font-size:.85rem;color:#267371;margin:4px 0'>"{content['e']}"</p>
@@ -5301,7 +5353,7 @@ with tabs[3]:
                 st.info(f"**Exemple :** {_html.escape(_ptec['exemple'])}")
             with _c2p:
                 _ibadge = _impact_badge.get(_ptec["impact"], "badge-gray")
-                st.markdown(f'<div style="text-align:center;padding:16px"><span class="badge {_ibadge}" style="font-size:.8rem;padding:4px 12px">{_html.escape(_ptec["impact"])}</span><div style="font-size:.72rem;color:#339999;margin-top:6px">Impact conversion</div></div>', unsafe_allow_html=True)
+                st.markdown(f'<div style="text-align:center;padding:16px"><span class="badge {_ibadge}" style="font-size:.8rem;padding:4px 12px">{_html.escape(_ptec["impact"])}</span><div style="font-size:.82rem;color:#339999;margin-top:6px">Impact conversion</div></div>', unsafe_allow_html=True)
 
     # Email templates
     st.markdown('<div class="section-h">Templates emails de prospection</div>', unsafe_allow_html=True)
@@ -5616,7 +5668,7 @@ def _render_kpi_section(kpi_list: list) -> None:
         with cols[i % 3]:
             st.markdown(f"""
             <div class="kpi-tile" style="background:{bg};border-left:3px solid {tc}">
-              <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;color:#339999">{_html.escape(label)}</div>
+              <div style="font-size:.80rem;text-transform:uppercase;letter-spacing:.1em;color:#339999">{_html.escape(label)}</div>
               <div style="font-size:1.6rem;font-weight:800;color:{tc};margin:4px 0">{_html.escape(value)}</div>
               <div style="font-size:.7rem;color:#339999">{_html.escape(hint)}</div>
               <div style="font-size:.7rem;color:{tc};margin-top:4px;font-weight:600"> Objectif : {_html.escape(target)}</div>
@@ -5706,7 +5758,7 @@ with tabs[8]:
         with rm_cols[i]:
             st.markdown(f"""
             <div class="card" style="border-top:3px solid {rm_colors[i]}">
-              <div style='font-size:.68rem;color:#339999;font-weight:600;text-transform:uppercase;letter-spacing:.05em'>{period}</div>
+              <div style='font-size:.80rem;color:#339999;font-weight:600;text-transform:uppercase;letter-spacing:.05em'>{period}</div>
               <div style='font-weight:700;font-size:.95rem;color:#0B2221;margin:4px 0'>{phase}</div>
               <p style='font-size:.78rem;color:#267371;margin:0'>{actions}</p>
             </div>""", unsafe_allow_html=True)
@@ -5860,7 +5912,7 @@ with tabs[9]:
   <div style="width:36px;height:36px;border-radius:8px;background:#C6ECD9;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0">🏢</div>
   <div>
     <div style="font-weight:700;font-size:.88rem;color:#0B2221">{_ent.get("nom","")[:50]}</div>
-    <div style="font-size:.75rem;color:#339999">{_ent.get("siege","")[:60]} · SIREN: {_ent.get("siren","")} · {_ent.get("categorie","")}</div>
+    <div style="font-size:.84rem;color:#339999">{_ent.get("siege","")[:60]} · SIREN: {_ent.get("siren","")} · {_ent.get("categorie","")}</div>
   </div>
 </div>
 ''', unsafe_allow_html=True)
@@ -5904,11 +5956,11 @@ with tabs[9]:
             <div class="card-dark">
               <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap">
                 <div style="flex:1;min-width:0">
-                  <div style="font-size:.62rem;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.07em;margin-bottom:5px">{_html.escape(_target.replace('https://','').replace('http://','').split('/')[0][:60])}</div>
+                  <div style="font-size:.80rem;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.07em;margin-bottom:5px">{_html.escape(_target.replace('https://','').replace('http://','').split('/')[0][:60])}</div>
                   <div style="font-size:1.1rem;font-weight:700;color:white;margin-bottom:6px;line-height:1.3">{_html.escape(str(_ld.get('title','—'))[:120])}</div>
                   <div style="font-size:.82rem;color:rgba(255,255,255,.65);line-height:1.5">{_html.escape(str(_ld.get('description',''))[:260])}</div>
                 </div>
-                <div style="text-align:right;font-size:.63rem;color:rgba(255,255,255,.35);line-height:1.7;flex-shrink:0">
+                <div style="text-align:right;font-size:.80rem;color:rgba(255,255,255,.35);line-height:1.7;flex-shrink:0">
                   Source : {_lsrc}<br>{_ld.get('fetched_at','')}
                 </div>
               </div>
@@ -5921,7 +5973,7 @@ with tabs[9]:
             _lk4.metric("Mots-clés",len(_ld.get("keywords",[])))
             if _ld.get("keywords"):
                 st.markdown('<div class="section-h">Mots-clés détectés</div>', unsafe_allow_html=True)
-                _kwh = "".join(f'<span class="url-kw" style="background:var(--teal-pale);color:#267371;margin:2px;display:inline-block;border-radius:4px;padding:2px 8px;font-size:.68rem;font-weight:600">{_html.escape(str(k)[:40])}</span>' for k in _ld["keywords"])
+                _kwh = "".join(f'<span class="url-kw" style="background:var(--teal-pale);color:#267371;margin:2px;display:inline-block;border-radius:4px;padding:2px 8px;font-size:.80rem;font-weight:600">{_html.escape(str(k)[:40])}</span>' for k in _ld["keywords"])
                 st.markdown(f'<div style="margin-bottom:12px">{_kwh}</div>', unsafe_allow_html=True)
             _lca, _lcb = st.columns(2)
             with _lca:
@@ -5956,14 +6008,14 @@ with tabs[9]:
                 if _herr:
                     st.markdown(f'<div style="background:#F7FBF4;border:1px solid #C6ECD9;border-radius:10px;padding:14px;font-size:.82rem"><b style="color:#B83D4B">{_html.escape(_dom)}</b><br><span style="color:#B83D4B">{_html.escape(str(_cd.get("error","Erreur"))[:80])}</span></div>', unsafe_allow_html=True)
                 else:
-                    _ckws = "".join(f'<span style="background:#C6ECD9;color:#267371;border-radius:3px;padding:1px 6px;font-size:.62rem;font-weight:600;margin:1px;display:inline-block">{_html.escape(str(k)[:30])}</span>' for k in _cd.get("keywords",[])[:6])
+                    _ckws = "".join(f'<span style="background:#C6ECD9;color:#267371;border-radius:3px;padding:1px 6px;font-size:.80rem;font-weight:600;margin:1px;display:inline-block">{_html.escape(str(k)[:30])}</span>' for k in _cd.get("keywords",[])[:6])
                     st.markdown(f"""
                     <div class="card">
-                      <div style="font-size:.68rem;color:var(--muted);font-family:monospace">{_html.escape(_dom)}</div>
-                      <div style="font-weight:700;font-size:.9rem;color:#0B2221;margin:4px 0 6px">{_html.escape(str(_cd.get('title','—'))[:65])}</div>
+                      <div style="font-size:.80rem;color:var(--muted);font-family:monospace">{_html.escape(_dom)}</div>
+                      <div style="font-weight:700;font-size:.92rem;color:#0B2221;font-weight:500;margin:4px 0 6px">{_html.escape(str(_cd.get('title','—'))[:65])}</div>
                       <div style="font-size:.78rem;color:#339999;line-height:1.45;margin-bottom:8px">{_html.escape(str(_cd.get('description',''))[:160])}</div>
                       <div style="margin-bottom:6px">{_ckws}</div>
-                      <div style="font-size:.68rem;color:#44C1BA">{len(_cd.get('h1',[]))+len(_cd.get('h2',[]))} titres · {len(_cd.get('paragraphs',[]))} §</div>
+                      <div style="font-size:.80rem;color:#44C1BA">{len(_cd.get('h1',[]))+len(_cd.get('h2',[]))} titres · {len(_cd.get('paragraphs',[]))} §</div>
                     </div>
                     """, unsafe_allow_html=True)
         if len(comp_results) > 1:
@@ -6003,8 +6055,8 @@ with tabs[9]:
                 _ns = _html.escape(str(_ni.get("source",""))[:45])
                 _np = _ni.get("pub","")
                 _nl = _ni.get("link","")
-                _src_h = f'<span style="background:#C6ECD9;color:#267371;padding:2px 7px;border-radius:4px;font-size:.63rem;font-weight:600;margin-right:6px">{_ns}</span>' if _ns else ""
-                _link_h = f' <a href="{_html.escape(_nl)}" target="_blank" rel="noopener noreferrer" style="font-size:.68rem;color:#44C1BA;text-decoration:none">Lire &rarr;</a>' if _nl else ""
+                _src_h = f'<span style="background:#C6ECD9;color:#267371;padding:2px 7px;border-radius:4px;font-size:.80rem;font-weight:600;margin-right:6px">{_ns}</span>' if _ns else ""
+                _link_h = f' <a href="{_html.escape(_nl)}" target="_blank" rel="noopener noreferrer" style="font-size:.80rem;color:#44C1BA;text-decoration:none">Lire &rarr;</a>' if _nl else ""
                 st.markdown(f'<div style="border-left:3px solid var(--teal);padding:9px 13px;margin-bottom:8px;background:white;border-radius:0 8px 8px 0"><div style="font-weight:600;font-size:.87rem;color:#0B2221;margin-bottom:3px">{_nt}{_link_h}</div><div style="font-size:.7rem;color:#339999">{_src_h}{_np}</div></div>', unsafe_allow_html=True)
 
     # ── Signaux stratégiques ──────────────────────────────────────────────────
@@ -6016,7 +6068,7 @@ with tabs[9]:
         with st.spinner("Wikipedia…"):
             _wiki = fetch_wiki(_wt, lang=veille_lang)
         if _wiki.get("extract"):
-            _wurl = f'<div style="margin-top:8px"><a href="{_html.escape(_wiki.get("url",""))}" target="_blank" rel="noopener noreferrer" style="font-size:.72rem;color:#44C1BA;text-decoration:none">Lire sur Wikipedia &rarr;</a></div>' if _wiki.get("url") else ""
+            _wurl = f'<div style="margin-top:8px"><a href="{_html.escape(_wiki.get("url",""))}" target="_blank" rel="noopener noreferrer" style="font-size:.82rem;color:#44C1BA;text-decoration:none">Lire sur Wikipedia &rarr;</a></div>' if _wiki.get("url") else ""
             st.markdown(f'<div class="card"><div style="font-weight:700;font-size:.93rem;color:#0B2221;margin-bottom:6px">{_html.escape(str(_wiki.get("title",""))[:80])}</div><div style="font-size:.82rem;color:#339999;line-height:1.6">{_html.escape(str(_wiki.get("extract",""))[:650])}</div>{_wurl}</div>', unsafe_allow_html=True)
         else:
             st.info(f"Aucun article Wikipedia pour « {_html.escape(_wt[:50])} »")
@@ -6045,14 +6097,14 @@ with tabs[9]:
         st.markdown(f'<div style="font-weight:700;font-size:.87rem;color:#0B2221;margin-bottom:9px">Opportunités ({len(_opps)})</div>', unsafe_allow_html=True)
         if _opps:
             for _on in _opps[:5]:
-                st.markdown(f'<div style="background:#C6ECD9;border:1px solid #C6ECD9;border-radius:8px;padding:8px 12px;margin-bottom:6px;font-size:.8rem;line-height:1.4">{_html.escape(str(_on.get("title",""))[:130])}<div style="font-size:.68rem;color:#44C1BA;margin-top:2px">{_on.get("pub","")}</div></div>', unsafe_allow_html=True)
+                st.markdown(f'<div style="background:#C6ECD9;border:1px solid #C6ECD9;border-radius:8px;padding:8px 12px;margin-bottom:6px;font-size:.8rem;line-height:1.4">{_html.escape(str(_on.get("title",""))[:130])}<div style="font-size:.80rem;color:#44C1BA;margin-top:2px">{_on.get("pub","")}</div></div>', unsafe_allow_html=True)
         else:
             st.caption("Aucune opportunité détectée dans les actualités récentes")
     with _tc:
         st.markdown(f'<div style="font-weight:700;font-size:.87rem;color:#B83D4B;margin-bottom:9px">Menaces ({len(_thrs)})</div>', unsafe_allow_html=True)
         if _thrs:
             for _tn in _thrs[:5]:
-                st.markdown(f'<div style="background:#F7FBF4;border:1px solid #C6ECD9;border-radius:8px;padding:8px 12px;margin-bottom:6px;font-size:.8rem;line-height:1.4">{_html.escape(str(_tn.get("title",""))[:130])}<div style="font-size:.68rem;color:#B83D4B;margin-top:2px">{_tn.get("pub","")}</div></div>', unsafe_allow_html=True)
+                st.markdown(f'<div style="background:#F7FBF4;border:1px solid #C6ECD9;border-radius:8px;padding:8px 12px;margin-bottom:6px;font-size:.8rem;line-height:1.4">{_html.escape(str(_tn.get("title",""))[:130])}<div style="font-size:.80rem;color:#B83D4B;margin-top:2px">{_tn.get("pub","")}</div></div>', unsafe_allow_html=True)
         else:
             st.caption("Aucune menace détectée dans les actualités récentes")
 
@@ -6131,7 +6183,7 @@ with tabs[10]:
         with _rr_cols[_ri]:
             st.markdown(f"""
             <div class="card" style="border-top:3px solid #267371">
-              <div style="font-size:.68rem;color:#339999;font-weight:600;text-transform:uppercase">{_per}</div>
+              <div style="font-size:.80rem;color:#339999;font-weight:600;text-transform:uppercase">{_per}</div>
               <div style="font-weight:700;font-size:.92rem;color:#0B2221;margin:4px 0">{_ph}</div>
               <p style="font-size:.78rem;color:#267371;margin:0">{_ac}</p>
             </div>
@@ -6175,7 +6227,7 @@ with tabs[11]:
 <div class="stat-box" style="border-top:3px solid {_color}">
   <div style="font-size:.7rem;font-weight:700;color:{_color};margin-bottom:6px">{_label[:20]}</div>
   <div style="font-size:1.8rem;font-weight:900;color:{_color}">{_score}/10</div>
-  <div style="font-size:.68rem;color:#339999;font-weight:600;margin-top:3px">{_lbl}</div>
+  <div style="font-size:.80rem;color:#339999;font-weight:600;margin-top:3px">{_lbl}</div>
 </div>""", unsafe_allow_html=True)
 
     with st.expander("Détails des 5 Forces"):
@@ -6209,9 +6261,9 @@ with tabs[11]:
 <div class="ben-card" style="border-left:4px solid {_acolor}{'!important;background:#F7FBF4' if _is_reco else ''}">
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
     <div style="font-weight:800;font-size:.92rem;color:#0B2221">{_alabel}</div>
-    {"<span style='background:#44C1BA;color:white;border-radius:50px;padding:2px 10px;font-size:.68rem;font-weight:700'>✅ RECOMMANDÉ</span>" if _is_reco else ""}
+    {"<span style='background:#44C1BA;color:white;border-radius:50px;padding:2px 10px;font-size:.80rem;font-weight:700'>✅ RECOMMANDÉ</span>" if _is_reco else ""}
   </div>
-  <div style="font-size:.74rem;color:#339999;margin-bottom:10px">{_adesc} · Risque : {_arisk}</div>
+  <div style="font-size:.82rem;color:#339999;margin-bottom:10px">{_adesc} · Risque : {_arisk}</div>
   <div class="gauge-wrap">
     <div class="gauge-lbl"><span>Score de pertinence</span><span>{_ascore}%</span></div>
     <div class="gauge-track"><div class="gauge-fill" style="--bw:{_ascore}%"></div></div>
@@ -6293,7 +6345,7 @@ with tabs[12]:
   <div style="background:#C6ECD9;border-radius:8px;padding:4px 10px;font-size:.7rem;font-weight:800;color:#267371;flex-shrink:0">{_em.get('j','')}</div>
   <div>
     <div style="font-weight:700;font-size:.88rem;color:#0B2221">"{_em.get('objet','')}"</div>
-    <div style="font-size:.76rem;color:#339999;margin-top:2px">{_em.get('objectif','')}</div>
+    <div style="font-size:.84rem;color:#339999;margin-top:2px">{_em.get('objectif','')}</div>
   </div>
 </div>""", unsafe_allow_html=True)
 
@@ -6328,12 +6380,12 @@ with tabs[13]:
     <span style="background:{_prio_color};color:white;border-radius:50px;padding:3px 12px;font-size:.7rem;font-weight:700">Priorité {_prio}</span>
   </div>
   <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px">
-    <div style="background:#F7FBF4;border-radius:8px;padding:8px"><div style="font-size:.64rem;color:#339999;font-weight:600">OBJECTIF</div><div style="font-size:.78rem;color:#0B2221;font-weight:600;margin-top:2px">{_pdata.get('objectif','')}</div></div>
-    <div style="background:#F7FBF4;border-radius:8px;padding:8px"><div style="font-size:.64rem;color:#339999;font-weight:600">FORMAT</div><div style="font-size:.78rem;color:#0B2221;font-weight:600;margin-top:2px">{_pdata.get('format','')}</div></div>
-    <div style="background:#F7FBF4;border-radius:8px;padding:8px"><div style="font-size:.64rem;color:#339999;font-weight:600">BUDGET</div><div style="font-size:.78rem;color:#0B2221;font-weight:600;margin-top:2px">{_pdata.get('budget','')}</div></div>
-    <div style="background:#C6ECD9;border-radius:8px;padding:8px"><div style="font-size:.64rem;color:#267371;font-weight:600">KPI CIBLE</div><div style="font-size:.78rem;color:#0B2221;font-weight:600;margin-top:2px">{_pdata.get('kpi','')}</div></div>
+    <div style="background:#F7FBF4;border-radius:8px;padding:8px"><div style="font-size:.80rem;color:#339999;font-weight:600">OBJECTIF</div><div style="font-size:.78rem;color:#0B2221;font-weight:600;margin-top:2px">{_pdata.get('objectif','')}</div></div>
+    <div style="background:#F7FBF4;border-radius:8px;padding:8px"><div style="font-size:.80rem;color:#339999;font-weight:600">FORMAT</div><div style="font-size:.78rem;color:#0B2221;font-weight:600;margin-top:2px">{_pdata.get('format','')}</div></div>
+    <div style="background:#F7FBF4;border-radius:8px;padding:8px"><div style="font-size:.80rem;color:#339999;font-weight:600">BUDGET</div><div style="font-size:.78rem;color:#0B2221;font-weight:600;margin-top:2px">{_pdata.get('budget','')}</div></div>
+    <div style="background:#C6ECD9;border-radius:8px;padding:8px"><div style="font-size:.80rem;color:#267371;font-weight:600">KPI CIBLE</div><div style="font-size:.78rem;color:#0B2221;font-weight:600;margin-top:2px">{_pdata.get('kpi','')}</div></div>
   </div>
-  <div style="margin-top:8px;font-size:.74rem;color:#339999">📅 Fréquence : <b>{_pdata.get('freq','')}</b></div>
+  <div style="margin-top:8px;font-size:.82rem;color:#339999">📅 Fréquence : <b>{_pdata.get('freq','')}</b></div>
 </div>""", unsafe_allow_html=True)
 
     # Intelligence concurrentielle
@@ -6434,7 +6486,7 @@ with tabs[14]:
   <div style="font-size:.78rem;color:#267371;margin-bottom:16px">
     Essai 7 jours gratuit · Aucun debit pendant l'essai · Résiliation libre
   </div>
-  <div style="font-size:.72rem;color:#339999;background:white;border-radius:8px;padding:10px;border:1px solid #C6ECD9">
+  <div style="font-size:.82rem;color:#339999;background:white;border-radius:8px;padding:10px;border:1px solid #C6ECD9">
     Le paiement securise sera configure dans votre espace compte.<br>
     <b>Stripe</b> · Visa · Mastercard · SEPA · Apple Pay · Google Pay
   </div>
