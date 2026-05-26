@@ -24,7 +24,7 @@ SVG_CHART = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x
 PLANS = {
     "demo": {
         "name": "Demo",
-        "subtitle": "Testez tous les outils, sans carte bancaire",
+        "subtitle": "Je decouvre BiziApp sans engagement",
         "monthly": 0,
         "annual": 0,
         "color": "#339999",
@@ -44,12 +44,12 @@ PLANS = {
             ("Plan d'action 180j", False),
             ("Intelligence concurrentielle", False),
         ],
-        "cta": "Commencer gratuitement",
+        "cta": "Essayer gratuitement",
         "cta_style": "secondary",
     },
     "starter": {
         "name": "Starter",
-        "subtitle": "Pour les dirigeants qui veulent aller vite et bien",
+        "subtitle": "Je lance mon activite serieusement",
         "monthly": 39,
         "annual": 27,  # 30% de réduction
         "color": "#44C1BA",
@@ -70,12 +70,12 @@ PLANS = {
             ("Intelligence concurrentielle avancée", False),
             ("Chatbot IA intégré", False),
         ],
-        "cta": "Commencer l'essai 7j gratuit",
+        "cta": "Demarrer — 7 jours gratuits",
         "cta_style": "primary",
     },
     "pro": {
         "name": "Pro",
-        "subtitle": "Pour les dirigeants qui pilotent vraiment leur croissance",
+        "subtitle": "Je developpe et je pilote mon activite",
         "monthly": 89,
         "annual": 62,  # 30% de réduction
         "color": "#0B2221",
@@ -95,7 +95,7 @@ PLANS = {
             ("Support prioritaire 4h", True),
             ("Accès API BiziApp", True),
         ],
-        "cta": "Commencer Pro — 7j gratuit",
+        "cta": "Passer Pro — 7 jours gratuits",
         "cta_style": "primary",
     },
 }
