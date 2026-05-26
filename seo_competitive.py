@@ -9,7 +9,7 @@ SEO_META = {
     "title": "BiziApp — Strategie commerciale gratuite pour dirigeants TPE PME | Plan en 10 minutes",
     "description": "BiziApp genere votre strategie commerciale complete en 10 minutes : SWOT, plan marketing, personas, KPIs et roadmap 180 jours. Gratuit pour les dirigeants TPE PME. Alternative aux cabinets conseil a 5 000 EUR.",
     "keywords": [
-        "business plan gratuit", "analyse SWOT gratuit", "stratégie commerciale",
+        "strategie commerciale TPE", "business plan gratuit PME", "analyse SWOT gratuit dirigeant", "stratégie commerciale",
         "plan marketing gratuit", "diagnostic entreprise", "plan stratégique",
         "PESTEL analyse", "stratégie digitale PME", "outil stratégie",
         "alternative consultant stratégie", "business plan rapide",
