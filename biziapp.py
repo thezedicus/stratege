@@ -19,7 +19,7 @@ import unicodedata
 import time
 st.set_page_config(
     page_title="BiziApp — Lancez votre activite avec un plan clair en 10 minutes | Gratuit",
-    page_icon="📊",
+    page_icon="<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3DBDB6" stroke-width="2"><polyline points="22,7 13.5,15.5 8.5,10.5 2,17"/><polyline points="16,7 22,7 22,13"/></svg>",
     layout="wide",
     initial_sidebar_state="expanded",
     menu_items={
@@ -191,9 +191,10 @@ st.markdown("""
 <style>
 /* BiziApp v5.2 Design System — Adobe Stock inspired — palette #44C1BA #267371 #0B2221 */
 :root{
-  --teal:#44C1BA;--jade:#267371;--forest:#0B2221;--rouge:#B83D4B;
-  --cream:#F7FBF4;--mint:#C6ECD9;--indigo:#393DAC;--muted:#339999;
-  --border:rgba(68,193,186,.18);
+  --teal:#3DBDB6;--jade:#1D6060;--forest:#0B2221;--rouge:#C0303E;
+  --cream:#F4FAF7;--mint:#B8E8D4;--indigo:#3035A8;--muted:#2E8080;
+  --text-primary:#0B2221;--text-secondary:#1D6060;--text-light:#4A7070;
+  --border:rgba(61,189,182,.22);
   --sh-sm:0 2px 8px rgba(11,34,33,.08);
   --sh-md:0 8px 24px rgba(11,34,33,.12);
   --sh-lg:0 20px 48px rgba(11,34,33,.16);
@@ -314,7 +315,7 @@ img,video{max-width:100%;height:auto}
   transition:border-color var(--t) ease,box-shadow var(--t) ease!important;
 }
 [data-testid="stExpander"]:hover{
-  border-color:rgba(68,193,186,.4)!important;box-shadow:var(--sh-sm)!important;
+  border-color:rgba(68,193,186,.85)!important;box-shadow:var(--sh-sm)!important;
 }
 [data-testid="stExpander"] summary{
   padding:12px 16px!important;font-weight:600!important;font-size:.88rem!important;
@@ -361,7 +362,7 @@ hr{border:none!important;height:1.5px!important;
   background:linear-gradient(90deg,var(--teal),var(--jade))!important;
   transform:scaleX(0)!important;transition:transform var(--t) var(--ease)!important;transform-origin:left!important;
 }
-.card:hover{transform:translateY(-4px)!important;box-shadow:var(--sh-lg),var(--sh-tl)!important;border-color:rgba(68,193,186,.4)!important}
+.card:hover{transform:translateY(-4px)!important;box-shadow:var(--sh-lg),var(--sh-tl)!important;border-color:rgba(68,193,186,.85)!important}
 .card:hover::before{transform:scaleX(1)!important}
 
 .section-h{
@@ -495,6 +496,52 @@ hr{border:none!important;height:1.5px!important;
 .progress-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--teal),var(--jade));transition:width .5s var(--ease)}
 
 [data-testid="stTabs"] [data-testid="stTabsContent"]{padding-top:16px!important}
+
+/* ── Design professionnel premium ─────────────────────────────────────── */
+/* App background plus propre */
+[data-testid="stApp"]{
+  background:#FAFCFB!important;
+  min-height:100vh;
+}
+/* Sidebar plus élégante */
+[data-testid="stSidebar"]{
+  background:#FFFFFF!important;
+  border-right:1px solid #E0EDE9!important;
+  box-shadow:2px 0 12px rgba(11,34,33,.06)!important;
+}
+/* Cards avec ombre plus subtile */
+.card, [data-testid="metric-container"]{
+  box-shadow:0 1px 4px rgba(11,34,33,.08),0 4px 16px rgba(11,34,33,.06)!important;
+}
+/* Boutons primaires nets */
+.stButton>button[kind="primary"]{
+  background:linear-gradient(135deg,#3DBDB6,#1D6060)!important;
+  border:none!important;
+  box-shadow:0 2px 8px rgba(61,189,182,.3)!important;
+  font-weight:700!important;
+  letter-spacing:.01em!important;
+}
+/* Texte général forcé lisible */
+[data-testid="stMarkdown"], [data-testid="stText"]{
+  color:#0B2221!important;
+}
+/* Section headers plus nets */
+.section-h{
+  background:linear-gradient(90deg,rgba(61,189,182,.08),rgba(29,96,96,.04))!important;
+  border-left:3px solid #3DBDB6!important;
+  color:#0B2221!important;
+  font-size:1rem!important;
+  font-weight:800!important;
+}
+/* Expanders plus discrets et professionnels */
+[data-testid="stExpander"] summary{
+  background:#F8FBFA!important;
+  color:#0B2221!important;
+  font-weight:600!important;
+}
+/* Séparateurs */
+hr{background:linear-gradient(90deg,transparent,#B8E8D4,transparent)!important}
+
 /* ── LISIBILITÉ GLOBALE — tailles minimales garanties ──────────────── */
 body, .stApp, [data-testid="stMarkdown"] p,
 [data-testid="stMarkdownContainer"] p {
@@ -836,20 +883,20 @@ def _show_auth_page():
   <div style="font-size:2.4rem;font-weight:900;letter-spacing:-2px;margin-bottom:6px;position:relative;z-index:1">
     <span style="color:white">BIZI</span><span style="color:#44C1BA">APP</span>
   </div>
-  <div style="font-size:.84rem;color:rgba(255,255,255,.65);text-transform:uppercase;
+  <div style="font-size:.84rem;color:rgba(255,255,255,.95);text-transform:uppercase;
     letter-spacing:.1em;margin-bottom:20px">Expert virtuel en stratégie commerciale</div>
   <div style="display:flex;justify-content:center;gap:24px;flex-wrap:wrap;position:relative;z-index:1">
     <div style="text-align:center">
       <div style="font-size:1.6rem;font-weight:900;color:#44C1BA">{_active}</div>
-      <div style="font-size:.80rem;color:rgba(255,255,255,.6);text-transform:uppercase">actifs maintenant</div>
+      <div style="font-size:.80rem;color:rgba(255,255,255,.92);text-transform:uppercase">actifs maintenant</div>
     </div>
     <div style="text-align:center">
       <div style="font-size:1.6rem;font-weight:900;color:#44C1BA">10 min</div>
-      <div style="font-size:.80rem;color:rgba(255,255,255,.6);text-transform:uppercase">plan stratégique complet</div>
+      <div style="font-size:.80rem;color:rgba(255,255,255,.92);text-transform:uppercase">plan stratégique complet</div>
     </div>
     <div style="text-align:center">
       <div style="font-size:1.6rem;font-weight:900;color:#44C1BA">0 €</div>
-      <div style="font-size:.80rem;color:rgba(255,255,255,.6);text-transform:uppercase">100% gratuit</div>
+      <div style="font-size:.80rem;color:rgba(255,255,255,.92);text-transform:uppercase">100% gratuit</div>
     </div>
   </div>
 </div>
@@ -927,7 +974,7 @@ def _show_login_form():
                 st.balloons()
                 st.rerun()
             else:
-                st.markdown(f'<div class="auth-error">❌ {result.get("error","Erreur")}</div>', unsafe_allow_html=True)
+                st.markdown(f'<div class="auth-error"><span style="color:#C0303E;font-weight:900;font-size:1rem">&#10007;</span>&nbsp; {result.get("error","Erreur")}</div>', unsafe_allow_html=True)
         else:
             # Mode demo
             set_session({"email": _email, "name": _email.split("@")[0], "provider": "demo", "analyses_count": 0})
@@ -966,7 +1013,7 @@ def _show_register_form():
 <div style="background:linear-gradient(135deg,#0B2221,#267371);border-radius:12px;
   padding:16px 18px;margin-bottom:20px;color:white">
   <div style="font-size:.86rem;font-weight:800;margin-bottom:6px">
-    ✅ Ce que tu reçois gratuitement :
+    <span style="color:#1D6060;font-weight:900;font-size:1rem">&#10003;</span>&nbsp; Ce que tu reçois gratuitement :
   </div>
   <div style="font-size:.84rem;color:rgba(255,255,255,.85);line-height:1.7">
     ⚔️ 14 modules stratégiques &nbsp;·&nbsp; SWOT personnalisé<br>
@@ -1001,7 +1048,7 @@ def _show_register_form():
 """, unsafe_allow_html=True)
 
     _consent_rgpd = st.checkbox(
-        "✅ J'accepte les CGU et la politique de confidentialité (obligatoire)",
+        "<span style="color:#1D6060;font-weight:900;font-size:1rem">&#10003;</span>&nbsp; J'accepte les CGU et la politique de confidentialité (obligatoire)",
         key="reg_consent_rgpd"
     )
     _consent_mkt  = st.checkbox(
@@ -1017,11 +1064,11 @@ def _show_register_form():
 
     if _register_clicked:
         if not _consent_rgpd:
-            st.markdown('<div class="auth-error">❌ Veuillez accepter les CGU pour continuer.</div>', unsafe_allow_html=True)
+            st.markdown('<div class="auth-error"><span style="color:#C0303E;font-weight:900;font-size:1rem">&#10007;</span>&nbsp; Veuillez accepter les CGU pour continuer.</div>', unsafe_allow_html=True)
         elif _pwd != _pwd2:
-            st.markdown('<div class="auth-error">❌ Les mots de passe ne correspondent pas.</div>', unsafe_allow_html=True)
+            st.markdown('<div class="auth-error"><span style="color:#C0303E;font-weight:900;font-size:1rem">&#10007;</span>&nbsp; Les mots de passe ne correspondent pas.</div>', unsafe_allow_html=True)
         elif not _name or not _email:
-            st.markdown('<div class="auth-error">❌ Prénom, nom et email sont obligatoires.</div>', unsafe_allow_html=True)
+            st.markdown('<div class="auth-error"><span style="color:#C0303E;font-weight:900;font-size:1rem">&#10007;</span>&nbsp; Prénom, nom et email sont obligatoires.</div>', unsafe_allow_html=True)
         elif _HAS_AUTH:
             _act_map = {"E-commerce":"ecommerce","SaaS / Tech":"saas","Services":"service",
                        "Conseil / Expertise":"consulting","Création de contenu":"content","Autre":"other"}
@@ -1037,7 +1084,7 @@ def _show_register_form():
                 st.success(f"Bienvenue {_name.split()[0]} ! Ton espace est prêt. ")
                 st.rerun()
             else:
-                st.markdown(f'<div class="auth-error">❌ {result.get("error","Erreur")}</div>', unsafe_allow_html=True)
+                st.markdown(f'<div class="auth-error"><span style="color:#C0303E;font-weight:900;font-size:1rem">&#10007;</span>&nbsp; {result.get("error","Erreur")}</div>', unsafe_allow_html=True)
         else:
             # Mode demo
             set_session({"email": _email, "name": _name, "provider": "demo",
@@ -1048,7 +1095,7 @@ def _show_register_form():
     st.markdown("""
 <div style="display:flex;justify-content:center;gap:16px;margin-top:12px;flex-wrap:wrap">
   <span style="font-size:.80rem;color:#339999;font-weight:600">🔒 Sans carte bancaire</span>
-  <span style="font-size:.80rem;color:#339999;font-weight:600">✅ Résiliation en 1 clic</span>
+  <span style="font-size:.80rem;color:#339999;font-weight:600"><span style="color:#1D6060;font-weight:900;font-size:1rem">&#10003;</span>&nbsp; Résiliation en 1 clic</span>
   <span style="font-size:.80rem;color:#339999;font-weight:600">🇫🇷 Données en France</span>
 </div>
 """, unsafe_allow_html=True)
@@ -1106,7 +1153,7 @@ def _render_oauth_buttons():
   </div>
 </a>""", unsafe_allow_html=True)
 
-    # Yahoo / Hotmail / Microsoft → liens directs OpenID
+    # Yahoo / Hotmail / Microsoft &#8594; liens directs OpenID
     st.markdown("""
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:4px">
   <div class="oauth-btn" style="opacity:.6;cursor:default;font-size:.78rem;padding:9px 10px">
@@ -1129,7 +1176,7 @@ def _render_oauth_buttons():
 
 # ── Auth optionnelle  --  non connecté = mode Demo ──────────────────────────────
 _current_user = get_current_user()
-# Si non connecté → mode démo (accès limité sans blocage)
+# Si non connecté &#8594; mode démo (accès limité sans blocage)
 if _current_user is None:
     _current_user = {
         "email": "demo@biziapp.fr",
@@ -1359,7 +1406,7 @@ _QQOQCCP = {
                     "r": "Pics : vendredi soir, samedi matin, pauses déjeuner (12h-14h), saisons festives",
                     "a": "Programmez vos campagnes sur ces créneaux + soldes/événements clés"},
         "comment": {"q": "Comment décident-ils d'acheter ?",
-                    "r": "Google → comparaison avis → réseaux sociaux → achat  --  cycle 2-7 jours",
+                    "r": "Google &#8594; comparaison avis &#8594; réseaux sociaux &#8594; achat  --  cycle 2-7 jours",
                     "a": "Couvrez chaque étape : SEO, reviews Trustpilot, retargeting Meta, panier abandonné"},
         "combien": {"q": "Combien sont-ils prêts à payer ?",
                     "r": "Panier moyen cible : 45-120 € selon la niche. Sensibilité prix forte sous 30 €",
@@ -1382,7 +1429,7 @@ _QQOQCCP = {
                     "r": "Lors d'un événement déclencheur : croissance, recrutement, audit, changement direction",
                     "a": "Configurez des alertes sur ces signaux d'intention (LinkedIn, news, levées de fonds)"},
         "comment": {"q": "Comment se déroule le cycle de décision ?",
-                    "r": "Découverte → essai gratuit (14-30j) → démo → POC → validation → achat",
+                    "r": "Découverte &#8594; essai gratuit (14-30j) &#8594; démo &#8594; POC &#8594; validation &#8594; achat",
                     "a": "Optimisez chaque étape : onboarding J1-J7, email nurturing, CS proactif à J14"},
         "combien": {"q": "Combien votre solution leur fait-elle économiser/gagner ?",
                     "r": "Calculez le ROI concret : temps économisé × TJM ou revenus additionnels",
@@ -1406,7 +1453,7 @@ _QQOQCCP_GENERIC = {
                 "r": "Il existe toujours un déclencheur d'achat : événement, seuil de douleur, saison",
                 "a": "Cartographiez le cycle de vie client et anticipez les moments déclencheurs"},
     "comment": {"q": "Comment votre client prend-il sa décision d'achat ?",
-                "r": "Prise de conscience → considération → décision → fidélisation",
+                "r": "Prise de conscience &#8594; considération &#8594; décision &#8594; fidélisation",
                 "a": "Créez du contenu adapté à chaque étape du parcours (TOFU/MOFU/BOFU)"},
     "combien": {"q": "Combien votre client est-il prêt à investir ?",
                 "r": "Le prix doit refléter la valeur perçue, pas uniquement vos coûts",
@@ -1953,20 +2000,20 @@ _AIDA = {
         "attention": {"p":"Headline qui interrompt le scroll","e":"Pourquoi 94% des acheteurs reviennent toujours chez nous","f":["Arrêtez de [problème]  --  voici pourquoi [solution inattendue]","La vraie raison pour laquelle [cible] rate [résultat]","[Chiffre] acheteurs ont découvert [bénéfice]  --  voici comment"],"c":"Utilisez chiffres, questions rhétoriques et promesses spécifiques. Évitez le générique."},
         "interest": {"p":"Développez le problème pour créer l'identification","e":"Vous passez des heures à chercher... pour toujours tomber sur des produits décevants","f":["Comme [X] clients avant vous, vous avez peut-être déjà vécu [situation]","Voici ce que personne ne vous dit sur [sujet]","Le problème avec [solution classique], c'est que [raison spécifique]"],"c":"Montrez que vous comprenez exactement la douleur du client  --  avant de parler de vous."},
         "desire": {"p":"Projeter le client dans l'état désiré après achat","e":"Imaginez recevoir exactement ce que vous attendiez, livré en 48h, avec garantie satisfait ou remboursé","f":["Imaginez [bénéfice émotionnel]  --  c'est exactement ce que [X] clients vivent","[Bénéfice concret] + [bénéfice émotionnel] = votre nouvelle réalité","Nos clients témoignent : '[citation courte et spécifique]'"],"c":"Combinez preuve sociale, bénéfices tangibles et projetez l'état émotionnel post-achat."},
-        "action": {"p":"CTA unique, urgent et sans friction","e":"Commander maintenant  --  Livraison offerte aujourd'hui","f":["Je veux [bénéfice] → [bouton d'action]","Profitez-en maintenant  --  [raison de l'urgence réelle]","Commencez sans risque  --  [garantie spécifique]"],"c":"Un seul CTA visible, urgence authentique, garantie de risque zéro, friction minimale."},
+        "action": {"p":"CTA unique, urgent et sans friction","e":"Commander maintenant  --  Livraison offerte aujourd'hui","f":["Je veux [bénéfice] &#8594; [bouton d'action]","Profitez-en maintenant  --  [raison de l'urgence réelle]","Commencez sans risque  --  [garantie spécifique]"],"c":"Un seul CTA visible, urgence authentique, garantie de risque zéro, friction minimale."},
     },
     "saas": {
         "attention": {"p":"Chiffrez la douleur ou promettez le résultat","e":"Réduisez de 4h à 20min votre reporting hebdomadaire","f":["[X] heures perdues chaque semaine à faire [tâche manuelle]  --  et si ce n'était plus le cas ?","Comment [client similaire] a multiplié par [X] [métrique] en [temps]","Votre concurrent utilise déjà [solution]  --  voici ce qu'il gagne"],"c":"Les décideurs SaaS sont rationnels  --  commencez par un chiffre ou un résultat mesurable."},
         "interest": {"p":"Nommez le problème précis que seul votre outil résout","e":"La plupart des équipes perdent 23% de leur temps dans des tâches que [Outil] automatise en un clic","f":["Le vrai problème avec [workflow actuel], c'est [coût caché invisible]","[Chiffre] équipes ont abandonné [ancienne méthode]  --  voici pourquoi","Sans [fonctionnalité], chaque [événement] vous coûte [quantification]"],"c":"Soyez ultra-précis sur le pain point. Plus c'est spécifique, plus ça résonne."},
         "desire": {"p":"Démo, cas client avec métriques, social proof B2B","e":"[Client connu] a réduit son CAC de 34% après 60 jours","f":["'Depuis [Outil], on a [résultat] en [temps]' --  [Prénom, Titre, Entreprise]","Rejoignez [X] équipes qui ont déjà transformé [process]","Essayez gratuitement 14 jours  --  sans carte bancaire, sans engagement"],"c":"Case studies avec métriques > témoignages génériques."},
-        "action": {"p":"Essai gratuit sans friction ou démo personnalisée","e":"Commencer mon essai gratuit  --  En ligne en 2 minutes","f":["Voir une démo en 15 min → [calendrier direct]","Essayer gratuitement 14 jours → aucune CB requise","Obtenir mon accès maintenant → [bénéfice immédiat à l'inscription]"],"c":"Réduisez le risque perçu au maximum  --  freemium, démo, POC  --  jamais de salesman dès le premier contact."},
+        "action": {"p":"Essai gratuit sans friction ou démo personnalisée","e":"Commencer mon essai gratuit  --  En ligne en 2 minutes","f":["Voir une démo en 15 min &#8594; [calendrier direct]","Essayer gratuitement 14 jours &#8594; aucune CB requise","Obtenir mon accès maintenant &#8594; [bénéfice immédiat à l'inscription]"],"c":"Réduisez le risque perçu au maximum  --  freemium, démo, POC  --  jamais de salesman dès le premier contact."},
     },
 }
 _AIDA_GENERIC = {
     "attention": {"p":"Captez l'attention avec un headline irrésistible","e":"Le problème que vous n'avez jamais su nommer  --  et notre solution","f":["[Chiffre provocateur] raisons pour lesquelles [problème persiste]","Comment [cible similaire] a obtenu [résultat] sans [obstacle perçu]","Arrêtez [action coûteuse]  --  il existe une meilleure façon"],"c":"Votre headline est lu 5x plus que le reste. Investissez 50% de votre temps copywriting dessus."},
     "interest": {"p":"Développez la promesse en identifiant la douleur précise","e":"Vous savez que [problème] vous coûte [temps/argent]  --  mais la vraie cause est ailleurs","f":["Voici ce que la plupart des [cible] ignorent sur [sujet]","Le coût invisible de [problème] : [quantification inattendue]","Comme [X personnes], vous avez peut-être essayé [solutions inefficaces]"],"c":"Empathie d'abord, solution ensuite. Montrez que vous comprenez avant de convaincre."},
     "desire": {"p":"Créez l'envie avec preuves, projections et social proof","e":"Nos clients obtiennent [résultat tangible] et [bénéfice émotionnel]  --  ils en témoignent","f":["Imaginez [situation désirée]  --  c'est possible dès [timing réaliste]","[X] personnes ont déjà [résultat]  --  voici leurs retours","Garantie : si vous n'obtenez pas [résultat], [engagement spécifique]"],"c":"Preuves > promesses. Spécifique > général. Résultat émotionnel > fonctionnalité technique."},
-    "action": {"p":"Un seul appel à l'action, clair et sans friction","e":"Commencer maintenant  --  [bénéfice immédiat] → [CTA]","f":["Je veux [résultat précis] → [bouton action]","C'est gratuit jusqu'à [date/seuil]  --  [CTA]","[Bénéfice] sans [risque perçu] → [CTA]"],"c":"Supprimez tout ce qui pourrait faire hésiter : formulaires longs, prix cachés, processus flous."},
+    "action": {"p":"Un seul appel à l'action, clair et sans friction","e":"Commencer maintenant  --  [bénéfice immédiat] &#8594; [CTA]","f":["Je veux [résultat précis] &#8594; [bouton action]","C'est gratuit jusqu'à [date/seuil]  --  [CTA]","[Bénéfice] sans [risque perçu] &#8594; [CTA]"],"c":"Supprimez tout ce qui pourrait faire hésiter : formulaires longs, prix cachés, processus flous."},
 }
 
 _TRIGGERS = [
@@ -1974,8 +2021,8 @@ _TRIGGERS = [
     ("Preuve sociale","Les gens imitent ce que font d'autres personnes similaires à eux","12 847 clients satisfaits  --  Rejoignez-les","Témoignages, compteurs d'utilisateurs, logos clients, médias"," Spécifique et vérifiable > chiffre rond et non sourcé"),
     ("Autorité","Les experts et figures d'autorité crédibilisent votre offre","Recommandé par [expert connu] · Certifié [organisme] · Cité dans [media]","Badges certifications, mentions presse, partenariats experts"," L'autorité doit être pertinente pour votre cible, pas seulement impressionnante"),
     ("Rareté","La valeur perçue augmente quand la disponibilité diminue","Plus que 3 places disponibles ce mois · Édition limitée 500 exemplaires","Services premium, places de formation, stocks limités"," La rareté inventée génère du ressentiment"),
-    ("Réciprocité","Donner quelque chose de valeur crée une obligation naturelle de rendre","Guide gratuit (vraie valeur) → lead nurturing → vente naturelle","Lead magnets, contenus premium gratuits, consultations offertes"," La valeur du cadeau détermine la réciprocité  --  évitez les ebooks creux"),
-    ("Engagement & Cohérence","Une fois qu'une personne a dit oui à quelque chose de petit, elle dit oui à plus grand","Quiz gratuit → email → webinaire → offre → vente","Funnels de conversion, séquences email, onboarding progressif"," Chaque micro-engagement doit délivrer de la valeur"),
+    ("Réciprocité","Donner quelque chose de valeur crée une obligation naturelle de rendre","Guide gratuit (vraie valeur) &#8594; lead nurturing &#8594; vente naturelle","Lead magnets, contenus premium gratuits, consultations offertes"," La valeur du cadeau détermine la réciprocité  --  évitez les ebooks creux"),
+    ("Engagement & Cohérence","Une fois qu'une personne a dit oui à quelque chose de petit, elle dit oui à plus grand","Quiz gratuit &#8594; email &#8594; webinaire &#8594; offre &#8594; vente","Funnels de conversion, séquences email, onboarding progressif"," Chaque micro-engagement doit délivrer de la valeur"),
     ("Aversion à la perte","La douleur de perdre est 2x plus intense que le plaisir de gagner","Ne laissez pas vos concurrents prendre de l'avance · Évitez de perdre X €/mois","Messaging sur les risques de ne pas agir, coûts de l'inaction"," À utiliser avec parcimonie  --  le fear marketing permanent génère du rejet"),
     ("Appartenance","Les humains veulent appartenir à un groupe qui partage leurs valeurs","Rejoignez 5000 entrepreneurs qui ont choisi de [valeur commune]","Positioning de marque, communication de communauté, onboarding"," La communauté doit être réelle et active"),
 ]
@@ -2001,7 +2048,7 @@ _GEO = {
 }
 _GEO_GENERIC = {
     "topics": ["Contenus piliers ultra-complets sur votre thème principal","Clusters de contenu répondant à toutes les questions de votre ICP","FAQ structurée avec schema markup pour la capture des requêtes IA","Études de cas et données sectorielles propriétaires"],
-    "clusters": [("Guide principal [thème]",["Introduction","Niveau avancé","Cas pratiques","FAQ"]),("Solutions aux problèmes [cible]",["Problème A → solution","Problème B → solution","Comparatif solutions","Erreurs à éviter"])],
+    "clusters": [("Guide principal [thème]",["Introduction","Niveau avancé","Cas pratiques","FAQ"]),("Solutions aux problèmes [cible]",["Problème A &#8594; solution","Problème B &#8594; solution","Comparatif solutions","Erreurs à éviter"])],
     "optims": [("Utilisez des questions naturelles comme sous-titres H2/H3"," Élevé"),("Ajoutez un schema FAQ sur toutes vos pages clés"," Élevé"),("Répondez directement et précisément en début de section (featured snippet)"," Élevé"),("Créez du contenu E-E-A-T : Experience, Expertise, Authority, Trust","Très élevé")],
     "tips": ["39% des Français utilisent l'IA conversationnelle  --  optimisez maintenant pour ces moteurs","Les IA citent les sources qui répondent directement et exhaustivement","L'intention de recherche prime sur le mot-clé exact  --  comprenez le 'pourquoi'"],
 }
@@ -2373,18 +2420,18 @@ def gen_growth_hacking(activity: str, monthly_budget: float) -> list:
     budget_tier = "bootstrap" if monthly_budget < 100 else "growth" if monthly_budget < 500 else "scale"
     tactics = {
         "ecommerce_bootstrap": [
-            (" Abandon panier email", "Séquence 3 emails (1h/24h/72h) → récupère 15% des abandons", "Gratuit", "ROI: 10x"),
-            ("Insta UGC Marketing", "Encourage photos clients → +32% conversion vs photos studio", "Gratuit", "ROI: 8x"),
-            (" Parrainage client", "Offre 10€ parrain + 10€ filleul → acquisition à coût fixe", "Produit", "ROI: 6x"),
-            ("⭐ Review automation", "Email J+14 demande avis → +4.6/5 trust signal", "Gratuit", "ROI: 12x"),
-            (" Packaging viral", "Unboxing mémorable → partage réseaux → earned media", "Faible", "ROI: 5x"),
+            (" Abandon panier email", "Séquence 3 emails (1h/24h/72h) &#8594; récupère 15% des abandons", "Gratuit", "ROI: 10x"),
+            ("Insta UGC Marketing", "Encourage photos clients &#8594; +32% conversion vs photos studio", "Gratuit", "ROI: 8x"),
+            (" Parrainage client", "Offre 10€ parrain + 10€ filleul &#8594; acquisition à coût fixe", "Produit", "ROI: 6x"),
+            ("<span style="color:#B45309">&#9733;</span> Review automation", "Email J+14 demande avis &#8594; +4.6/5 trust signal", "Gratuit", "ROI: 12x"),
+            (" Packaging viral", "Unboxing mémorable &#8594; partage réseaux &#8594; earned media", "Faible", "ROI: 5x"),
         ],
         "saas_bootstrap": [
-            (" Freemium viral", "Plan gratuit avec watermark → utilisateurs = commerciaux", "Gratuit", "ROI: ∞"),
-            (" Content SEO", "1 article expert/semaine → trafic organique en 6 mois", "Temps", "ROI: 20x"),
-            (" Intégration partner", "Native integration Zapier/Slack → distribution x3", "Dev", "ROI: 15x"),
-            ("ProductHunt launch", "Launch bien préparé → 500-2000 signups gratuit", "Temps", "ROI: ∞"),
-            (" Cold outreach", "Séquence LinkedIn 5 messages → 8% de réponse", "Gratuit", "ROI: 12x"),
+            (" Freemium viral", "Plan gratuit avec watermark &#8594; utilisateurs = commerciaux", "Gratuit", "ROI: ∞"),
+            (" Content SEO", "1 article expert/semaine &#8594; trafic organique en 6 mois", "Temps", "ROI: 20x"),
+            (" Intégration partner", "Native integration Zapier/Slack &#8594; distribution x3", "Dev", "ROI: 15x"),
+            ("ProductHunt launch", "Launch bien préparé &#8594; 500-2000 signups gratuit", "Temps", "ROI: ∞"),
+            (" Cold outreach", "Séquence LinkedIn 5 messages &#8594; 8% de réponse", "Gratuit", "ROI: 12x"),
         ],
     }
     key = f"{activity}_{budget_tier}"
@@ -2395,12 +2442,12 @@ def gen_growth_hacking(activity: str, monthly_budget: float) -> list:
 def gen_scripts(activity: str) -> list:
     scripts = {
         "ecommerce": [
-            {"title":"Email de relance panier abandonné","type":"email_followup","content":"Objet : Votre panier vous attend \n\nBonjour [Prénom],\n\nVous avez laissé quelque chose derrière vous !\n\nVotre sélection : [Produit(s)] est encore disponible  --  mais le stock est limité.\n\n→ Commander maintenant et bénéficiez de la livraison offerte jusqu'à ce soir.\n\n[BOUTON : Finaliser ma commande]\n\nÀ très vite,\nL'équipe [Marque]","keyPoints":["Personnaliser avec le nom du produit exact","Ajouter l'urgence (stock limité)","Un seul CTA : finaliser la commande","Livraison offerte = levier de conversion puissant"]},
+            {"title":"Email de relance panier abandonné","type":"email_followup","content":"Objet : Votre panier vous attend \n\nBonjour [Prénom],\n\nVous avez laissé quelque chose derrière vous !\n\nVotre sélection : [Produit(s)] est encore disponible  --  mais le stock est limité.\n\n&#8594; Commander maintenant et bénéficiez de la livraison offerte jusqu'à ce soir.\n\n[BOUTON : Finaliser ma commande]\n\nÀ très vite,\nL'équipe [Marque]","keyPoints":["Personnaliser avec le nom du produit exact","Ajouter l'urgence (stock limité)","Un seul CTA : finaliser la commande","Livraison offerte = levier de conversion puissant"]},
             {"title":"Script appel client fidèle (upsell)","type":"follow_up","content":"Bonjour [Prénom], c'est [Votre Prénom] de [Marque].\nJe vous appelle car vous êtes l'un de nos meilleurs clients et je souhaitais vous présenter en avant-première notre nouvelle [Collection/Produit].\n\nVous avez commandé [Produit X] il y a [X semaines]  --  est-ce que vous en êtes satisfait ?\n[Écoute active]\n\nParfait. Je me permets de vous appeler car nous avons justement [Produit complémentaire] qui va parfaitement avec [Produit X]. Nos clients qui associent les deux témoignent de [bénéfice].\n\nPuis-je vous envoyer un lien avec 15% de remise réservée spécialement à nos clients VIP ?","keyPoints":["Ouvrir avec la relation client existante","Valider la satisfaction avant de pitcher","Proposer le produit complémentaire logique","Offre exclusive VIP pour déclencher l'action"]},
         ],
         "saas": [
             {"title":"Email cold outreach B2B","type":"cold_call","content":"Objet : [Prénom], [Résultat en 5 mots]\n\nBonjour [Prénom],\n\nJ'ai remarqué que [Entreprise] est en train de [croissance/changement observé]  --  c'est souvent à ce stade que [problème que vous résolvez] devient un vrai frein.\n\nOn a aidé [Client similaire] à [résultat mesurable] en [délai]. Voici le détail : [lien cas client]\n\nÊtes-vous disponible 15 minutes cette semaine pour voir si on peut faire la même chose pour [Entreprise] ?\n\n[Prénom]\nPS : Si ce n'est pas le bon moment, pas de problème  --  je reviendrai en [date].","keyPoints":["Personnaliser avec un signal d'actualité de l'entreprise","Référencer un cas client similaire","Demander 15 min, pas une heure","PS humanise et réduit la pression"]},
-            {"title":"Script démo SaaS SPIN (30 min)","type":"discovery","content":"Introduction (2 min)\n'Merci [Prénom] de prendre le temps. Avant de vous montrer quoi que ce soit, j'aimerais comprendre votre situation. Ça m'évitera de vous montrer des features qui ne vous concernent pas.'\n\nDécouverte SPIN (10 min)\n- Situation : 'Comment gérez-vous actuellement [processus] ?'\n- Problème : 'Qu'est-ce qui vous frustre le plus avec cette façon de faire ?'\n- Implication : 'Ça représente combien de temps/argent par semaine ?'\n- Need : 'Si vous pouviez [résoudre ce problème], quel impact sur [objectif] ?'\n\nDémonstration ciblée (12 min)\nMontrez UNIQUEMENT les features qui répondent aux douleurs identifiées.\n\nClosing (6 min)\n'Basé sur ce qu'on vient de voir, est-ce que ça correspond à ce que vous cherchez ?'\n'Quelle est la prochaine étape de votre côté pour avancer ?'","keyPoints":["Découverte avant démonstration  --  toujours","SPIN : Situation → Problème → Implication → Need","Démo ciblée = démo courte = démo efficace","Closing = next step concret, pas 'Je vous envoie une proposition'"]},
+            {"title":"Script démo SaaS SPIN (30 min)","type":"discovery","content":"Introduction (2 min)\n'Merci [Prénom] de prendre le temps. Avant de vous montrer quoi que ce soit, j'aimerais comprendre votre situation. Ça m'évitera de vous montrer des features qui ne vous concernent pas.'\n\nDécouverte SPIN (10 min)\n- Situation : 'Comment gérez-vous actuellement [processus] ?'\n- Problème : 'Qu'est-ce qui vous frustre le plus avec cette façon de faire ?'\n- Implication : 'Ça représente combien de temps/argent par semaine ?'\n- Need : 'Si vous pouviez [résoudre ce problème], quel impact sur [objectif] ?'\n\nDémonstration ciblée (12 min)\nMontrez UNIQUEMENT les features qui répondent aux douleurs identifiées.\n\nClosing (6 min)\n'Basé sur ce qu'on vient de voir, est-ce que ça correspond à ce que vous cherchez ?'\n'Quelle est la prochaine étape de votre côté pour avancer ?'","keyPoints":["Découverte avant démonstration  --  toujours","SPIN : Situation &#8594; Problème &#8594; Implication &#8594; Need","Démo ciblée = démo courte = démo efficace","Closing = next step concret, pas 'Je vous envoie une proposition'"]},
         ],
         "service": [
             {"title":"Script appel découverte","type":"discovery","content":"Bonjour [Prénom], c'est [Votre Prénom].\nMerci d'avoir pris le temps d'échanger.\n\nAvant de parler de moi, j'aimerais comprendre où vous en êtes.\n\n'Pouvez-vous me décrire votre situation actuelle en matière de [domaine] ?'\n[Écoute]\n\n'Qu'est-ce qui vous a poussé à chercher de l'aide maintenant ?'\n[Écoute  --  noter le déclencheur]\n\n'Si on résolvait ce problème ensemble, à quoi ressemblerait une situation idéale pour vous dans 6 mois ?'\n[Écoute  --  noter la vision]\n\nProposition :\n'Basé sur ce que vous m'avez dit, voici comment je pourrais vous aider : [offre en 3 lignes].'\n\n'Est-ce que ça vous semble correspondre à ce que vous cherchez ?'","keyPoints":["Écouter 80% du temps  --  parler 20%","Identifier le déclencheur d'achat","Faire visualiser l'état désiré avant de pitcher","Offre courte et personnalisée en fin d'appel"]},
@@ -2837,7 +2884,7 @@ def gen_prix_psychologiques(monthly_budget: float, activity: str) -> list:
         {
             "nom": "Essai gratuit puis prix",
             "description": "L'engagement progressif augmente la conversion  --  l'utilisateur s'est déjà approprié le produit",
-            "exemple": f"14 jours gratuits sans CB → {ref_price}€/mois  --  réduction du risque perçu = +40% de conversion",
+            "exemple": f"14 jours gratuits sans CB &#8594; {ref_price}€/mois  --  réduction du risque perçu = +40% de conversion",
             "impact": "Très élevé",
         },
     ]
@@ -3003,8 +3050,8 @@ def gen_content_strategy(activity: str, goal: str, monthly_budget: float) -> dic
 def gen_pricing_strategy(activity: str, monthly_budget: float, maturity: str) -> dict:
     """Stratégie pricing complète  --  modèles, psychologie, positionnement."""
     _MODELS = {
-        "ecommerce": ["Prix psychologique (9,99€)", "Bundle (lot de 3 = -20%)", "Prix d'ancrage (barré → prix promo)", "Freemium (échantillon → achat)", "Prix dynamique selon stock"],
-        "saas": ["Freemium → Paid", "Par usage (pay-as-you-go)", "Par siège (per seat)", "Flat rate annuel", "Enterprise (sur devis)"],
+        "ecommerce": ["Prix psychologique (9,99€)", "Bundle (lot de 3 = -20%)", "Prix d'ancrage (barré &#8594; prix promo)", "Freemium (échantillon &#8594; achat)", "Prix dynamique selon stock"],
+        "saas": ["Freemium &#8594; Paid", "Par usage (pay-as-you-go)", "Par siège (per seat)", "Flat rate annuel", "Enterprise (sur devis)"],
         "service": ["Taux journalier moyen (TJM)", "Forfait mission", "Abonnement mensuel (rétainer)", "Prix à la performance", "Pack découverte (starter)"],
         "consulting": ["Projet clé en main", "TJM + frais", "Rétainer mensuel", "Revenue share", "Formations packagées"],
         "content": ["Abonnement payant (newsletter premium)", "Sponsoring", "Formations en ligne", "Produits dérivés", "Affiliation"],
@@ -3014,7 +3061,7 @@ def gen_pricing_strategy(activity: str, monthly_budget: float, maturity: str) ->
         "ecommerce": ["Proposer 3 offres (Basic/Standard/Premium)", "Standard = 60% du CA visé", "Premium = 2.5× le prix Standard"],
         "saas": ["3 tiers prix (Free/Pro/Business)", "Mettre en avant le plan du milieu", "Prix annuel avec remise 20%"],
         "service": ["Pack Starter + Pack Complet + Sur-mesure", "Le Complet doit être le + rentable", "Afficher valeur hourly dans le forfait"],
-        "other": ["Entrée de gamme → ancre basse", "Offre principale bien mise en avant", "Premium pour 10% clients haute valeur"],
+        "other": ["Entrée de gamme &#8594; ancre basse", "Offre principale bien mise en avant", "Premium pour 10% clients haute valeur"],
     }
     base_price = {"ecommerce": 49, "saas": 79, "service": 1200, "consulting": 1800, "content": 29, "other": 199}.get(activity, 199)
     multiplier = {"idea": 0.7, "inprogress": 0.9, "launched": 1.1}.get(maturity, 1.0)
@@ -3131,11 +3178,11 @@ def gen_competitive_intelligence(activity: str, goal: str) -> dict:
             {"axe": "Offre produit", "methode": "Inscription newsletters concurrents", "outils": ["Email perso dédié", "Swipe file"]},
         ],
         "signaux_opportunite": [
-            "Concurrent lève des fonds → accélérer son acquisition",
-            "Concurrent reçoit des avis négatifs → gap à exploiter",
-            "Concurrent augmente ses prix → communiquer sur votre tarif",
-            "Concurrent quitte un segment → s'y positionner",
-            "Concurrent recrute beaucoup → il va s'étendre",
+            "Concurrent lève des fonds &#8594; accélérer son acquisition",
+            "Concurrent reçoit des avis négatifs &#8594; gap à exploiter",
+            "Concurrent augmente ses prix &#8594; communiquer sur votre tarif",
+            "Concurrent quitte un segment &#8594; s'y positionner",
+            "Concurrent recrute beaucoup &#8594; il va s'étendre",
         ],
         "cadence": {"quotidien": "Alertes Google (5 min)", "hebdo": "Analyse SEO + social (30 min)", "mensuel": "Rapport pricing + offre complet (2h)"},
     }
@@ -4118,7 +4165,7 @@ with st.sidebar:
         if st.button("Deconnexion", use_container_width=True, key="btn_logout_sb"):
             logout()
             st.rerun()
-    st.markdown("<hr style='border-color:#C6ECD9;margin:4px 0 8px'>", unsafe_allow_html=True)
+    st.markdown("<hr style='border-color:#267371;margin:4px 0 8px'>", unsafe_allow_html=True)
 
     # ── WIZARD PROGRESS dynamique ────────────────────────────────────────────
     _proj_name_val = st.session_state.get("_proj_name", "")
@@ -4450,8 +4497,8 @@ if not st.session_state.get("_run", False):
       <div style="background:rgba(255,255,255,.08);border-radius:10px;padding:12px;border:1px solid rgba(68,193,186,.3)">
         <div style="font-size:.80rem;color:#44C1BA;font-weight:700;text-transform:uppercase;margin-bottom:6px">SWOT Généré</div>
         <div style="font-size:.84rem;color:rgba(255,255,255,.85);line-height:1.6">
-          ✅ Vente 24h/24 sans contrainte géo<br>
-          ✅ Marges optimisées sans intermédiaire<br>
+          <span style="color:#1D6060;font-weight:900;font-size:1rem">&#10003;</span>&nbsp; Vente 24h/24 sans contrainte géo<br>
+          <span style="color:#1D6060;font-weight:900;font-size:1rem">&#10003;</span>&nbsp; Marges optimisées sans intermédiaire<br>
           ⚠️ CAC élevé  --  optimiser Google Ads<br>
           TikTok Shop  --  croissance +340%
         </div>
@@ -4469,19 +4516,19 @@ if not st.session_state.get("_run", False):
     <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px">
       <div style="background:rgba(255,255,255,.07);border-radius:8px;padding:9px;text-align:center">
         <div style="font-size:1.1rem;font-weight:900;color:#44C1BA">11</div>
-        <div style="font-size:.80rem;color:rgba(255,255,255,.55)">modules</div>
+        <div style="font-size:.80rem;color:rgba(255,255,255,.92)">modules</div>
       </div>
       <div style="background:rgba(255,255,255,.07);border-radius:8px;padding:9px;text-align:center">
         <div style="font-size:1.1rem;font-weight:900;color:#44C1BA">5</div>
-        <div style="font-size:.80rem;color:rgba(255,255,255,.55)">personas</div>
+        <div style="font-size:.80rem;color:rgba(255,255,255,.92)">personas</div>
       </div>
       <div style="background:rgba(255,255,255,.07);border-radius:8px;padding:9px;text-align:center">
         <div style="font-size:1.1rem;font-weight:900;color:#44C1BA">180j</div>
-        <div style="font-size:.80rem;color:rgba(255,255,255,.55)">roadmap</div>
+        <div style="font-size:.80rem;color:rgba(255,255,255,.92)">roadmap</div>
       </div>
       <div style="background:rgba(255,255,255,.07);border-radius:8px;padding:9px;text-align:center">
         <div style="font-size:1.1rem;font-weight:900;color:#44C1BA">JSON</div>
-        <div style="font-size:.80rem;color:rgba(255,255,255,.55)">export</div>
+        <div style="font-size:.80rem;color:rgba(255,255,255,.92)">export</div>
       </div>
     </div>
   </div>
@@ -4502,9 +4549,9 @@ if not st.session_state.get("_run", False):
     Configure ton activité dans la barre latérale &larr; puis clique sur <b>Generer mon plan strategique</b>
   </div>
   <div style="display:flex;align-items:center;justify-content:center;gap:20px;flex-wrap:wrap;margin-bottom:16px">
-    <div style="font-size:.82rem;color:#267371;font-weight:700">✅ Gratuit · sans inscription</div>
-    <div style="font-size:.82rem;color:#267371;font-weight:700">✅ Résultat en &lt; 10 min</div>
-    <div style="font-size:.82rem;color:#267371;font-weight:700">✅ Aucune carte bancaire</div>
+    <div style="font-size:.82rem;color:#267371;font-weight:700"><span style="color:#1D6060;font-weight:900;font-size:1rem">&#10003;</span>&nbsp; Gratuit · sans inscription</div>
+    <div style="font-size:.82rem;color:#267371;font-weight:700"><span style="color:#1D6060;font-weight:900;font-size:1rem">&#10003;</span>&nbsp; Résultat en &lt; 10 min</div>
+    <div style="font-size:.82rem;color:#267371;font-weight:700"><span style="color:#1D6060;font-weight:900;font-size:1rem">&#10003;</span>&nbsp; Aucune carte bancaire</div>
   </div>
   <div style="font-size:2rem;animation:floatY 2s ease-in-out infinite;display:inline-block">👈</div>
   <div style="font-size:.8rem;color:#339999;margin-top:6px;font-weight:600">Commence par choisir ton type d'activité dans la barre de gauche</div>
@@ -4525,7 +4572,7 @@ if not st.session_state.get("_run", False):
     <div style="font-size:.82rem;color:#339999">SONCAS · Personas · AIDA</div>
   </div>
   <div class="ben-card" style="padding:14px 12px">
-    <div style="font-size:1.2rem;margin-bottom:5px">📈</div>
+    <div style="font-size:1.2rem;margin-bottom:5px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3DBDB6" stroke-width="2"><polyline points="22,7 13.5,15.5 8.5,10.5 2,17"/><polyline points="16,7 22,7 22,13"/></svg></div>
     <div style="font-weight:700;font-size:.8rem;color:#0B2221;margin-bottom:3px">Marketing digital</div>
     <div style="font-size:.82rem;color:#339999">SEO · GEO 2025 · Ads</div>
   </div>
@@ -5053,7 +5100,7 @@ with tabs[0]:
         with st.expander(f"**{dim}** ({len(items)} facteur{'s'if len(items)>1 else ''})"):
             for facteur, impact, note in items:
                 st.markdown(f'<span class="{impact_cls.get(impact,"dot-neu")}"></span>**{facteur}** `{impact}`', unsafe_allow_html=True)
-                st.caption(f"→ {note}")
+                st.caption(f"&#8594; {note}")
                 st.divider()
 
     # MICRO-ENV
@@ -5151,7 +5198,7 @@ with tabs[1]:
                 st.markdown("**Canaux favoris**")
                 st.markdown(" ".join(f'<span class="badge badge-teal">{c}</span>'for c in p["channels"]), unsafe_allow_html=True)
                 st.markdown("<br>**Déclencheurs d'achat**", unsafe_allow_html=True)
-                for t in p["triggers"]: st.markdown(f"→ {t}")
+                for t in p["triggers"]: st.markdown(f"&#8594; {t}")
                 if p.get("habits"):
                     st.markdown("**Habitudes**")
                     for h in p["habits"]: st.markdown(f"• {h}")
@@ -5210,7 +5257,7 @@ with tabs[1]:
     for _rseg in _rfm_segments:
         with st.expander(f"**{_rseg['nom']}**  --  actions recommandées"):
             for _ract in _rseg["actions"]:
-                st.markdown(f"→ {_html.escape(_ract)}")
+                st.markdown(f"&#8594; {_html.escape(_ract)}")
 
 # ══════════════════════════════════════════════════════════════════════════════
 # TAB 3  --  COPYWRITING
@@ -5239,7 +5286,7 @@ with tabs[2]:
                 <p style='font-style:italic;font-size:.85rem;color:#267371;margin:4px 0'>"{content['e']}"</p>
               </div>
               <small style='color:#339999;font-weight:600'>FORMULES :</small>
-              {"".join(f"<p style='font-size:.8rem;color:#267371;margin:2px 0'>→ {f}</p>" for f in content['f'])}
+              {"".join(f"<p style='font-size:.8rem;color:#267371;margin:2px 0'>&#8594; {f}</p>" for f in content['f'])}
               <div style='background:rgba(255,255,255,.5);border-radius:8px;padding:8px;margin-top:8px'>
                 <small style='color:#339999'> {content['c']}</small>
               </div>
@@ -5288,7 +5335,7 @@ with tabs[3]:
     # SPIN
     if not run: st.markdown('<div class="bizi-prompt" style="background:rgba(68,193,186,.06);border-radius:10px;padding:16px;text-align:center;border:1.5px dashed rgba(68,193,186,.3);color:#267371"><b>Lancez votre analyse</b> pour voir <b>Vente & closing</b>.</div>', unsafe_allow_html=True)
     st.markdown('<div class="section-h">SPIN Selling  --  Questions stratégiques</div>', unsafe_allow_html=True)
-    st.caption("Méthodologie SPIN : Situation → Problème → Implication → Need-payoff. La plus efficace en B2B complexe.")
+    st.caption("Méthodologie SPIN : Situation &#8594; Problème &#8594; Implication &#8594; Need-payoff. La plus efficace en B2B complexe.")
     spin_tabs = st.tabs(["Situation","Problème","Implication","Need-payoff"])
     spin_keys = [("situation","Établir le contexte sans interroger  --  montrez que vous avez fait vos recherches"),
                  ("probleme","Identifier les douleurs précises  --  ne proposez pas de solution encore"),
@@ -5298,7 +5345,7 @@ with tabs[3]:
         with spin_tab:
             st.caption(f"{hint}")
             for q in spin_data.get(sk, []):
-                st.markdown(f"→ {q}")
+                st.markdown(f"&#8594; {q}")
 
     # Challenger
     st.markdown('<div class="section-h">Challenger Sale  --  Vendre par la conviction</div>', unsafe_allow_html=True)
@@ -5335,7 +5382,7 @@ with tabs[3]:
         st.markdown(f"• {_html.escape(_nc)}")
     st.markdown("**Tactiques de négociation :**")
     for _nt in _nego["tactiques"]:
-        st.markdown(f"→ {_html.escape(_nt)}")
+        st.markdown(f"&#8594; {_html.escape(_nt)}")
     st.markdown("**Objections prix & réponses :**")
     for _obj, _rep in _nego["objections_prix"]:
         with st.expander(f'*"{_html.escape(_obj)}"*'):
@@ -5497,7 +5544,7 @@ with tabs[5]:
             st.markdown(f"*{strat['tactic']}*")
             st.markdown("**Actions concrètes :**")
             for ex in strat["examples"]:
-                st.markdown(f"→ {ex}")
+                st.markdown(f"&#8594; {ex}")
 
     # ROI Projection
     st.markdown('<div class="section-h">Projection ROI  --  12 mois</div>', unsafe_allow_html=True)
@@ -5630,7 +5677,7 @@ with tabs[6]:
     for pilier, clusters in geo["clusters"]:
         with st.expander(f"**Pilier : {pilier}**"):
             for cl in clusters:
-                st.markdown(f"&nbsp;&nbsp;&nbsp;→ {cl}")
+                st.markdown(f"&nbsp;&nbsp;&nbsp;&#8594; {cl}")
 
     # GEO optimizations
     st.markdown('<div class="section-h">Optimisations GEO prioritaires</div>', unsafe_allow_html=True)
@@ -5957,11 +6004,11 @@ with tabs[9]:
             <div class="card-dark">
               <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap">
                 <div style="flex:1;min-width:0">
-                  <div style="font-size:.80rem;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.07em;margin-bottom:5px">{_html.escape(_target.replace('https://','').replace('http://','').split('/')[0][:60])}</div>
+                  <div style="font-size:.80rem;color:rgba(255,255,255,.90);text-transform:uppercase;letter-spacing:.07em;margin-bottom:5px">{_html.escape(_target.replace('https://','').replace('http://','').split('/')[0][:60])}</div>
                   <div style="font-size:1.1rem;font-weight:700;color:white;margin-bottom:6px;line-height:1.3">{_html.escape(str(_ld.get('title','—'))[:120])}</div>
-                  <div style="font-size:.82rem;color:rgba(255,255,255,.65);line-height:1.5">{_html.escape(str(_ld.get('description',''))[:260])}</div>
+                  <div style="font-size:.82rem;color:rgba(255,255,255,.95);line-height:1.5">{_html.escape(str(_ld.get('description',''))[:260])}</div>
                 </div>
-                <div style="text-align:right;font-size:.80rem;color:rgba(255,255,255,.35);line-height:1.7;flex-shrink:0">
+                <div style="text-align:right;font-size:.80rem;color:rgba(255,255,255,.88);line-height:1.7;flex-shrink:0">
                   Source : {_lsrc}<br>{_ld.get('fetched_at','')}
                 </div>
               </div>
@@ -6262,7 +6309,7 @@ with tabs[11]:
 <div class="ben-card" style="border-left:4px solid {_acolor}{'!important;background:#F7FBF4' if _is_reco else ''}">
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
     <div style="font-weight:800;font-size:.92rem;color:#0B2221">{_alabel}</div>
-    {"<span style='background:#44C1BA;color:white;border-radius:50px;padding:2px 10px;font-size:.80rem;font-weight:700'>✅ RECOMMANDÉ</span>" if _is_reco else ""}
+    {"<span style='background:#44C1BA;color:white;border-radius:50px;padding:2px 10px;font-size:.80rem;font-weight:700'><span style="color:#1D6060;font-weight:900;font-size:1rem">&#10003;</span>&nbsp; RECOMMANDÉ</span>" if _is_reco else ""}
   </div>
   <div style="font-size:.82rem;color:#339999;margin-bottom:10px">{_adesc} · Risque : {_arisk}</div>
   <div class="gauge-wrap">
@@ -6762,7 +6809,7 @@ with tabs[15]:
     else:
         st.markdown("""
 <div style="background:rgba(68,193,186,.06);border-radius:12px;padding:24px;text-align:center;border:1.5px dashed rgba(68,193,186,.3)">
-<div style="font-size:1.4rem;margin-bottom:10px">🚀</div>
+<div style="font-size:1.4rem;margin-bottom:10px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3DBDB6" stroke-width="2"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2z"/><path d="M12 8v4l3 3" stroke-linecap="round"/></svg></div>
 <b style="color:#0B2221">Nouveau projet</b><br>
 <span style="color:#339999;font-size:.84rem">Ce module est en cours de chargement. Rafraichissez la page si necessaire.</span>
 </div>""", unsafe_allow_html=True)
@@ -6780,7 +6827,7 @@ with tabs[16]:
     else:
         st.markdown("""
 <div style="background:rgba(68,193,186,.06);border-radius:12px;padding:24px;text-align:center;border:1.5px dashed rgba(68,193,186,.3)">
-<div style="font-size:1.4rem;margin-bottom:10px">📚</div>
+<div style="font-size:1.4rem;margin-bottom:10px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3DBDB6" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg></div>
 <b style="color:#0B2221">Ressources</b><br>
 <span style="color:#339999;font-size:.84rem">Guides, templates et outils pour aller plus loin.</span>
 </div>""", unsafe_allow_html=True)
