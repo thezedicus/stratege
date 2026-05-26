@@ -3923,6 +3923,28 @@ _MESSAGE_TEMPLATES = [
      "body":"Bonjour [Prénom],\n\nMerci pour notre échange.\n\nJ'ai finalisé votre analyse avec :\n Les 3 actions prioritaires\n L'estimation ROI sur 6 mois\n La feuille de route semaine par semaine\n\nQuestion directe : qu'est-ce qui vous retient de passer à l'étape suivante ?\n\n[Votre nom]"},
 ]
 
+
+# ── Données sectorielles statiques (niveau module) ────────────────────────────
+_SECTOR_STATIC = {
+    "ecommerce": {"label":"E-commerce","croissance_2024":"+12.4%","marche_fr_2024":"159 Md EUR",
+                  "benchmarks":{"taux_conversion":"2.1%","panier_moyen":"85 EUR","cac":"18 EUR"},
+                  "top_canaux":["SEO","Meta Ads","Email","Marketplace"]},
+    "saas":      {"label":"SaaS / Tech","croissance_2024":"+18.7%","marche_fr_2024":"12.4 Md EUR",
+                  "benchmarks":{"churn":"5%/mois","ltv_cac":"3.2x","arr_growth":"+35%"},
+                  "top_canaux":["LinkedIn","SEO","Product Hunt","Content"]},
+    "service":   {"label":"Services","croissance_2024":"+4.2%","marche_fr_2024":"280 Md EUR",
+                  "benchmarks":{"taux_closing":"28%","cycle_vente":"21j","retention":"72%"},
+                  "top_canaux":["Bouche-a-oreille","LinkedIn","SEO local"]},
+    "consulting":{"label":"Conseil","croissance_2024":"+6.8%","marche_fr_2024":"18.3 Md EUR",
+                  "benchmarks":{"taux_occupation":"68%","marge":"45%"},
+                  "top_canaux":["Reseau","LinkedIn","Conferences"]},
+    "content":   {"label":"Contenu / Medias","croissance_2024":"+22.1%","marche_fr_2024":"4.1 Md EUR",
+                  "benchmarks":{"engagement_rate":"3.8%","cpm":"4.2 EUR"},
+                  "top_canaux":["Instagram","YouTube","TikTok","Newsletter"]},
+    "other":     {"label":"Autre secteur","croissance_2024":"+3.1%","marche_fr_2024":"N/A",
+                  "benchmarks":{},"top_canaux":["SEO","Social Media","Email"]},
+}
+
 LABELS = {
     "ecommerce":"E-commerce","saas":"SaaS","service":"Service","consulting":"Conseil",
     "content":"Créateur de contenu","other":"Autre",
@@ -4029,15 +4051,24 @@ with st.sidebar:
             st.rerun()
     st.markdown("<hr style='border-color:#C6ECD9;margin:4px 0 8px'>", unsafe_allow_html=True)
 
-    # ── WIZARD PROGRESS ──────────────────────────────────────────────────────
-    st.markdown("""
-    <div style="margin-bottom:12px">
-      <div style="display:flex;justify-content:space-between;font-size:.7rem;color:#339999;margin-bottom:4px">
-        <span>Étape 1 sur 5 — Contexte</span><span>0%</span>
-      </div>
-      <div class="progress-bar"><div class="progress-fill" style="width:25%"></div></div>
-    </div>
-    """, unsafe_allow_html=True)
+    # ── WIZARD PROGRESS dynamique ────────────────────────────────────────────
+    _proj_name_val = st.session_state.get("_proj_name", "")
+    _sidebar_step  = st.session_state.get("_sidebar_step", 1)
+    _pct_map = {1: 20, 2: 40, 3: 60, 4: 80, 5: 100}
+    _pct = _pct_map.get(_sidebar_step, 20)
+    st.markdown(f"""
+<div style="margin-bottom:10px">
+  <div style="display:flex;justify-content:space-between;font-size:.68rem;color:#339999;margin-bottom:4px;font-weight:600">
+    <span>Etape {_sidebar_step} sur 5</span><span>{_pct}%</span>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" style="width:{_pct}%"></div></div>
+</div>""", unsafe_allow_html=True)
+
+    _proj_name = st.text_input("Nom du projet / entreprise",
+        value=_proj_name_val, placeholder="Ex: MonShop, Agence XY...",
+        key="_proj_name_input")
+    if _proj_name:
+        st.session_state["_proj_name"] = _proj_name
 
     st.markdown('<div class="step-label"><span class="step-num">1</span>Activité</div>', unsafe_allow_html=True)
     activity = st.selectbox(
@@ -4088,7 +4119,15 @@ with st.sidebar:
     st.caption("Un par ligne  --  alimente le flux d'actualités")
     _vkw = st.text_area("Mots-clés", placeholder="intelligence artificielle\nautomation\nstartup", height=80, label_visibility="collapsed", key="sb_vkw")
     veille_keywords = [k.strip() for k in _vkw.strip().split("\n") if k.strip()]
-    veille_lang = st.selectbox("Langue actualités", ["fr", "en", "es", "de"], index=0, key="sb_vlang")
+    veille_lang = st.selectbox("Langue actualites", ["fr", "en", "es", "de"], index=0, key="sb_vlang")
+
+    st.divider()
+    st.markdown('<div class="step-label">Objectifs chiffres</div>', unsafe_allow_html=True)
+    ca_cible = st.number_input("CA cible 12 mois (EUR)", min_value=0, max_value=10_000_000,
+        value=st.session_state.get("_ca_cible", 50_000), step=5_000, key="sb_ca_cible",
+        label_visibility="collapsed")
+    st.session_state["_ca_cible"] = ca_cible
+    st.caption(f"Objectif : {ca_cible:,} EUR — ROI cible : {int(ca_cible/max(monthly_budget*12,1)*100)}%")
 
     st.divider()
     _col_a, _col_b = st.columns([3, 1])
