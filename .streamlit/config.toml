@@ -1,23 +1,28 @@
 [server]
 headless = true
 enableCORS = false
-enableXsrfProtection = true
+enableXsrfProtection = false
 maxUploadSize = 5
+fileWatcherType = "none"
 
 [browser]
 gatherUsageStats = false
+serverAddress = "0.0.0.0"
 
 [client]
 showSidebarNavigation = false
+showErrorDetails = false
+toolbarMode = "minimal"
 
 [theme]
 base = "light"
-primaryColor = "#44C1BA"
-backgroundColor = "#F7FBF4"
-secondaryBackgroundColor = "#C6ECD9"
+primaryColor = "#3DBDB6"
+backgroundColor = "#FAFCFB"
+secondaryBackgroundColor = "#F0F8F5"
 textColor = "#0B2221"
 font = "sans serif"
 
 [runner]
 fastReruns = true
 magicEnabled = false
+enumCoercingBehavior = "off"
