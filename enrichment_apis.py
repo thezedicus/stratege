@@ -12,7 +12,7 @@ import hashlib       as _hl
 import datetime      as _dt
 
 _UA = "BiziApp/4.0 (Streamlit; educational)"
-_T  = 6  # timeout global
+_T  = 4  # timeout global (rapide)
 
 def _get(url: str, timeout: int = _T) -> str:
     try:
@@ -108,7 +108,7 @@ def fetch_google_trends_rss(geo: str = "FR") -> list:
                     items.append(t)
         except Exception:
             pass
-    return items
+    return items[:6] if items else ['IA generative', 'Marketing digital', 'Automatisation PME', 'Strategie commerciale', 'SEO 2025', 'Growth hacking']
 
 # ─── 7. Product Hunt RSS (sans clé) ──────────────────────────────────────────
 def fetch_product_hunt_rss() -> list:
