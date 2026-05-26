@@ -17,10 +17,9 @@ import streamlit as st
 import math
 import unicodedata
 import time
-
 st.set_page_config(
-    page_title="BiziApp  --  Plan Stratégique Complet en 10 Minutes | Expert Commercial IA",
-    page_icon="",
+    page_title="BiziApp — Lancez votre activite avec un plan clair en 10 minutes | Gratuit",
+    page_icon="📊",
     layout="wide",
     initial_sidebar_state="expanded",
     menu_items={
