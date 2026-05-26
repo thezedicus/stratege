@@ -826,7 +826,7 @@ def _show_auth_page():
     st.markdown("""
 <div class="auth-footer" style="margin-top:24px;padding:16px;background:#F7FBF4;border-radius:12px;
   border:1px solid #C6ECD9;font-size:.69rem;color:#339999;line-height:1.7">
-  🔒 <b>Vos données sont protégées</b>  --  BiziApp respecte le RGPD.<br>
+   <b>Vos données sont protégées</b>  --  BiziApp respecte le RGPD.<br>
   Données minimales collectées · Chiffrement AES-256 · Droit à l'effacement sur demande.<br>
   <a href="#" style="color:#44C1BA">Politique de confidentialité</a> · 
   <a href="#" style="color:#44C1BA">Mentions légales</a> · 
@@ -940,7 +940,7 @@ def _show_register_form():
     # Consentements RGPD (obligatoire légalement)
     st.markdown("""
 <div class="rgpd-box">
-  🔒 <b>Vos droits RGPD</b>  --  BiziApp collecte uniquement les données nécessaires au service.
+   <b>Vos droits RGPD</b>  --  BiziApp collecte uniquement les données nécessaires au service.
   Vous pouvez demander la suppression de votre compte à tout moment. Données hébergées en France.
 </div>
 """, unsafe_allow_html=True)
@@ -4168,8 +4168,7 @@ with st.sidebar:
   border:1px solid rgba(68,193,186,.15);font-size:.68rem;color:#339999;text-align:center">
   Personnalisation <b style="color:#44C1BA">{_pers_pct}%</b> · Données live · Cache intelligent
 </div>""", unsafe_allow_html=True)
-    if _HAS_BS4 and website_url:
-        st.caption("Lecture du site activée")
+    # Analyse URL activee si website_url fourni
 
 
 # ═════════════════════════════════════════════════════════════════════════════
@@ -4221,17 +4220,7 @@ st.markdown('''
 if not st.session_state.get("_run", False):
 
     # ── Live ticker INSEE/data.gouv ────────────────────────────────────────────
-    @st.cache_data(ttl=7200)
-    def _get_ticker_data():
-        try:
-            import urllib.request as _ur, json as _j
-            url = "https://recherche-entreprises.api.gouv.fr/search?q=&activite_principale=62&per_page=5"
-            req = _ur.Request(url, headers={"User-Agent": "BiziApp/3.0"})
-            with _ur.urlopen(req, timeout=4) as r:
-                data = _j.loads(r.read())
-            return [e.get("nom_complet", "")[:28] for e in data.get("results", [])[:5] if e.get("nom_complet")]
-        except Exception:
-            return []
+    # _get_ticker_data supprimée (API externe remplacée par données statiques)
 
     _ticker_base = [
         "847 000 entreprises creees en France en 2024 -- BiziApp aide les dirigeants a se structurer des le 1er jour",
@@ -4245,8 +4234,8 @@ if not st.session_state.get("_run", False):
         "Alternative a BPI France Coach, LivePlan, Enloop -- en francais, gratuit, sans inscription",
         "Chaque semaine sans strategie claire = des clients perdus. Agissez maintenant.",
     ]
-    _ticker_live = _get_ticker_data()
-    _all_tickers = (_ticker_base + ["Nouveau: " + t for t in _ticker_live]) * 2
+    _ticker_live = []  # API INSEE desactivee pour perf demarrage < 3s
+    _all_tickers = _ticker_base * 2
     _ticker_html = "".join(
         '<span class="ticker-item"><span class="ticker-dot"></span>' + item + '</span>'
         for item in _all_tickers
@@ -4395,9 +4384,9 @@ if not st.session_state.get("_run", False):
       <div style="background:rgba(255,255,255,.08);border-radius:10px;padding:12px;border:1px solid rgba(68,193,186,.3)">
         <div style="font-size:.68rem;color:#44C1BA;font-weight:700;text-transform:uppercase;margin-bottom:6px">Roadmap 90 jours</div>
         <div style="font-size:.76rem;color:rgba(255,255,255,.85);line-height:1.6">
-          📅 J1–J30 : SEO technique + 3 personas<br>
-          📅 J31–J60 : Campagne Meta 80€/mois<br>
-          📅 J61–J90 : Email auto + retargeting<br>
+           J1–J30 : SEO technique + 3 personas<br>
+           J31–J60 : Campagne Meta 80€/mois<br>
+           J61–J90 : Email auto + retargeting<br>
           ROI estimé : +180% trafic organique
         </div>
       </div>
@@ -4736,7 +4725,12 @@ if website_url:
     _site_key = f"site_{hash(website_url)}"
     if _site_key not in st.session_state:
         try:
-            site_data = scrape_site(website_url)
+            site_data = {}
+            if website_url and _HAS_API_LAYER:
+                try:
+                    site_data = _read_url_live(website_url) or {}
+                except Exception:
+                    site_data = {}
             st.session_state["_site_data_cache"] = site_data
             st.session_state[_site_key] = True
         except Exception:
