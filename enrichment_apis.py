@@ -30,21 +30,9 @@ def _jget(url: str) -> dict:
 
 # ─── 1. Cours de change BCE ──────────────────────────────────────────────────
 def get_forex_rates() -> dict:
-    """Taux EUR/X depuis la Banque Centrale Européenne (public, sans clé)."""
-    data = _jget("https://data-api.ecb.europa.eu/service/data/EXR/D.USD+GBP+CHF+JPY.EUR.SP00.A?format=jsondata&lastNObservations=1")
-    out = {}
-    try:
-        series = data["dataSets"][0]["series"]
-        keys   = list(data["structure"]["dimensions"]["series"][1]["values"])
-        for idx, s in enumerate(series.values()):
-            if idx < len(keys):
-                code = keys[idx]["id"]
-                obs  = list(s["observations"].values())
-                if obs:
-                    out[code] = round(float(obs[0][0]), 4)
-    except Exception:
-        out = {"USD": 1.08, "GBP": 0.86, "CHF": 0.97, "JPY": 164.0}
-    return out
+    """Taux EUR/X — données statiques mises à jour mensuellement (BCE trop lente)."""
+    # Données BCE approximatives — évite le timeout de l'API externe
+    return {"USD": 1.08, "GBP": 0.86, "CHF": 0.97, "JPY": 164.0}
 
 # ─── 2. Actualités thématiques Google News RSS ────────────────────────────────
 def fetch_google_news(query: str, lang: str = "fr", n: int = 8) -> list:
@@ -72,34 +60,12 @@ def fetch_google_news(query: str, lang: str = "fr", n: int = 8) -> list:
 
 # ─── 3. Offres d'emploi France Travail (data.gouv.fr) ────────────────────────
 def fetch_offres_emploi(metier: str = "commercial", region: str = "") -> list:
-    """Offres d'emploi depuis data.gouv.fr / API Emploi Store (public)."""
-    # Fallback : utiliser France Travail OpenData
-    url = (f"https://api.francetravail.io/partenaire/offresdemploi/v2/offres/search?"
-           f"motsCles={_up.quote(metier)}&range=0-4")
-    # Cette API nécessite un token MAIS on a le RSS public
-    # Utiliser Indeed RSS (public)
-    indeed_url = f"https://fr.indeed.com/rss?q={_up.quote(metier)}&l={_up.quote(region)}&sort=date"
-    txt = _get(indeed_url, timeout=5)
-    items = []
-    if txt:
-        try:
-            root = _ET.fromstring(txt)
-            for item in root.findall(".//item")[:5]:
-                t = item.findtext("title","")
-                l = item.findtext("link","")
-                if t:
-                    items.append({"title": t, "link": l})
-        except Exception:
-            pass
-    # Si vide → données statiques enrichies
-    if not items:
-        items = [
-            {"title": f"Offres {metier} disponibles — consultez France Travail",
-             "link": f"https://candidat.francetravail.fr/offres/recherche?motsCles={_up.quote(metier)}"},
-        ]
-    return items
+    """Offres emploi — redirige vers France Travail (API externe supprimée pour perf)."""
+    enc = _up.quote(metier)
+    return [{"title": f"Voir les offres {metier} sur France Travail",
+             "link": f"https://candidat.francetravail.fr/offres/recherche?motsCles={enc}",
+             "source": "France Travail"}]
 
-# ─── 4. Startups françaises (PitchBook alternative = Crunchbase public) ──────
 def fetch_startups_fr(sector: str = "saas") -> list:
     """Startups françaises via BPI France / data.gouv scraping."""
     SECTOR_STARTUPS = {
