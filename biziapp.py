@@ -1095,7 +1095,7 @@ def _show_register_form():
     st.markdown("""
 <div style="display:flex;justify-content:center;gap:16px;margin-top:12px;flex-wrap:wrap">
   🔒 Sans carte bancaire
-  <span style="font-size:.80rem;color:#339999;font-weight:600">&#10003;&nbsp; Résiliation en 1 clic</span>
+  &#10003;&nbsp; Résiliation en 1 clic
   🇫🇷 Données en France
 </div>
 """, unsafe_allow_html=True)
