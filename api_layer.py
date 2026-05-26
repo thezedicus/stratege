@@ -709,52 +709,63 @@ def get_funding_news_fr():
 
 
 def check_site_seo(url):
-    data = read_url(url) if url else {}
-    if not data or data.get("error"):
-        return {"error": "URL inaccessible", "score": 0}
-    score = 0
-    issues = []
-    tips = []
-    title = data.get("title","")
-    desc = data.get("description","")
-    h1s = data.get("h1",[])
-    wc = data.get("word_count",0)
-    if 50 <= len(title) <= 70:
-        score += 20
-    elif title:
-        score += 10
-        issues.append(f"Title {len(title)} chars (ideal 50-70)")
-    else:
-        issues.append("Title manquant")
-    if 120 <= len(desc) <= 160:
-        score += 20
-    elif desc:
-        score += 10
-        issues.append(f"Meta desc {len(desc)} chars")
-    else:
-        issues.append("Meta description absente")
-    if len(h1s) == 1:
-        score += 20
-        tips.append(f"H1 ok : {h1s[0][:40]}")
-    elif len(h1s) > 1:
-        score += 10
-        issues.append(f"{len(h1s)} H1 (viser 1)")
-    else:
-        issues.append("H1 manquant")
-    if data.get("has_ssl"):
-        score += 15
-    else:
-        issues.append("Pas de HTTPS")
-    if wc >= 500:
-        score += 15
-    elif wc >= 200:
-        score += 8
-        issues.append(f"Contenu court ({wc} mots)")
-    if data.get("links_count",0) >= 5:
-        score += 10
+    """Audit SEO rapide - score sur 100."""
+    if not url or not url.startswith("http"):
+        return {"error": "URL invalide", "score": 0, "url": url}
+    score  = 15 if url.startswith("https://") else 0
+    issues = [] if url.startswith("https://") else ["Pas de HTTPS"]
+    tips   = ["HTTPS actif"] if url.startswith("https://") else []
+    title = desc = ""
+    h1s = []
+    wc = lc = 0
+    _PAT_TITLE = r"<title[^>]*>([^<]{1,80})</title>"
+    _PAT_H1    = r"<h1[^>]*>([^<]{1,80})</h1>"
+    _PAT_TAG   = r"<[^>]+"
+    try:
+        raw = _safe_get(
+            "https://api.allorigins.win/get?url=" + _up.quote(url),
+            timeout=4
+        )
+        if raw:
+            jd   = _js.loads(raw)
+            html = jd.get("contents", "") or ""
+            tm   = _re.search(_PAT_TITLE, html, _re.I)
+            title = tm.group(1).strip() if tm else ""
+            # Description sans regex complexe
+            idx_d = html.lower().find("name=\"description\"") 
+            if idx_d < 0: idx_d = html.lower().find("name='description'")
+            if idx_d >= 0:
+                idx_c = html.lower().find("content=", idx_d)
+                if idx_c >= 0:
+                    c_start = idx_c + 9
+                    q = html[c_start-1]
+                    c_end = html.find(q, c_start)
+                    desc = html[c_start:c_end][:160] if c_end > c_start else ""
+            h1s  = _re.findall(_PAT_H1, html, _re.I)[:3]
+            wc   = len(_re.sub(_PAT_TAG, " ", html).split())
+            lc   = html.lower().count("<a href")
+            if 50 <= len(title) <= 70:  score += 20
+            elif title:                  score += 10
+            else:                        issues.append("Title manquant")
+            if 120 <= len(desc) <= 160: score += 20
+            elif desc:                   score += 10
+            else:                        issues.append("Meta description absente")
+            if len(h1s) == 1:           score += 20
+            elif h1s:                    score += 10; issues.append("Plusieurs H1")
+            else:                        issues.append("H1 manquant")
+            if wc >= 500:               score += 15
+            elif wc >= 200:             score += 8
+            if lc >= 5:                 score += 10
+    except Exception:
+        issues.append("Analyse partielle")
     label = "Excellent" if score>=80 else "Bon" if score>=60 else "A ameliorer" if score>=40 else "Critique"
-    return {"score":score,"label":label,"url":url,"title_length":len(title),"desc_length":len(desc),"h1_count":len(h1s),"word_count":wc,"links_count":data.get("links_count",0),"has_ssl":data.get("has_ssl",False),"issues":issues,"tips":tips,"keywords_detected":data.get("keywords",[])[:10]}
-
+    return {
+        "score": score, "label": label, "url": url,
+        "title_length": len(title), "desc_length": len(desc),
+        "h1_count": len(h1s), "word_count": wc, "links_count": lc,
+        "has_ssl": url.startswith("https://"),
+        "issues": issues, "tips": tips, "keywords_detected": [],
+    }
 
 def fetch_competitor_data(competitor_domain):
     if not competitor_domain:
