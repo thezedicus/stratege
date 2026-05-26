@@ -4147,6 +4147,7 @@ with st.sidebar:
 _proj_name = st.session_state.get("_proj_name", "")
 _ca_cible = st.session_state.get("_ca_cible", 50_000)
 
+
     # ── Auto-refresh données live toutes les 30 min ───────────────────────────
     _now_ts = int(__import__("time").time())
     _last_refresh = st.session_state.get("_last_data_refresh", 0)
