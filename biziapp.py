@@ -979,8 +979,54 @@ _QQOQCCP_GENERIC = {
 
 
 @st.cache_data(ttl=86400, show_spinner=False)
-def gen_qqoqccp(activity: str) -> dict:
-    return copy.deepcopy(_QQOQCCP.get(activity, _QQOQCCP_GENERIC))
+def gen_qqoqccp(activity: str, goal: str = "leads", maturity: str = "launched") -> dict:
+    """QQOQCCP personnalisé par secteur, objectif et stade."""
+    base = copy.deepcopy(_QQOQCCP.get(activity, _QQOQCCP_GENERIC))
+
+    # Enrichissement contextuel selon l'objectif
+    goal_context = {
+        "leads": {
+            "qui":    "Concentrez-vous sur les prospects les plus qualifiés — ceux qui ont déjà un budget et une urgence.",
+            "quoi":   "Votre offre d'appel pour générer des leads doit promettre un résultat rapide et mesurable.",
+            "où":     "Investissez sur les 2 canaux où votre ICP passe le plus de temps pour chercher des solutions.",
+            "comment":"Créez un tunnel simple : contenu gratuit → email → appel découverte → proposition commerciale.",
+        },
+        "sales": {
+            "qui":    "Identifiez vos 3 meilleurs clients actuels et cherchez leurs doubles — ils sont votre meilleur ICP.",
+            "quoi":   "Packagez votre offre : résultat garanti + délai précis + prix fixe = décision d'achat plus facile.",
+            "comment":"Réduisez les frictions : devis en 24h, paiement en ligne, garantie satisfait ou remboursé.",
+            "combien":"Testez une augmentation de prix de 20% — si personne ne résiste, vous étiez sous-valorisé.",
+        },
+        "awareness": {
+            "qui":    "Définissez une niche très précise — il vaut mieux être connu de 500 personnes que inconnu de 50 000.",
+            "quoi":   "Votre message doit être clair en 5 secondes : ce que vous faites, pour qui, avec quel résultat.",
+            "comment":"Publiez 3x/semaine sur 1 seul canal pendant 90 jours avant de diversifier.",
+            "pourquoi":"Construisez une preuve sociale : cas clients chiffrés, témoignages vidéo, média mentions.",
+        },
+        "traffic": {
+            "qui":    "Vos visiteurs organiques sont vos clients potentiels les plus qualifiés — soignez leur expérience.",
+            "quoi":   "Créez du contenu qui répond aux questions exactes que pose votre ICP sur Google.",
+            "où":     "Google (SEO), YouTube (vidéo SEO) et Pinterest sont les 3 moteurs de trafic organique durable.",
+            "comment":"Publiez 2 articles optimisés/semaine sur des mots-clés longue traîne à fort intent commercial.",
+        },
+    }
+
+    # Injecter le contexte objectif dans chaque dimension
+    ctx = goal_context.get(goal, {})
+    for dim, advice in ctx.items():
+        if dim in base:
+            base[dim]["conseil_objectif"] = advice
+
+    # Adapter selon la maturité
+    if maturity == "idea":
+        base["qui"]["a"] = "Commencez par 10 interviews exploratoires avant de définir votre ICP — ne supposez pas, validez."
+        base["quoi"]["a"] = "Testez votre proposition de valeur avec une landing page simple et une liste d'attente avant de développer."
+    elif maturity == "inprogress":
+        base["comment"]["a"] = base["comment"].get("a","") + " — Testez 1 nouveau canal par mois et gardez uniquement ce qui fonctionne."
+    elif maturity == "launched":
+        base["qui"]["a"] = base["qui"].get("a","") + " — Analysez vos 3 meilleurs clients actuels pour identifier votre ICP réel."
+
+    return base
 
 
 # ─── PESTEL ───────────────────────────────────────────────────────────────────
