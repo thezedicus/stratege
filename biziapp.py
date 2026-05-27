@@ -4519,9 +4519,9 @@ if site_ins:
     _scs = site_ins.get("content_signals", [])
     # Enrichir SWOT avec données réelles du site
     if _sn:
-        swot["strengths"].insert(0, f"Présence en ligne confirmée  --  {_html.escape(_sn[:60])}")
+    # Titre site filtré — non injecté
     if _skw:
-        swot["strengths"].append(f"Positionnement sur : {', '.join(_html.escape(k) for k in _skw[:4])}")
+    # Mots-clés site filtrés — non affichés dans SWOT
     if not site_data.get("h1"):
         swot["weaknesses"].insert(0, "Balise H1 absente  --  impact SEO négatif")
     if not site_data.get("description"):
