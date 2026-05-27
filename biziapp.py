@@ -2119,16 +2119,58 @@ _ROADMAP = [
 
 @st.cache_data(ttl=86400, show_spinner=False)
 def gen_synthesis(activity: str, goal: str, maturity: str, monthly: float) -> dict:
-    score = {"ecommerce":72,"saas":68,"service":75,"consulting":80,"content":65,"other":60}.get(activity, 65)
-    if maturity == "launched": score += 8
-    elif maturity == "inprogress": score += 3
-    if monthly >= 500: score += 5
-    elif monthly >= 200: score += 3
-    elif monthly >= 50: score += 1
-    score = min(score, 98)
+    """Synthèse stratégique personnalisée selon secteur + objectif + stade + budget."""
+    # Score de maturité stratégique (0-100)
+    base_scores = {"ecommerce":62,"saas":58,"service":65,"consulting":72,"content":55,"other":52}
+    score = base_scores.get(activity, 55)
+    if maturity == "launched":    score += 12
+    elif maturity == "inprogress": score += 6
+    elif maturity == "growing":   score += 18
+    # Budget = proxy pour les ressources disponibles
+    if monthly >= 500:  score += 8
+    elif monthly >= 200: score += 5
+    elif monthly >= 100: score += 3
+    elif monthly >= 50:  score += 1
+    score = min(score, 97)
+
+    # Message de synthèse personnalisé
+    LABELS_ACTIVITY = {"ecommerce":"e-commerce","saas":"SaaS","service":"services","consulting":"conseil","content":"création de contenu","other":"votre activité"}
+    LABELS_GOAL = {"leads":"générer des leads","sales":"augmenter les ventes","awareness":"développer la notoriété","traffic":"attirer du trafic","retention":"fidéliser les clients","launch":"lancer votre activité","growth":"accélérer la croissance"}
+    LABELS_MAT  = {"idea":"phase idée","inprogress":"lancement","launched":"activité lancée","growing":"croissance"}
+
+    act_lbl  = LABELS_ACTIVITY.get(activity, "votre activité")
+    goal_lbl = LABELS_GOAL.get(goal, "atteindre vos objectifs")
+    mat_lbl  = LABELS_MAT.get(maturity, "votre stade actuel")
+
+    # Actions prioritaires contextuelles
+    _ACTIONS_MAP = {
+        ("ecommerce","leads"):    ["Lancez une campagne Meta Ads avec un budget test de 5 EUR/jour", "Créez une offre de bienvenue (réduction 10%) pour capturer les emails", "Optimisez vos fiches produits pour le SEO Google Shopping"],
+        ("ecommerce","sales"):    ["Installez un système de panier abandonné (email J+1, J+3)", "Testez le bundle produit pour augmenter votre panier moyen", "Activez le retargeting sur vos visiteurs non-convertis"],
+        ("saas","leads"):         ["Créez une page de démo en libre-service sans friction", "Publiez une étude de cas chiffrée sur LinkedIn cette semaine", "Lancez un essai gratuit 14 jours avec onboarding guidé J1-J3-J7"],
+        ("saas","sales"):         ["Créez une page pricing claire avec 3 plans bien différenciés", "Ajoutez un calculateur ROI sur votre landing page", "Contactez vos 10 meilleurs utilisateurs pour une offre annuelle"],
+        ("service","leads"):      ["Créez un lead magnet PDF (guide, audit, checklist) sur votre expertise", "Publiez 2 posts LinkedIn par semaine avec un CTA clair", "Demandez 3 recommandations à vos clients satisfaits cette semaine"],
+        ("service","sales"):      ["Packagez votre offre en 3 formules à prix fixes (Essentiel, Standard, Premium)", "Créez un devis type que vous envoyez en moins de 24h", "Implémentez un acompte de 30% à la commande pour sécuriser les projets"],
+        ("consulting","leads"):   ["Publiez une étude de cas détaillée avec résultats chiffrés", "Proposez un audit diagnostic gratuit de 45 minutes", "Rejoignez 3 groupes LinkedIn de votre cible et engagez quotidiennement"],
+        ("consulting","sales"):   ["Créez une offre d'entrée à prix accessible pour réduire la barrière", "Structurez un processus de vente en 3 étapes : découverte → proposition → signature", "Demandez des introductions à vos clients satisfaits dans leur réseau"],
+        ("content","traffic"):    ["Publiez 3 fois par semaine sur votre canal principal pendant 90 jours", "Identifiez 20 mots-clés longue traîne et créez 1 contenu par semaine", "Collaborez avec 2 créateurs de votre niche pour croiser les audiences"],
+        ("content","awareness"):  ["Lancez une newsletter hebdomadaire avec une idée forte par édition", "Créez un hashtag de marque et encouragez votre communauté à l'utiliser", "Participez à 2 podcasts de votre niche ce mois-ci"],
+    }
+    default_actions = [
+        f"Définissez clairement votre client idéal en 1 phrase : 'J'aide [qui] à [quoi] grâce à [comment]'",
+        f"Testez votre offre avec 5 prospects cette semaine avant d'investir en publicité",
+        f"Mesurez 3 indicateurs clés chaque lundi : prospects, conversions, CA",
+    ]
+    priority_actions = _ACTIONS_MAP.get((activity, goal), _ACTIONS_MAP.get(("service", goal), default_actions))
+
     return {
         "score": score,
-        "priorities": _PRIORITIES.get(goal, _PRIORITIES["awareness"]),
+        "act_lbl": act_lbl,
+        "goal_lbl": goal_lbl,
+        "mat_lbl": mat_lbl,
+        "message": f"Votre activité {act_lbl} en {mat_lbl} a un potentiel stratégique de {score}/100. Priorité : {goal_lbl}.",
+        "priorities": priority_actions,
+        "budget_conseil": "Excellent" if monthly >= 500 else "Correct — répartissez entre contenu (40%), acquisition (40%) et outils (20%)" if monthly >= 200 else "Limité — concentrez-vous sur 1 seul canal gratuit avant d'investir" if monthly >= 50 else "Très limité — commencez par le SEO et le bouche-à-oreille (coût zéro)",
+        "next_90j": _PRIORITIES.get(goal, _PRIORITIES["awareness"]),
         "roadmap": _ROADMAP,
         "kpis": _get_kpis(goal, monthly),
     }
