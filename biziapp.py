@@ -1877,11 +1877,32 @@ _PERSONA_DATA = {
 }
 
 @st.cache_data(ttl=86400, show_spinner=False)
-def gen_personas(activity: str) -> list:
+def gen_personas(activity: str, goal: str = "leads", maturity: str = "launched") -> list:
+    """Personas enrichis et personnalisés par secteur + objectif."""
     key = activity if activity in _PERSONA_DATA else "default"
     base = copy.deepcopy(_PERSONA_DATA[key])
     if len(base) < 2:
         base += copy.deepcopy(_PERSONA_DATA["default"])
+
+    # Ajuster le focus de chaque persona selon l'objectif
+    goal_focus = {
+        "leads":    "Cible principale pour votre stratégie de génération de leads",
+        "sales":    "Profil acheteur prioritaire — priorisez vos efforts commerciaux sur ce segment",
+        "awareness":"Audience à atteindre en priorité dans votre stratégie de visibilité",
+        "traffic":  "Visiteur type de votre contenu — optimisez pour lui",
+        "retention":"Client à fidéliser — ce profil a le plus fort potentiel de LTV",
+        "launch":   "Early adopter idéal pour votre phase de lancement",
+        "growth":   "Segment à développer pour accélérer votre croissance",
+    }
+    for p in base:
+        p["priorité_objectif"] = goal_focus.get(goal, "Persona prioritaire selon votre secteur")
+        if maturity == "idea":
+            p["à_valider"] = f"Confirmez ce profil avec 5 interviews avant de lancer quoi que ce soit"
+        elif maturity == "inprogress":
+            p["à_valider"] = f"Testez ce persona avec une offre pilote à prix réduit — mesurez la conversion"
+        elif maturity == "launched":
+            p["à_valider"] = f"Comparez ce persona à vos vrais clients actuels — ajustez si besoin"
+
     return base[:3]
 
 # ─── SPIN SELLING ────────────────────────────────────────────────────────────
