@@ -4535,7 +4535,7 @@ c3.markdown(f'<span class="badge badge-teal">{LABELS.get(maturity, maturity)}</s
 c4.markdown(f'<span class="badge badge-teal">{monthly_budget:,} €/mois</span>', unsafe_allow_html=True)
 
 if site_data and isinstance(site_data, dict) and site_data.get("title"):
-    st.caption(f"Site analysé : **{site_data.get('title','')}**  --  {site_data.get('description','')[:120]}")
+    st.caption(f"Analyse SEO de votre site : **{website_url}** — score {site_data.get('score',0)}/100")
 
 st.markdown("<br>", unsafe_allow_html=True)
 
