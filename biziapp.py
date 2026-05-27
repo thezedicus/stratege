@@ -833,22 +833,74 @@ _SWOT_DATA = {
 
 @st.cache_data(ttl=86400, show_spinner=False)
 def gen_swot(activity: str, goal: str, maturity: str) -> dict:
+    """SWOT personnalisé selon secteur, objectif ET stade de développement."""
     d = copy.deepcopy(_SWOT_DATA.get(activity, _SWOT_DATA["other"]))
-    if maturity == "idea":
-        d["strengths"].insert(0, "Opportunité de construire sans dette technique")
-        d["weaknesses"].insert(0, "Absence de validation marché et de revenus")
-    elif maturity == "inprogress":
-        d["strengths"].insert(0, "Développement en cours  --  apprentissage rapide")
-    elif maturity == "launched":
-        d["strengths"].insert(0, "Traction initiale prouvée et premiers retours clients")
-    goal_opp = {
-        "awareness": "Stratégie content marketing pour construire l'autorité de marque",
-        "sales": "Optimisation du tunnel de conversion pour maximiser le CA",
-        "leads": "Lead magnets et marketing automation pour qualifier les prospects",
-        "traffic": "SEO technique et stratégie de backlinks pour croissance organique",
+
+    # ── Personnalisation par stade de maturité ────────────────────────────
+    maturity_strengths = {
+        "idea":       "Liberté totale pour innover et tester sans contrainte historique",
+        "inprogress": "Agilité maximale et apprentissage rapide par l'itération terrain",
+        "launched":   "Premières preuves concrètes de viabilité et retours clients réels",
+        "growing":    "Traction validée et modèle économique qui commence à se stabiliser",
     }
-    if goal in goal_opp:
-        d["opportunities"].append(goal_opp[goal])
+    maturity_weaknesses = {
+        "idea":       "Pas encore de validation marché ni de revenus — risque élevé",
+        "inprogress": "Ressources limitées et positionnement encore en cours de définition",
+        "launched":   "Charge opérationnelle forte qui ralentit le développement stratégique",
+        "growing":    "Tensions sur les ressources humaines et financières liées à la croissance",
+    }
+    if maturity in maturity_strengths:
+        d["strengths"].insert(0, maturity_strengths[maturity])
+    if maturity in maturity_weaknesses:
+        d["weaknesses"].insert(0, maturity_weaknesses[maturity])
+
+    # ── Personnalisation par objectif prioritaire ─────────────────────────
+    goal_opportunities = {
+        "awareness": [
+            "Contenu éditorial expert pour construire l'autorité de marque sur votre niche",
+            "Relations presse et partenariats avec des influenceurs de votre secteur",
+        ],
+        "sales": [
+            "Optimisation du tunnel de vente et réduction des frictions à l'achat",
+            "Upsell/cross-sell sur la base clients existante — levier de CA immédiat",
+        ],
+        "leads": [
+            "Lead magnets ciblés (guide, audit gratuit) pour qualifier les prospects entrants",
+            "Séquences email automatisées pour nurturing et conversion des leads tièdes",
+        ],
+        "traffic": [
+            "SEO longue traîne sur les requêtes à fort potentiel de votre niche",
+            "Stratégie de backlinks via partenariats et contenus partageables",
+        ],
+        "retention": [
+            "Programme de fidélisation et offres exclusives pour clients actifs",
+            "Onboarding structuré pour maximiser l'activation et réduire le churn",
+        ],
+        "launch": [
+            "Stratégie go-to-market séquencée : early adopters puis marché principal",
+            "Beta test avec panel cible pour valider l'offre avant lancement public",
+        ],
+        "growth": [
+            "Automatisation des tâches répétitives pour libérer de la capacité de croissance",
+            "Nouveaux marchés géographiques ou segments adjacents à explorer",
+        ],
+    }
+    goal_threats = {
+        "awareness": ["Multiplication des contenus concurrents qui noient votre message"],
+        "sales":     ["Sensibilité prix croissante et comparaison facile en ligne"],
+        "leads":     ["Coût d'acquisition lead en hausse sur les canaux saturés"],
+        "traffic":   ["Volatilité des algorithmes Google et dépendance au SEO"],
+        "retention": ["Offres concurrentes agressives ciblant votre base clients"],
+        "launch":    ["Vitesse de copie rapide par des acteurs établis si succès visible"],
+        "growth":    ["Manque de processus internes qui bloque la scalabilité"],
+    }
+    for opp in goal_opportunities.get(goal, []):
+        d["opportunities"].append(opp)
+    for thr in goal_threats.get(goal, []):
+        d["threats"].append(thr)
+
+    # ── Recommandations contextuelles ─────────────────────────────────────
+    d["focus"] = _SWOT_FOCUS.get(f"{activity}_{goal}", _SWOT_FOCUS.get(goal, "Concentrez-vous sur vos 2 forces principales et l'opportunité la plus accessible."))
     return d
 
 
