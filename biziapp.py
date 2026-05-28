@@ -145,6 +145,24 @@ except ImportError:
     def _check_site_seo(url): return {}
     def _fetch_competitor_data(d): return {}
 
+# ── Import BizIBot (chatbot local) ──────────────────────────────────────────
+try:
+    from bizibot import (
+        generate_response as _bizibot_reply,
+        init_chat_history as _bizibot_init,
+        add_message as _bizibot_add,
+        get_history as _bizibot_history,
+        clear_history as _bizibot_clear,
+    )
+    _HAS_BIZIBOT = True
+except ImportError:
+    _HAS_BIZIBOT = False
+    def _bizibot_reply(q, ctx=None): return {"response": "BizIBot non disponible.", "followups": []}
+    def _bizibot_init(ss): ss.setdefault("bizibot_history", [])
+    def _bizibot_add(ss, r, c): ss["bizibot_history"].append({"role": r, "content": c})
+    def _bizibot_history(ss): return ss.get("bizibot_history", [])
+    def _bizibot_clear(ss): ss["bizibot_history"] = []
+
 # ─────────────────────────────────────────────────────────────────────────────
 # Lazy imports — chargés à la demande pour ne pas ralentir le démarrage
 # ─────────────────────────────────────────────────────────────────────────────
@@ -4632,6 +4650,7 @@ tabs = st.tabs([
     "Tarifs & offres",
     "Nouveau projet",
     "Ressources",
+    "BizIBot",
 ])
 # Note: onglets dans l'ordre logique du parcours strategique
 # Diagnostic > Personas > Copy > Vente > Marketing > Campagnes > SEO > KPIs > Synthese > Veille > RSE > Strategie+ > Email > Social > Tarifs > Projet > Ressources
