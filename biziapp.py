@@ -900,7 +900,33 @@ def gen_swot(activity: str, goal: str, maturity: str) -> dict:
         d["threats"].append(thr)
 
     # ── Recommandations contextuelles ─────────────────────────────────────
-    d["focus"] = _SWOT_FOCUS.get(f"{activity}_{goal}", _SWOT_FOCUS.get(goal, "Concentrez-vous sur vos 2 forces principales et l'opportunité la plus accessible."))
+    # Focus inline — dict local pour eviter NameError avec @st.cache_data
+    _focus_map = {
+        "ecommerce_leads":"Testez 2 canaux acquisition en parallele (Meta Ads + email) avec un budget 50/50.",
+        "ecommerce_sales":"Installez un systeme de panier abandonne et activez le retargeting sur vos visiteurs.",
+        "ecommerce_traffic":"Optimisez vos fiches produits pour le SEO Google Shopping cette semaine.",
+        "saas_leads":"Mettez en place un essai gratuit 14j avec onboarding guide J1-J3-J7.",
+        "saas_sales":"Creez une page pricing claire avec 3 plans et un calculateur ROI visible.",
+        "saas_retention":"Identifiez les signaux de churn a J7 et J30 et automatisez les emails de reactivation.",
+        "service_leads":"Creez un lead magnet (audit gratuit, guide PDF) et une landing page dediee.",
+        "service_sales":"Packagez votre offre en 3 formules a prix fixes pour simplifier la decision d achat.",
+        "service_awareness":"Publiez 2 contenus experts par semaine sur LinkedIn et demandez des recommandations.",
+        "consulting_leads":"Publiez des etudes de cas chiffrees et des temoignages clients detailles.",
+        "consulting_sales":"Proposez un diagnostic initial gratuit de 30 min pour qualifier et convaincre.",
+        "content_traffic":"Publiez 3x/semaine sur votre canal principal avec une strategie de mots-cles precise.",
+        "content_awareness":"Collaborez avec 2-3 createurs complementaires pour croiser vos audiences.",
+        "idea":"Validez votre idee avec 10 interviews clients avant de depenser quoi que ce soit.",
+        "inprogress":"Concentrez-vous sur 1 seul canal d acquisition jusqu a le maitriser parfaitement.",
+        "launched":"Mesurez votre NPS chaque mois et identifiez vos 3 meilleurs clients pour les dupliquer.",
+        "leads":"Construisez votre premier tunnel de conversion simple : landing > formulaire > suivi email.",
+        "sales":"Identifiez votre client ideal et creez une offre packagee cle-en-main pour lui.",
+        "awareness":"Choisissez 1 seul canal et publiez regulierement pendant 90 jours avant d en changer.",
+        "traffic":"Ciblez 20 mots-cles longue traine avec peu de concurrence et un intent commercial fort.",
+        "growth":"Automatisez ce qui vous prend le plus de temps et recrutez votre premier salarie cle.",
+        "retention":"Creez un programme de fidelisation et contactez vos 5 meilleurs clients ce mois-ci.",
+        "launch":"Lancez avec un groupe pilote de 20 personnes avant l ouverture publique.",
+    }
+    d["focus"] = _focus_map.get(f"{activity}_{goal}", _focus_map.get(goal, "Concentrez-vous sur vos 2 forces principales et l opportunite la plus accessible."))
     return d
 
 
