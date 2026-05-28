@@ -186,7 +186,17 @@ st.markdown("""
 .card,.ben-card,.stat-box,.pricing-card,.feature-card,[data-testid="metric-container"]{background:#FFFFFF!important;color:#0B2221!important}
 .auth-card{background:#FFFFFF!important}
 body,[data-testid="stMarkdown"] p{color:#0B2221!important}
-}@media print{[data-testid="stSidebar"],.stButton,.ticker-wrap,.neuro-urgency,.cta-btn{display:none!important}[data-testid="stApp"]{background:white!important}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}@supports(-webkit-touch-callout:none){[data-testid="stTabs"] [role="tablist"]{-webkit-overflow-scrolling:touch!important}.card:hover,.ben-card:hover{transform:none!important}}.bizi-prompt{transition:opacity .3s ease}</style>
+}@media print{[data-testid="stSidebar"],.stButton,.ticker-wrap,.neuro-urgency,.cta-btn{display:none!important}[data-testid="stApp"]{background:white!important}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}@supports(-webkit-touch-callout:none){[data-testid="stTabs"] [role="tablist"]{-webkit-overflow-scrolling:touch!important}.card:hover,.ben-card:hover{transform:none!important}}.bizi-prompt{transition:opacity .3s ease}
+/* BizIBot chat styling */
+[data-testid="stChatMessage"]{
+  border-radius:12px!important;
+  margin-bottom:8px!important;
+}
+[data-testid="stChatInput"] input{
+  border-radius:10px!important;
+  font-size:.9rem!important;
+}
+</style>
 """, unsafe_allow_html=True)
 
 # ── SEO meta (schema.org, FAQ, Open Graph) — injecté après CSS ──────────────
@@ -455,7 +465,7 @@ def _show_login_form():
             if result.get("ok"):
                 set_session(result["user"])
                 st.success(f"Bienvenue {result['user'].get('name','').split()[0] or '!'} ")
-                st.balloons()
+                pass  # animation supprimee pour perf
                 st.rerun()
             else:
                 st.markdown(f'<div class="auth-error"><span style="color:#C0303E;font-weight:900;font-size:1rem">&#10007;</span>&nbsp; {result.get("error","Erreur")}</div>', unsafe_allow_html=True)
@@ -564,7 +574,7 @@ def _show_register_form():
             })
             if result.get("ok"):
                 set_session(result["user"])
-                st.balloons()
+                pass  # animation supprimee pour perf
                 st.success(f"Bienvenue {_name.split()[0]} ! Ton espace est prêt. ")
                 st.rerun()
             else:
@@ -1668,7 +1678,7 @@ _SEA_IA = [
     ("Audience Signals","Signaux d'audience pour guider l'IA vers vos meilleurs prospects",["Customer Match : uploadez vos emails clients pour trouver des similaires","Similar Audiences basées sur vos convertisseurs","In-Market Audiences : personas en phase d'achat active","Custom Intent : audiences basées sur les recherches récentes"],"Plus vous fournissez de signaux de qualité, plus l'IA cible efficacement"),
 ]
 
-@st.cache_data(ttl=3600, show_spinner=False)
+@st.cache_data(ttl=86400, show_spinner=False)
 def gen_geo(activity: str) -> dict:
     return copy.deepcopy(_GEO.get(activity, _GEO_GENERIC))
 
@@ -1779,7 +1789,7 @@ _KEYWORDS = {
     "default": [("[mot-clé principal] guide","1K-5K","Moyen","Informationnel"),("meilleur [produit/service] 2025","1K-5K","Moyen","Commercial"),("comment [résoudre problème]","5K-10K","Facile","Informationnel"),("[secteur] prix tarif","500-1K","Moyen","Transactionnel"),("avis [marque/service]","500-1K","Facile","Commercial")],
 }
 
-@st.cache_data(ttl=3600, show_spinner=False)
+@st.cache_data(ttl=86400, show_spinner=False)
 def gen_keywords(activity: str) -> list:
     enriched = _KEYWORDS_ENRICHED.get(activity, _KEYWORDS_ENRICHED["default"])
     base = copy.deepcopy(_KEYWORDS.get(activity, _KEYWORDS["default"]))
@@ -1804,12 +1814,12 @@ _CALENDAR_TOPICS = {
     "traffic": ["Guide SEO : [mot-clé cible] expliqué","Les [X] meilleures ressources pour [sujet]","Tutorial : [processus étape par étape]","Infographie : [données secteur] en 2025"],
 }
 
-@st.cache_data(ttl=3600, show_spinner=False)
+@st.cache_data(ttl=86400, show_spinner=False)
 def gen_platforms(activity: str) -> list:
     enriched = _PLATFORM_ENRICHED.get(activity, _PLATFORM_ENRICHED["default"])
     return copy.deepcopy(enriched)
 
-@st.cache_data(ttl=3600, show_spinner=False)
+@st.cache_data(ttl=86400, show_spinner=False)
 def gen_budget_alloc(monthly: float) -> list:
     if monthly <= 50:
         cats = [("Création de contenu (outils gratuits)", 60), ("Outils freemium", 30), ("Formation / veille", 10)]
@@ -1821,7 +1831,7 @@ def gen_budget_alloc(monthly: float) -> list:
         cats = [("Publicité payante (SEA/Social Ads)", 50), ("Outils & logiciels (CRM, analytics)", 25), ("Création de contenu", 15), ("SEO & link-building", 10)]
     return [(c, pct, round(monthly * pct / 100, 0)) for c, pct in cats]
 
-@st.cache_data(ttl=3600, show_spinner=False)
+@st.cache_data(ttl=86400, show_spinner=False)
 def gen_budget_reco(monthly: float) -> list:
     if monthly <= 50:
         return [
@@ -1857,7 +1867,7 @@ def gen_budget_reco(monthly: float) -> list:
             "Considérez 1 freelance content ou growth hacker à mi-temps pour accélérer",
         ]
 
-@st.cache_data(ttl=3600, show_spinner=False)
+@st.cache_data(ttl=86400, show_spinner=False)
 def gen_calendar(goal: str) -> list:
     topics = _CALENDAR_TOPICS.get(goal, _CALENDAR_TOPICS["awareness"])
     formats = ["Article de blog","Vidéo courte","Email newsletter","Infographie / Carrousel"]
@@ -2147,7 +2157,7 @@ _OKR_TEMPLATES = {
     ],
 }
 
-@st.cache_data(ttl=3600, show_spinner=False)
+@st.cache_data(ttl=86400, show_spinner=False)
 def gen_okr(goal: str) -> list:
     return copy.deepcopy(_OKR_TEMPLATES.get(goal, _OKR_TEMPLATES["awareness"]))
 
@@ -2234,7 +2244,7 @@ def _get_kpis(goal: str, monthly: float) -> list:
     return base + extras.get(goal, [])
 
 # ─── PROPOSITION DE VALEUR (from TGC suite) ──────────────────────────────────
-@st.cache_data(ttl=3600, show_spinner=False)
+@st.cache_data(ttl=86400, show_spinner=False)
 def gen_proposition_valeur(activity: str, site_name: str = "") -> dict:
     """Proposition de valeur 4 dimensions (Apple/Tesla/L'Oreal framework)."""
     _pv = {
@@ -2323,7 +2333,7 @@ def gen_proposition_valeur(activity: str, site_name: str = "") -> dict:
     return data
 
 
-@st.cache_data(ttl=3600, show_spinner=False)
+@st.cache_data(ttl=86400, show_spinner=False)
 def gen_rfm_segments(activity: str, monthly_budget: float) -> list:
     """Segmentation RFM 4 segments avec CLV et actions."""
     base_clv = {"ecommerce": 350, "saas": 1200, "service": 2500, "consulting": 5000, "content": 180, "default": 800}
@@ -2380,7 +2390,7 @@ def gen_rfm_segments(activity: str, monthly_budget: float) -> list:
     ]
 
 
-@st.cache_data(ttl=3600, show_spinner=False)
+@st.cache_data(ttl=86400, show_spinner=False)
 def gen_rse(activity: str) -> dict:
     """Analyse RSE / ISO 26000  --  7 domaines."""
     _rse_base = {
@@ -2457,7 +2467,7 @@ def gen_rse(activity: str) -> dict:
     return copy.deepcopy(_rse_base)
 
 
-@st.cache_data(ttl=3600, show_spinner=False)
+@st.cache_data(ttl=86400, show_spinner=False)
 def gen_negociation(activity: str, monthly_budget: float) -> dict:
     """Tactiques de négociation BATNA/ZOPA/SONCAS."""
     _batna_map = {
@@ -2509,7 +2519,7 @@ def gen_negociation(activity: str, monthly_budget: float) -> dict:
     }
 
 
-@st.cache_data(ttl=3600, show_spinner=False)
+@st.cache_data(ttl=86400, show_spinner=False)
 def gen_prix_psychologiques(monthly_budget: float, activity: str) -> list:
     """7 techniques de prix psychologiques avec exemples concrets."""
     ref_price = max(29, round(monthly_budget * 0.15))
@@ -2678,7 +2688,7 @@ def gen_customer_journey(activity: str, goal: str) -> list:
     return default_stages
 
 
-@st.cache_data(ttl=3600, show_spinner=False)
+@st.cache_data(ttl=86400, show_spinner=False)
 def gen_content_strategy(activity: str, goal: str, monthly_budget: float) -> dict:
     """Stratégie de contenu complète  --  piliers, formats, calendrier, KPIs."""
     _PILLARS = {
@@ -2808,7 +2818,7 @@ def gen_email_sequences(activity: str, goal: str) -> dict:
     return _SEQ
 
 
-@st.cache_data(ttl=3600, show_spinner=False)
+@st.cache_data(ttl=86400, show_spinner=False)
 def gen_social_media_strategy(activity: str, monthly_budget: float) -> dict:
     """Stratégie réseaux sociaux complète avec tactiques par plateforme."""
     budget_ads = monthly_budget * 0.3
@@ -3027,7 +3037,7 @@ def fetch_news(query: str, lang: str = "fr", max_items: int = 12) -> list:
     except Exception as e:
         return [{"title": f"Erreur chargement actualités : {e}", "link": "", "pub": "", "source": ""}]
 
-@st.cache_data(ttl=3600, show_spinner=False)
+@st.cache_data(ttl=86400, show_spinner=False)
 def fetch_ddg(query: str) -> dict:
     """DuckDuckGo Instant Answer API. Gratuit, sans clé. Cache 1h."""
     try:
@@ -3050,7 +3060,7 @@ def fetch_ddg(query: str) -> dict:
     except Exception:
         return {}
 
-@st.cache_data(ttl=3600, show_spinner=False)
+@st.cache_data(ttl=86400, show_spinner=False)
 def fetch_wiki(topic: str, lang: str = "fr") -> dict:
     """Wikipedia REST API  --  résumé d'un sujet. Cache 1h."""
     try:
@@ -3129,7 +3139,7 @@ def _estimate_reach(budget: float, platform: str) -> str:
     def fmt(n): return f"{n:,}".replace(",", " ")
     return f"{fmt(low)} – {fmt(high)} {unit}"
 
-@st.cache_data(ttl=3600, show_spinner=False)
+@st.cache_data(ttl=86400, show_spinner=False)
 def gen_ads(activity: str, goal: str, monthly_budget: float) -> dict:
     fb_budget = round(monthly_budget * 0.40)
     gads_budget = round(monthly_budget * 0.35)
