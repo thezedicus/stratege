@@ -4632,6 +4632,7 @@ st.markdown("<br>", unsafe_allow_html=True)
 # ─────────────────────────────────────────────────────────────────────────────
 # TABS
 # ─────────────────────────────────────────────────────────────────────────────
+_bizibot_init(st.session_state)
 tabs = st.tabs([
     "Mon diagnostic",
     "Mes clients",
