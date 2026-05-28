@@ -4706,8 +4706,14 @@ with tabs[0]:
             swot["weaknesses"].insert(0,"Structure SEO à renforcer (H1 absent)")
         if not _sd_desc:
             swot["weaknesses"].insert(0,"Meta description absente  --  référencement à optimiser")
-        if _sd_title:
-            swot["strengths"].insert(0,f"Présence web établie : {_sd_title[:55]}")
+        if _sd_title and website_url:
+            # Ne pas afficher le titre brut du site (peut être un site concurrent)
+            # Afficher uniquement le fait d'avoir un site optimisé
+            _seo_sc = site_data.get("score", 0)
+            if _seo_sc >= 50:
+                swot["strengths"].insert(0, f"Presence web avec un score SEO de {_seo_sc}/100 — bonne base")
+            elif _seo_sc > 0:
+                swot["weaknesses"].insert(0, f"Site web sous-optimise (SEO {_seo_sc}/100) — a ameliorer")
         st.markdown("<br>", unsafe_allow_html=True)
 
         # SWOT
@@ -4844,7 +4850,7 @@ with tabs[1]:
         colors = ["#0B2221","#44C1BA","#267371","#393DAC","#B83D4B"]
         color = colors[hash(p["name"]) % len(colors)]
         fw_badge = f'<span class="badge badge-teal">{p.get("framework","")}</span>'if p.get("framework") else ""
-        with st.expander(f"**{p['name']}** · {p['age']} ans · {p['job']} · {p['location']}", expanded=(i==0)):
+        with st.expander(f"**{p.get('name', p.get('title', ''))}** · {p['age']} ans · {p['job']} · {p['location']}", expanded=(i==0)):
             c1, c2, c3 = st.columns([1, 2, 2])
             with c1:
                 st.markdown(f"""
@@ -5183,7 +5189,7 @@ with tabs[5]:
     if ads_data["facebook"]:
         st.markdown('<div class="section-h">Campagnes Facebook / Instagram Ads</div>', unsafe_allow_html=True)
         for camp in ads_data["facebook"]:
-            with st.expander(f"**{camp['name']}**  --  {camp['objective']}  --  Budget : {camp['budget']:,} €"):
+            with st.expander(f"**{camp.get('name', p.get('title', ''))}**  --  {camp['objective']}  --  Budget : {camp['budget']:,} €"):
                 st.markdown(f"**Format recommandé :** {camp['format']}")
                 for cr in camp.get("creatives", []):
                     st.markdown(f"""
@@ -5202,7 +5208,7 @@ with tabs[5]:
     if ads_data["google"]:
         st.markdown('<div class="section-h">Campagnes Google Ads</div>', unsafe_allow_html=True)
         for camp in ads_data["google"]:
-            with st.expander(f"**{camp['name']}**  --  {camp['type']}  --  Budget : {camp['budget']:,} €"):
+            with st.expander(f"**{camp.get('name', p.get('title', ''))}**  --  {camp['type']}  --  Budget : {camp['budget']:,} €"):
                 st.markdown("**Mots-clés recommandés :**")
                 for kw in camp["keywords"]:
                     st.markdown(f"• `{kw}`")
@@ -5576,7 +5582,7 @@ with tabs[9]:
         if _ph_items:
             with st.expander("Nouveautés Product Hunt"):
                 for p in _ph_items[:5]:
-                    st.markdown(f"- [{p['title']}]({p['link']})  --  {p.get('desc','')[:80]}")
+                    st.markdown(f"- [{p.get('title', p.get('name', 'Article'))}]({p.get('link', p.get('url', '#'))})  --  {p.get('desc', p.get('tagline', ''))[:80]}")
 
         if _startups:
             with st.expander(f"Startups françaises  --  {_sector_label}"):
