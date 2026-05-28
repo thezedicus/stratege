@@ -1,5 +1,5 @@
 """
-biziapp.py  --  Dashboard stratégique 360° complet
+biziapp.py  --  Dashboard strategique 360 complet v5.4 (fix CORSPROXY)
 Streamlit · Python 3.9+
 Intègre : SWOT · QQOQCCP · PESTEL · Micro-Env · Concurrence · SONCAS
            Personas · Copywriting AIDA · Déclencheurs psychologiques
@@ -26,7 +26,7 @@ st.set_page_config(
         "Get Help": None,
         "Report a bug": None,
         "About": (
-            "## BiziApp v5.3\n"
+            "## BiziApp v5.4\n"
             "Votre expert virtuel en stratégie commerciale.\n\n"
             "Générez votre plan 360° en 10 minutes : SWOT · Personas · SEO · Marketing · KPIs\n\n"
             "**100% gratuit · Sans inscription · Données sécurisées**"
@@ -4653,6 +4653,12 @@ with tabs[0]:
   </div>
 </div>""", unsafe_allow_html=True)
     # ── ANALYSE DU SITE (si URL fournie) ───────────────────────────────────────
+    # Avertissement si URL ne semble pas être le propre site de l'utilisateur
+    _known_external = ["corsproxy", "github.com", "jsonplaceholder", "allorigins",
+                       "httpbin", "reqres.in", "api.open", "restcountries"]
+    _is_own_site = website_url and not any(k in website_url.lower() for k in _known_external)
+    if website_url and not _is_own_site:
+        st.warning(f"L'URL '{website_url[:50]}' ne semble pas être votre propre site. Renseignez l'URL de votre site pour une analyse personnalisée.")
     if site_data and not site_data.get("error"):
         _sd_title = site_data.get("title","")
         _sd_desc  = site_data.get("description","")
@@ -4664,8 +4670,8 @@ with tabs[0]:
         )
         st.markdown(f'''
         <div class="url-panel">
-          <div class="url-panel-title">{_html.escape(_sd_title or website_url)}</div>
-          <div class="url-panel-sub">{_html.escape((_sd_desc or "Aucune meta description")[:160])}</div>
+          <div class="url-panel-title">{_html.escape(website_url or "Votre site")}</div>
+          <div class="url-panel-sub">{_html.escape(_sd_desc[:120]) if _sd_desc and len(_sd_desc) < 200 else "Meta description non detectee ou trop longue"}</div>
           <div style="margin-top:10px">{_kw_badges}</div>
         </div>
         ''', unsafe_allow_html=True)
@@ -6516,7 +6522,7 @@ Guides, templates et outils pour aller plus loin.
 st.divider()
 st.markdown("""
 <div style="text-align:center;color:#339999;font-size:.78rem;padding:12px 0">
-  <b style="color:#0B2221">BiziApp v5.3</b> — Votre outil de lancement et de developpement d'activite · SPIN · Challenger · GEO 2025 · SEA IA · KPIs · OKR · Veille Live · RSE · RFM · BATNA · Prix psychologiques<br>
+  <b style="color:#0B2221">BiziApp v5.4</b> — Votre outil de lancement et de developpement d'activite · SPIN · Challenger · GEO 2025 · SEA IA · KPIs · OKR · Veille Live · RSE · RFM · BATNA · Prix psychologiques<br>
   Analyse personnalisée · Données live · Cache intelligent · Lecture URL en direct · Veille concurrentielle · Actualités Google News · Wikipedia · DuckDuckGo<br>
   Données live : Google News · Bing News · Reddit · HN · DEV.to · Recherche-Entreprises · OSM · Wikidata · Wikipedia · AllOrigins · corsproxy.io · Analyse heuristique · Inputs validés &amp; sécurisés (XSS, SSRF, rate-limiting)
 </div>
