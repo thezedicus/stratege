@@ -4733,7 +4733,7 @@ with tabs[0]:
 <div style="display:inline-flex;align-items:center;gap:8px;background:#C6ECD9;
   border-radius:50px;padding:5px 14px;margin-bottom:12px;font-size:.84rem;font-weight:700;color:#267371">
   <span></span> Analyse personnalisée à {_pers_score}% — basée sur données réelles
-  {"| Analyse personnalisée | Site analysé: " + site_data.get("title","")[:30] if site_data and site_data.get("title") else ""}
+  {"| Analyse basée sur votre URL : " + (website_url[:35] if website_url else "") if website_url else ""}
 </div>
 ''', unsafe_allow_html=True)
     st.caption("Le SWOT structure toute réflexion stratégique : Forces · Faiblesses · Opportunités · Menaces")
@@ -5587,7 +5587,7 @@ with tabs[9]:
         if _startups:
             with st.expander(f"Startups françaises  --  {_sector_label}"):
                 for s in _startups[:6]:
-                    st.markdown(f"- **{s['name']}** ({s['country']})")
+                    st.markdown(f"- **{s.get('name', s.get('nom', 'Startup'))}** ({s.get('country', s.get('ville', 'France'))})")
 
     # ── Sources additionnelles HackerNews + DEV.to + GitHub ───────────────────
     _hn_items, _devto_items, _gh_items = [], [], []
