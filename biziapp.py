@@ -4733,7 +4733,7 @@ with tabs[0]:
 <div style="display:inline-flex;align-items:center;gap:8px;background:#C6ECD9;
   border-radius:50px;padding:5px 14px;margin-bottom:12px;font-size:.84rem;font-weight:700;color:#267371">
   <span></span> Analyse personnalisée à {_pers_score}% — basée sur données réelles
-  {"| Site analysé: " + site_data.get("title","")[:30] if site_data and site_data.get("title") else ""}
+  {"| Analyse personnalisée | Site analysé: " + site_data.get("title","")[:30] if site_data and site_data.get("title") else ""}
 </div>
 ''', unsafe_allow_html=True)
     st.caption("Le SWOT structure toute réflexion stratégique : Forces · Faiblesses · Opportunités · Menaces")
@@ -4850,7 +4850,7 @@ with tabs[1]:
         colors = ["#0B2221","#44C1BA","#267371","#393DAC","#B83D4B"]
         color = colors[hash(p["name"]) % len(colors)]
         fw_badge = f'<span class="badge badge-teal">{p.get("framework","")}</span>'if p.get("framework") else ""
-        with st.expander(f"**{p.get('name', p.get('title', ''))}** · {p['age']} ans · {p['job']} · {p['location']}", expanded=(i==0)):
+        with st.expander(f"**{p.get('name', p.get('title', ''))}** · {p.get('age', '')} ans · {p.get('job', '')} · {p.get('location', '')}", expanded=(i==0)):
             c1, c2, c3 = st.columns([1, 2, 2])
             with c1:
                 st.markdown(f"""
@@ -4860,10 +4860,10 @@ with tabs[1]:
                   {initials}
                 </div>
                 {fw_badge}
-                <p style="text-align:center;font-style:italic;font-size:.78rem;color:#339999;margin-top:6px">"{p['quote']}"</p>
+                <p style="text-align:center;font-style:italic;font-size:.78rem;color:#339999;margin-top:6px">"{p.get('quote', '')}"</p>
                 """, unsafe_allow_html=True)
                 if p.get("framework_match"):
-                    st.markdown(f"<small style='color:#44C1BA;font-size:.80rem'>↳ {p['framework_match']}</small>", unsafe_allow_html=True)
+                    st.markdown(f"<small style='color:#44C1BA;font-size:.80rem'>↳ {p.get('framework_match', '')}</small>", unsafe_allow_html=True)
             with c2:
                 st.markdown("**Objectifs**")
                 for g in p["goals"]: st.markdown(f"{g}")
@@ -5189,8 +5189,8 @@ with tabs[5]:
     if ads_data["facebook"]:
         st.markdown('<div class="section-h">Campagnes Facebook / Instagram Ads</div>', unsafe_allow_html=True)
         for camp in ads_data["facebook"]:
-            with st.expander(f"**{camp.get('name', p.get('title', ''))}**  --  {camp['objective']}  --  Budget : {camp['budget']:,} €"):
-                st.markdown(f"**Format recommandé :** {camp['format']}")
+            with st.expander(f"**{camp.get('name', p.get('title', ''))}**  --  {camp.get('objective', '')}  --  Budget : {camp.get('budget', ''):,} €"):
+                st.markdown(f"**Format recommandé :** {camp.get('format', '')}")
                 for cr in camp.get("creatives", []):
                     st.markdown(f"""
                     <div class="card" style="margin-bottom:8px">
@@ -5208,7 +5208,7 @@ with tabs[5]:
     if ads_data["google"]:
         st.markdown('<div class="section-h">Campagnes Google Ads</div>', unsafe_allow_html=True)
         for camp in ads_data["google"]:
-            with st.expander(f"**{camp.get('name', p.get('title', ''))}**  --  {camp['type']}  --  Budget : {camp['budget']:,} €"):
+            with st.expander(f"**{camp.get('name', p.get('title', ''))}**  --  {camp.get('type', '')}  --  Budget : {camp.get('budget', ''):,} €"):
                 st.markdown("**Mots-clés recommandés :**")
                 for kw in camp["keywords"]:
                     st.markdown(f"• `{kw}`")
