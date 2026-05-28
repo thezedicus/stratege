@@ -6537,6 +6537,72 @@ Guides, templates et outils pour aller plus loin.
 </div>""", unsafe_allow_html=True)
 
 
+
+# BIZIBOT TAB
+with tabs[17]:
+    if _is_demo:
+        st.markdown(
+            '<div style="text-align:center;padding:40px 20px">'
+            '<div style="font-size:1.2rem;font-weight:800;color:#0B2221">BizIBot - Assistant IA</div>'
+            '<div style="font-size:.88rem;color:#339999;line-height:1.7;margin:12px 0">'
+            'Posez vos questions sur votre strategie, vos clients, votre marketing, '
+            'vos prix ou votre financement. BizIBot repond en francais, adapte a votre profil.'
+            '</div>'
+            '<div style="background:rgba(68,193,186,.08);border:1.5px solid rgba(68,193,186,.25);'
+            'border-radius:10px;padding:12px 16px;font-size:.82rem;color:#1D6060">'
+            'Fonctionnalite reservee aux membres connectes. '
+            '<b>Creez un compte gratuit</b> pour y acceder.'
+            '</div></div>',
+            unsafe_allow_html=True
+        )
+        _cbb1, _cbb2, _cbb3 = st.columns([1,2,1])
+        with _cbb2:
+            if st.button('Creer mon compte gratuit', type='primary',
+                         use_container_width=True, key='cta_bizibot_demo'):
+                st.session_state['_show_auth'] = True
+                st.rerun()
+    else:
+        _bot_ctx = {
+            'activity': activity, 'goal': goal,
+            'maturity': maturity, 'monthly_budget': monthly_budget,
+            'user_name': _user_first if run else '',
+        }
+        if not _bizibot_history(st.session_state):
+            _bizibot_add(st.session_state, 'assistant',
+                'Bonjour ! Je suis BizIBot, votre assistant strategique. '
+                f'Je connais votre profil : activite **{LABELS.get(activity, activity)}**, '
+                f'objectif **{LABELS.get(goal, goal)}**. Quelle est votre question ?'
+            )
+        for _m in _bizibot_history(st.session_state):
+            if _m['role'] == 'user':
+                st.chat_message('user').markdown(_m['content'])
+            else:
+                st.chat_message('assistant').markdown(_m['content'])
+        _inp = st.chat_input('Posez votre question a BizIBot...')
+        if _inp and _inp.strip():
+            _bizibot_add(st.session_state, 'user', _inp.strip())
+            _resp = _bizibot_reply(_inp.strip(), _bot_ctx)
+            _bizibot_add(st.session_state, 'assistant', _resp['response'])
+            st.session_state['_bizibot_suggs'] = _resp.get('followups', [])
+            st.rerun()
+        if st.session_state.get('_bizibot_suggs'):
+            _sc = st.columns(min(3, len(st.session_state['_bizibot_suggs'])))
+            for _si2, _sug2 in enumerate(st.session_state['_bizibot_suggs'][:3]):
+                with _sc[_si2]:
+                    if st.button(_sug2[:42], key=f'bbs_{_si2}', use_container_width=True):
+                        st.session_state['_bizibot_suggs'] = []
+                        _bizibot_add(st.session_state, 'user', _sug2)
+                        _r2 = _bizibot_reply(_sug2, _bot_ctx)
+                        _bizibot_add(st.session_state, 'assistant', _r2['response'])
+                        st.rerun()
+        _bbc1, _bbc2 = st.columns([4,1])
+        with _bbc2:
+            if st.button('Effacer', key='bb_clr', use_container_width=True):
+                _bizibot_clear(st.session_state)
+                st.session_state.pop('_bizibot_suggs', None)
+                st.rerun()
+        st.caption('BizIBot - conseils indicatifs, 100% local, aucune IA externe.')
+
 # FOOTER
 # ─────────────────────────────────────────────────────────────────────────────
 st.divider()
