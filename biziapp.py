@@ -4294,7 +4294,7 @@ if _needs_regen:
     st.session_state["_cache_key"] = _cache_key
     # Données statiques  --  toutes issues du cache @st.cache_data, <50ms total
     swot        = gen_swot(activity, goal, maturity)
-    qqoqccp     = gen_qqoqccp(activity)
+    qqoqccp     = gen_qqoqccp(activity, goal, maturity)
     pestel      = gen_pestel(activity)
     micro_env   = gen_micro_env(activity)
     competitive = gen_competitive(activity)
@@ -4377,7 +4377,7 @@ else:
     # Récupération instantanée depuis session_state (0ms)
     _a = st.session_state.get("_analysis", {})
     swot         = _a.get("swot",        gen_swot(activity, goal, maturity))
-    qqoqccp      = _a.get("qqoqccp",     gen_qqoqccp(activity))
+    qqoqccp      = _a.get("qqoqccp",     gen_qqoqccp(activity, goal, maturity))
     pestel       = _a.get("pestel",      gen_pestel(activity))
     micro_env    = _a.get("micro_env",   gen_micro_env(activity))
     competitive  = _a.get("competitive", gen_competitive(activity))
