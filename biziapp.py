@@ -84,6 +84,10 @@ try:
         fetch_product_hunt_rss as _fetch_ph,
         get_wikipedia_summary as _wiki_summary,
         get_survie_stats as _get_survie,
+        fetch_hacker_news as _fetch_hn_news,
+        fetch_entreprise_france as _fetch_entreprise,
+        analyze_entreprise as _analyze_entreprise,
+        fetch_stats_france as _fetch_stats_fr,
     )
     _HAS_ENRICHMENT = True
 except ImportError:
