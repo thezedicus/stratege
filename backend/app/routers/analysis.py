@@ -7,6 +7,7 @@ from __future__ import annotations
 import asyncio
 import uuid
 import logging
+from concurrent.futures import ThreadPoolExecutor
 from typing import Dict, Any
 
 from fastapi import APIRouter, HTTPException
@@ -20,7 +21,6 @@ from app.services.copywriting_service import generate_copywriting
 from app.services.geo_2025_service import generate_geo_2025
 from app.services.pagespeed_service import analyze_pagespeed
 
-# Optional services — graceful degradation
 try:
     from app.services.persona_service import generate_personas
     _PERSONA_OK = True
@@ -59,75 +59,103 @@ except ImportError:
 
 logger = logging.getLogger(__name__)
 
-# Note: NO prefix here — main.py mounts this router under /api
 router = APIRouter(tags=["analysis"])
 
-# ── In-memory store (survives process restarts only — DB layer optional) ───────
+# In-memory store — survives process restarts only; DB layer is optional
 _analyses: Dict[str, Dict[str, Any]] = {}
+
+# Thread pool for CPU-bound sync services
+_executor = ThreadPoolExecutor(max_workers=8)
 
 
 @router.post("/api/analysis", response_model=AnalysisCreateResponse)
 async def create_analysis(data: WizardInput) -> AnalysisCreateResponse:
-    """
-    Génère une analyse complète 360° à partir des données du wizard.
-    """
+    """Génère une analyse complète 360° à partir des données du wizard."""
     analysis_id = str(uuid.uuid4())[:8]
     inp = data.dict()
+    loop = asyncio.get_event_loop()
 
-    # ── Services synchrones ───────────────────────────────────────────────────
-    swot        = generate_swot(data.activityType, data.goal, data.maturity)
-    qqoqccp     = generate_qqoqccp(data.activityType, data.goal, data.maturity)
-    pestel      = generate_pestel(data.activityType)
-    micro_env   = generate_micro_env(data.activityType)
-    competitive = generate_competitive(data.activityType)
-    copywriting = generate_copywriting(data.activityType, data.goal)
+    # ── Run all sync services in parallel via thread pool ────────────────────
+    task_defs = {
+        "swot":        (generate_swot, data.activityType, data.goal, data.maturity),
+        "qqoqccp":     (generate_qqoqccp, data.activityType, data.goal, data.maturity),
+        "pestel":      (generate_pestel, data.activityType),
+        "micro_env":   (generate_micro_env, data.activityType),
+        "competitive": (generate_competitive, data.activityType),
+        "copywriting": (generate_copywriting, data.activityType, data.goal),
+        "geo2025":     (generate_geo_2025, data.activityType, data.goal, data.websiteUrl or ""),
+    }
+    if _MARKETING_OK:
+        task_defs["marketing"] = (generate_marketing, data.activityType, data.goal, data.monthlyBudget)
+    if _SEO_OK:
+        task_defs["seo"] = (generate_seo, data.activityType, data.goal)
+    if _ADS_OK:
+        task_defs["ads"] = (generate_ads, data.activityType, data.goal, data.monthlyBudget)
+    if _SALES_OK:
+        task_defs["sales"] = (generate_sales, data.activityType, data.goal)
 
-    personas   = generate_personas(data.activityType, data.goal, data.maturity) if _PERSONA_OK else _default_personas()
-    marketing  = generate_marketing(data.activityType, data.goal, data.monthlyBudget) if _MARKETING_OK else None
-    seo_data   = generate_seo(data.activityType, data.goal) if _SEO_OK else None
-    ads_data   = generate_ads(data.activityType, data.goal, data.monthlyBudget) if _ADS_OK else None
-    sales_data = generate_sales(data.activityType, data.goal) if _SALES_OK else None
+    async def run(fn, *args):
+        return await loop.run_in_executor(_executor, fn, *args)
 
-    # ── Service async (PageSpeed) ─────────────────────────────────────────────
+    coros = {key: run(*defn) for key, defn in task_defs.items()}
+    results: Dict[str, Any] = {}
+    for key, coro in coros.items():
+        try:
+            results[key] = await coro
+        except Exception as exc:
+            logger.warning("Service %s failed: %s", key, exc)
+            results[key] = None
+
+    # ── Personas (async service) ─────────────────────────────────────────────
+    personas = _default_personas()
+    if _PERSONA_OK:
+        try:
+            personas = await asyncio.wait_for(
+                generate_personas(data.activityType, data.goal, data.maturity),
+                timeout=10.0,
+            )
+        except Exception as exc:
+            logger.warning("Persona service failed: %s", exc)
+
+    # ── PageSpeed (async, external HTTP) ────────────────────────────────────
     pagespeed = None
-    geo2025   = generate_geo_2025(data.activityType, data.goal, data.websiteUrl or "")
     if data.websiteUrl:
         try:
             pagespeed = await asyncio.wait_for(analyze_pagespeed(data.websiteUrl), timeout=25.0)
         except Exception as exc:
             logger.warning("PageSpeed timeout/error: %s", exc)
 
-    # ── Synthesis ─────────────────────────────────────────────────────────────
+    # ── Synthesis ────────────────────────────────────────────────────────────
     synthesis = None
     if _SYNTHESIS_OK:
         try:
             synthesis = generate_synthesis(
-                swot=swot,
+                swot=results.get("swot") or {},
                 personas=personas,
-                marketing=marketing,
-                seo=seo_data,
-                ads=ads_data,
+                marketing=results.get("marketing"),
+                seo=results.get("seo"),
+                ads=results.get("ads"),
                 input_data=inp,
             )
         except Exception as exc:
             logger.warning("Synthesis generation failed: %s", exc)
 
-    # ── Assemble & store ──────────────────────────────────────────────────────
+    # ── Assemble & store ─────────────────────────────────────────────────────
     analysis: Dict[str, Any] = {
         "id":          analysis_id,
         "input":       inp,
-        "swot":        swot,
-        "qqoqccp":     qqoqccp,
-        "pestel":      pestel,
-        "microEnv":    micro_env,
-        "competitive": competitive,
+        "swot":        results.get("swot"),
+        "qqoqccp":     results.get("qqoqccp"),
+        "pestel":      results.get("pestel"),
+        "microEnv":    results.get("micro_env"),
+        "competitive": results.get("competitive"),
         "personas":    personas,
-        "sales":       sales_data,
-        "copywriting": copywriting,
-        "marketing":   marketing,
-        "seo":         seo_data,
-        "geo2025":     geo2025,
-        "ads":         ads_data,
+        "sales":       results.get("sales"),
+        "copywriting": results.get("copywriting"),
+        "marketing":   results.get("marketing"),
+        "seo":         results.get("seo"),
+        "geo2025":     results.get("geo2025"),
+        "ads":         results.get("ads"),
         "synthesis":   synthesis,
         "pagespeed":   pagespeed,
     }
@@ -140,7 +168,6 @@ async def create_analysis(data: WizardInput) -> AnalysisCreateResponse:
 @router.get("/api/analysis/{analysis_id}")
 async def get_analysis(analysis_id: str) -> Dict[str, Any]:
     """Récupère une analyse par son ID."""
-    # Sanitize: only alphanumeric + hyphens
     if not analysis_id.replace("-", "").isalnum() or len(analysis_id) > 40:
         raise HTTPException(status_code=400, detail="Invalid analysis ID")
     analysis = _analyses.get(analysis_id)
@@ -150,7 +177,6 @@ async def get_analysis(analysis_id: str) -> Dict[str, Any]:
 
 
 def _default_personas() -> list:
-    """Personas par défaut si le service persona n'est pas disponible."""
     return [
         {
             "name": "Alex",

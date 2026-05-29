@@ -1,7 +1,11 @@
 'use client';
 
-import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Cell, Tooltip } from 'recharts';
-import { Star, Target, TrendingUp, CheckCircle2 } from 'lucide-react';
+import {
+  LineChart, Line, XAxis, YAxis, ResponsiveContainer, Tooltip, Legend,
+} from 'recharts';
+import { Star, Target, TrendingUp, CheckCircle2, BarChart2 } from 'lucide-react';
+
+interface RoiPoint { month: number; pessimistic: number; realistic: number; optimistic: number; }
 
 interface SynthesisTabProps {
   data?: {
@@ -21,6 +25,8 @@ interface SynthesisTabProps {
         objective: string;
         kpi?: string;
       }>;
+      roi?: RoiPoint[];
+      nextSteps?: string[];
     };
   };
 }
@@ -44,7 +50,7 @@ export default function SynthesisTab({ data }: SynthesisTabProps) {
     return (
       <div className="flex items-center justify-center py-20 text-gray-400">
         <div className="text-center">
-          <BarChart className="w-12 h-12 mx-auto mb-3 opacity-30" />
+          <BarChart2 className="w-12 h-12 mx-auto mb-3 opacity-30" />
           <p>Synthèse non disponible</p>
         </div>
       </div>
@@ -53,14 +59,13 @@ export default function SynthesisTab({ data }: SynthesisTabProps) {
 
   const score = synthesis.score ?? 0;
   const metricsArr = synthesis.keyMetrics
-    ? Object.entries(synthesis.keyMetrics).map(([k, v]) => ({ name: k, value: typeof v === 'number' ? v : 0, raw: v }))
+    ? Object.entries(synthesis.keyMetrics).map(([k, v]) => ({ name: k, raw: v }))
     : [];
 
   return (
     <div className="space-y-8">
       {/* Score + summary */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-        {/* Score ring */}
         <div className="card text-center">
           <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">Score stratégique</p>
           <div className="relative w-28 h-28 mx-auto mb-3">
@@ -85,7 +90,6 @@ export default function SynthesisTab({ data }: SynthesisTabProps) {
           </p>
         </div>
 
-        {/* Summary */}
         {synthesis.summary && (
           <div className="card sm:col-span-2">
             <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Résumé stratégique</p>
@@ -108,59 +112,78 @@ export default function SynthesisTab({ data }: SynthesisTabProps) {
       {/* Key Metrics */}
       {metricsArr.length > 0 && (
         <div className="card">
-          <h2 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
+          <h2 className="text-lg font-bold text-gray-900 mb-5 flex items-center gap-2">
             <TrendingUp className="w-5 h-5 text-primary-500" />
-            Métriques clés
+            Métriques clés (mois 1)
           </h2>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             {metricsArr.slice(0, 4).map(({ name, raw }) => (
               <div key={`metric-${name}`} className="text-center p-4 bg-gray-50 rounded-xl">
                 <p className="text-xl font-bold text-gray-900">{raw}</p>
-                <p className="text-xs text-gray-500 mt-1 capitalize">{name}</p>
+                <p className="text-xs text-gray-500 mt-1 leading-tight">{name}</p>
               </div>
             ))}
           </div>
-          {metricsArr.some(m => m.value > 0) && (
-            <div style={{ height: 160 }}>
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={metricsArr.filter(m => m.value > 0)} barCategoryGap="30%">
-                  <XAxis dataKey="name" tick={{ fontSize: 10, fill: '#9ca3af' }} axisLine={false} tickLine={false} />
-                  <YAxis hide />
-                  <Tooltip
-                    contentStyle={{ fontSize: 12, borderRadius: 8, border: '1px solid #f3f4f6' }}
-                    labelStyle={{ fontWeight: 600 }}
-                  />
-                  <Bar dataKey="value" radius={[6, 6, 0, 0]}>
-                    {metricsArr.filter(m => m.value > 0).map((_, i) => (
-                      <Cell key={`cell-${i}`} fill={i % 2 === 0 ? '#38B6FF' : '#E20074'} />
-                    ))}
-                  </Bar>
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
-          )}
         </div>
       )}
+
+      {/* ROI projection */}
+      {synthesis.roi?.length ? (
+        <div className="card">
+          <h2 className="text-lg font-bold text-gray-900 mb-5 flex items-center gap-2">
+            <TrendingUp className="w-5 h-5 text-emerald-500" />
+            Projection ROI cumulatif sur 12 mois (€)
+          </h2>
+          <div style={{ height: 220 }}>
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart data={synthesis.roi} margin={{ top: 4, right: 8, bottom: 0, left: 0 }}>
+                <XAxis
+                  dataKey="month"
+                  tick={{ fontSize: 11, fill: '#9ca3af' }}
+                  axisLine={false} tickLine={false}
+                  tickFormatter={(v) => `M${v}`}
+                />
+                <YAxis
+                  tick={{ fontSize: 10, fill: '#9ca3af' }}
+                  axisLine={false} tickLine={false}
+                  tickFormatter={(v) => v >= 1000 ? `${(v/1000).toFixed(0)}k€` : `${v}€`}
+                  width={44}
+                />
+                <Tooltip
+                  contentStyle={{ fontSize: 12, borderRadius: 8, border: '1px solid #f3f4f6' }}
+                  formatter={(v: number) => [`${v.toLocaleString('fr-FR')} €`]}
+                  labelFormatter={(l) => `Mois ${l}`}
+                />
+                <Legend iconSize={10} wrapperStyle={{ fontSize: 11 }} />
+                <Line type="monotone" dataKey="pessimistic" name="Pessimiste" stroke="#ef4444" strokeWidth={1.5} dot={false} strokeDasharray="4 2" />
+                <Line type="monotone" dataKey="realistic"   name="Réaliste"   stroke="#38B6FF" strokeWidth={2}   dot={false} />
+                <Line type="monotone" dataKey="optimistic"  name="Optimiste"  stroke="#22c55e" strokeWidth={1.5} dot={false} strokeDasharray="4 2" />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+      ) : null}
 
       {/* Action plan */}
       {synthesis.actionPlan?.length ? (
         <div>
           <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-            <Target className="w-5 h-5 text-magenta-500" />
-            Plan d'action 90 jours
+            <Target className="w-5 h-5 text-primary-500" />
+            Plan d&apos;action 90 jours
           </h2>
           <div className="space-y-3">
             {synthesis.actionPlan.map((action, i) => (
               <div
-                key={`action-${action.priority}-${i}`}
-                className="card-sm flex items-start gap-4"
+                key={`action-${i}`}
+                className="card-sm flex items-start gap-4 animate-fade-in"
+                style={{ animationDelay: `${i * 40}ms` }}
               >
                 <div className="w-8 h-8 rounded-xl bg-gradient-primary flex items-center justify-center flex-shrink-0 text-white font-bold text-xs">
                   {i + 1}
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-start justify-between gap-3 mb-1 flex-wrap">
-                    <p className="font-semibold text-gray-900 text-sm line-clamp-2 flex-1">{action.action}</p>
+                    <p className="font-semibold text-gray-900 text-sm flex-1">{action.action}</p>
                     <div className="flex items-center gap-2 flex-shrink-0">
                       <span className={`badge ${PRIORITY_BADGE[action.priority] ?? 'badge-gray'}`}>
                         {action.priority}
@@ -169,7 +192,7 @@ export default function SynthesisTab({ data }: SynthesisTabProps) {
                     </div>
                   </div>
                   {action.expectedResult && (
-                    <p className="text-xs text-gray-500 line-clamp-1">{action.expectedResult}</p>
+                    <p className="text-xs text-gray-500">{action.expectedResult}</p>
                   )}
                 </div>
               </div>
@@ -201,6 +224,26 @@ export default function SynthesisTab({ data }: SynthesisTabProps) {
               ))}
             </div>
           </div>
+        </div>
+      ) : null}
+
+      {/* Next steps */}
+      {synthesis.nextSteps?.length ? (
+        <div className="card" style={{ background: 'linear-gradient(135deg,#F0F9FF,#FFF0F7)' }}>
+          <h2 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+            <CheckCircle2 className="w-5 h-5 text-emerald-500" />
+            Prochaines étapes immédiates
+          </h2>
+          <ol className="space-y-3">
+            {synthesis.nextSteps.map((step, i) => (
+              <li key={`step-${i}`} className="flex items-start gap-3 text-sm text-gray-700">
+                <span className="w-5 h-5 rounded-full bg-emerald-100 text-emerald-700 text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">
+                  {i + 1}
+                </span>
+                {step}
+              </li>
+            ))}
+          </ol>
         </div>
       ) : null}
     </div>

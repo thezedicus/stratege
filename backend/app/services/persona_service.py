@@ -1,5 +1,4 @@
 import copy
-from app.models.schemas import AnalysisInput
 
 PERSONA_TEMPLATES: dict = {
     "ecommerce": [
@@ -365,7 +364,13 @@ def _fetch_random_users(count: int) -> list:
     return users
 
 
-async def generate_personas(data: AnalysisInput) -> list:
+async def generate_personas(activity_type: str, goal: str, maturity: str) -> list:
+    class _D:
+        pass
+    data = _D()
+    data.activityType = activity_type
+    data.goal = goal
+    data.maturity = maturity
     # Deep copy to prevent mutation of the module-level template cache
     template_key = data.activityType if data.activityType in PERSONA_TEMPLATES else "default"
     base_personas: list = copy.deepcopy(PERSONA_TEMPLATES[template_key])

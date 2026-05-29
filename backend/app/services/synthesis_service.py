@@ -1,35 +1,156 @@
-from app.models.schemas import AnalysisInput
-import math
+"""
+Synthesis service — generates strategic score, summary, action plan, ROI and milestones.
+Python 3.9 compatible.
+"""
+from __future__ import annotations
+from typing import Any, Dict, List, Optional
 
 
 def generate_synthesis(
-    data: AnalysisInput,
     swot: dict,
     personas: list,
-    marketing: dict,
-    seo: dict,
-    ads: dict,
+    marketing: Optional[dict],
+    seo: Optional[dict],
+    ads: Optional[dict],
+    input_data: dict,
 ) -> dict:
-    actions = _generate_actions(data, swot)
-    roi = _generate_roi(data)
-    summary = _generate_summary(data, swot)
-    metrics = _generate_key_metrics(data)
+    # Wrap the raw input dict in a simple namespace for attribute-style access
+    class _D:
+        pass
+    data = _D()
+    data.activityType = input_data.get("activityType", "other")
+    data.goal = input_data.get("goal", "awareness")
+    data.maturity = input_data.get("maturity", "idea")
+    data.monthlyBudget = float(input_data.get("monthlyBudget", 0))
+
+    actions   = _generate_actions(data, swot)
+    roi       = _generate_roi(data)
+    summary   = _generate_summary(data, swot)
+    metrics   = _generate_key_metrics(data)
     next_steps = _generate_next_steps(data)
+    score     = _compute_score(data, swot, seo, ads)
+    priorities = _generate_priorities(data, swot)
+    milestones = _generate_milestones(data)
+
+    # Reshape keyMetrics from list to Record<label, value> for frontend
+    key_metrics_dict = {m["label"]: m["value"] for m in metrics}
+
+    # Reshape actions to match frontend's actionPlan shape
+    action_plan = [
+        {
+            "action": a["action"],
+            "priority": _map_priority(a.get("impact", "Moyen")),
+            "timeline": a["timeline"],
+            "expectedResult": "{} — Effort : {}".format(a.get("category", ""), a.get("effort", "")),
+        }
+        for a in actions
+    ]
 
     return {
-        "actions": actions,
-        "roi": roi,
-        "summary": summary,
-        "keyMetrics": metrics,
-        "nextSteps": next_steps,
+        "score":             score,
+        "summary":           summary,
+        "priorities":        priorities,
+        "keyMetrics":        key_metrics_dict,
+        "actionPlan":        action_plan,
+        "monthlyMilestones": milestones,
+        "roi":               roi,
+        "nextSteps":         next_steps,
     }
 
 
-def _generate_actions(data: AnalysisInput, swot: dict) -> list:
+def _map_priority(impact: str) -> str:
+    return {"Fort": "haute", "Élevé": "haute", "Moyen": "moyenne", "Faible": "faible"}.get(impact, "moyenne")
+
+
+def _compute_score(data: Any, swot: dict, seo: Optional[dict], ads: Optional[dict]) -> int:
+    score = 40  # baseline
+
+    # Maturity bonus
+    score += {"idea": 0, "inprogress": 10, "launched": 20}.get(data.maturity, 0)
+
+    # SWOT strengths vs threats
+    strengths = len(swot.get("strengths", []))
+    threats   = len(swot.get("threats", []))
+    score += min(strengths * 4, 12)
+    score -= min(threats * 2, 8)
+
+    # Budget adequacy
+    if data.monthlyBudget >= 500:
+        score += 15
+    elif data.monthlyBudget >= 100:
+        score += 8
+    elif data.monthlyBudget >= 30:
+        score += 4
+
+    # Bonus for having SEO and ads data
+    if seo:
+        score += 5
+    if ads:
+        score += 5
+
+    return min(max(score, 10), 98)
+
+
+def _generate_priorities(data: Any, swot: dict) -> List[str]:
+    priorities = []
+    goal_map = {
+        "awareness": "Développer la notoriété via contenu organique + SEO",
+        "sales":     "Optimiser le tunnel de conversion et les pages produits",
+        "leads":     "Mettre en place un système de capture et nurturing email",
+        "traffic":   "Lancer une stratégie SEO + publicité pour augmenter les visites",
+    }
+    if data.goal in goal_map:
+        priorities.append(goal_map[data.goal])
+
+    opps = swot.get("opportunities", [])
+    if opps:
+        priorities.append("Saisir l'opportunité : " + opps[0])
+
+    if data.monthlyBudget >= 100:
+        priorities.append("Allouer {}€ à la publicité payante dès le mois 1".format(round(data.monthlyBudget * 0.4)))
+
+    priorities.append("Suivre les métriques clés chaque semaine (trafic, leads, CA)")
+    return priorities
+
+
+def _generate_milestones(data: Any) -> list:
+    milestones = [
+        {
+            "month": 1,
+            "objective": "Mise en place des outils d'analyse et lancement des premières actions",
+            "kpi": "Google Analytics installé, 1ère campagne active",
+        },
+        {
+            "month": 2,
+            "objective": "Premiers résultats et ajustements de la stratégie",
+            "kpi": "100+ visiteurs/semaine, 10+ leads capturés",
+        },
+        {
+            "month": 3,
+            "objective": "Accélération et optimisation des canaux performants",
+            "kpi": "CAC mesuré, taux de conversion > 2%",
+        },
+        {
+            "month": 6,
+            "objective": "Croissance stable et récurrence des revenus",
+            "kpi": "ROI publicitaire > 2×, liste email > 500 contacts",
+        },
+        {
+            "month": 12,
+            "objective": "Projet rentable avec processus d'acquisition reproductibles",
+            "kpi": "CA mensuel récurrent, NPS > 40",
+        },
+    ]
+    if data.maturity == "launched":
+        milestones[0]["objective"] = "Analyser les sources de clients actuelles et doubler le budget sur les meilleures"
+        milestones[0]["kpi"] = "Top 3 canaux identifiés, budget réalloué"
+    return milestones
+
+
+def _generate_actions(data: Any, swot: dict) -> list:
     actions = []
     priority = 0
 
-    # Action 0 for idea stage — validate before spending
     if data.maturity == "idea":
         priority += 1
         actions.append({
@@ -148,13 +269,7 @@ def _generate_actions(data: AnalysisInput, swot: dict) -> list:
     return actions
 
 
-def _generate_roi(data: AnalysisInput) -> list:
-    """
-    Generates a 12-month cumulative ROI projection.
-    Formula: each month, estimate the leads generated from paid budget,
-    multiply by average sale value to get revenue.
-    Ensures non-zero output even for minimal budgets.
-    """
+def _generate_roi(data: Any) -> list:
     budget = data.monthlyBudget
     avg_sale = {
         "ecommerce": 45, "saas": 49, "service": 200,
@@ -162,88 +277,54 @@ def _generate_roi(data: AnalysisInput) -> list:
         "application": 30, "other": 80,
     }.get(data.activityType, 80)
 
-    # Paid budget portion (40% of monthly budget)
     paid_budget = budget * 0.40
-
-    # Conversion rates by maturity
     ctr = {"idea": 0.015, "inprogress": 0.025, "launched": 0.04}.get(data.maturity, 0.02)
-
-    # Cost per click estimate (€) by platform category
-    cpc = {"saas": 2.5, "service": 2.0, "ecommerce": 0.8, "default": 1.5}
-    avg_cpc = cpc.get(data.activityType, cpc["default"])
-
-    # Monthly clicks from paid budget
+    cpc_map = {"saas": 2.5, "service": 2.0, "ecommerce": 0.8}
+    avg_cpc = cpc_map.get(data.activityType, 1.5)
     monthly_clicks = paid_budget / max(avg_cpc, 0.1)
-
-    # Monthly leads (clicks × CTR)
     monthly_leads_base = monthly_clicks * ctr
-
-    # Organic growth multiplier (SEO + content, starts small)
     organic_multiplier = {"idea": 0.1, "inprogress": 0.2, "launched": 0.4}.get(data.maturity, 0.2)
-
-    # Lead-to-sale conversion
-    lead_to_sale = {"saas": 0.15, "service": 0.20, "ecommerce": 0.03, "default": 0.10}.get(
-        data.activityType, 0.10
-    )
+    lead_to_sale = {"saas": 0.15, "service": 0.20, "ecommerce": 0.03}.get(data.activityType, 0.10)
 
     roi_data = []
     cumulative = {"pessimistic": 0.0, "realistic": 0.0, "optimistic": 0.0}
 
     for month in range(1, 13):
-        # Growth factor: progressive ramp-up capped at 2.5x
         growth = min(2.5, 1.0 + (month - 1) * 0.12)
         organic_growth = 1.0 + organic_multiplier * (month / 12)
-
-        leads_realistic = monthly_leads_base * growth * organic_growth
-        # Ensure at least 0.5 lead/month for any budget > 0
-        leads_realistic = max(0.5, leads_realistic)
-
-        sales_realistic = leads_realistic * lead_to_sale
-        revenue_realistic = sales_realistic * avg_sale
-
-        cumulative["realistic"] += revenue_realistic
-        cumulative["optimistic"] += revenue_realistic * 1.7
-        cumulative["pessimistic"] += revenue_realistic * 0.5
-
+        leads = max(0.5, monthly_leads_base * growth * organic_growth)
+        revenue = leads * lead_to_sale * avg_sale
+        cumulative["realistic"]  += revenue
+        cumulative["optimistic"] += revenue * 1.7
+        cumulative["pessimistic"] += revenue * 0.5
         roi_data.append({
-            "month": month,
+            "month":       month,
             "pessimistic": round(cumulative["pessimistic"]),
-            "realistic": round(cumulative["realistic"]),
-            "optimistic": round(cumulative["optimistic"]),
+            "realistic":   round(cumulative["realistic"]),
+            "optimistic":  round(cumulative["optimistic"]),
         })
 
     return roi_data
 
 
-def _generate_summary(data: AnalysisInput, swot: dict) -> str:
-    strengths = swot.get("strengths", [])
+def _generate_summary(data: Any, swot: dict) -> str:
+    strengths    = swot.get("strengths", [])
     opportunities = swot.get("opportunities", [])
-    strength_txt = strengths[0].lower() if strengths else "votre expertise"
+    strength_txt    = strengths[0].lower()    if strengths    else "votre expertise"
     opportunity_txt = opportunities[0].lower() if opportunities else "le marché digital"
 
-    budget_advice = ""
     if data.monthlyBudget < 50:
-        budget_advice = (
-            "Avec un budget de {}€/mois, nous recommandons de concentrer 100% de vos efforts "
-            "sur le SEO organique et les réseaux sociaux gratuits pour maximiser l'impact.".format(int(data.monthlyBudget))
-        )
+        budget_advice = "Avec {}€/mois, concentrez 100% de vos efforts sur le SEO organique et les réseaux sociaux gratuits.".format(int(data.monthlyBudget))
     elif data.monthlyBudget < 200:
-        budget_advice = (
-            "Avec {}€/mois, répartissez entre SEO/contenu (60%) et une campagne publicitaire "
-            "ciblée (40%) pour un équilibre court/long terme.".format(int(data.monthlyBudget))
-        )
+        budget_advice = "Avec {}€/mois, répartissez SEO/contenu (60%) et publicité ciblée (40%).".format(int(data.monthlyBudget))
     else:
-        budget_advice = (
-            "Avec {}€/mois, combinez publicité payante (50%) et contenu organique (50%) "
-            "pour des résultats rapides et une croissance durable.".format(int(data.monthlyBudget))
-        )
+        budget_advice = "Avec {}€/mois, combinez publicité payante (50%) et contenu organique (50%) pour des résultats rapides et durables.".format(int(data.monthlyBudget))
 
     return (
         "Votre projet {} présente un potentiel réel pour atteindre votre objectif de {}. "
         "{} Votre principal atout : {}. "
-        "L'opportunité à saisir en priorité : {}. "
-        "En suivant les actions priorisées ci-dessous, vous pouvez espérer un retour sur investissement "
-        "de 2 à 5× dans les 6 premiers mois.".format(
+        "L'opportunité prioritaire : {}. "
+        "En suivant les actions ci-dessous, visez un ROI de 2 à 5× dans les 6 premiers mois.".format(
             _activity_label(data.activityType),
             _goal_label(data.goal),
             budget_advice,
@@ -253,40 +334,29 @@ def _generate_summary(data: AnalysisInput, swot: dict) -> str:
     )
 
 
-def _generate_key_metrics(data: AnalysisInput) -> list:
+def _generate_key_metrics(data: Any) -> list:
     budget = data.monthlyBudget
-    # Realistic CPM by sector
-    cpm = {"saas": 18, "service": 15, "ecommerce": 10, "default": 12}.get(data.activityType, 12)
+    cpm = {"saas": 18, "service": 15, "ecommerce": 10}.get(data.activityType, 12)
     paid_portion = budget * 0.40
     impressions = int((paid_portion / max(cpm, 1)) * 1000)
-    # Organic multiplier
-    organic_extra = int(impressions * 0.3)
-    total_reach = impressions + organic_extra
-
-    # Leads: 2% of reach
+    total_reach = impressions + int(impressions * 0.3)
     estimated_leads = max(1, int(total_reach * 0.02))
-
-    # Revenue: leads × sale value × 15% close rate
-    avg_sale = {"ecommerce": 45, "saas": 49, "service": 200, "default": 80}.get(data.activityType, 80)
+    avg_sale = {"ecommerce": 45, "saas": 49, "service": 200}.get(data.activityType, 80)
     estimated_revenue = int(estimated_leads * avg_sale * 0.15)
-
-    # ROI on paid spend
     roi_mult = round(estimated_revenue / max(paid_portion, 1), 1) if paid_portion > 0 else 0
 
     return [
-        {"label": "Portée mensuelle estimée",   "value": f"{total_reach:,}".replace(",", " "), "trend": "+15-20%/mois"},
-        {"label": "Leads estimés/mois",         "value": str(estimated_leads),                "trend": "+15%/mois"},
-        {"label": "CA potentiel estimé",        "value": f"{estimated_revenue} €",            "trend": "+20%/trimestre"},
-        {"label": "ROI publicité estimé",       "value": f"{roi_mult}×",                      "trend": "Croissant"},
+        {"label": "Portée mensuelle estimée", "value": f"{total_reach:,}".replace(",", " "), "trend": "+15-20%/mois"},
+        {"label": "Leads estimés/mois",        "value": str(estimated_leads),                     "trend": "+15%/mois"},
+        {"label": "CA potentiel estimé",       "value": f"{estimated_revenue} €",                 "trend": "+20%/trimestre"},
+        {"label": "ROI publicité estimé",      "value": f"{roi_mult}×",                           "trend": "Croissant"},
     ]
 
 
-def _generate_next_steps(data: AnalysisInput) -> list:
+def _generate_next_steps(data: Any) -> list:
     steps = [
         "Créez votre compte Google Analytics 4 et connectez-le à votre site (gratuit, moins de 15 minutes)",
-        "Ouvrez un compte sur {} Ads et définissez votre audience cible avant toute dépense".format(
-            _main_channel(data.activityType)
-        ),
+        "Ouvrez un compte sur {} Ads et définissez votre audience cible avant toute dépense".format(_main_channel(data.activityType)),
         "Rédigez votre lead magnet (guide PDF ou template) pour capturer les premiers emails dès cette semaine",
         "Identifiez vos 3 principaux concurrents et analysez leur stratégie de contenu (gratuit avec SimilarWeb)",
         "Créez votre premier contenu vidéo de 30 secondes présentant votre solution et partagez-le aujourd'hui",
@@ -299,31 +369,16 @@ def _generate_next_steps(data: AnalysisInput) -> list:
 
 
 def _goal_label(goal: str) -> str:
-    return {
-        "awareness": "notoriété",
-        "sales":     "ventes",
-        "leads":     "génération de leads",
-        "traffic":   "trafic",
-    }.get(goal, goal)
+    return {"awareness": "notoriété", "sales": "ventes", "leads": "génération de leads", "traffic": "trafic"}.get(goal, goal)
 
 
 def _activity_label(activity: str) -> str:
     return {
-        "ecommerce":   "e-commerce",
-        "saas":        "SaaS",
-        "service":     "de service en ligne",
-        "website":     "de site vitrine",
-        "application": "d'application mobile",
-        "content":     "de création de contenu",
-        "consulting":  "de conseil",
-        "other":       "en ligne",
+        "ecommerce": "e-commerce", "saas": "SaaS", "service": "de service en ligne",
+        "website": "de site vitrine", "application": "d'application mobile",
+        "content": "de création de contenu", "consulting": "de conseil", "other": "en ligne",
     }.get(activity, activity)
 
 
 def _main_channel(activity: str) -> str:
-    return {
-        "saas":      "LinkedIn",
-        "ecommerce": "Meta (Facebook/Instagram)",
-        "service":   "Google",
-        "consulting": "LinkedIn",
-    }.get(activity, "Google/Meta")
+    return {"saas": "LinkedIn", "ecommerce": "Meta (Facebook/Instagram)", "service": "Google", "consulting": "LinkedIn"}.get(activity, "Google/Meta")
