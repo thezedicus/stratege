@@ -3640,6 +3640,25 @@ try:
 except Exception:
     pass
 
+# ── Authentification — défini AVANT la sidebar ───────────────────────────
+_current_user = None
+if _HAS_AUTH:
+    try:
+        _current_user = get_current_user()
+    except Exception:
+        _current_user = None
+
+# Vérifier si c'est l'utilisateur démo
+_is_demo = (
+    _current_user is None or
+    _current_user.get("provider") == "demo"
+)
+
+# Infos utilisateur
+_user_email = _current_user.get("email", "") if _current_user else ""
+_user_name  = _current_user.get("name", "") if _current_user else ""
+_user_first = _user_name.split()[0] if _user_name else "Visiteur"
+
 with st.sidebar:
     st.markdown("""
     <div style="text-align:center;padding:8px 0 12px">
