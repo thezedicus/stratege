@@ -247,19 +247,23 @@ st.markdown('''
 try:
     from auth_system import (
         get_current_user, set_session, logout,
-        _create_user, _login_user, _oauth_user_upsert,
-        _get_user, _delete_user, _generate_magic_token,
-        _verify_magic_token, increment_analysis_count,
-        build_oauth_url, OAUTH_PROVIDERS,
+        login_user, create_user, login_or_create_social,
+        get_demo_user, change_password, delete_user,
+        increment_analysis_count,
     )
     _HAS_AUTH = True
 except ImportError:
     _HAS_AUTH = False
-    # Stubs auth_system si absent
-    def get_current_user(): return {"email":"demo@biziapp.fr","name":"Demo","provider":"demo","analyses_count":0}
+    def get_current_user(): return {"email":"demo@biziapp.fr","name":"Visiteur","provider":"demo","analyses_count":0}
     def set_session(u): pass
     def logout(): pass
     def increment_analysis_count(e): pass
+    def login_user(e,p): return {"error":"Auth indisponible"}
+    def create_user(e,p,n,prf=None): return {"error":"Auth indisponible"}
+    def login_or_create_social(e,n,pr): return {"error":"Auth indisponible"}
+    def get_demo_user(): return {"email":"demo@biziapp.fr","name":"Visiteur","provider":"demo","analyses_count":0}
+    def change_password(e,o,n): return {"error":"Auth indisponible"}
+    def delete_user(e): return False
 
 # ── CSS Auth (neuromarketing + RGPD) ─────────────────────────────────────────
 _AUTH_CSS = """
@@ -461,7 +465,7 @@ def _show_login_form():
 
     if _login_clicked and _email:
         if _HAS_AUTH:
-            result = _login_user(_email, _pwd)
+            result = login_user(_email, _pwd)
             if result.get("ok"):
                 set_session(result["user"])
                 st.success(f"Bienvenue {result['user'].get('name','').split()[0] or '!'} ")
@@ -566,7 +570,7 @@ def _show_register_form():
         elif _HAS_AUTH:
             _act_map = {"E-commerce":"ecommerce","SaaS / Tech":"saas","Services":"service",
                        "Conseil / Expertise":"consulting","Création de contenu":"content","Autre":"other"}
-            result = _create_user(_email, _pwd, _name, {
+            result = create_user(_email, _pwd, _name, {
                 "consent_rgpd": _consent_rgpd,
                 "consent_marketing": _consent_mkt,
                 "activity_type": _act_map.get(_activity,""),
