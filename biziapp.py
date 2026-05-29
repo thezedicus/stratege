@@ -479,15 +479,11 @@ def _show_login_form():
             st.rerun()
 
     if _forgot and _email:
-        # Lien magique (simulé  --  affiche le token pour demo)
-        if _HAS_AUTH:
-            _tok = _generate_magic_token(_email)
-            st.success(
-    f"Un lien de connexion a ete envoye a {_email}. "
-    f"Verifiez votre boite mail (et vos spams)."
-)
-        else:
-            st.info("Fonctionnalité disponible avec auth_system configuré.")
+        # Mot de passe oublié — message informatif (reset par email non dispo sans SMTP)
+        st.info(
+            f"Pour reinitialiser votre mot de passe, "
+            f"contactez-nous a support@biziapp.fr en precisant : {_email}"
+        )
 
     # Preuve sociale (neuromarketing : social proof)
     st.markdown("""
