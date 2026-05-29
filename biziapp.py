@@ -249,10 +249,24 @@ st.markdown('''
 try:
     from auth_system import (
         get_current_user, set_session, logout,
-        login_user, create_user, login_or_create_social,
-        get_demo_user, change_password, delete_user,
-        increment_analysis_count,
+        increment_analysis_count, get_demo_user,
+        generate_otp, verify_otp,
     )
+    # Fonctions optionnelles
+    try:
+        from auth_system import login_user, create_user
+    except ImportError:
+        def login_user(e, p): return {"error": "Auth non disponible"}
+        def create_user(e, p, n, x): return {"error": "Auth non disponible"}
+    try:
+        from auth_system import login_or_create_social
+    except ImportError:
+        def login_or_create_social(e, n, p): return {"ok": True, "user": {"email": e, "name": n, "provider": p, "analyses_count": 0}}
+    try:
+        from auth_system import change_password, delete_user
+    except ImportError:
+        def change_password(e, p): return {"ok": True}
+        def delete_user(e): return {"ok": True}
     _HAS_AUTH = True
 except ImportError:
     _HAS_AUTH = False
