@@ -268,6 +268,40 @@ def build_oauth_url(provider: str, redirect_uri: str = "") -> str:
 
 
 # ── Connexion demomode (sans compte) ────────────────────────────────────────
+def login_or_create_social(email: str, name: str, provider: str) -> dict:
+    """Alias de _oauth_user_upsert pour compatibilite."""
+    return _oauth_user_upsert(email, name, provider)
+
+
+def change_password(email: str, new_password: str) -> dict:
+    """Change le mot de passe d un utilisateur."""
+    db = _load_db()
+    email = email.lower().strip()
+    if email not in db:
+        return {"error": "Utilisateur introuvable."}
+    if len(new_password) < 6:
+        return {"error": "Mot de passe trop court."}
+    db[email]["password_hash"] = _hash_password(new_password)
+    _save_db(db)
+    return {"ok": True}
+
+
+def delete_user(email: str) -> dict:
+    """Supprime un compte utilisateur (RGPD)."""
+    ok = _delete_user(email)
+    return {"ok": ok}
+
+
+def create_user(email: str, password: str, name: str, prefs: dict) -> dict:
+    """Alias de _create_user pour compatibilite."""
+    return _create_user(email, password, name, prefs)
+
+
+def login_user(email: str, password: str) -> dict:
+    """Alias de _login_user pour compatibilite."""
+    return _login_user(email, password)
+
+
 def get_demo_user() -> dict:
     """Retourne un utilisateur de demonstration."""
     return {
