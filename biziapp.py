@@ -3671,7 +3671,9 @@ _is_demo = (
 # Infos utilisateur
 _user_email = _current_user.get("email", "") if _current_user else ""
 _user_name  = _current_user.get("name", "") if _current_user else ""
-_user_first = _user_name.split()[0] if _user_name else "Visiteur"
+_user_first   = _user_name.split()[0] if _user_name else "Visiteur"
+_user_initial = _user_first[0].upper() if _user_first else "V"
+_user_analyses = _current_user.get("analyses_count", 0) if _current_user else 0
 
 with st.sidebar:
     st.markdown("""
