@@ -596,274 +596,68 @@ def _show_register_form():
 
 
 def _render_oauth_buttons():
-    """Boutons OAuth Google + GitHub (liens directs  --  PKCE sans backend)."""
+    """Connexion OTP email (1-clic) + detection Google Streamlit Cloud natif."""
+    import streamlit as st
+    import secrets as _sec
 
-    # Google OAuth (nécessite client_id dans secrets.toml)
-    _google_url = ""
-    _github_url = ""
+    # Detection connexion Google via Streamlit Cloud (automatique si configure)
     try:
-        import streamlit as _st2
-        _gcid = _st2.secrets.get("oauth", {}).get("google_client_id", "")
-        _ghcid = _st2.secrets.get("oauth", {}).get("github_client_id", "")
-        if _gcid:
-            _google_url = (f"https://accounts.google.com/o/oauth2/v2/auth"
-                f"?client_id={_gcid}&redirect_uri=https://biziapp.streamlit.app"
-                f"&response_type=code&scope=openid+email+profile&prompt=select_account")
-        if _ghcid:
-            _github_url = (f"https://github.com/login/oauth/authorize"
-                f"?client_id={_ghcid}&scope=user:email")
+        _u = st.experimental_user
+        if _u and _u.get("is_logged_in", False) and _u.get("email"):
+            from auth_system import _oauth_user_upsert, set_session
+            _res = _oauth_user_upsert(_u["email"], _u.get("name", ""), "google")
+            if _res.get("ok"):
+                set_session(_res["user"])
+                st.success("Connecte avec Google !")
+                st.rerun()
     except Exception:
         pass
 
-    # Afficher boutons OAuth si configurés, sinon afficher la note de config
-    if _google_url:
-        st.markdown(f"""
-<a href="{_google_url}" style="text-decoration:none">
-  <div class="oauth-btn">
-    <svg width="18" height="18" viewBox="0 0 24 24">
-      <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-      <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-      <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-      <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-    </svg>
-    Continuer avec Google
-  </div>
-</a>""", unsafe_allow_html=True)
-    else:
-        st.markdown("""
-<div class="oauth-btn" style="opacity:.5;cursor:default;justify-content:flex-start">
-  <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
-  Google  --  configurer client_id dans secrets.toml
-</div>""", unsafe_allow_html=True)
-
-    if _github_url:
-        st.markdown(f"""
-<a href="{_github_url}" style="text-decoration:none">
-  <div class="oauth-btn">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-    </svg>
-    Continuer avec GitHub
-  </div>
-</a>""", unsafe_allow_html=True)
-
-    # Yahoo / Hotmail / Microsoft &#8594; liens directs OpenID
+    # OTP Email
     st.markdown("""
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:4px">
-  <div class="oauth-btn" style="opacity:.6;cursor:default;font-size:.78rem;padding:9px 10px">
-     Yahoo  --  bientôt
-  </div>
-  <div class="oauth-btn" style="opacity:.6;cursor:default;font-size:.78rem;padding:9px 10px">
-     Microsoft  --  bientôt
-  </div>
-</div>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-  <div class="oauth-btn" style="opacity:.6;cursor:default;font-size:.78rem;padding:9px 10px">
-     Shopify  --  bientôt
-  </div>
-  <div class="oauth-btn" style="opacity:.6;cursor:default;font-size:.78rem;padding:9px 10px">
-    LinkedIn  --  bientôt
-  </div>
-</div>
-""", unsafe_allow_html=True)
+<div style="background:rgba(68,193,186,.06);border-radius:10px;padding:14px 16px;margin-bottom:14px">
+  <div style="font-size:.82rem;font-weight:700;color:#0B2221;margin-bottom:8px">
+    Connexion rapide sans mot de passe (code email)
+  </div>""", unsafe_allow_html=True)
+    _oe = st.text_input("Email", placeholder="votre@email.fr",
+                        key="otp_email_inp", label_visibility="collapsed")
+    _c1, _c2 = st.columns([3, 2])
+    with _c1:
+        if st.button("Envoyer le code", use_container_width=True, key="btn_otp_send2"):
+            if _oe and "@" in _oe and "." in _oe:
+                from auth_system import generate_otp, _get_user, _create_user
+                _otp = generate_otp(_oe)
+                if not _get_user(_oe):
+                    _create_user(_oe, _sec.token_hex(8),
+                                 _oe.split("@")[0].capitalize(), {"consent_rgpd": True})
+                st.session_state["_otp_to"] = _oe
+                st.info(f"Votre code : **{_otp}** (valable 10 min)")
+            else:
+                st.warning("Entrez une adresse email valide.")
+    with _c2:
+        if st.button("Mode demo", use_container_width=True, key="btn_demo_quick"):
+            from auth_system import get_demo_user, set_session
+            set_session(get_demo_user())
+            st.rerun()
+    st.markdown("</div>", unsafe_allow_html=True)
+
+    if st.session_state.get("_otp_to"):
+        _to = st.session_state["_otp_to"]
+        _inp = st.text_input(f"Code recu ({_to})", placeholder="123456",
+                             key="otp_code_inp", max_chars=6)
+        if st.button("Valider le code", type="primary", use_container_width=True, key="btn_otp_ok"):
+            from auth_system import verify_otp, _get_user, set_session
+            if verify_otp(_to, _inp):
+                _usr = _get_user(_to)
+                if _usr:
+                    set_session(_usr)
+                    st.session_state.pop("_otp_to", None)
+                    st.success("Connexion reussie !")
+                    st.rerun()
+            else:
+                st.error("Code incorrect ou expire. Cliquez sur Envoyer le code pour en obtenir un nouveau.")
 
 
-# ── Auth optionnelle  --  non connecté = mode Demo ──────────────────────────────
-_current_user = get_current_user()
-# Si non connecté &#8594; mode démo (accès limité sans blocage)
-if _current_user is None:
-    _current_user = {
-        "email": "demo@biziapp.fr",
-        "name": "Visiteur",
-        "provider": "demo",
-        "analyses_count": 0,
-        "plan": "demo",
-    }
-_is_demo = _current_user.get("provider") == "demo"
-_is_pro   = _current_user.get("plan") in ("starter", "pro")
-
-# Badge utilisateur
-_user_first = (_current_user.get("name","") or _current_user.get("email","")).split()[0]
-_user_initial = _user_first[0].upper() if _user_first else "V"
-_user_analyses = _current_user.get("analyses_count", 0)
-
-# Si l'utilisateur demande la page auth depuis sidebar
-if st.session_state.get("_show_auth") and _is_demo:
-    _show_auth_page()
-    if st.button("Continuer en mode demo", key="btn_skip_auth"):
-        st.session_state.pop("_show_auth", None)
-        st.rerun()
-    st.stop()
-
-# Bandeau demo non bloquant
-if _is_demo:
-    st.markdown("""
-<div style="background:linear-gradient(90deg,#1D4040,#267371);color:white;border-bottom:2px solid #9D7A6F;
-  padding:10px 20px;border-radius:0;text-align:center;font-size:.82rem;font-weight:600;
-  display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap">
-  <span>Mode demo — Fonctionnalites limitees</span>
-  |
-  <span>Creez un compte gratuit pour acceder a toutes les analyses</span>
-</div>
-""", unsafe_allow_html=True)
-
-# ═════════════════════════════════════════════════════════════════════════════
-# ── DATA & GENERATORS ────────────────────────────────────────────────────────
-# ═════════════════════════════════════════════════════════════════════════════
-
-# ─── SWOT ────────────────────────────────────────────────────────────────────
-_SWOT_DATA = {
-    "ecommerce": {
-        "strengths": [
-            "Vente directe 24h/24 sans contrainte géographique",
-            "Données comportementales exploitables",
-            "Scalabilité rapide sans coût fixe proportionnel",
-            "Marges optimisées sans intermédiaire",
-        ],
-        "weaknesses": [
-            "Forte concurrence des marketplaces (Amazon, Cdiscount)",
-            "Coûts d'acquisition client élevés (CAC)",
-            "Gestion logistique et retours complexe",
-            "Dépendance aux algorithmes Google",
-        ],
-        "opportunities": [
-            "Croissance m-commerce +25%/an",
-            "Personnalisation IA pour augmenter le panier moyen",
-            "Social commerce (Instagram Shop, TikTok Shop)",
-            "Marchés internationaux accessibles",
-        ],
-        "threats": [
-            "Hausse du coût des publicités (CPM, CPC)",
-            "Nouvelles réglementations RGPD",
-            "Saturation des niches rentables",
-        ],
-    },
-    "saas": {
-        "strengths": [
-            "Revenus récurrents (MRR/ARR) prévisibles",
-            "Coût marginal quasi nul par nouvel utilisateur",
-            "Mises à jour centralisées",
-            "Effets de réseau et forte rétention",
-        ],
-        "weaknesses": [
-            "Temps long pour atteindre la rentabilité",
-            "Support client chronophage",
-            "Churn élevé si onboarding insuffisant",
-            "Dépendance aux plateformes cloud",
-        ],
-        "opportunities": [
-            "Marché SaaS mondial en croissance à 2 chiffres",
-            "IA intégrée comme différenciateur",
-            "Verticaux non-disruptés (santé, juridique)",
-            "Modèles freemium pour acquisition organique",
-        ],
-        "threats": [
-            "Géants tech qui copient les fonctionnalités",
-            "Fatigue SaaS  --  consolidation des budgets",
-            "Open-source alternatives gratuites",
-        ],
-    },
-    "service": {
-        "strengths": [
-            "Faibles coûts de démarrage, pas de stock",
-            "Relation client directe et fidélisation naturelle",
-            "Marges élevées si positionnement premium",
-            "Expertise différenciante difficile à copier",
-        ],
-        "weaknesses": [
-            "Scalabilité limitée par le temps humain",
-            "Dépendance aux clients clés",
-            "Difficulté à valoriser l'immatériel",
-            "Irrégularité des revenus",
-        ],
-        "opportunities": [
-            "Automatisation des tâches via IA",
-            "Marchés de niche sous-servis",
-            "Packagisation des services en offres fixes",
-            "Partenariats et apporteurs d'affaires",
-        ],
-        "threats": [
-            "Concurrence des freelances low-cost",
-            "Récession comprime les budgets prestataires",
-            "Commoditisation par les outils no-code",
-        ],
-    },
-    "consulting": {
-        "strengths": [
-            "Expertise rare et difficile à reproduire",
-            "Tarification à forte valeur ajoutée",
-            "Faibles coûts fixes",
-            "Flexibilité géographique (remote)",
-        ],
-        "weaknesses": [
-            "Revenu non récurrent et irrégulier",
-            "Image personnelle = marque, risque de dépendance",
-            "Capacité limitée par les heures",
-            "Cycle de vente long",
-        ],
-        "opportunities": [
-            "Positionnement expert de niche",
-            "Productisation du conseil en cours en ligne",
-            "Partenariats avec agences complémentaires",
-            "Speaking et conférences pour la notoriété",
-        ],
-        "threats": [
-            "IA qui remplace certaines missions junior",
-            "Marchés saturés dans les niches populaires",
-            "Clients qui internalisent les compétences",
-        ],
-    },
-    "content": {
-        "strengths": [
-            "Audience fidèle et communauté engagée",
-            "Monétisation diverse (pub, sponsoring, formations)",
-            "Autorité perçue dans la niche",
-            "Faibles coûts de production relatifs",
-        ],
-        "weaknesses": [
-            "Revenus variables, dépendants des algorithmes",
-            "Production régulière chronophage",
-            "Burnout créatif fréquent",
-            "Dépendance aux plateformes",
-        ],
-        "opportunities": [
-            "Boom des newsletters payantes (Substack)",
-            "IA pour accélérer la production de contenu",
-            "Formations et produits digitaux à haute marge",
-            "Marchés anglophones",
-        ],
-        "threats": [
-            "Contenu IA qui inonde les plateformes",
-            "Démonétisation soudaine",
-            "Évolution des formats et attention décroissante",
-        ],
-    },
-    "other": {
-        "strengths": [
-            "Positionnement unique et différencié",
-            "Flexibilité et agilité organisationnelle",
-            "Opportunité d'innover dans un espace peu balisé",
-        ],
-        "weaknesses": [
-            "Marché difficile à éduquer",
-            "Ressources limitées en amorçage",
-            "Besoin d'évangélisation du produit/service",
-        ],
-        "opportunities": [
-            "First-mover advantage dans la niche",
-            "Partenariats stratégiques pour accélérer",
-            "Levée de fonds ou financement participatif",
-        ],
-        "threats": [
-            "Pivot nécessaire si le marché ne répond pas",
-            "Concurrents bien financés qui copient l'innovation",
-            "Difficultés à recruter des profils adaptés",
-        ],
-    },
-}
-
-
-@st.cache_data(ttl=86400, show_spinner=False)
 def gen_swot(activity: str, goal: str, maturity: str) -> dict:
     """SWOT personnalisé selon secteur, objectif ET stade de développement."""
     d = copy.deepcopy(_SWOT_DATA.get(activity, _SWOT_DATA["other"]))
